@@ -7,7 +7,7 @@ import '../../index.dart';
 class InputFormFieldWidget extends FormField<String> {
   InputFormFieldWidget({
     super.key,
-    required this.labelText,
+    this.labelText,
     this.tipText,
     this.initValue,
     this.onChanged,
@@ -36,7 +36,8 @@ class InputFormFieldWidget extends FormField<String> {
 
            return <Widget>[
              // 字段说明
-             TextWidget.label(labelText).paddingLeft(AppSpace.card),
+             
+             if (labelText != null) TextWidget.label(labelText).paddingLeft(AppSpace.card),
 
              // 输入框
              InputWidget(
@@ -64,7 +65,7 @@ class InputFormFieldWidget extends FormField<String> {
        );
 
   /// 字段文字
-  final String labelText;
+  final String? labelText;
 
   /// 提示词
   final String? tipText;

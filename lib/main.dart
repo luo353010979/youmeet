@@ -24,14 +24,14 @@ class MyApp extends StatelessWidget {
       initial: ConfigService.to.themeMode,
       debugShowFloatingThemeButton: true,
       builder: (theme, darkTheme) => ScreenUtilInit(
-        designSize: const Size(414, 896),
+        designSize: const Size(375, 812),
         splitScreenMode: false, // 支持分屏尺寸
         minTextAdapt: false, // 是否根据宽度/高度中的最小值来适配文字
         builder: (context, child) => GetMaterialApp(
           title: 'Flutter Demo',
           theme: theme,
           darkTheme: darkTheme,
-          initialRoute: RouteNames.systemSplash,
+          initialRoute: RouteNames.systemLogin,
           // initialRoute: RouteNames.stylesStyleIndex,
           getPages: RoutePages.list,
           navigatorObservers: [RoutePages.observers],

@@ -17,4 +17,7 @@ class AppRadius {
 
   /// 图片圆角
   static double get image => 6;
+
+  /// 大圆角
+  static double get circle => 50;
 }

@@ -136,6 +136,7 @@ class _InputWidgetState extends State<InputWidget> {
       focusNode: focusNode,
       readOnly: widget.readOnly ?? false,
       style: TextStyle(color: colorScheme.onSurface, fontSize: 16),
+
       cursorColor: colorScheme.onSurface,
       backgroundCursorColor: Colors.transparent,
       onTapOutside: (tapOutside) {
@@ -170,10 +171,11 @@ class _InputWidgetState extends State<InputWidget> {
 
     // 返回
     return Container(
-      padding: const EdgeInsets.all(5),
+      // padding: const EdgeInsets.all(5),
+      height: 44,
       decoration: BoxDecoration(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(AppRadius.input),
+        borderRadius: BorderRadius.circular(AppRadius.circle),
         border: Border.all(
           color: hasFocus == true ? colorScheme.primary : Colors.transparent,
           width: hasFocus == true ? 2 : 0,
@@ -182,9 +184,9 @@ class _InputWidgetState extends State<InputWidget> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(AppRadius.input),
-          border: Border.all(color: colorScheme.outline, width: 0.5),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(AppRadius.circle),
+          // border: Border.all(color: colorScheme.outline, width: 0.5),
         ),
         child: <Widget>[
           if (prefix != null) prefix!,

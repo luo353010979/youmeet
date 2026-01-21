@@ -331,7 +331,6 @@ class _ButtonWidgetState extends State<ButtonWidget> {
         color = widget.textColor ?? colorScheme.onPrimaryContainer;
         break;
     }
-
     return color;
   }
 
@@ -492,12 +491,12 @@ class _ButtonWidgetState extends State<ButtonWidget> {
     }
 
     // 边距
-    if (widget.variant != ButtonWidgetVariant.icon) {
-      child = child.padding(
-        vertical: _size(AppPadding.button.vertical),
-        horizontal: _size(AppPadding.button.horizontal),
-      );
-    }
+    // if (widget.variant != ButtonWidgetVariant.icon) {
+    //   child = child.padding(
+    //     vertical: _size(AppPadding.button.vertical),
+    //     horizontal: _size(AppPadding.button.horizontal),
+    //   );
+    // }
 
     // 涟漪效果
     child = child.ripple(

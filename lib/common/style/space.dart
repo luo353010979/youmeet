@@ -6,7 +6,7 @@ class AppSpace {
   static double get appbar => 10;
 
   /// 页面
-  static double get page => 10;
+  static double get page => 16;
 
   /// 卡片
   static double get card => 10;

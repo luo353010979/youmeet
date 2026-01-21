@@ -66,6 +66,8 @@ Map<String, String> localeZh = {
   LocaleKeys.loginBackDesc: '登陆后继续',
   LocaleKeys.loginBackFieldEmail: '账号',
   LocaleKeys.loginBackFieldPassword: '登陆密码',
+  LocaleKeys.usernamePlaceholder: '请输入账号',
+  LocaleKeys.passwordPlaceholder: '请输入密码',
 
   // APP 导航
   LocaleKeys.tabBarHome: '首页',
