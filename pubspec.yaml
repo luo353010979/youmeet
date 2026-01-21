@@ -70,6 +70,35 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
 
+  # 桌面图标
+  icons_launcher: ^3.0.3
+  # 启动图
+  flutter_native_splash: ^2.4.7
+
+  # app 图标
+icons_launcher:
+  image_path: "assets/icons/ic_logo.png"
+  platforms:
+    android:
+      enable: true
+      notification_image: "assets/icons/ic_foreground.png"
+      # adaptive_background_color: '#ffffff'
+      adaptive_background_image: "assets/icons/ic_background.png"
+      adaptive_foreground_image: "assets/icons/ic_foreground.png"
+    ios:
+      enable: true
+
+# 启动图适配 android 11 及以下, 12 以上，IOS
+flutter_native_splash:
+  web: false
+  color_android: "#ffffff"
+  # background_image_android: "assets/launcher/background.png"
+  background_image_ios: "assets/launcher/background.png"
+  # image_ios: "assets/launcher/android.png"
+  android_12:
+    image: "assets/launcher/android12.png"
+    icon_background_color: "#324ea1"
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
