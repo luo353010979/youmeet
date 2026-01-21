@@ -2,7 +2,7 @@ name: youmeet
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -30,10 +30,34 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  # 状态管理
+  get: ^4.7.3
+  # 获取包信息
+  package_info_plus: ^9.0.0
+  # 本地存储
+  shared_preferences: ^2.5.3
+  # 网络请求
+  dio: ^5.9.0
+  # 主题切换
+  adaptive_theme: ^3.7.2
+  ducafe_ui_core: ^1.0.6
+  # 图片缓存
+  cached_network_image: ^3.4.1
+  # svg 图片支持
+  flutter_svg: ^2.2.3
+  # 轮播图
+  carousel_slider: ^5.1.1
+  # 表单验证
+  validatorless: ^1.2.5
+  pinput: ^6.0.1
+  flutter_easyloading: ^3.0.5
+  encrypt: ^5.0.3
 
 dev_dependencies:
   flutter_test:
@@ -51,7 +75,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -87,3 +110,15 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+  fonts:
+    - family: MiSans
+      fonts:
+        - asset: assets/fonts/MiSans/MiSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/MiSans/MiSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/MiSans/MiSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/MiSans/MiSans-Bold.ttf
+          weight: 700

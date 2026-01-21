@@ -1,4 +1,7 @@
-
 class RouteNames {
-  static const main = '/';
+  static const msgChat = '/msg_chat';
+  static const systemLogin = '/system_login';
+  static const systemRegister = '/system_register';
+  static const systemSplash = '/system_splash';
+  static const systemWelcome = '/system_welcome';
 }

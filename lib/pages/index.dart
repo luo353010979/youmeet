@@ -1,3 +1,7 @@
 library pages;
 
-// export './xxxx.dart';
+export 'msg/chat/index.dart';
+export 'system/login/index.dart';
+export 'system/register/index.dart';
+export 'system/splash/index.dart';
+export 'system/welcome/index.dart';

@@ -1,0 +1,21 @@
+
+      GetPage(
+        name: RouteNames.msgChat,
+        page: () => const ChatPage(),
+      ),
+      GetPage(
+        name: RouteNames.systemLogin,
+        page: () => const LoginPage(),
+      ),
+      GetPage(
+        name: RouteNames.systemRegister,
+        page: () => const RegisterPage(),
+      ),
+      GetPage(
+        name: RouteNames.systemSplash,
+        page: () => const SplashPage(),
+      ),
+      GetPage(
+        name: RouteNames.systemWelcome,
+        page: () => const WelcomePage(),
+      ),

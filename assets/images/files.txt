@@ -1,0 +1,13 @@
+static const imgAccept_1Png = 'assets/images/img_accept_1.png';
+static const imgAccept_2Png = 'assets/images/img_accept_2.png';
+static const imgAccept_3Png = 'assets/images/img_accept_3.png';
+static const imgAccept_4Png = 'assets/images/img_accept_4.png';
+static const imgAccept_5Png = 'assets/images/img_accept_5.png';
+static const imgAccept_6Png = 'assets/images/img_accept_6.png';
+static const imgAcceptRejectPng = 'assets/images/img_accept_reject.png';
+static const imgPlay_1Png = 'assets/images/img_play_1.png';
+static const imgPlay_2Png = 'assets/images/img_play_2.png';
+static const imgPlay_3Png = 'assets/images/img_play_3.png';
+static const imgPlay_4Png = 'assets/images/img_play_4.png';
+static const imgPlay_5Png = 'assets/images/img_play_5.png';
+static const imgPlay_6Png = 'assets/images/img_play_6.png';
