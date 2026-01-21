@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 
-class RegisterController extends GetxController {
-  RegisterController();
+class EditProfileInfoController extends GetxController {
+  EditProfileInfoController();
 
   _initData() {
-    update(["register"]);
+    update(["edit_profile_info"]);
   }
 
   void onTap() {}

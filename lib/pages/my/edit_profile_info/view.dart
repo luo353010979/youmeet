@@ -3,24 +3,24 @@ import 'package:get/get.dart';
 
 import 'index.dart';
 
-class RegisterPage extends GetView<RegisterController> {
-  const RegisterPage({super.key});
+class EditProfileInfoPage extends GetView<EditProfileInfoController> {
+  const EditProfileInfoPage({super.key});
 
   // 主视图
   Widget _buildView() {
     return const Center(
-      child: Text("RegisterPage"),
+      child: Text("EditProfileInfoPage"),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RegisterController>(
-      init: RegisterController(),
-      id: "register",
+    return GetBuilder<EditProfileInfoController>(
+      init: EditProfileInfoController(),
+      id: "edit_profile_info",
       builder: (_) {
         return Scaffold(
-          appBar: AppBar(title: const Text("register")),
+          appBar: AppBar(title: const Text("edit_profile_info")),
           body: SafeArea(
             child: _buildView(),
           ),

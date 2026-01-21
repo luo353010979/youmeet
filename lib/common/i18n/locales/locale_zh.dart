@@ -69,7 +69,7 @@ Map<String, String> localeZh = {
 
   // APP 导航
   LocaleKeys.tabBarHome: '首页',
-  LocaleKeys.tabBarCart: '购物车',
+  LocaleKeys.tabBarPosts: '圈子',
   LocaleKeys.tabBarMessage: '消息',
   LocaleKeys.tabBarProfile: '我的',
 

@@ -70,7 +70,7 @@ Map<String, String> localeEn = {
 
   // APP 导航
   LocaleKeys.tabBarHome: 'Home',
-  LocaleKeys.tabBarCart: 'Cart',
+  LocaleKeys.tabBarPosts: 'Posts',
   LocaleKeys.tabBarMessage: 'Message',
   LocaleKeys.tabBarProfile: 'Profile',
 

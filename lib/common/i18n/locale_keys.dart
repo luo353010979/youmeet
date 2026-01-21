@@ -64,7 +64,7 @@ class LocaleKeys {
 
   // APP 主导航
   static const tabBarHome = 'tab_bar_home';
-  static const tabBarCart = 'tab_bar_cart';
+  static const tabBarPosts = 'tab_bar_posts';
   static const tabBarMessage = 'tab_bar_message';
   static const tabBarProfile = 'tab_bar_profile';
 
