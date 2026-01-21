@@ -5,9 +5,6 @@ import 'package:youmeet/common/index.dart';
 class LoginController extends GetxController {
   LoginController();
 
-  // 表单key
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
   // 用户名
   TextEditingController usernameController = TextEditingController();
 

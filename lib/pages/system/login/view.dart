@@ -23,8 +23,6 @@ class LoginPage extends GetView<LoginController> {
       id: "form",
       builder: (controller) {
         return Form(
-          key: controller.formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
           onChanged: controller.updateButtonState,
           child:
               <Widget>[
