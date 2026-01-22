@@ -180,7 +180,7 @@ class _InputWidgetState extends State<InputWidget> {
       // padding: const EdgeInsets.all(5),
       height: 44,
       decoration: BoxDecoration(
-        color: Colors.transparent,
+        color: Colors.white,
         borderRadius: widget.borderRadius ?? BorderRadius.circular(AppRadius.circle),
         border:
             widget.border ??

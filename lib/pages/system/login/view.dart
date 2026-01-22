@@ -18,25 +18,103 @@ class LoginPage extends GetView<LoginController> {
   }
 
   /// 表单输入
-  Widget _buildFormWidget() {
+  Widget _buildFormWidget(BuildContext context) {
     return GetBuilder<LoginController>(
       id: "form",
-      builder: (controller) {
+      builder: (_) {
         return Form(
           onChanged: controller.updateButtonState,
           child:
               <Widget>[
-                    // 账号
-                    InputFormFieldWidget(
+                    TextFormField(
                       controller: controller.usernameController,
-                      placeholder: LocaleKeys.usernamePlaceholder.tr,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: context.theme.colorScheme.onSurface,
+                        letterSpacing: 1.2,
+                      ),
+                      onTapOutside: (event) {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      },
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        suffixIcon:
+                            controller.usernameController.text.isNotEmpty
+                            ? IconButton(
+                                onPressed: controller.clearUsername,
+                                icon: Icon(Icons.clear, size: 20),
+                                padding: EdgeInsets.zero,
+                                constraints: BoxConstraints(),
+                              )
+                            : null,
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: context.theme.colorScheme.primary,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          borderSide: BorderSide(width: 1, color: Colors.white),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
+                        hintText: "请输入账号",
+                        hintStyle: TextStyle(fontSize: 14),
+                      ),
                     ),
 
-                    // 密码
-                    InputFormFieldWidget(
+                    TextFormField(
                       controller: controller.passwordController,
-                      placeholder: LocaleKeys.passwordPlaceholder.tr,
-                      obscureText: true,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: context.theme.colorScheme.onSurface,
+                        letterSpacing: 1.2,
+                      ),
+                      onTapOutside: (event) {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      },
+                      obscureText: controller.isPasswordHidden,
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        suffixIcon: <Widget>[
+                          if (controller.passwordController.text.isNotEmpty)
+                            IconButton(
+                              onPressed: controller.clearPassword,
+                              icon: Icon(Icons.clear, size: 20),
+                              padding: EdgeInsets.zero,
+                              constraints: BoxConstraints(),
+                            ),
+                          IconButton(
+                            onPressed: controller.hidePwd,
+                            icon: Icon(
+                              controller.isPasswordHidden
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              size: 20,
+                            ),
+                            padding: EdgeInsets.zero,
+                            constraints: BoxConstraints(),
+                          ).paddingHorizontal(8),
+                        ].toRow(mainAxisSize: MainAxisSize.min),
+
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: context.theme.colorScheme.primary,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          borderSide: BorderSide(width: 1, color: Colors.white),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
+                        hintText: "请输入密码",
+                        hintStyle: TextStyle(fontSize: 14),
+                      ),
                     ),
                   ]
                   .toColumnSpace(
@@ -93,7 +171,7 @@ class LoginPage extends GetView<LoginController> {
   }
 
   // 主视图
-  Widget _buildView() {
+  Widget _buildView(BuildContext context) {
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints: BoxConstraints(
@@ -106,7 +184,7 @@ class LoginPage extends GetView<LoginController> {
           child: <Widget>[
             _buildAppLogo(),
             Spacer(),
-            _buildFormWidget(),
+            _buildFormWidget(context),
             _buildAgree(),
             _buildBtn(),
           ].toColumn(),
@@ -130,7 +208,7 @@ class LoginPage extends GetView<LoginController> {
                 fit: BoxFit.cover,
               ),
             ),
-            child: SafeArea(child: _buildView()),
+            child: SafeArea(child: _buildView(context)),
           ),
         );
       },

@@ -12,6 +12,27 @@ class LoginController extends GetxController {
   TextEditingController passwordController = TextEditingController();
 
   bool isLoginEnabled = false;
+  bool isPasswordHidden = true; // 密码是否隐藏
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  void clearUsername() {
+    usernameController.clear();
+    update(["form"]);
+  }
+
+  void clearPassword() {
+    passwordController.clear();
+    update(["form"]);
+  }
+
+  void hidePwd() {
+    isPasswordHidden = !isPasswordHidden;
+    update(["form"]);
+  }
 
   void onLogin() {
     Get.offAllNamed(RouteNames.systemMain);
@@ -26,7 +47,7 @@ class LoginController extends GetxController {
     isLoginEnabled =
         usernameController.text.isNotEmpty &&
         passwordController.text.isNotEmpty;
-    update(["login_btn"]);
+    update(["login_btn", "form"]);
   }
 
   @override
