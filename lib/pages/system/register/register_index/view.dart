@@ -9,12 +9,11 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
   const RegisterIndexPage({super.key});
 
   // 主视图
-  Widget _buildView() {
+  Widget _buildView(BuildContext context) {
     return <Widget>[
-
       8.verticalSpace,
 
-      _buildFormWidget(),
+      _buildFormWidget(context),
       _buildAgree(),
 
       Spacer(),
@@ -24,7 +23,7 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
   }
 
   /// 表单输入
-  Widget _buildFormWidget() {
+  Widget _buildFormWidget(BuildContext context) {
     return GetBuilder<RegisterIndexController>(
       id: "form",
       builder: (controller) {
@@ -32,78 +31,114 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
           color: Colors.white,
           child: Form(
             onChanged: controller.updateButtonState,
-            child:
-                <Widget>[
-                      InputFormFieldWidget(
-                        readOnly: true,
-                        prefix: TextWidget.label("常用语言").tight(width: 100.w),
-                        suffix: IconWidget.img(
-                          text: "中文",
-                          fontColor: Get.theme.colorScheme.primary,
-                          AssetsImages.icArrowRightPng,
-                          isReverse: true,
-                          width: 16.r,
-                          height: 16,
-                          onTap: () => controller.selectLanguage,
-                        ),
-                        border: Border(
-                          bottom: BorderSide(color: Color(0xffE6E6E6)),
-                        ),
-                        borderRadius: BorderRadius.zero,
-                      ).tight(height: 50).paddingTop(20),
+            child: <Widget>[
+              ListTileWidget(
+                padding: EdgeInsets.zero,
+                title: TextWidget.label("常用语言").tight(width: 100.w),
+                trailing: [
+                  IconWidget.img(
+                    text: "中文",
+                    fontColor: context.theme.colorScheme.primary,
+                    AssetsImages.icArrowRightPng,
+                    isReverse: true,
+                    width: 16.r,
+                    height: 16.r,
+                  ),
+                ],
+                onTap: () => controller.selectLanguage(),
+              ).tight(height: 50),
 
-                      InputFormFieldWidget(
-                        prefix: TextWidget.label("手机号").tight(width: 100.w),
-                        controller: controller.phoneController,
-                        placeholder: "请输入手机号",
-                        keyboardType: TextInputType.phone,
-                        border: Border(
-                          bottom: BorderSide(color: Color(0xffE6E6E6)),
-                        ),
-                        borderRadius: BorderRadius.zero,
-                      ).tight(height: 50),
+              Divider(height: 1.h, color: Color(0x1A000000)),
 
-                      InputFormFieldWidget(
-                        prefix: TextWidget.label("验证码").tight(width: 100.w),
-                        suffix: TextWidget.label(
-                          "获取验证码",
-                        ).onTap(() => controller.gerVerifyCode()),
-                        controller: controller.codeController,
-                        placeholder: "请输入验证码",
-                        keyboardType: TextInputType.phone,
-                        border: Border(
-                          bottom: BorderSide(color: Color(0xffE6E6E6)),
-                        ),
-                        borderRadius: BorderRadius.zero,
-                      ).tight(height: 50),
+              ListTileWidget(
+                padding: EdgeInsets.zero,
+                leading: TextWidget.label("手机号").tight(width: 85.w),
+                title: TextFormField(
+                  controller: controller.phoneController,
+                  onTapOutside: (event) => FocusScope.of(context).requestFocus(FocusNode()),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: context.theme.colorScheme.onSurface,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: "请输入手机号",
+                    hintStyle: TextStyle(fontSize: 14),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ).tight(height: 50),
 
-                      InputFormFieldWidget(
-                        prefix: TextWidget.label("设置登录密码").tight(width: 100.w),
-                        controller: controller.passwordController,
-                        placeholder: "请输入手机号",
-                        keyboardType: TextInputType.phone,
-                        border: Border(
-                          bottom: BorderSide(color: Color(0xffE6E6E6)),
-                        ),
-                        borderRadius: BorderRadius.zero,
-                      ).tight(height: 50),
+              Divider(height: 1.h, color: Color(0x1A000000)),
 
-                      InputFormFieldWidget(
-                        prefix: TextWidget.label("再次确认密码").tight(width: 100.w),
-                        controller: controller.confirmPasswordController,
-                        placeholder: "请再次确认密码",
-                        keyboardType: TextInputType.phone,
-                        border: Border(
-                          bottom: BorderSide(color: Color(0xffE6E6E6)),
-                        ),
-                        borderRadius: BorderRadius.zero,
-                      ).tight(height: 50),
-                    ]
-                    .toColumnSpace(
-                      space: AppSpace.page,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                    )
-                    .paddingLeft(AppSpace.page),
+              ListTileWidget(
+                padding: EdgeInsets.zero,
+                leading: TextWidget.label("验证码").tight(width: 85.w),
+                trailing: [
+                  TextWidget.label(
+                    "获取验证码",
+                    color: context.theme.colorScheme.primary,
+                  ).onTap(() => controller.gerVerifyCode()),
+                ],
+                title: TextFormField(
+                  controller: controller.verifyCodeController,
+                  onTapOutside: (event) => FocusScope.of(context).requestFocus(FocusNode()),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: context.theme.colorScheme.onSurface,
+                    // letterSpacing: 1.2,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: "请输入验证码",
+                    hintStyle: TextStyle(fontSize: 14),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ).tight(height: 50),
+
+              Divider(height: 1.h, color: Color(0x1A000000)),
+
+              ListTileWidget(
+                padding: EdgeInsets.zero,
+                leading: TextWidget.label("登录密码").tight(width: 85.w),
+                title: TextFormField(
+                  controller: controller.passwordController,
+                  onTapOutside: (event) => FocusScope.of(context).requestFocus(FocusNode()),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: context.theme.colorScheme.onSurface,
+                    // letterSpacing: 1.2,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: "请输入密码",
+                    hintStyle: TextStyle(fontSize: 14),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ).tight(height: 50),
+
+              Divider(height: 1.h, color: Color(0x1A000000)),
+
+              ListTileWidget(
+                padding: EdgeInsets.zero,
+                leading: TextWidget.label("确认密码").tight(width: 85.w),
+                title: TextFormField(
+                  controller: controller.confirmPasswordController,
+                  onTapOutside: (event) => FocusScope.of(context).requestFocus(FocusNode()),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: context.theme.colorScheme.onSurface,
+                    // letterSpacing: 1.2,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: "请确认密码",
+                    hintStyle: TextStyle(fontSize: 14),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ).tight(height: 50),
+
+              Divider(height: 1.h, color: Color(0x1A000000)),
+            ].toColumn().paddingHorizontal(AppSpace.page.w),
           ),
         );
       },
@@ -124,7 +159,7 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
         TextWidget.muted("《隐私政策》", color: Color(0xffFF37A8)).onTap(() {
           Get.toNamed(RouteNames.systemSettingsPrivacyAgreement);
         }),
-      ].toRow(mainAxisAlignment: MainAxisAlignment.start).paddingLeft(10.w),
+      ].toRow(mainAxisAlignment: MainAxisAlignment.start),
     );
   }
 
@@ -156,7 +191,7 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
         return Scaffold(
           backgroundColor: Color(0XFFF7F7F7),
           appBar: AppBarWidget(title: "注册账号"),
-          body: SafeArea(child: _buildView()),
+          body: SafeArea(child: _buildView(context)),
         );
       },
     );

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:youmeet/common/index.dart';
 
 class RegisterIndexController extends GetxController {
   RegisterIndexController();
 
   final phoneController = TextEditingController();
 
-  final codeController = TextEditingController();
+  final verifyCodeController = TextEditingController();
 
   final passwordController = TextEditingController();
 
@@ -21,7 +22,7 @@ class RegisterIndexController extends GetxController {
 
   /// 下一步
   void onNextStep() {
-    print("下一步");
+    Get.toNamed(RouteNames.systemRegisterRegisterBasicInformation);
   }
 
   void selectLanguage() {
@@ -33,7 +34,7 @@ class RegisterIndexController extends GetxController {
     isRegisterEnabled =
         phoneController.text.isNotEmpty &&
         passwordController.text.isNotEmpty &&
-        codeController.text.isNotEmpty &&
+        verifyCodeController.text.isNotEmpty &&
         confirmPasswordController.text.isNotEmpty;
     update(["register_btn"]);
   }
@@ -42,7 +43,7 @@ class RegisterIndexController extends GetxController {
   void onClose() {
     super.onClose();
     phoneController.dispose();
-    codeController.dispose();
+    verifyCodeController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
   }

@@ -31,7 +31,6 @@ class LoginPage extends GetView<LoginController> {
                       style: TextStyle(
                         fontSize: 14,
                         color: context.theme.colorScheme.onSurface,
-                        letterSpacing: 1.2,
                       ),
                       onTapOutside: (event) {
                         FocusScope.of(context).requestFocus(FocusNode());
@@ -70,7 +69,6 @@ class LoginPage extends GetView<LoginController> {
                       style: TextStyle(
                         fontSize: 14,
                         color: context.theme.colorScheme.onSurface,
-                        letterSpacing: 1.2,
                       ),
                       onTapOutside: (event) {
                         FocusScope.of(context).requestFocus(FocusNode());

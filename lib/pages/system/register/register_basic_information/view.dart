@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:youmeet/common/index.dart';
 
 import 'index.dart';
 
@@ -20,7 +21,7 @@ class RegisterBasicInformationPage extends GetView<RegisterBasicInformationContr
       id: "register_basic_information",
       builder: (_) {
         return Scaffold(
-          appBar: AppBar(title: const Text("register_basic_information")),
+          appBar: AppBarWidget(),
           body: SafeArea(
             child: _buildView(),
           ),

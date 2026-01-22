@@ -59,21 +59,25 @@ class _MainViewGetX extends GetView<MainController> {
               items: [
                 NavigationItemModel(
                   label: LocaleKeys.tabBarHome.tr,
-                  icon: AssetsSvgs.navHomeSvg,
+                  icon: AssetsImages.icHomeDefautPng,
+                  activeIcon: AssetsImages.icHomeActivePng,
                 ),
                 NavigationItemModel(
                   label: LocaleKeys.tabBarMessage.tr,
-                  icon: AssetsSvgs.navMessageSvg,
+                  icon: AssetsImages.icMessageDefautPng,
+                  activeIcon: AssetsImages.icMessageActivePng,
                   count: 9,
                 ),
                 NavigationItemModel(
                   label: LocaleKeys.tabBarPosts.tr,
-                  icon: AssetsSvgs.navCartSvg,
+                  icon: AssetsImages.icPostsDefautPng,
+                  activeIcon: AssetsImages.icPostsActivePng,
                 ),
 
                 NavigationItemModel(
                   label: LocaleKeys.tabBarProfile.tr,
-                  icon: AssetsSvgs.navProfileSvg,
+                  icon: AssetsImages.icMyDefautPng,
+                  activeIcon: AssetsImages.icMyActivePng,
                 ),
               ],
               onTap: controller.onJumpToPage, // 切换tab事件
