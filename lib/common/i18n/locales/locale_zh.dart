@@ -13,6 +13,7 @@ Map<String, String> localeZh = {
   LocaleKeys.commonSelectTips: '请选择',
   LocaleKeys.commonMessageSuccess: '@method 成功',
   LocaleKeys.commonMessageIncorrect: '@method 不正确',
+  LocaleKeys.commonNext: '下一步',
 
   // 样式
   LocaleKeys.stylesTitle: '样式 && 功能 && 调试',

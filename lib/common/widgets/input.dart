@@ -17,6 +17,7 @@ class InputWidget extends StatefulWidget {
     this.keyboardType,
     this.autofocus,
     this.border,
+    this.borderRadius,
     // required this.focusNode,
     // required this.style,
     // required this.cursorColor,
@@ -54,6 +55,8 @@ class InputWidget extends StatefulWidget {
   final bool? autofocus;
 
   final Border? border;
+
+  final BorderRadius? borderRadius;
 
   // final FocusNode focusNode;
   // final TextStyle style;
@@ -178,7 +181,7 @@ class _InputWidgetState extends State<InputWidget> {
       height: 44,
       decoration: BoxDecoration(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(AppRadius.circle),
+        borderRadius: widget.borderRadius ?? BorderRadius.circular(AppRadius.circle),
         border:
             widget.border ??
             Border.all(
@@ -191,7 +194,7 @@ class _InputWidgetState extends State<InputWidget> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.transparent,
           borderRadius: BorderRadius.circular(AppRadius.circle),
           // border: Border.all(color: colorScheme.outline, width: 0.5),
         ),

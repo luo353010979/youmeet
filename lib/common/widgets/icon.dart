@@ -14,6 +14,7 @@ class IconWidget extends StatelessWidget {
     double? width,
     double? height,
     this.color,
+    this.fontColor,
     this.isDot,
     this.badgeString,
     this.fit,
@@ -45,6 +46,8 @@ class IconWidget extends StatelessWidget {
 
   /// 颜色
   final Color? color;
+
+  final Color? fontColor;
 
   /// 是否小圆点
   final bool? isDot;
@@ -79,6 +82,7 @@ class IconWidget extends StatelessWidget {
     double? width,
     double? height,
     this.color,
+    this.fontColor,
     this.isDot,
     this.badgeString,
     this.fit,
@@ -98,6 +102,7 @@ class IconWidget extends StatelessWidget {
     double? width,
     double? height,
     this.color,
+    this.fontColor,
     this.isDot,
     this.badgeString,
     this.fit,
@@ -118,6 +123,7 @@ class IconWidget extends StatelessWidget {
     double? width,
     double? height,
     this.color,
+    this.fontColor,
     this.isDot,
     this.badgeString,
     this.fit,
@@ -187,7 +193,7 @@ class IconWidget extends StatelessWidget {
 
     // 2 文字
     if (text != null) {
-      Widget textWidget = TextWidget.label(text!);
+      Widget textWidget = TextWidget.label(text!, color: fontColor);
       if (isExpanded == true) {
         textWidget = textWidget.expanded();
       }

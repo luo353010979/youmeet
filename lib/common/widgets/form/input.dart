@@ -19,6 +19,9 @@ class InputFormFieldWidget extends FormField<String> {
     this.cleanable,
     this.keyboardType,
     this.autofocus,
+    this.border,
+    this.borderRadius,
+    this.readOnly,
     Function(String?)? validator,
   }) : super(
          initialValue: initValue ?? controller?.text,
@@ -48,6 +51,9 @@ class InputFormFieldWidget extends FormField<String> {
                obscureText: obscureText ?? false,
                cleanable: cleanable ?? true,
                onChanged: onChangedHandler,
+               border: border,
+               borderRadius: borderRadius,
+               readOnly: readOnly ?? false,
              ),
 
              // 提示词
@@ -99,6 +105,12 @@ class InputFormFieldWidget extends FormField<String> {
 
   /// 自动焦点
   final bool? autofocus;
+
+  final Border? border;
+
+  final BorderRadius? borderRadius;
+
+  final bool? readOnly;
 
   @override
   InputFormWidgetFieldState createState() => InputFormWidgetFieldState();

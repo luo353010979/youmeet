@@ -11,6 +11,7 @@ class LocaleKeys {
   static const commonSelectTips = 'common_select_tips';
   static const commonMessageSuccess = 'common_message_success';
   static const commonMessageIncorrect = 'common_message_incorrect';
+  static const commonNext = 'common_next';
 
   // 样式
   static const stylesTitle = 'styles_title';

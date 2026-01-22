@@ -13,6 +13,7 @@ Map<String, String> localeEn = {
   LocaleKeys.commonSelectTips: 'Please select',
   LocaleKeys.commonMessageSuccess: '@method successfully',
   LocaleKeys.commonMessageIncorrect: '@method incorrect',
+  LocaleKeys.commonNext: 'Next',
 
   // 样式
   LocaleKeys.stylesTitle: 'Sytles && Function',
