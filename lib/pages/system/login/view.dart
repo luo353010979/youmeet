@@ -94,13 +94,25 @@ class LoginPage extends GetView<LoginController> {
 
   // 主视图
   Widget _buildView() {
-    return <Widget>[
-      _buildAppLogo(),
-      Spacer(),
-      _buildFormWidget(),
-      _buildAgree(),
-      _buildBtn(),
-    ].toColumn();
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight:
+              MediaQuery.of(Get.context!).size.height -
+              MediaQuery.of(Get.context!).padding.top -
+              MediaQuery.of(Get.context!).padding.bottom,
+        ),
+        child: IntrinsicHeight(
+          child: <Widget>[
+            _buildAppLogo(),
+            Spacer(),
+            _buildFormWidget(),
+            _buildAgree(),
+            _buildBtn(),
+          ].toColumn(),
+        ),
+      ),
+    );
   }
 
   @override
@@ -110,9 +122,16 @@ class LoginPage extends GetView<LoginController> {
       id: "login",
       builder: (_) {
         return Scaffold(
-          // appBar: AppBar(title: const Text("login")),
-          backgroundColor: const Color.fromARGB(255, 247, 183, 204),
-          body: SafeArea(child: _buildView()),
+          resizeToAvoidBottomInset: true,
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(AssetsImages.imgBackgroundLoginPng),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: SafeArea(child: _buildView()),
+          ),
         );
       },
     );

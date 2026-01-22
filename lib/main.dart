@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       light: AppTheme.light,
       dark: AppTheme.dark,
       initial: ConfigService.to.themeMode,
-      debugShowFloatingThemeButton: true,
+      debugShowFloatingThemeButton: true, // 调试模式显示切换按钮
       builder: (theme, darkTheme) => ScreenUtilInit(
         designSize: const Size(375, 812),
         splitScreenMode: false, // 支持分屏尺寸
@@ -31,8 +31,7 @@ class MyApp extends StatelessWidget {
           title: 'Flutter Demo',
           theme: theme,
           darkTheme: darkTheme,
-          initialRoute: RouteNames.systemLogin,
-          // initialRoute: RouteNames.stylesStyleIndex,
+          initialRoute: RouteNames.systemSplash,
           getPages: RoutePages.list,
           navigatorObservers: [RoutePages.observers],
           // 多语言

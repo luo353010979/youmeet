@@ -1,7 +1,16 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegisterIndexController extends GetxController {
   RegisterIndexController();
+
+  final phoneController = TextEditingController();
+
+  final codeController = TextEditingController();
+
+  final passwordController = TextEditingController();
+
+  final confirmPasswordController = TextEditingController();
 
   _initData() {
     update(["register_index"]);

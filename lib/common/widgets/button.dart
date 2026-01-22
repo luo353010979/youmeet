@@ -5,13 +5,14 @@ import '../index.dart';
 
 /// 按钮样式
 enum ButtonWidgetVariant {
-  primary,
-  secondary,
-  destructive,
-  outline,
-  ghost,
-  link,
-  icon,
+  primary, // 主要
+  secondary, // 次要
+  destructive, // 警告
+  outline, // 描边
+  ghost, // 幽灵
+  link, // 链接
+  icon, // 图标
+  text, //文字
 }
 
 /// 按钮
@@ -28,14 +29,22 @@ class ButtonWidget extends StatefulWidget {
   /// 文字字符串
   final String? text;
 
+  /// 文字大小
+  final double? fontSize;
+
   /// 文字颜色
   final Color? textColor;
+
+  ///文字粗细
+  final FontWeight? textWeight;
 
   /// 子组件
   final Widget? child;
 
   /// 图标
   final Widget? icon;
+
+  final Widget? leading;
 
   /// 圆角
   final double? borderRadius;
@@ -79,10 +88,12 @@ class ButtonWidget extends StatefulWidget {
     this.scale = WidgetScale.medium,
     this.onTap,
     this.text,
+    this.fontSize,
     this.borderRadius,
     this.child,
     this.backgroundColor,
     this.icon,
+    this.leading,
     this.borderColor,
     double? width,
     this.height,
@@ -94,6 +105,7 @@ class ButtonWidget extends StatefulWidget {
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.elevation,
+    this.textWeight,
   }) : _width = width;
 
   /// raw
@@ -103,10 +115,12 @@ class ButtonWidget extends StatefulWidget {
     required this.scale,
     this.onTap,
     this.text,
+    this.fontSize,
     this.borderRadius,
     this.child,
     this.backgroundColor,
     this.icon,
+    this.leading,
     this.borderColor,
     double? width,
     this.height,
@@ -118,6 +132,7 @@ class ButtonWidget extends StatefulWidget {
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.elevation,
+    this.textWeight,
   }) : _width = width;
 
   /// 主要
@@ -127,11 +142,13 @@ class ButtonWidget extends StatefulWidget {
     this.scale = WidgetScale.medium,
     double? width,
     this.height,
+    this.fontSize,
     this.onTap,
     this.borderRadius,
     this.child,
     this.backgroundColor,
     this.icon,
+    this.leading,
     this.borderColor,
     this.enabled = true,
     this.iconSpace,
@@ -141,6 +158,7 @@ class ButtonWidget extends StatefulWidget {
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.elevation,
+    this.textWeight,
   }) : _width = width,
        variant = ButtonWidgetVariant.primary;
 
@@ -155,7 +173,9 @@ class ButtonWidget extends StatefulWidget {
     this.borderRadius,
     this.child,
     this.backgroundColor,
+    this.fontSize,
     this.icon,
+    this.leading,
     this.borderColor,
     this.enabled = true,
     this.iconSpace,
@@ -165,6 +185,7 @@ class ButtonWidget extends StatefulWidget {
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.elevation,
+    this.textWeight,
   }) : _width = width,
        variant = ButtonWidgetVariant.secondary;
 
@@ -180,6 +201,7 @@ class ButtonWidget extends StatefulWidget {
     this.child,
     this.backgroundColor,
     this.icon,
+    this.leading,
     this.borderColor,
     this.enabled = true,
     this.iconSpace,
@@ -188,7 +210,9 @@ class ButtonWidget extends StatefulWidget {
     this.reverse,
     this.mainAxisAlignment,
     this.mainAxisSize,
+    this.fontSize,
     this.elevation,
+    this.textWeight,
   }) : _width = width,
        variant = ButtonWidgetVariant.destructive;
 
@@ -204,15 +228,18 @@ class ButtonWidget extends StatefulWidget {
     this.child,
     this.backgroundColor,
     this.icon,
+    this.leading,
     this.borderColor,
     this.enabled = true,
     this.iconSpace,
+    this.fontSize,
     this.loading,
     this.textColor,
     this.reverse,
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.elevation,
+    this.textWeight,
   }) : _width = width,
        variant = ButtonWidgetVariant.outline;
 
@@ -228,17 +255,47 @@ class ButtonWidget extends StatefulWidget {
     this.child,
     this.backgroundColor,
     this.icon,
+    this.leading,
     this.borderColor,
     this.enabled = true,
     this.iconSpace,
     this.loading,
+    this.fontSize,
     this.textColor,
     this.reverse,
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.elevation,
+    this.textWeight,
   }) : _width = width,
        variant = ButtonWidgetVariant.ghost;
+
+  // text
+  const ButtonWidget.text(
+    this.text, {
+    super.key,
+    this.scale = WidgetScale.medium,
+    double? width,
+    this.height,
+    this.onTap,
+    this.borderRadius,
+    this.child,
+    this.backgroundColor,
+    this.icon,
+    this.leading,
+    this.borderColor,
+    this.enabled = true,
+    this.iconSpace,
+    this.loading,
+    this.textColor,
+    this.fontSize,
+    this.reverse,
+    this.mainAxisAlignment,
+    this.mainAxisSize,
+    this.elevation,
+    this.textWeight,
+  }) : _width = width,
+       variant = ButtonWidgetVariant.text;
 
   // link
   const ButtonWidget.link(
@@ -252,7 +309,9 @@ class ButtonWidget extends StatefulWidget {
     this.child,
     this.backgroundColor,
     this.icon,
+    this.leading,
     this.borderColor,
+    this.fontSize,
     this.enabled = true,
     this.iconSpace,
     this.loading,
@@ -261,6 +320,7 @@ class ButtonWidget extends StatefulWidget {
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.elevation,
+    this.textWeight,
   }) : _width = width,
        variant = ButtonWidgetVariant.link;
 
@@ -273,6 +333,7 @@ class ButtonWidget extends StatefulWidget {
     double? width,
     this.height,
     this.onTap,
+    this.leading,
     this.borderRadius,
     this.child,
     this.backgroundColor,
@@ -283,8 +344,10 @@ class ButtonWidget extends StatefulWidget {
     this.textColor,
     this.reverse,
     this.mainAxisAlignment,
+    this.fontSize,
     this.mainAxisSize,
     this.elevation,
+    this.textWeight,
   }) : _width = width,
        variant = ButtonWidgetVariant.icon;
 
@@ -323,6 +386,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
         color = widget.textColor ?? colorScheme.onError;
         break;
       case ButtonWidgetVariant.outline:
+      case ButtonWidgetVariant.text:
         color = widget.textColor ?? colorScheme.primary;
         break;
       case ButtonWidgetVariant.ghost:
@@ -331,6 +395,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
         color = widget.textColor ?? colorScheme.onPrimaryContainer;
         break;
     }
+
     return color;
   }
 
@@ -340,16 +405,17 @@ class _ButtonWidgetState extends State<ButtonWidget> {
     Color color = colorScheme.primary;
     switch (widget.variant) {
       case ButtonWidgetVariant.primary:
-        color = colorScheme.primary;
+        color = widget.backgroundColor ?? colorScheme.primary;
         break;
       case ButtonWidgetVariant.secondary:
-        color = colorScheme.secondary;
+        color = widget.backgroundColor ?? colorScheme.secondary;
         break;
       case ButtonWidgetVariant.destructive:
         color = colorScheme.error;
         break;
       case ButtonWidgetVariant.outline:
       case ButtonWidgetVariant.ghost:
+      case ButtonWidgetVariant.text:
         color = widget.backgroundColor ?? Colors.transparent;
       case ButtonWidgetVariant.link:
       case ButtonWidgetVariant.icon:
@@ -362,26 +428,55 @@ class _ButtonWidgetState extends State<ButtonWidget> {
   // 高亮色
   Color _highlightColor() {
     var colorScheme = context.colors.scheme;
-    // Color color = colorScheme.primary.withOpacity(0.1);
-    Color color = colorScheme.primary.withValues(alpha: 0.1);
+    Color color = colorScheme.primary.withOpacity(0.1);
     switch (widget.variant) {
       case ButtonWidgetVariant.primary:
-        color = colorScheme.primaryContainer.withValues(alpha: 0.1);
+        color = colorScheme.primaryContainer.withOpacity(0.1);
         break;
       case ButtonWidgetVariant.secondary:
-        color = colorScheme.secondaryContainer.withValues(alpha: 0.1);
+        color = colorScheme.secondaryContainer.withOpacity(0.1);
         break;
       case ButtonWidgetVariant.destructive:
-        color = colorScheme.errorContainer.withValues(alpha: 0.1);
+        color = colorScheme.errorContainer.withOpacity(0.1);
         break;
       case ButtonWidgetVariant.outline:
       case ButtonWidgetVariant.ghost:
+      case ButtonWidgetVariant.text:
       case ButtonWidgetVariant.link:
       case ButtonWidgetVariant.icon:
-        color = colorScheme.surfaceContainer.withValues(alpha: 0.1);
+        color = colorScheme.surfaceContainer.withOpacity(0.1);
         break;
     }
     return color;
+  }
+
+  // 渐变色
+  LinearGradient? _backgroundGradient() {
+    // 如果设置了自定义背景色,不使用渐变 否则会被覆盖不生效
+    if (widget.backgroundColor != null) {
+      return null;
+    }
+
+    var colorScheme = context.colors.scheme;
+    switch (widget.variant) {
+      case ButtonWidgetVariant.outline:
+      case ButtonWidgetVariant.secondary:
+      case ButtonWidgetVariant.destructive:
+      case ButtonWidgetVariant.ghost:
+      case ButtonWidgetVariant.text:
+      case ButtonWidgetVariant.link:
+      case ButtonWidgetVariant.icon:
+        return null;
+      case ButtonWidgetVariant.primary:
+        return LinearGradient(
+          colors: [
+            colorScheme.surfaceContainerHigh,
+            colorScheme.surfaceContainerLow,
+          ], // 渐变颜色
+          begin: Alignment.bottomLeft, // 起始点
+          end: Alignment.topRight, // 结束点
+        );
+    }
   }
 
   // 圆角
@@ -391,6 +486,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
       case ButtonWidgetVariant.secondary:
       case ButtonWidgetVariant.destructive:
       case ButtonWidgetVariant.ghost:
+      case ButtonWidgetVariant.text:
       case ButtonWidgetVariant.link:
       case ButtonWidgetVariant.icon:
         return null;
@@ -407,6 +503,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
       case ButtonWidgetVariant.secondary:
       case ButtonWidgetVariant.destructive:
       case ButtonWidgetVariant.ghost:
+      case ButtonWidgetVariant.text:
       case ButtonWidgetVariant.link:
       case ButtonWidgetVariant.icon:
         return null;
@@ -435,9 +532,12 @@ class _ButtonWidgetState extends State<ButtonWidget> {
   Widget _buildView() {
     // 组件
     var ws = <Widget>[];
-    if (widget.icon != null) {
-      ws.add(widget.icon!);
+
+    if (widget.leading != null) {
+      ws.add(widget.leading!);
+      ws.add(SizedBox(width: widget.iconSpace ?? _size(AppSpace.iconText)));
     }
+
     if (widget.child != null) {
       ws.add(widget.child!);
     }
@@ -448,8 +548,14 @@ class _ButtonWidgetState extends State<ButtonWidget> {
           color: _textColor(),
           scale: widget.scale,
           textAlign: TextAlign.center,
+          weight: widget.textWeight ?? FontWeight.normal,
+          size: widget.fontSize,
         ),
       );
+    }
+
+    if (widget.icon != null) {
+      ws.add(widget.icon!);
     }
 
     // loading Indicator
@@ -484,14 +590,15 @@ class _ButtonWidgetState extends State<ButtonWidget> {
           );
 
     // 约束, 不设置组件默认紧包裹
-    if (widget._width != null || widget.height != null) {
-      child = child
-          .alignment(Alignment.center)
-          .constrained(width: widget._width, height: widget.height);
-    }
+    // if (widget._width != null || widget.height != null) {
+    child = child
+        .alignment(Alignment.center)
+        .constrained(width: widget._width, height: widget.height ?? 44);
+    // }
 
     // 边距
-    // if (widget.variant != ButtonWidgetVariant.icon) {
+    // if ((widget.variant != ButtonWidgetVariant.icon) &&
+    //     (widget.variant != ButtonWidgetVariant.text)) {
     //   child = child.padding(
     //     vertical: _size(AppPadding.button.vertical),
     //     horizontal: _size(AppPadding.button.horizontal),
@@ -510,6 +617,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
         color: _backgroundColor(),
         borderRadius: _borderRadius(),
         border: _border(),
+        // gradient: _backgroundGradient(),
       );
     }
 

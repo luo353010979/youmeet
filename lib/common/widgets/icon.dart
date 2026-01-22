@@ -21,6 +21,7 @@ class IconWidget extends StatelessWidget {
     this.isVertical,
     this.onTap,
     this.isExpanded,
+    this.isReverse,
   }) : _height = height,
        _width = width;
 
@@ -63,6 +64,9 @@ class IconWidget extends StatelessWidget {
   /// 是否扩展
   final bool? isExpanded;
 
+  /// 是否反转
+  final bool? isReverse;
+
   /// 点击事件
   final GestureTapCallback? onTap;
 
@@ -81,6 +85,7 @@ class IconWidget extends StatelessWidget {
     this.text,
     this.isVertical,
     this.onTap,
+    this.isReverse,
   }) : _height = height,
        _width = width,
        type = IconWidgetType.icon;
@@ -100,6 +105,7 @@ class IconWidget extends StatelessWidget {
     this.isVertical,
     this.onTap,
     this.isExpanded,
+    this.isReverse,
   }) : _height = height,
        _width = width,
        type = IconWidgetType.img;
@@ -119,6 +125,7 @@ class IconWidget extends StatelessWidget {
     this.isVertical,
     this.onTap,
     this.isExpanded,
+    this.isReverse,
   }) : _height = height,
        _width = width,
        type = IconWidgetType.svg;
@@ -180,11 +187,15 @@ class IconWidget extends StatelessWidget {
 
     // 2 文字
     if (text != null) {
-      Widget textWidget = TextWidget.muted(text!);
+      Widget textWidget = TextWidget.label(text!);
       if (isExpanded == true) {
         textWidget = textWidget.expanded();
       }
       ws.add(textWidget);
+    }
+
+    if (isReverse == true) {
+      ws = ws.reversed.toList();
     }
 
     // 3 返回 child
