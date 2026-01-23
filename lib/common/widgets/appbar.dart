@@ -37,7 +37,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     if (Navigator.of(context).canPop()) {
       return IconButton(
         onPressed: () => Get.back(),
-        icon: ImageWidget.img(AssetsImages.icAppbarBackPng),
+        icon: IconWidget.svg(AssetsSvgs.icAppbarBackSvg),
       );
     }
     return null;

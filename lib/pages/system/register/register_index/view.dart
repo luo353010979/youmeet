@@ -36,10 +36,10 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
                 padding: EdgeInsets.zero,
                 title: TextWidget.label("常用语言").tight(width: 100.w),
                 trailing: [
-                  IconWidget.img(
+                  IconWidget.svg(
                     text: "中文",
                     fontColor: context.theme.colorScheme.primary,
-                    AssetsImages.icArrowRightPng,
+                    AssetsSvgs.icArrowRightSvg,
                     isReverse: true,
                     width: 16.r,
                     height: 16.r,

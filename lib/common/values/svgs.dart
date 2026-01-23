@@ -40,4 +40,16 @@ class AssetsSvgs {
   static const pTranslateSvg = 'assets/svgs/p-translate.svg';
   static const profileHeaderBackgroundSvg =
       'assets/svgs/profile-header-background.svg';
+
+  static const icAppbarBackSvg = 'assets/svgs/ic_appbar_back.svg';
+  static const icArrowDownSvg = 'assets/svgs/ic_arrow_down.svg';
+  static const icArrowRightSvg = 'assets/svgs/ic_arrow_right.svg';
+  static const icHomeActiveSvg = 'assets/svgs/ic_home_active.svg';
+  static const icHomeDefautSvg = 'assets/svgs/ic_home_defaut.svg';
+  static const icMsgActiveSvg = 'assets/svgs/ic_msg_active.svg';
+  static const icMsgDefutSvg = 'assets/svgs/ic_msg_defut.svg';
+  static const icMyActiveSvg = 'assets/svgs/ic_my_active.svg';
+  static const icMyDefautSvg = 'assets/svgs/ic_my_defaut.svg';
+  static const icPostsActiveSvg = 'assets/svgs/ic_posts_active.svg';
+  static const icPostsDefautSvg = 'assets/svgs/ic_posts_defaut.svg';
 }

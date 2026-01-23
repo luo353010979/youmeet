@@ -47,7 +47,7 @@ class BuildNavigation extends StatelessWidget {
       ws.add(
         <Widget>[
               // 图标
-              ImageWidget.img(
+              IconWidget.svg(
                 displayIcon,
                 width: 24,
                 height: 24,

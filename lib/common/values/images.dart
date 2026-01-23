@@ -2,18 +2,6 @@
 class AssetsImages {
   static const defaultPng = 'assets/images/default.png';
   static const homePlaceholderPng = 'assets/images/home_placeholder.png';
-  static const icAppbarBackPng = 'assets/images/ic_appbar_back.png';
-  static const icArrowDownPng = 'assets/images/ic_arrow_down.png';
-  static const icArrowRightPng = 'assets/images/ic_arrow_right.png';
-  static const icHomeActivePng = 'assets/images/ic_home_active.png';
-  static const icHomeDefautPng = 'assets/images/ic_home_defaut.png';
-  static const icMessageActivePng = 'assets/images/ic_message_active.png';
-  static const icMessageDefautPng = 'assets/images/ic_message_defaut.png';
-  static const icMyActivePng = 'assets/images/ic_my_active.png';
-  static const icMyDefautPng = 'assets/images/ic_my_defaut.png';
-  static const icPostsActivePng = 'assets/images/ic_posts_active.png';
-  static const icPostsDefautPng = 'assets/images/ic_posts_defaut.png';
-  static const icRadioDefautPng = 'assets/images/ic_radio_defaut.png';
   static const imgAccept_1Png = 'assets/images/img_accept_1.png';
   static const imgAccept_2Png = 'assets/images/img_accept_2.png';
   static const imgAccept_3Png = 'assets/images/img_accept_3.png';
@@ -21,7 +9,8 @@ class AssetsImages {
   static const imgAccept_5Png = 'assets/images/img_accept_5.png';
   static const imgAccept_6Png = 'assets/images/img_accept_6.png';
   static const imgAcceptRejectPng = 'assets/images/img_accept_reject.png';
-  static const imgBackgroundDefautPng ='assets/images/img_background_defaut.png';
+  static const imgBackgroundDefautPng =
+      'assets/images/img_background_defaut.png';
   static const imgBackgroundLoginPng = 'assets/images/img_background_login.png';
   static const imgPlay_1Png = 'assets/images/img_play_1.png';
   static const imgPlay_2Png = 'assets/images/img_play_2.png';
