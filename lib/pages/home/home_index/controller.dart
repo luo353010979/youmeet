@@ -1,10 +1,22 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeIndexController extends GetxController {
+class HomeIndexController extends GetxController with GetTickerProviderStateMixin{
   HomeIndexController();
+
+  int tabIndex = 0;
+  final List<String> tabs = ["推荐", "同城", "新用户"];
+  late TabController tabController;
 
   _initData() {
     update(["home_index"]);
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    tabController = TabController(length: tabs.length, vsync: this);
   }
 
   void onTap() {}

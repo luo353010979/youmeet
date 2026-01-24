@@ -52,4 +52,6 @@ class AssetsSvgs {
   static const icMyDefautSvg = 'assets/svgs/ic_my_defaut.svg';
   static const icPostsActiveSvg = 'assets/svgs/ic_posts_active.svg';
   static const icPostsDefautSvg = 'assets/svgs/ic_posts_defaut.svg';
+  static const icWomanSvg = 'assets/svgs/ic_woman.svg';
+  static const icPassSvg = 'assets/svgs/ic_pass.svg';
 }

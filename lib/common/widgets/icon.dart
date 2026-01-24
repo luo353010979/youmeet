@@ -23,6 +23,8 @@ class IconWidget extends StatelessWidget {
     this.onTap,
     this.isExpanded,
     this.isReverse,
+    this.fontSize,
+    this.space,
   }) : _height = height,
        _width = width;
 
@@ -70,6 +72,11 @@ class IconWidget extends StatelessWidget {
   /// 是否反转
   final bool? isReverse;
 
+  /// 字体大小
+  final double? fontSize;
+
+  final double? space;
+
   /// 点击事件
   final GestureTapCallback? onTap;
 
@@ -90,6 +97,8 @@ class IconWidget extends StatelessWidget {
     this.isVertical,
     this.onTap,
     this.isReverse,
+    this.fontSize,
+    this.space,
   }) : _height = height,
        _width = width,
        type = IconWidgetType.icon;
@@ -111,6 +120,8 @@ class IconWidget extends StatelessWidget {
     this.onTap,
     this.isExpanded,
     this.isReverse,
+    this.fontSize,
+    this.space,
   }) : _height = height,
        _width = width,
        type = IconWidgetType.img;
@@ -132,6 +143,8 @@ class IconWidget extends StatelessWidget {
     this.onTap,
     this.isExpanded,
     this.isReverse,
+    this.fontSize,
+    this.space,
   }) : _height = height,
        _width = width,
        type = IconWidgetType.svg;
@@ -193,7 +206,7 @@ class IconWidget extends StatelessWidget {
 
     // 2 文字
     if (text != null) {
-      Widget textWidget = TextWidget.label(text!, color: fontColor);
+      Widget textWidget = TextWidget.label(text!, color: fontColor,size: fontSize);
       if (isExpanded == true) {
         textWidget = textWidget.expanded();
       }
@@ -209,11 +222,11 @@ class IconWidget extends StatelessWidget {
         ? ws[0]
         : isVertical == true
         ? ws.toColumnSpace(
-            space: AppSpace.iconText,
+            space: space ?? AppSpace.iconText,
             mainAxisSize: MainAxisSize.min,
           )
         : ws.toRowSpace(
-            space: AppSpace.iconText,
+            space: space ?? AppSpace.iconText,
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: isExpanded == true
                 ? CrossAxisAlignment.start
