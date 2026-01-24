@@ -58,6 +58,7 @@ dependencies:
   pinput: ^6.0.1
   flutter_easyloading: ^3.0.5
   encrypt: ^5.0.3
+  qiniu_flutter_sdk: ^0.7.5
 
 dev_dependencies:
   flutter_test:
