@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:youmeet/common/index.dart';
 
-class HomeIndexController extends GetxController with GetTickerProviderStateMixin{
+class HomeIndexController extends GetxController
+    with GetTickerProviderStateMixin {
   HomeIndexController();
 
   int tabIndex = 0;
@@ -36,4 +38,9 @@ class HomeIndexController extends GetxController with GetTickerProviderStateMixi
   // void onClose() {
   //   super.onClose();
   // }
+
+  /// 打招呼
+  toChat() {
+    Get.toNamed(RouteNames.msgChat);
+  }
 }

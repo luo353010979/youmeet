@@ -1,18 +1,10 @@
 import 'package:get/get.dart';
 
-class ChatController extends GetxController {
-  ChatController();
-
-  final List<String> messages = [
-    "Hello!",
-    "How are you?",
-    "What's up?",
-    "Let's meet up.",
-    "See you later!",
-  ];
+class StyleIndexController extends GetxController {
+  StyleIndexController();
 
   _initData() {
-    update(["chat"]);
+    update(["style_index"]);
   }
 
   void onTap() {}

@@ -13,14 +13,9 @@ class HomeIndexPage extends GetView<HomeIndexController> {
   Widget _buildView(BuildContext context) {
     return Column(
       children: [
-        _buildAppBar(),
+        // _buildAppBar(),
         _buildSlider(),
         _buildTabBar(context),
-        _buildTips(context),
-        TextWidget.body(
-          "高度信任匹配",
-          weight: FontWeight.bold,
-        ).paddingBottom(12.h).align(Alignment.centerLeft).paddingLeft(16.w),
         _buildPageView(),
       ],
     );
@@ -99,16 +94,16 @@ class HomeIndexPage extends GetView<HomeIndexController> {
     );
   }
 
+  /// TabBar
   Widget _buildTabBar(BuildContext context) {
     return Container(
       alignment: Alignment.centerLeft,
       padding: EdgeInsets.only(left: 16.w),
-      // color: Colors.amber,
+      margin: EdgeInsets.only(bottom: 10.h),
       height: 25.h,
       child: TabBar(
         isScrollable: true,
         tabAlignment: TabAlignment.start, // 左对齐
-        // overlayColor: WidgetStateProperty.all(Colors.transparent),
         dividerColor: Colors.transparent, // 隐藏底部分割线
         controller: controller.tabController,
         indicator: BoxDecoration(),
@@ -118,21 +113,20 @@ class HomeIndexPage extends GetView<HomeIndexController> {
         labelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         unselectedLabelStyle: TextStyle(
           fontSize: 14,
-          // color: Color(0xFF999999),
           color: context.colors.scheme.onSurface,
           fontWeight: FontWeight.bold,
         ),
         tabs: controller.tabs.map((tab) => Tab(text: tab)).toList(),
-        // onTap: controller.onAppBarTap,
       ),
     );
   }
 
+  /// 审核提示
   Widget _buildTips(BuildContext context) {
     return Container(
       width: 343.w,
       height: 95.h,
-      margin: EdgeInsets.symmetric(vertical: 12.h),
+      margin: EdgeInsets.only(bottom: 10.h),
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(AssetsImages.imgHomeTipsPng),
@@ -142,7 +136,6 @@ class HomeIndexPage extends GetView<HomeIndexController> {
       child: <Widget>[
         CircleAvatar(
           radius: 30.r,
-          // backgroundImage: AssetImage(AssetsImages.imgHomeTipsAvatarPng),
           backgroundColor: Color(0xFFF5F5F5),
         ).paddingHorizontal(14.w),
 
@@ -178,6 +171,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
     );
   }
 
+  /// 页面视图
   Widget _buildPageView() {
     return Expanded(
       child: TabBarView(
@@ -190,13 +184,24 @@ class HomeIndexPage extends GetView<HomeIndexController> {
     );
   }
 
+  /// 列表视图
   Widget _buildListView() {
     return Expanded(
       child: ListView.builder(
+        physics: BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: AppSpace.page),
-        itemCount: 3,
+        itemCount: 10,
         itemBuilder: (context, index) {
-          return _itemCard();
+          if (index == 0) {
+            return _buildTips(context);
+          } else if (index == 1) {
+            return TextWidget.body(
+              "高度信任匹配",
+              weight: FontWeight.bold,
+            ).paddingBottom(10.h);
+          } else {
+            return _itemCard();
+          }
         },
         // separatorBuilder: (context, index) {
         //   return SizedBox(height: 2.h);
@@ -205,6 +210,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
     );
   }
 
+  /// 列表项卡片
   Widget _itemCard() {
     return Container(
       width: 343.w,
@@ -229,16 +235,17 @@ class HomeIndexPage extends GetView<HomeIndexController> {
 
         <Widget>[
               <Widget>[
-                TextWidget.body("Ju Zuo", weight: FontWeight.bold),
+                TextWidget.body("昵称", weight: FontWeight.bold),
                 IconWidget.svg(
                       AssetsSvgs.icWomanSvg,
                       text: "22",
                       fontColor: Colors.white,
                       size: 10.r,
                       fontSize: 10,
+                      space: 2.w,
                     )
                     .alignCenter()
-                    .tight(width: 34.w, height: 13.h)
+                    .tight(width: 35.w, height: 15.h)
                     .decorated(
                       color: Get.theme.colorScheme.primary,
                       borderRadius: BorderRadius.circular(30),
@@ -282,7 +289,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
                   width: 53.w,
                   height: 23.h,
                   fontSize: 11,
-                  onTap: () {},
+                  onTap: controller.toChat,
                   textWeight: FontWeight.bold,
                   backgroundColor: Color(0xFFFF64C8),
                 ),
@@ -319,16 +326,13 @@ class HomeIndexPage extends GetView<HomeIndexController> {
       init: Get.find<HomeIndexController>(),
       id: "home_index",
       builder: (_) {
-        return Scaffold(
-          body: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(AssetsImages.imgBackgroundDefautPng),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: SafeArea(child: _buildView(context)),
+        return ScaffoldWidget(
+          appBar: AppBarWidget(
+            title: "附近认证",
+            centerTitle: false,
+            backgroundColor: Colors.transparent,
           ),
+          child: _buildView(context),
         );
       },
     );

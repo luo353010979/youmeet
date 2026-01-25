@@ -6,6 +6,7 @@ static const myEditProfileInfo = '/my_edit_profile_info';
 static const myMyIndex = '/my_my_index';
 static const postsPostsIndex = '/posts_posts_index';
 static const postsPostDetal = '/posts_post_detal';
+static const stylesStyleIndex = '/styles_style_index';
 static const systemLogin = '/system_login';
 static const systemMain = '/system_main';
 static const systemRegisterRegisterBasicInformation = '/system_register_register_basic_information';

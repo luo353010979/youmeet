@@ -19,3 +19,5 @@ export 'system/settings/settings_index/index.dart';
 export 'system/settings/user_agreement/index.dart';
 export 'system/splash/index.dart';
 export 'system/welcome/index.dart';
+
+export 'styles/style_index/index.dart';

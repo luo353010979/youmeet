@@ -23,4 +23,7 @@ static const systemSettingsUserAgreement = '/system_settings_user_agreement';
 static const systemSplash = '/system_splash';
 static const systemWelcome = '/system_welcome';
 
+
+static const stylesStyleIndex = '/styles_style_index';
+
 }

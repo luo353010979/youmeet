@@ -32,6 +32,10 @@
         page: () => const PostDetalPage(),
       ),
       GetPage(
+        name: RouteNames.stylesStyleIndex,
+        page: () => const StyleIndexPage(),
+      ),
+      GetPage(
         name: RouteNames.systemLogin,
         page: () => const LoginPage(),
       ),

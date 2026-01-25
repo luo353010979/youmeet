@@ -6,6 +6,7 @@ export 'my/edit_profile_info/index.dart';
 export 'my/my_index/index.dart';
 export 'posts/posts_index/index.dart';
 export 'posts/post_detal/index.dart';
+export 'styles/style_index/index.dart';
 export 'system/login/index.dart';
 export 'system/main/index.dart';
 export 'system/register/register_basic_information/index.dart';

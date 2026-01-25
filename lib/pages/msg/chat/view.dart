@@ -1,5 +1,7 @@
+import 'package:ducafe_ui_core/ducafe_ui_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:youmeet/common/index.dart';
 
 import 'index.dart';
 
@@ -7,10 +9,10 @@ class ChatPage extends GetView<ChatController> {
   const ChatPage({super.key});
 
   // 主视图
-  Widget _buildView() {
-    return const Center(
-      child: Text("ChatPage"),
-    );
+  Widget _buildView(BuildContext context) {
+    return <Widget>[
+      // AppBarWidget(title: "昵称", backgroundColor: Colors.transparent),
+    ].toColumn();
   }
 
   @override
@@ -19,11 +21,13 @@ class ChatPage extends GetView<ChatController> {
       init: ChatController(),
       id: "chat",
       builder: (_) {
-        return Scaffold(
-          appBar: AppBar(title: const Text("chat")),
-          body: SafeArea(
-            child: _buildView(),
+        return ScaffoldWidget(
+          useSafeArea: true,
+          appBar: AppBarWidget(
+            title: "Chat",
+            backgroundColor: Colors.transparent,
           ),
+          child: _buildView(context),
         );
       },
     );
