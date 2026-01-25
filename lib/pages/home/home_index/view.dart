@@ -43,19 +43,19 @@ class HomeIndexPage extends GetView<HomeIndexController> {
           Positioned(
             left: 16.w,
             top: 24.h,
-            child: TextWidget.label("安全交友", size: 16),
+            child: TextWidget.label("安全交友", size: 16, weight: FontWeight.w900),
           ),
 
           Positioned(
             left: 16.w,
             top: 52.h,
-            child: TextWidget.label("真实可靠", size: 26),
+            child: TextWidget.label("真实可靠", size: 26, weight: FontWeight.bold),
           ),
 
           Positioned(
-            right: 76.w,
+            left: 245.w,
             top: 52.h,
-            child: TextWidget.label("张思雨", size: 18),
+            child: TextWidget.label("张思雨", size: 18, weight: FontWeight.w900),
           ),
 
           Positioned(left: 20.w, top: 107.h, child: TextWidget.muted("下一页")),
@@ -76,7 +76,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
 
           Positioned(
             top: 76.h,
-            right: 18.w,
+            left: 246.w,
             child: ImageWidget.img(
               AssetsImages.imgHomeYoumeetPng,
               width: 111.w,
@@ -86,9 +86,13 @@ class HomeIndexPage extends GetView<HomeIndexController> {
           ),
 
           Positioned(
-            right: 72.w,
-            top: 109.h,
-            child: TextWidget.label("立即查看", color: Color(0xFFDA597F), size: 14),
+            left: 247.w,
+            top: 108.5.h,
+            child: TextWidget.label(
+              "立即查看",
+              color: Color(0xFFDA597F),
+              weight: FontWeight.w900,
+            ),
           ),
         ],
       ),
@@ -111,12 +115,12 @@ class HomeIndexPage extends GetView<HomeIndexController> {
         labelPadding: EdgeInsets.only(right: 20.w),
         labelColor: context.colors.scheme.tertiary,
         unselectedLabelColor: Color(0xFF999999),
-        labelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+        labelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         unselectedLabelStyle: TextStyle(
           fontSize: 14,
           // color: Color(0xFF999999),
           color: context.colors.scheme.onSurface,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.bold,
         ),
         tabs: controller.tabs.map((tab) => Tab(text: tab)).toList(),
         // onTap: controller.onAppBarTap,
@@ -143,7 +147,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
         ).paddingHorizontal(14.w),
 
         <Widget>[
-          TextWidget.label("您安全资质已核验 2 项", size: 16, weight: FontWeight.w700),
+          TextWidget.label("您安全资质已核验 2 项", size: 16, weight: FontWeight.bold),
 
           <Widget>[
             ButtonWidget.primary(
@@ -151,6 +155,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
               width: 92.w,
               height: 25.h,
               fontSize: 12,
+              textWeight: FontWeight.bold,
               onTap: () {},
             ),
             ButtonWidget.outline(
@@ -159,6 +164,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
               height: 25.h,
               fontSize: 12,
               borderColor: context.colors.scheme.primary,
+              textWeight: FontWeight.bold,
               backgroundColor: Color(0x33FF64C8),
               onTap: () {},
             ),
@@ -186,15 +192,15 @@ class HomeIndexPage extends GetView<HomeIndexController> {
 
   Widget _buildListView() {
     return Expanded(
-      child: ListView.separated(
+      child: ListView.builder(
         padding: EdgeInsets.symmetric(horizontal: AppSpace.page),
         itemCount: 3,
         itemBuilder: (context, index) {
           return _itemCard();
         },
-        separatorBuilder: (context, index) {
-          return SizedBox(height: 20.h);
-        },
+        // separatorBuilder: (context, index) {
+        //   return SizedBox(height: 2.h);
+        // },
       ),
     );
   }
@@ -217,13 +223,13 @@ class HomeIndexPage extends GetView<HomeIndexController> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.r),
             border: Border.all(color: Colors.white, width: 2.w),
-            color: Get.theme.colorScheme.primary.withOpacity(0.3),
+            color: Color(0xFFF5F5F5),
           ),
         ).paddingLeft(12.w),
 
         <Widget>[
               <Widget>[
-                TextWidget.body("Ju Zuo"),
+                TextWidget.body("Ju Zuo", weight: FontWeight.bold),
                 IconWidget.svg(
                       AssetsSvgs.icWomanSvg,
                       text: "22",
@@ -240,17 +246,17 @@ class HomeIndexPage extends GetView<HomeIndexController> {
               ].toRowSpace(space: 6.w),
 
               <Widget>[
-                TextWidget.muted("离异/2孩"),
+                TextWidget.muted("离异/2孩", weight: FontWeight.bold),
                 SizedBox(
                   height: 8.h,
                   child: VerticalDivider(color: Color(0xFFCCCCCC), width: 1.w),
                 ),
-                TextWidget.muted("165cm/50kg"),
+                TextWidget.muted("165cm/50kg", weight: FontWeight.bold),
                 SizedBox(
                   height: 8.h,
                   child: VerticalDivider(color: Color(0xFFCCCCCC), width: 1.w),
                 ),
-                TextWidget.muted("美国"),
+                TextWidget.muted("美国", weight: FontWeight.bold),
               ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
               <Widget>[
@@ -266,6 +272,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
                   width: 86.w,
                   height: 23.h,
                   fontSize: 11,
+                  textWeight: FontWeight.bold,
                   borderColor: Get.theme.colorScheme.primary,
                   backgroundColor: Color(0x33FF64C8),
                   onTap: () {},
@@ -276,6 +283,8 @@ class HomeIndexPage extends GetView<HomeIndexController> {
                   height: 23.h,
                   fontSize: 11,
                   onTap: () {},
+                  textWeight: FontWeight.bold,
+                  backgroundColor: Color(0xFFFF64C8),
                 ),
               ].toRowSpace(space: 8.w),
             ]
@@ -293,6 +302,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
           fontColor: Color(0xFF999999),
           size: 14.r,
           fontSize: 10,
+          fontWeight: FontWeight.w500,
           space: 2.w,
         )
         .alignCenter()
@@ -306,13 +316,12 @@ class HomeIndexPage extends GetView<HomeIndexController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeIndexController>(
-      init: HomeIndexController(),
+      init: Get.find<HomeIndexController>(),
       id: "home_index",
       builder: (_) {
         return Scaffold(
           body: Container(
             decoration: BoxDecoration(
-              color: Colors.amber,
               image: DecorationImage(
                 image: AssetImage(AssetsImages.imgBackgroundDefautPng),
                 fit: BoxFit.cover,

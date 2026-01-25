@@ -120,7 +120,7 @@ class AppTheme {
     return ThemeData(
       useMaterial3: false,
       colorScheme: scheme,
-      fontFamily: "MiSans", // 字体
+      fontFamily: "PingFang", // 字体
       // 导航栏
       appBarTheme: AppBarTheme(
         backgroundColor: scheme.surface, // 背景色

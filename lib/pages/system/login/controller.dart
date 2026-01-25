@@ -7,9 +7,11 @@ class LoginController extends GetxController {
 
   // 用户名
   TextEditingController usernameController = TextEditingController();
+  FocusNode usernameFocusNode = FocusNode();
 
   // 密码
   TextEditingController passwordController = TextEditingController();
+  FocusNode passwordFocusNode = FocusNode();
 
   bool isLoginEnabled = false;
   bool isPasswordHidden = true; // 密码是否隐藏
@@ -55,5 +57,7 @@ class LoginController extends GetxController {
     super.onClose();
     usernameController.dispose();
     passwordController.dispose();
+    usernameFocusNode.dispose();
+    passwordFocusNode.dispose();
   }
 }

@@ -24,6 +24,7 @@ class IconWidget extends StatelessWidget {
     this.isExpanded,
     this.isReverse,
     this.fontSize,
+    this.fontWeight,
     this.space,
   }) : _height = height,
        _width = width;
@@ -75,6 +76,8 @@ class IconWidget extends StatelessWidget {
   /// 字体大小
   final double? fontSize;
 
+  final FontWeight? fontWeight;
+
   final double? space;
 
   /// 点击事件
@@ -98,6 +101,7 @@ class IconWidget extends StatelessWidget {
     this.onTap,
     this.isReverse,
     this.fontSize,
+    this.fontWeight,
     this.space,
   }) : _height = height,
        _width = width,
@@ -121,6 +125,7 @@ class IconWidget extends StatelessWidget {
     this.isExpanded,
     this.isReverse,
     this.fontSize,
+    this.fontWeight,
     this.space,
   }) : _height = height,
        _width = width,
@@ -144,6 +149,7 @@ class IconWidget extends StatelessWidget {
     this.isExpanded,
     this.isReverse,
     this.fontSize,
+    this.fontWeight,
     this.space,
   }) : _height = height,
        _width = width,
@@ -206,7 +212,12 @@ class IconWidget extends StatelessWidget {
 
     // 2 文字
     if (text != null) {
-      Widget textWidget = TextWidget.label(text!, color: fontColor,size: fontSize);
+      Widget textWidget = TextWidget.label(
+        text!,
+        color: fontColor,
+        size: fontSize,
+        weight: fontWeight,
+      );
       if (isExpanded == true) {
         textWidget = textWidget.expanded();
       }

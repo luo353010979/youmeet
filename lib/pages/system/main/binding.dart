@@ -5,10 +5,10 @@ import 'package:youmeet/pages/index.dart';
 class MainBinding implements Bindings {
   @override
   void dependencies() {
+    Get.lazyPut<MainController>(() => MainController());
     Get.lazyPut<HomeIndexController>(() => HomeIndexController());
     Get.lazyPut<MsgIndexController>(() => MsgIndexController());
     Get.lazyPut<PostsIndexController>(() => PostsIndexController());
     Get.lazyPut<MyIndexController>(() => MyIndexController());
-    Get.lazyPut<MainController>(() => MainController());
   }
 }

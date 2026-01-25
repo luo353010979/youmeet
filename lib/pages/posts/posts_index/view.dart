@@ -16,7 +16,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PostsIndexController>(
-      init: PostsIndexController(),
+      init: Get.find<PostsIndexController>(),
       id: "posts_index",
       builder: (_) {
         return Scaffold(

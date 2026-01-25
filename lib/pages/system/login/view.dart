@@ -28,6 +28,11 @@ class LoginPage extends GetView<LoginController> {
               <Widget>[
                     TextFormField(
                       controller: controller.usernameController,
+                      focusNode: controller.usernameFocusNode,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (value) {
+                        controller.passwordFocusNode.requestFocus();
+                      },
                       style: TextStyle(
                         fontSize: 14,
                         color: context.theme.colorScheme.onSurface,
@@ -66,6 +71,13 @@ class LoginPage extends GetView<LoginController> {
 
                     TextFormField(
                       controller: controller.passwordController,
+                      focusNode: controller.passwordFocusNode,
+                      // textInputAction: TextInputAction.done,
+                      // onFieldSubmitted: (value) {
+                      //   if (controller.isLoginEnabled) {
+                      //     controller.onLogin();
+                      //   }
+                      // },
                       style: TextStyle(
                         fontSize: 14,
                         color: context.theme.colorScheme.onSurface,
