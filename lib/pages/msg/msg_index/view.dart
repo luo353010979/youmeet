@@ -46,6 +46,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
       padding: EdgeInsets.symmetric(horizontal: AppSpace.page.w),
       itemCount: 20,
       shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
       itemBuilder: (context, index) {
         return ListTileWidget(
           leading: CircleAvatar(backgroundColor: Colors.grey, radius: 24.r),

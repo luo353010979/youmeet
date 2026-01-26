@@ -57,4 +57,9 @@ class AssetsSvgs {
 
   static const icMsgSettingSvg = 'assets/svgs/ic_msg_setting.svg';
   static const icMsgSearchSvg = 'assets/svgs/ic_msg_search.svg';
+  static const icMsg_01Svg = 'assets/svgs/ic_msg_01.svg';
+  static const icMsg_02Svg = 'assets/svgs/ic_msg_02.svg';
+  static const icMsg_03Svg = 'assets/svgs/ic_msg_03.svg';
+  static const icMsgAddSvg = 'assets/svgs/ic_msg_add.svg';
+  static const icMsgCameraSvg = 'assets/svgs/ic_msg_camera.svg';
 }

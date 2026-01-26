@@ -34,4 +34,9 @@ class AssetsImages {
   static const imgHomeCardPng = 'assets/images/img_home_card.png';
   static const imgHomeTipsPng = 'assets/images/img_home_tips.png';
   static const imgHomeYoumeetPng = 'assets/images/img_home_youmeet.png';
+
+  static const imgMsgAvaterPng = 'assets/images/img_msg_avater.png';
+  static const imgMsgBgPng = 'assets/images/img_msg_bg.png';
+  static const imgMsgUploadPng = 'assets/images/img_msg_upload.png';
+  static const imgMsgMicophonePng = 'assets/images/img_msg_micophone.png';
 }
