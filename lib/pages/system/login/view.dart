@@ -163,7 +163,7 @@ class LoginPage extends GetView<LoginController> {
                 LocaleKeys.loginSignIn.tr,
                 elevation: 0,
                 borderRadius: 50,
-                enabled: controller.isLoginEnabled,
+                // enabled: controller.isLoginEnabled,
                 onTap: controller.onLogin,
               ),
 

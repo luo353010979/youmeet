@@ -62,4 +62,7 @@ class AssetsSvgs {
   static const icMsg_03Svg = 'assets/svgs/ic_msg_03.svg';
   static const icMsgAddSvg = 'assets/svgs/ic_msg_add.svg';
   static const icMsgCameraSvg = 'assets/svgs/ic_msg_camera.svg';
+
+  static const icPostsMoreSvg = 'assets/svgs/ic_posts_more.svg';
+  static const icPostsSearchSvg = 'assets/svgs/ic_posts_search.svg';
 }

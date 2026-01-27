@@ -1,3 +1,4 @@
+import 'package:ducafe_ui_core/ducafe_ui_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -123,11 +124,12 @@ class AppTheme {
       fontFamily: "PingFang", // 字体
       // 导航栏
       appBarTheme: AppBarTheme(
-        backgroundColor: scheme.surface, // 背景色
+        // backgroundColor: scheme.surface, // 背景色
+        backgroundColor: Colors.transparent, // 背景色
         scrolledUnderElevation: 0, // 滚动阴影
         elevation: 0, // 阴影
         centerTitle: true, // 标题居中
-        toolbarHeight: 44, // 高度
+        toolbarHeight: 44.h, // 高度
         iconTheme: IconThemeData(
           color: scheme.onSurface, // 图标颜色
           size: 24, // 图标大小

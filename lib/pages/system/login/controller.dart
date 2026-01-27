@@ -6,11 +6,15 @@ class LoginController extends GetxController {
   LoginController();
 
   // 用户名
-  TextEditingController usernameController = TextEditingController();
+  TextEditingController usernameController = TextEditingController(
+    text: "admin",
+  );
   FocusNode usernameFocusNode = FocusNode();
 
   // 密码
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordController = TextEditingController(
+    text: "admin",
+  );
   FocusNode passwordFocusNode = FocusNode();
 
   bool isLoginEnabled = false;

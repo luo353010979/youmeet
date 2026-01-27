@@ -8,7 +8,7 @@ class RoutePages {
   static RouteObservers observers = RouteObservers();
   // 列表
   static List<GetPage> list = [
-   
+
       GetPage(
         name: RouteNames.homeHomeIndex,
         page: () => const HomeIndexPage(),
@@ -85,21 +85,6 @@ class RoutePages {
       GetPage(
         name: RouteNames.systemWelcome,
         page: () => const WelcomePage(),
-      ),
-
-
-
-
-
-
-
-
-
-
-
-       GetPage(
-        name: RouteNames.stylesStyleIndex,
-        page: () => const StyleIndexPage(),
       ),
   ];
 }

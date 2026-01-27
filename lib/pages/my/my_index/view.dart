@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:youmeet/common/index.dart';
 
 import 'index.dart';
 
@@ -8,9 +9,7 @@ class MyIndexPage extends GetView<MyIndexController> {
 
   // 主视图
   Widget _buildView() {
-    return const Center(
-      child: Text("MyIndexPage"),
-    );
+    return const Center(child: Text("MyIndexPage"));
   }
 
   @override
@@ -19,11 +18,10 @@ class MyIndexPage extends GetView<MyIndexController> {
       init: Get.find<MyIndexController>(),
       id: "my_index",
       builder: (_) {
-        return Scaffold(
-          appBar: AppBar(title: const Text("my_index")),
-          body: SafeArea(
-            child: _buildView(),
-          ),
+        return ScaffoldWidget(
+          useSafeArea: true,
+          appBar: AppBarWidget(title: "我的"),
+          child: _buildView(),
         );
       },
     );

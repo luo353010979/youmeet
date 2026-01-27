@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:youmeet/common/index.dart';
 
 import 'index.dart';
 
@@ -8,9 +9,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
 
   // 主视图
   Widget _buildView() {
-    return const Center(
-      child: Text("PostsIndexPage"),
-    );
+    return const Center(child: Text("PostsIndexPage"));
   }
 
   @override
@@ -19,11 +18,23 @@ class PostsIndexPage extends GetView<PostsIndexController> {
       init: Get.find<PostsIndexController>(),
       id: "posts_index",
       builder: (_) {
-        return Scaffold(
-          appBar: AppBar(title: const Text("posts_index")),
-          body: SafeArea(
-            child: _buildView(),
+        return ScaffoldWidget(
+          useSafeArea: true,
+          appBar: AppBarWidget(
+            title: "圈子",
+            centerTitle: false,
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: IconWidget.svg(AssetsSvgs.icPostsSearchSvg),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: IconWidget.svg(AssetsSvgs.icPostsMoreSvg),
+              ),
+            ],
           ),
+          child: _buildView(),
         );
       },
     );

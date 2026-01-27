@@ -12,201 +12,161 @@ class HomeIndexPage extends GetView<HomeIndexController> {
   // 主视图
   Widget _buildView(BuildContext context) {
     return Column(
-      children: [
-        // _buildAppBar(),
-        _buildSlider(),
-        _buildTabBar(context),
-        _buildPageView(),
-      ],
-    );
-  }
-
-  Widget _buildAppBar() {
-    return AppBarWidget(
-      title: "附近认证",
-      centerTitle: false,
-      backgroundColor: Colors.transparent,
+      children: [_buildSlider(), _buildTabBar(context), _buildPageView()],
     );
   }
 
   /// 顶部推荐滑动栏
   Widget _buildSlider() {
-    return SizedBox(
-      height: 164.h,
-      child: Stack(
-        children: [
-          Positioned(
-            left: 16.w,
-            top: 24.h,
-            child: TextWidget.label("安全交友", size: 16, weight: FontWeight.w900),
-          ),
+    return <Widget>[
+      TextWidget.label(
+        "安全交友",
+        size: 16,
+        weight: FontWeight.w900,
+      ).positioned(left: 16.w, top: 24.h),
 
-          Positioned(
-            left: 16.w,
-            top: 52.h,
-            child: TextWidget.label("真实可靠", size: 26, weight: FontWeight.bold),
-          ),
+      TextWidget.label(
+        "真实可靠",
+        size: 26,
+        weight: FontWeight.bold,
+      ).positioned(left: 16.w, top: 52.h),
 
-          Positioned(
-            left: 245.w,
-            top: 52.h,
-            child: TextWidget.label("张思雨", size: 18, weight: FontWeight.w900),
-          ),
+      TextWidget.label(
+        "张思雨",
+        size: 18,
+        weight: FontWeight.w900,
+      ).positioned(left: 245.w, top: 52.h),
 
-          Positioned(left: 20.w, top: 107.h, child: TextWidget.muted("下一页")),
+      TextWidget.muted("下一页").positioned(left: 20.w, top: 107.h),
 
-          Positioned(
-            right: 17.w,
-            bottom: 12.h,
-            child: Container(
-              // color: Colors.white,
-              child: ImageWidget.img(
-                AssetsImages.imgHomeAvaterPng,
-                width: 264.w,
-                height: 148.h,
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
+      ImageWidget.img(
+        AssetsImages.imgHomeAvaterPng,
+        width: 264.w,
+        height: 148.h,
+        fit: BoxFit.contain,
+      ).positioned(right: 17.w, bottom: 12.h),
+      ImageWidget.img(
+        AssetsImages.imgHomeYoumeetPng,
+        width: 111.w,
+        height: 24.h,
+        fit: BoxFit.contain,
+      ).positioned(top: 76.h, left: 246.w),
 
-          Positioned(
-            top: 76.h,
-            left: 246.w,
-            child: ImageWidget.img(
-              AssetsImages.imgHomeYoumeetPng,
-              width: 111.w,
-              height: 24.h,
-              fit: BoxFit.contain,
-            ),
-          ),
-
-          Positioned(
-            left: 247.w,
-            top: 108.5.h,
-            child: TextWidget.label(
-              "立即查看",
-              color: Color(0xFFDA597F),
-              weight: FontWeight.w900,
-            ),
-          ),
-        ],
-      ),
-    );
+      TextWidget.label(
+        "立即查看",
+        color: Color(0xFFDA597F),
+        weight: FontWeight.w900,
+      ).positioned(left: 247.w, top: 108.5.h),
+    ].toStack().tight(height: 164.h);
   }
 
   /// TabBar
   Widget _buildTabBar(BuildContext context) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      padding: EdgeInsets.only(left: 16.w),
-      margin: EdgeInsets.only(bottom: 10.h),
-      height: 25.h,
-      child: TabBar(
-        isScrollable: true,
-        tabAlignment: TabAlignment.start, // 左对齐
-        dividerColor: Colors.transparent, // 隐藏底部分割线
-        controller: controller.tabController,
-        indicator: BoxDecoration(),
-        labelPadding: EdgeInsets.only(right: 20.w),
-        labelColor: context.colors.scheme.tertiary,
-        unselectedLabelColor: Color(0xFF999999),
-        labelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-        unselectedLabelStyle: TextStyle(
-          fontSize: 14,
-          color: context.colors.scheme.onSurface,
-          fontWeight: FontWeight.bold,
-        ),
-        tabs: controller.tabs.map((tab) => Tab(text: tab)).toList(),
-      ),
-    );
+    return TabBar(
+          isScrollable: true,
+          tabAlignment: TabAlignment.start,
+          // 左对齐
+          dividerColor: Colors.transparent,
+          // 隐藏底部分割线
+          controller: controller.tabController,
+          indicator: BoxDecoration(),
+          labelPadding: EdgeInsets.only(right: 20.w),
+          labelColor: context.colors.scheme.tertiary,
+          unselectedLabelColor: Color(0xFF999999),
+          labelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          unselectedLabelStyle: TextStyle(
+            fontSize: 14,
+            color: context.colors.scheme.onSurface,
+            fontWeight: FontWeight.bold,
+          ),
+          tabs: controller.tabs.map((tab) => Tab(text: tab)).toList(),
+        )
+        .tight(height: 25.h)
+        .paddingLeft(16.w)
+        .marginOnly(bottom: 10.h)
+        .alignLeft();
   }
 
   /// 审核提示
   Widget _buildTips(BuildContext context) {
-    return Container(
-      width: 343.w,
-      height: 95.h,
-      margin: EdgeInsets.only(bottom: 10.h),
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(AssetsImages.imgHomeTipsPng),
-          fit: BoxFit.fill,
-        ),
-      ),
-      child: <Widget>[
-        CircleAvatar(
-          radius: 30.r,
-          backgroundColor: Color(0xFFF5F5F5),
-        ).paddingHorizontal(14.w),
-
-        <Widget>[
-          TextWidget.label("您安全资质已核验 2 项", size: 16, weight: FontWeight.bold),
+    return <Widget>[
+          CircleAvatar(
+            radius: 30.r,
+            backgroundColor: Color(0xFFF5F5F5),
+          ).paddingHorizontal(14.w),
 
           <Widget>[
-            ButtonWidget.primary(
-              "发起核验申请",
-              width: 92.w,
-              height: 25.h,
-              fontSize: 12,
-              textWeight: FontWeight.bold,
-              onTap: () {},
-            ),
-            ButtonWidget.outline(
-              "完善我的资质",
-              width: 92.w,
-              height: 25.h,
-              fontSize: 12,
-              borderColor: context.colors.scheme.primary,
-              textWeight: FontWeight.bold,
-              backgroundColor: Color(0x33FF64C8),
-              onTap: () {},
-            ),
-          ].toRowSpace(space: 8.w),
-        ].toColumnSpace(
-          space: 8.h,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-        ),
-      ].toRow(),
-    );
+            TextWidget.label("您安全资质已核验 2 项", size: 16, weight: FontWeight.bold),
+
+            <Widget>[
+              ButtonWidget.primary(
+                "发起核验申请",
+                width: 92.w,
+                height: 25.h,
+                fontSize: 12,
+                textWeight: FontWeight.bold,
+                onTap: () {},
+              ),
+              ButtonWidget.outline(
+                "完善我的资质",
+                width: 92.w,
+                height: 25.h,
+                fontSize: 12,
+                borderColor: context.colors.scheme.primary,
+                textWeight: FontWeight.bold,
+                backgroundColor: Color(0x33FF64C8),
+                onTap: () {},
+              ),
+            ].toRowSpace(space: 8.w),
+          ].toColumnSpace(
+            space: 8.h,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+          ),
+        ]
+        .toRow()
+        .tight(width: 343.w, height: 95.h)
+        .decorated(
+          image: DecorationImage(
+            image: AssetImage(AssetsImages.imgHomeTipsPng),
+            fit: BoxFit.fill,
+          ),
+        )
+        .marginOnly(bottom: 10.h);
   }
 
   /// 页面视图
   Widget _buildPageView() {
-    return Expanded(
-      child: TabBarView(
-        controller: controller.tabController,
-        physics: NeverScrollableScrollPhysics(),
-        children: controller.tabs.map((tab) {
-          return _buildListView();
-        }).toList(),
-      ),
-    );
+    return TabBarView(
+      controller: controller.tabController,
+      physics: NeverScrollableScrollPhysics(),
+      children: controller.tabs.map((tab) {
+        return _buildListView();
+      }).toList(),
+    ).expanded();
   }
 
   /// 列表视图
   Widget _buildListView() {
-    return Expanded(
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.symmetric(horizontal: AppSpace.page),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return _buildTips(context);
-          } else if (index == 1) {
-            return TextWidget.body(
-              "高度信任匹配",
-              weight: FontWeight.bold,
-            ).paddingBottom(10.h);
-          } else {
-            return _itemCard();
-          }
-        },
-        // separatorBuilder: (context, index) {
-        //   return SizedBox(height: 2.h);
-        // },
-      ),
+    return ListView.builder(
+      physics: BouncingScrollPhysics(),
+      padding: EdgeInsets.symmetric(horizontal: AppSpace.page),
+      itemCount: 10,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return _buildTips(context);
+        } else if (index == 1) {
+          return TextWidget.body(
+            "高度信任匹配",
+            weight: FontWeight.bold,
+          ).paddingBottom(10.h);
+        } else {
+          return _itemCard();
+        }
+      },
+      // separatorBuilder: (context, index) {
+      //   return SizedBox(height: 2.h);
+      // },
     );
   }
 
@@ -327,11 +287,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
       id: "home_index",
       builder: (_) {
         return ScaffoldWidget(
-          appBar: AppBarWidget(
-            title: "附近认证",
-            centerTitle: false,
-            backgroundColor: Colors.transparent,
-          ),
+          appBar: AppBarWidget(title: "附近认证", centerTitle: false),
           child: _buildView(context),
         );
       },

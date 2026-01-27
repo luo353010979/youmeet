@@ -18,16 +18,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return AdaptiveTheme(
-      light: AppTheme.light,
-      dark: AppTheme.dark,
-      initial: ConfigService.to.themeMode,
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      splitScreenMode: false, // 支持分屏尺寸
+      minTextAdapt: false, // 是否根据宽度/高度中的最小值来适配文字
+
       // debugShowFloatingThemeButton: true, // 调试模式显示切换按钮
-      builder: (theme, darkTheme) => ScreenUtilInit(
-        designSize: const Size(375, 812),
-        splitScreenMode: false, // 支持分屏尺寸
-        minTextAdapt: false, // 是否根据宽度/高度中的最小值来适配文字
-        builder: (context, child) => GetMaterialApp(
+      builder: (context,child) => AdaptiveTheme(
+        light: AppTheme.light,
+        dark: AppTheme.dark,
+        initial: ConfigService.to.themeMode,
+        builder: (theme, darkTheme) => GetMaterialApp(
           title: 'Flutter Demo',
           theme: theme,
           darkTheme: darkTheme,

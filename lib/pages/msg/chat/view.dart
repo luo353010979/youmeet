@@ -11,46 +11,56 @@ class ChatPage extends GetView<ChatController> {
   // 主视图
   Widget _buildView(BuildContext context) {
     return <Widget>[
-      ListView.separated(
-        padding: EdgeInsets.all(16.w),
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: controller.messages.length,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return _buildCard();
-          } else {
-            return TextWidget.label(controller.messages[index]);
-          }
-        },
-
-        separatorBuilder: (context, index) => SizedBox(height: 10.h),
-      ).expanded(),
-
-      <Widget>[
-        IconButton(
-          onPressed: () {},
-          icon: ImageWidget.img(AssetsImages.imgMsgMicophonePng, width: 28.r),
-        ),
-
-        InputWidget(
-          placeholder: "请输入消息内容",
-          borderRadius: BorderRadius.circular(8.r),
-        ).expanded(),
-
-        IconButton(
-          onPressed: () {},
-          icon: IconWidget.svg(AssetsSvgs.icMsgCameraSvg, size: 24.r),
-        ),
-
-        IconButton(
-          onPressed: () {},
-          icon: IconWidget.svg(AssetsSvgs.icMsgAddSvg, size: 24.r),
-        ),
-      ].toRow().tight(height: 60.h),
-    ].toColumnSpace(space: 10.h);
+      _buildMessageList().expanded(),
+      _buildInputBar(),
+    ].toColumn();
   }
 
+  /// 消息列表
+  Widget _buildMessageList() {
+    return ListView.separated(
+      padding: EdgeInsets.all(16.w),
+      physics: BouncingScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: controller.messages.length,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return _buildCard();
+        } else {
+          return TextWidget.label(controller.messages[index]);
+        }
+      },
+
+      separatorBuilder: (context, index) => SizedBox(height: 10.h),
+    );
+  }
+
+  /// 输入栏
+  Widget _buildInputBar() {
+    return <Widget>[
+      IconButton(
+        onPressed: () {},
+        icon: ImageWidget.img(AssetsImages.imgMsgMicophonePng, width: 28.r),
+      ),
+
+      InputWidget(
+        placeholder: "请输入消息内容",
+        borderRadius: BorderRadius.circular(8.r),
+      ).expanded(),
+
+      IconButton(
+        onPressed: () {},
+        icon: IconWidget.svg(AssetsSvgs.icMsgCameraSvg, size: 24.r),
+      ),
+
+      IconButton(
+        onPressed: () {},
+        icon: IconWidget.svg(AssetsSvgs.icMsgAddSvg, size: 24.r),
+      ),
+    ].toRow().tight(height: 60.h);
+  }
+
+  /// 恋爱四项报告
   Widget _buildCard() {
     return <Widget>[_buildUserInfoCard(), _buildUploadCard()].toColumnSpace();
   }
@@ -87,15 +97,31 @@ class ChatPage extends GetView<ChatController> {
 
         controller.types
             .map((type) {
-              return IconWidget.svg(
-                    type.icon,
-                    size: 32,
-                    text: type.title,
-                    isVertical: true,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  )
-                  .tight(width: 95.w, height: 71.h)
+              return <Widget>[
+                    IconWidget.svg(
+                      type.icon,
+                      size: 32,
+                      text: type.title,
+                      isVertical: true,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      space: 0,
+                    ),
+                    ButtonWidget.primary(
+                      "申请查看",
+                      width: 64.w,
+                      height: 22.h,
+                      fontSize: 11,
+                      textWeight: FontWeight.w500,
+                      textColor: Color(0xFF666666),
+                      backgroundColor: Color(0xFFE1E1E1),
+                      onTap: () {
+                        print("申请查看 ${type.title}");
+                      },
+                    ),
+                  ]
+                  .toColumn(mainAxisAlignment: MainAxisAlignment.center)
+                  .tight(width: 95.w, height: 97.h)
                   .decorated(
                     color: Color(0xFFF4F3F3),
                     borderRadius: BorderRadius.circular(8),
@@ -164,7 +190,6 @@ class ChatPage extends GetView<ChatController> {
           useSafeArea: true,
           appBar: AppBarWidget(
             title: "昵称",
-            backgroundColor: Colors.transparent,
             actions: [
               IconButton(
                 onPressed: controller.onMorePressed,
