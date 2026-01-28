@@ -65,4 +65,8 @@ class AssetsSvgs {
 
   static const icPostsMoreSvg = 'assets/svgs/ic_posts_more.svg';
   static const icPostsSearchSvg = 'assets/svgs/ic_posts_search.svg';
+  static const icPostsHot1Svg = 'assets/svgs/ic_posts_hot1.svg';
+  static const icPostsHot2Svg = 'assets/svgs/ic_posts_hot2.svg';
+  static const icPostsHot3Svg = 'assets/svgs/ic_posts_hot3.svg';
+  static const icPostsAddSvg = 'assets/svgs/ic_posts_add.svg';
 }

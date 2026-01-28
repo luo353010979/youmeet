@@ -60,6 +60,8 @@ dependencies:
   encrypt: ^5.0.3
   qiniu_flutter_sdk: ^0.7.5
 
+  expandable: ^5.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
