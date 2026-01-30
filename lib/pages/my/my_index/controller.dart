@@ -20,6 +20,11 @@ class MyIndexController extends GetxController {
     _initData();
   }
 
+  void toProfileView() {
+    // Get.toNamed("");
+    print("跳转到个人资料页面");
+  }
+
   // @override
   // void onClose() {
   //   super.onClose();

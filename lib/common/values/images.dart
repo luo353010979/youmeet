@@ -39,4 +39,6 @@ class AssetsImages {
   static const imgMsgBgPng = 'assets/images/img_msg_bg.png';
   static const imgMsgUploadPng = 'assets/images/img_msg_upload.png';
   static const imgMsgMicophonePng = 'assets/images/img_msg_micophone.png';
+
+  static const imgMyEditPng = 'assets/images/img_my_edit.png';
 }

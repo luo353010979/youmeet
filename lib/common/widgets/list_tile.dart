@@ -20,6 +20,7 @@ class ListTileWidget extends StatelessWidget {
     this.borderWidth,
     this.elevation,
     this.backgroundColor,
+    this.isRipple = true,
   });
 
   /// 标题
@@ -63,6 +64,9 @@ class ListTileWidget extends StatelessWidget {
 
   /// 背景色
   final Color? backgroundColor;
+
+  /// 是否涟漪效果
+  final bool? isRipple;
 
   // 主视图
   Widget _buildView(BuildContext context) {
@@ -124,7 +128,7 @@ class ListTileWidget extends StatelessWidget {
         );
 
     // 涟漪, 点击事件
-    if (onTap != null) {
+    if (onTap != null && isRipple == true) {
       child = child.ripple();
     }
 
