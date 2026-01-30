@@ -32,7 +32,6 @@ class PostsIndexPage extends GetView<PostsIndexController> {
   Widget _buildPostCard() {
     List<KeyValueModel<String>> list = [
       KeyValueModel(key: "发帖", value: "分享美好倾吐焦虑"),
-      KeyValueModel(key: "开播", value: "寻找另一个我"),
     ];
 
     return <Widget>[
@@ -49,7 +48,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
                 .tight(width: 163.5.w, height: 80.h)
                 .backgroundColor(Color(0xFFFFE1F5)),
         ]
-        .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
+        .toRow()
         .paddingSymmetric(horizontal: AppSpace.page)
         .marginOnly(top: 10.h, bottom: 10.h)
         .sliverToBoxAdapter();

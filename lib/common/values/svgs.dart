@@ -69,4 +69,8 @@ class AssetsSvgs {
   static const icPostsHot2Svg = 'assets/svgs/ic_posts_hot2.svg';
   static const icPostsHot3Svg = 'assets/svgs/ic_posts_hot3.svg';
   static const icPostsAddSvg = 'assets/svgs/ic_posts_add.svg';
+  static const icLikeActiveSvg = 'assets/svgs/ic_like_active.svg';
+  static const icLikeDefautSvg = 'assets/svgs/ic_like_defaut.svg';
+  static const icPostsCommentSvg = 'assets/svgs/ic_posts_comment.svg';
+  static const icPostsLikeDefautSvg = 'assets/svgs/ic_posts_like_defaut.svg';
 }

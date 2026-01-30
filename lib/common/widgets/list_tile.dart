@@ -85,12 +85,12 @@ class ListTileWidget extends StatelessWidget {
         titleList.length == 1
             ? titleList.first.expanded()
             : titleList
-                .toColumn(
-                  crossAxisAlignment:
-                      crossAxisAlignment ?? CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                )
-                .expanded(),
+                  .toColumn(
+                    crossAxisAlignment:
+                        crossAxisAlignment ?? CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  )
+                  .expanded(),
       );
     }
 
@@ -106,18 +106,22 @@ class ListTileWidget extends StatelessWidget {
         trailing!.length == 1
             ? trailing!.first
             : trailing!.toRow(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-            ),
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+              ),
       );
     }
 
     // 背景、圆角、边框
-    Widget child = ws.toRow().padding(
-      horizontal: padding?.horizontal ?? AppPadding.listTile.horizontal,
-      vertical: padding?.vertical ?? AppPadding.listTile.vertical,
-    );
+    Widget child = ws
+        .toRow(
+          crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
+        )
+        .padding(
+          horizontal: padding?.horizontal ?? AppPadding.listTile.horizontal,
+          vertical: padding?.vertical ?? AppPadding.listTile.vertical,
+        );
 
     // 涟漪, 点击事件
     if (onTap != null) {
