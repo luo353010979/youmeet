@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:youmeet/common/index.dart';
 
 class MyIndexController extends GetxController {
   MyIndexController();
@@ -21,8 +22,7 @@ class MyIndexController extends GetxController {
   }
 
   void toProfileView() {
-    // Get.toNamed("");
-    print("跳转到个人资料页面");
+    Get.toNamed(RouteNames.myEditProfile);
   }
 
   // @override

@@ -59,8 +59,9 @@ dependencies:
   flutter_easyloading: ^3.0.5
   encrypt: ^5.0.3
   qiniu_flutter_sdk: ^0.7.5
-
+  image_picker: ^1.2.1
   expandable: ^5.0.1
+
 
 dev_dependencies:
   flutter_test:
