@@ -56,6 +56,10 @@
         page: () => const RegisterUploadPicturePage(),
       ),
       GetPage(
+        name: RouteNames.systemRegisterSelectCountry,
+        page: () => const SelectCountryPage(),
+      ),
+      GetPage(
         name: RouteNames.systemSettingsAboutUs,
         page: () => const AboutUsPage(),
       ),

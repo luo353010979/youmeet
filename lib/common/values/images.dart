@@ -30,6 +30,11 @@ class AssetsImages {
   static const welcome_2Png = 'assets/images/welcome_2.png';
   static const welcome_3Png = 'assets/images/welcome_3.png';
 
+  static const imgAvatarPng = 'assets/images/img_avatar.png';
+  static const imgCameraPng = 'assets/images/img_camera.png';
+  static const imgEditLeftPng = 'assets/images/img_edit_left.png';
+  static const imgEditRightPng = 'assets/images/img_edit_right.png';
+
   static const imgHomeAvaterPng = 'assets/images/img_home_avater.png';
   static const imgHomeCardPng = 'assets/images/img_home_card.png';
   static const imgHomeTipsPng = 'assets/images/img_home_tips.png';

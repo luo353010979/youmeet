@@ -181,7 +181,8 @@ class _InputWidgetState extends State<InputWidget> {
       height: 44,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: widget.borderRadius ?? BorderRadius.circular(AppRadius.circle),
+        borderRadius:
+            widget.borderRadius ?? BorderRadius.circular(AppRadius.circle),
         border:
             widget.border ??
             Border.all(

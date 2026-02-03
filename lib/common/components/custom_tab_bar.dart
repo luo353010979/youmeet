@@ -19,11 +19,7 @@ class CustomTabBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          ),
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
         ],
         borderRadius: BorderRadius.circular(12),
       ),
@@ -38,13 +34,17 @@ class CustomTabBar extends StatelessWidget {
               duration: Duration(milliseconds: 200),
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               decoration: BoxDecoration(
-                color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.1) : Colors.transparent,
+                color: isSelected
+                    ? Theme.of(context).primaryColor.withOpacity(0.1)
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
                 tabs[index],
                 style: TextStyle(
-                  color: isSelected ? Theme.of(context).primaryColor : Colors.black87,
+                  color: isSelected
+                      ? Theme.of(context).primaryColor
+                      : Colors.black87,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                   fontSize: 16,
                 ),

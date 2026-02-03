@@ -50,6 +50,5 @@ class ChatController extends GetxController {
   /// 更多按钮点击事件
   void onMorePressed() {}
 
-  onComplete() {
-  }
+  onComplete() {}
 }

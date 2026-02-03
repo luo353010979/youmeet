@@ -5,9 +5,6 @@ class DividerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 1,
-      color: Theme.of(context).dividerColor,
-    );
+    return Container(height: 1, color: Theme.of(context).dividerColor);
   }
 }

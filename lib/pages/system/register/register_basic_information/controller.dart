@@ -20,6 +20,10 @@ class RegisterBasicInformationController extends GetxController {
     _initData();
   }
 
+  void chooseAvatar() {
+    print("选择头像");
+  }
+
   // @override
   // void onClose() {
   //   super.onClose();

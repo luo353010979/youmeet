@@ -52,10 +52,25 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
 
               ListTileWidget(
                 padding: EdgeInsets.zero,
-                leading: TextWidget.label("手机号").tight(width: 85.w),
+                leading: <Widget>[
+                  ImageWidget.img(
+                    controller.countryImageUrl,
+                    width: 24.w,
+                    height: 18.w,
+                    fit: BoxFit.cover,
+                    radius: 0,
+                  ),
+                  IconWidget.svg(
+                    AssetsSvgs.icArrowDownSvg,
+                    text: "${controller.countryCode}",
+                    isReverse: true,
+                    onTap: () => controller.toSelectCountryPage(),
+                  ),
+                ].toRowSpace(space: 4.w).tight(width: 85.w),
                 title: TextFormField(
                   controller: controller.phoneController,
-                  onTapOutside: (event) => FocusScope.of(context).requestFocus(FocusNode()),
+                  onTapOutside: (event) =>
+                      FocusScope.of(context).requestFocus(FocusNode()),
                   style: TextStyle(
                     fontSize: 14,
                     color: context.theme.colorScheme.onSurface,
@@ -70,30 +85,34 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
 
               Divider(height: 1.h, color: Color(0x1A000000)),
 
-              ListTileWidget(
-                padding: EdgeInsets.zero,
-                leading: TextWidget.label("验证码").tight(width: 85.w),
-                trailing: [
-                  TextWidget.label(
-                    "获取验证码",
-                    color: context.theme.colorScheme.primary,
-                  ).onTap(() => controller.gerVerifyCode()),
-                ],
-                title: TextFormField(
-                  controller: controller.verifyCodeController,
-                  onTapOutside: (event) => FocusScope.of(context).requestFocus(FocusNode()),
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: context.theme.colorScheme.onSurface,
-                    // letterSpacing: 1.2,
+              Visibility(
+                visible: !controller.hideVerifyCode,
+                child: ListTileWidget(
+                  padding: EdgeInsets.zero,
+                  leading: TextWidget.label("验证码").tight(width: 85.w),
+                  trailing: [
+                    TextWidget.label(
+                      "获取验证码",
+                      color: context.theme.colorScheme.primary,
+                    ).onTap(() => controller.gerVerifyCode()),
+                  ],
+                  title: TextFormField(
+                    controller: controller.verifyCodeController,
+                    onTapOutside: (event) =>
+                        FocusScope.of(context).requestFocus(FocusNode()),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: context.theme.colorScheme.onSurface,
+                      // letterSpacing: 1.2,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: "请输入验证码",
+                      hintStyle: TextStyle(fontSize: 14),
+                      border: InputBorder.none,
+                    ),
                   ),
-                  decoration: InputDecoration(
-                    hintText: "请输入验证码",
-                    hintStyle: TextStyle(fontSize: 14),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ).tight(height: 50),
+                ).tight(height: 50),
+              ),
 
               Divider(height: 1.h, color: Color(0x1A000000)),
 
@@ -102,7 +121,8 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
                 leading: TextWidget.label("登录密码").tight(width: 85.w),
                 title: TextFormField(
                   controller: controller.passwordController,
-                  onTapOutside: (event) => FocusScope.of(context).requestFocus(FocusNode()),
+                  onTapOutside: (event) =>
+                      FocusScope.of(context).requestFocus(FocusNode()),
                   style: TextStyle(
                     fontSize: 14,
                     color: context.theme.colorScheme.onSurface,
@@ -123,7 +143,8 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
                 leading: TextWidget.label("确认密码").tight(width: 85.w),
                 title: TextFormField(
                   controller: controller.confirmPasswordController,
-                  onTapOutside: (event) => FocusScope.of(context).requestFocus(FocusNode()),
+                  onTapOutside: (event) =>
+                      FocusScope.of(context).requestFocus(FocusNode()),
                   style: TextStyle(
                     fontSize: 14,
                     color: context.theme.colorScheme.onSurface,
@@ -147,19 +168,27 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
 
   /// 隐私政策
   Widget _buildAgree() {
-    return Container(
-      color: Colors.white,
-      child: <Widget>[
-        Checkbox(value: true, onChanged: (value) {}),
-        TextWidget.muted("我已阅读并同意"),
+    return GetBuilder<RegisterIndexController>(
+      id: "privacy",
+      builder: (_) {
+        return <Widget>[
+              Checkbox(
+                value: controller.isAgreePrivacy,
+                onChanged: controller.updateAgreePrivacy,
+                activeColor: Get.theme.colorScheme.primary,
+              ),
+              TextWidget.muted("我已阅读并同意"),
 
-        TextWidget.muted("《用户协议》", color: Color(0xffFF37A8)).onTap(() {
-          Get.toNamed(RouteNames.systemSettingsUserAgreement);
-        }),
-        TextWidget.muted("《隐私政策》", color: Color(0xffFF37A8)).onTap(() {
-          Get.toNamed(RouteNames.systemSettingsPrivacyAgreement);
-        }),
-      ].toRow(mainAxisAlignment: MainAxisAlignment.start),
+              TextWidget.muted("《用户协议》", color: Color(0xffFF37A8)).onTap(() {
+                Get.toNamed(RouteNames.systemSettingsUserAgreement);
+              }),
+              TextWidget.muted("《隐私政策》", color: Color(0xffFF37A8)).onTap(() {
+                Get.toNamed(RouteNames.systemSettingsPrivacyAgreement);
+              }),
+            ]
+            .toRow(mainAxisAlignment: MainAxisAlignment.start)
+            .backgroundColor(Colors.white);
+      },
     );
   }
 
@@ -190,7 +219,7 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
       builder: (_) {
         return Scaffold(
           backgroundColor: Color(0XFFF7F7F7),
-          appBar: AppBarWidget(title: "注册账号"),
+          appBar: AppBarWidget(title: "注册账号", backgroundColor: Colors.white),
           body: SafeArea(child: _buildView(context)),
         );
       },

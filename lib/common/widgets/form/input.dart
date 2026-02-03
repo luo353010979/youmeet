@@ -39,8 +39,8 @@ class InputFormFieldWidget extends FormField<String> {
 
            return <Widget>[
              // 字段说明
-             
-             if (labelText != null) TextWidget.label(labelText).paddingLeft(AppSpace.card),
+             if (labelText != null)
+               TextWidget.label(labelText).paddingLeft(AppSpace.card),
 
              // 输入框
              InputWidget(

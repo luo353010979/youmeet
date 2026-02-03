@@ -3,14 +3,13 @@ import 'package:get/get.dart';
 
 import 'index.dart';
 
-class RegisterUploadPicturePage extends GetView<RegisterUploadPictureController> {
+class RegisterUploadPicturePage
+    extends GetView<RegisterUploadPictureController> {
   const RegisterUploadPicturePage({super.key});
 
   // 主视图
   Widget _buildView() {
-    return const Center(
-      child: Text("RegisterUploadPicturePage"),
-    );
+    return const Center(child: Text("RegisterUploadPicturePage"));
   }
 
   @override
@@ -21,9 +20,7 @@ class RegisterUploadPicturePage extends GetView<RegisterUploadPictureController>
       builder: (_) {
         return Scaffold(
           appBar: AppBar(title: const Text("register_upload_picture")),
-          body: SafeArea(
-            child: _buildView(),
-          ),
+          body: SafeArea(child: _buildView()),
         );
       },
     );

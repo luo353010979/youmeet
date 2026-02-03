@@ -14,6 +14,7 @@ export 'system/main/index.dart';
 export 'system/register/register_basic_information/index.dart';
 export 'system/register/register_index/index.dart';
 export 'system/register/register_upload_picture/index.dart';
+export 'system/register/select_country/index.dart';
 export 'system/settings/about_us/index.dart';
 export 'system/settings/privacy agreement/index.dart';
 export 'system/settings/settings_index/index.dart';

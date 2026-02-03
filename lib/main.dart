@@ -22,9 +22,8 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       splitScreenMode: false, // 支持分屏尺寸
       minTextAdapt: false, // 是否根据宽度/高度中的最小值来适配文字
-
       // debugShowFloatingThemeButton: true, // 调试模式显示切换按钮
-      builder: (context,child) => AdaptiveTheme(
+      builder: (context, child) => AdaptiveTheme(
         light: AppTheme.light,
         dark: AppTheme.dark,
         initial: ConfigService.to.themeMode,

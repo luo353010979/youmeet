@@ -13,7 +13,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
     return InputWidget(
       prefix: IconWidget.svg(AssetsSvgs.icMsgSearchSvg),
       placeholder: "请输入关键字搜索",
-    ).paddingSymmetric(horizontal:  16.w,vertical: 10.h);
+    ).paddingSymmetric(horizontal: 16.w, vertical: 10.h);
   }
 
   // 主视图
@@ -38,9 +38,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
             <Widget>[
               TextWidget.muted("12:34"),
               Badge.count(count: 1),
-            ].toColumn(
-              mainAxisAlignment: MainAxisAlignment.center,
-            ),
+            ].toColumn(mainAxisAlignment: MainAxisAlignment.center),
           ],
           onTap: () {
             // 点击消息项的处理逻辑
