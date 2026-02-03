@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:youmeet/common/index.dart';
 
 import 'index.dart';
 
@@ -8,9 +9,7 @@ class PrivacyAgreementPage extends GetView<PrivacyAgreementController> {
 
   // 主视图
   Widget _buildView() {
-    return const Center(
-      child: Text("PrivacyAgreementPage"),
-    );
+    return const Center(child: Text("PrivacyAgreementPage"));
   }
 
   @override
@@ -20,10 +19,9 @@ class PrivacyAgreementPage extends GetView<PrivacyAgreementController> {
       id: "privacy_agreement",
       builder: (_) {
         return Scaffold(
-          appBar: AppBar(title: const Text("privacy_agreement")),
-          body: SafeArea(
-            child: _buildView(),
-          ),
+          backgroundColor: Color(0xFFF7F7F7),
+          appBar: AppBarWidget(title: "隐私协议", backgroundColor: Colors.white),
+          body: SafeArea(child: _buildView()),
         );
       },
     );

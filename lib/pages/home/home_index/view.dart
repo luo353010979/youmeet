@@ -259,7 +259,9 @@ class HomeIndexPage extends GetView<HomeIndexController> {
             .paddingSymmetric(horizontal: 16.w)
             .expanded(),
       ].toRow(),
-    );
+    ).onTap(() {
+      Get.toNamed(RouteNames.homeMatchingDetail);
+    });
   }
 
   Widget _buildChip(String text) {

@@ -12,6 +12,7 @@ class ListTileWidget extends StatelessWidget {
     this.leadingSpace,
     this.trailing,
     this.trailingSpace,
+    this.titleSubtitleSpace,
     this.padding,
     this.crossAxisAlignment,
     this.onTap,
@@ -37,6 +38,8 @@ class ListTileWidget extends StatelessWidget {
 
   /// 右侧图标
   final List<Widget>? trailing;
+
+  final double? titleSubtitleSpace;
 
   /// 右侧图标间距
   final double? trailingSpace;
@@ -89,10 +92,11 @@ class ListTileWidget extends StatelessWidget {
         titleList.length == 1
             ? titleList.first.expanded()
             : titleList
-                  .toColumn(
+                  .toColumnSpace(
                     crossAxisAlignment:
                         crossAxisAlignment ?? CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
+                    space: titleSubtitleSpace ?? 0,
                   )
                   .expanded(),
       );

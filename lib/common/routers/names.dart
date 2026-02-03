@@ -1,5 +1,6 @@
 class RouteNames {
 static const homeHomeIndex = '/home_home_index';
+static const homeMatchingDetail = '/home_matching_detail';
 
 static const msgChat = '/msg_chat';
 static const msgMsgIndex = '/msg_msg_index';

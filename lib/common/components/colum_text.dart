@@ -1,22 +1,23 @@
 import 'package:ducafe_ui_core/ducafe_ui_core.dart';
 import 'package:flutter/material.dart';
-import 'package:youmeet/common/index.dart';
 
 class ColumTextWidget extends StatelessWidget {
   const ColumTextWidget({
     super.key,
     required this.keyText,
     required this.valueText,
+    this.spacing,
   });
 
-  final String keyText;
-  final String valueText;
+  final double? spacing;
+  final Widget keyText;
+  final Widget valueText;
 
   @override
   Widget build(BuildContext context) {
-    return <Widget>[
-      TextWidget.h4(valueText, weight: FontWeight.bold),
-      TextWidget.muted(keyText),
-    ].toColumn();
+    return <Widget>[keyText, valueText].toColumnSpace(
+      space: spacing ?? 0,
+      mainAxisAlignment: MainAxisAlignment.center,
+    );
   }
 }

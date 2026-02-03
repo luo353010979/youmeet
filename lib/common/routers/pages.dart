@@ -14,6 +14,10 @@ class RoutePages {
         page: () => const HomeIndexPage(),
       ),
       GetPage(
+        name: RouteNames.homeMatchingDetail,
+        page: () => const MatchingDetailPage(),
+      ),
+      GetPage(
         name: RouteNames.msgChat,
         page: () => const ChatPage(),
       ),

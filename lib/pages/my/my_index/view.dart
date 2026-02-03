@@ -60,13 +60,25 @@ class MyIndexPage extends GetView<MyIndexController> {
 
   Widget _buildCounter() {
     return <Widget>[
-          ColumTextWidget(keyText: "看过我", valueText: "21"),
+          ColumTextWidget(
+            keyText: TextWidget.h4("21"),
+            valueText: TextWidget.muted("看过我", size: 10),
+          ),
           SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
-          ColumTextWidget(keyText: "我看过", valueText: "10"),
+          ColumTextWidget(
+            keyText: TextWidget.h4("10"),
+            valueText: TextWidget.muted("我看过", size: 10),
+          ),
           SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
-          ColumTextWidget(keyText: "我喜欢", valueText: "60"),
+          ColumTextWidget(
+            keyText: TextWidget.h4("60"),
+            valueText: TextWidget.muted("我喜欢", size: 10),
+          ),
           SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
-          ColumTextWidget(keyText: "喜欢我", valueText: "18"),
+          ColumTextWidget(
+            keyText: TextWidget.h4("18"),
+            valueText: TextWidget.muted("喜欢我", size: 10),
+          ),
         ]
         .toRow(mainAxisAlignment: MainAxisAlignment.spaceEvenly)
         .paddingBottom(20.h);
@@ -214,7 +226,12 @@ class MyIndexPage extends GetView<MyIndexController> {
             actions: [
               IconButton(
                 onPressed: () {},
-                icon: IconWidget.svg(AssetsSvgs.icMsgSettingSvg),
+                icon: IconWidget.svg(
+                  AssetsSvgs.icMsgSettingSvg,
+                  onTap: () {
+                    Get.toNamed(RouteNames.systemSettingsSettingsIndex);
+                  },
+                ),
               ),
             ],
           ),
