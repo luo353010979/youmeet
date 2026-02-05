@@ -30,6 +30,7 @@ class LoginPage extends GetView<LoginController> {
                       controller: controller.usernameController,
                       focusNode: controller.usernameFocusNode,
                       textInputAction: TextInputAction.next,
+
                       onFieldSubmitted: (value) {
                         controller.passwordFocusNode.requestFocus();
                       },

@@ -29,18 +29,25 @@ class UserService extends GetxService {
     super.onInit();
     // 读 token
     token = Storage().getString(Constants.storageToken);
-    // 读 profile
-    var profileOffline = Storage().getString(Constants.storageProfile);
-    if (profileOffline.isNotEmpty) {
-      //_profile(UserProfileModel.fromJson(jsonDecode(profileOffline)));
+
+    // 测试使用固定token
+    if (token.isEmpty) {
+      token =
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzE2OTU2OTYsInVzZXJuYW1lIjoiNzc0MTM4Nzc1NDgyNzk4MDgwIn0.3aiFKwKtgc5_rssHUUZLc1AvEggPTjKhh0Ky5-c-KIM';
     }
+
+    // 读 profile
+    // var profileOffline = Storage().getString(Constants.storageProfile);
+    // if (profileOffline.isNotEmpty) {
+    //   //_profile(UserProfileModel.fromJson(jsonDecode(profileOffline)));
+    // }
   }
 
   /// 设置令牌
-  // Future<void> setToken(String value) async {
-  //   await Storage().setString(Constants.storageToken, value);
-  //   token = value;
-  // }
+  Future<void> setToken(String value) async {
+    await Storage().setString(Constants.storageToken, value);
+    token = value;
+  }
 
   /// 获取用户 profile
   // Future<void> getProfile() async {
@@ -70,11 +77,54 @@ class UserService extends GetxService {
   // }
 
   /// 检查是否登录
-  // Future<bool> checkIsLogin() async {
-  //   if (_isLogin.value == false) {
-  //     await Get.toNamed(RouteNames.systemLogin);
-  //     return false;
-  //   }
-  //   return true;
-  // }
+  Future<bool> checkIsLogin() async {
+    if (_isLogin.value == false) {
+      await Get.toNamed(RouteNames.systemLogin);
+      return false;
+    }
+    return true;
+  }
+
+  /// 用户注册
+  Future<bool> register(UserRegisterReq data) async {
+    try {
+      Loading.show();
+      BaseResponse<UserModel> response = await UserApi.register(data);
+      if (response.success ?? false) {
+        UserModel user = response.result!;
+        token = user.token ?? '';
+        await Storage().setString(Constants.storageToken, token);
+        print("注册成功，用户 token: $token");
+        return true;
+      } else {
+        Loading.error(response.message ?? '注册失败');
+        throw Exception(response.message ?? 'Registration failed');
+      }
+    } catch (e) {
+      rethrow;
+    } finally {
+      Loading.dismiss();
+    }
+  }
+
+  Future<bool> login(UserLoginReq data) async {
+    try {
+      Loading.show();
+      BaseResponse<UserModel> response = await UserApi.login(data);
+      if (response.success ?? false) {
+        UserModel user = response.result!;
+        token = user.token ?? '';
+        await Storage().setString(Constants.storageToken, token);
+        print("登录成功，用户 token: $token");
+        return true;
+      } else {
+        Loading.error(response.message ?? '登录失败');
+        throw Exception(response.message ?? 'Login failed');
+      }
+    } catch (e) {
+      rethrow;
+    } finally {
+      Loading.dismiss();
+    }
+  }
 }

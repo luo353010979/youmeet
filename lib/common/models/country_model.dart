@@ -1,4 +1,4 @@
-/// 国家模型 
+/// 国家模型
 class CountryModel {
   String? id;
   String? createBy;

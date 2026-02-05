@@ -33,12 +33,16 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
           Spacer(),
 
           ButtonWidget.primary(
-            "下一步",
+            "注册",
             textWeight: FontWeight.bold,
             height: 44.h,
             elevation: 0,
             borderRadius: 50,
-            onTap: () {},
+            onTap: () {
+              // 跳转到实名认证
+              // Get.toNamed(RouteNames.systemRegisterRegisterUploadPicture);
+              controller.onRegister();
+            },
           ).tight(height: 44.h).paddingBottom(30.h),
         ]
         .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
@@ -163,12 +167,12 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
               height: 24.h,
               borderRadius: 50,
               elevation: 0,
-              textColor: controller.gender == 0 ? Colors.white : Colors.black,
-              backgroundColor: controller.gender == 0
+              textColor: controller.gender == 1 ? Colors.white : Colors.black,
+              backgroundColor: controller.gender == 1
                   ? Get.theme.colorScheme.primary
                   : Colors.white,
               onTap: () {
-                controller.updateGender(0);
+                controller.updateGender(1);
               },
             ),
             ButtonWidget.primary(
@@ -177,12 +181,12 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
               height: 24.h,
               borderRadius: 50,
               elevation: 0,
-              textColor: controller.gender == 1 ? Colors.white : Colors.black,
-              backgroundColor: controller.gender == 1
+              textColor: controller.gender == 2 ? Colors.white : Colors.black,
+              backgroundColor: controller.gender == 2
                   ? Get.theme.colorScheme.primary
                   : Colors.white,
               onTap: () {
-                controller.updateGender(1);
+                controller.updateGender(2);
               },
             ),
           ].toRowSpace(),

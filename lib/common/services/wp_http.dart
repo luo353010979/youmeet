@@ -105,6 +105,10 @@ class RequestInterceptors extends Interceptor {
     //   options.headers['Authorization'] = 'Bearer ${UserService.to.token}';
     // }
 
+    if (UserService.to.hasToken) {
+      options.headers['Authorization'] = 'Bearer ${UserService.to.token}';
+    }
+
     return handler.next(options);
     // 如果你想完成请求并返回一些自定义数据，你可以resolve一个Response对象 `handler.resolve(response)`。
     // 这样请求将会被终止，上层then会被调用，then中返回的数据将是你的自定义response.

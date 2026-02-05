@@ -54,7 +54,7 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
                 padding: EdgeInsets.zero,
                 leading: <Widget>[
                   ImageWidget.img(
-                    controller.countryImageUrl,
+                    "http://${controller.countryModel.nationalFlag}",
                     width: 24.w,
                     height: 18.w,
                     fit: BoxFit.cover,
@@ -62,7 +62,7 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
                   ),
                   IconWidget.svg(
                     AssetsSvgs.icArrowDownSvg,
-                    text: "${controller.countryCode}",
+                    text: "${controller.countryModel.phone}",
                     isReverse: true,
                     onTap: () => controller.toSelectCountryPage(),
                   ),

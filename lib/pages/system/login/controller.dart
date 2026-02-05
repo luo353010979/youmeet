@@ -7,13 +7,13 @@ class LoginController extends GetxController {
 
   // 用户名
   TextEditingController usernameController = TextEditingController(
-    text: "admin",
+    text: "17345939400",
   );
   FocusNode usernameFocusNode = FocusNode();
 
   // 密码
   TextEditingController passwordController = TextEditingController(
-    text: "admin",
+    text: "353010",
   );
   FocusNode passwordFocusNode = FocusNode();
 
@@ -40,8 +40,17 @@ class LoginController extends GetxController {
     update(["form"]);
   }
 
-  void onLogin() {
-    Get.offAllNamed(RouteNames.systemMain);
+  /// 登录
+  void onLogin() async {
+    UserLoginReq loginReq = UserLoginReq(
+      account: usernameController.text,
+      password: passwordController.text,
+    );
+
+    bool isLogin = await UserService.to.login(loginReq);
+    if (isLogin) {
+      Get.offAllNamed(RouteNames.systemMain);
+    }
   }
 
   void onRegister() {

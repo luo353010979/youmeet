@@ -61,6 +61,7 @@ dependencies:
   qiniu_flutter_sdk: ^0.7.5
   image_picker: ^1.2.1
   expandable: ^5.0.1
+  geolocator: ^14.0.2
 
 
 dev_dependencies:
