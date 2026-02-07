@@ -9,15 +9,16 @@ class SplashController extends GetxController {
     // 延迟1秒
     Future.delayed(const Duration(seconds: 1)).then((_) {
       // // 是否已打开
-      // if (ConfigService.to.isAlreadyOpen) {
-      //   // 跳转首页
-      //   Get.offAllNamed(RouteNames.systemMain);
-      // } else {
-      //   // 跳转欢迎页
-      //   Get.offAllNamed(RouteNames.systemWelcome);
-      // }
-
-      Get.toNamed(RouteNames.systemLogin);
+      if (ConfigService.to.isAlreadyOpen) {
+        if (UserService.to.hasToken) {
+          Get.offAllNamed(RouteNames.systemMain);
+        } else {
+          Get.offAllNamed(RouteNames.systemLogin);
+        }
+      } else {
+        // 跳转欢迎页
+        Get.offAllNamed(RouteNames.systemWelcome);
+      }
     });
   }
 

@@ -2,10 +2,9 @@ import 'package:ducafe_ui_core/ducafe_ui_core.dart' hide SizedBoxExtensions;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
+import 'package:youmeet/pages/index.dart';
 
-import 'index.dart';
-
-class EditProfileInfoPage extends GetView<EditProfileInfoController> {
+class EditProfileInfoPage extends GetView<MyIndexController> {
   const EditProfileInfoPage({super.key});
 
   // 主视图
@@ -14,7 +13,10 @@ class EditProfileInfoPage extends GetView<EditProfileInfoController> {
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
         leading: TextWidget.label("昵称").tight(width: 80.w),
-        title: TextWidget.label("天道酬勤", color: Color(0xFF666666)),
+        title: TextWidget.label(
+          controller.userMessage.name ?? "",
+          color: Color(0xFF666666),
+        ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
         onTap: () {},
       ).tight(height: 50.h),
@@ -25,7 +27,7 @@ class EditProfileInfoPage extends GetView<EditProfileInfoController> {
         padding: EdgeInsets.only(left: 16),
         leading: TextWidget.label("简介").tight(width: 80.w),
         title: TextWidget.label(
-          "天道酬勤，功到自然成天道酬勤，功到自然成",
+          controller.userMessage.profile ?? "未填写",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           color: Color(0xFF666666),
@@ -39,7 +41,10 @@ class EditProfileInfoPage extends GetView<EditProfileInfoController> {
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
         leading: TextWidget.label("性别").tight(width: 80.w),
-        title: TextWidget.label("男", color: Color(0xFF666666)),
+        title: TextWidget.label(
+          controller.userMessage.sex == 1 ? "男" : "女",
+          color: Color(0xFF666666),
+        ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
         onTap: () {},
       ).tight(height: 50.h),
@@ -48,7 +53,10 @@ class EditProfileInfoPage extends GetView<EditProfileInfoController> {
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
         leading: TextWidget.label("生日").tight(width: 80.w),
-        title: TextWidget.label("1994-4-4", color: Color(0xFF666666)),
+        title: TextWidget.label(
+          "${controller.userMessage.birthday}",
+          color: Color(0xFF666666),
+        ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
         onTap: () {},
       ).tight(height: 50.h),
@@ -58,7 +66,10 @@ class EditProfileInfoPage extends GetView<EditProfileInfoController> {
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
         leading: TextWidget.label("身高").tight(width: 80.w),
-        title: TextWidget.label("178cm", color: Color(0xFF666666)),
+        title: TextWidget.label(
+          "${controller.userMessage.height ?? "0"} cm",
+          color: Color(0xFF666666),
+        ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
         onTap: () {},
       ).tight(height: 50.h),
@@ -68,7 +79,10 @@ class EditProfileInfoPage extends GetView<EditProfileInfoController> {
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
         leading: TextWidget.label("体重").tight(width: 80.w),
-        title: TextWidget.label("70kg", color: Color(0xFF666666)),
+        title: TextWidget.label(
+          "${controller.userMessage.weight ?? "0"} kg",
+          color: Color(0xFF666666),
+        ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
         onTap: () {},
       ).tight(height: 50.h),
@@ -106,8 +120,7 @@ class EditProfileInfoPage extends GetView<EditProfileInfoController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<EditProfileInfoController>(
-      init: EditProfileInfoController(),
+    return GetBuilder<MyIndexController>(
       id: "edit_profile_info",
       builder: (_) {
         return Scaffold(

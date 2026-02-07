@@ -94,7 +94,7 @@ class RegisterIndexController extends GetxController {
 
   /// 更新性别
   void updateGender(int i) {
-    gender = i ;
+    gender = i;
     update(["gender"]);
   }
 

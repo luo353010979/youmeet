@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:youmeet/common/index.dart';
 
 class WPHttpService extends GetxService {
@@ -27,6 +28,17 @@ class WPHttpService extends GetxService {
 
     // 拦截器
     _dio.interceptors.add(RequestInterceptors());
+    _dio.interceptors.add(
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseHeader: false,
+        responseBody: true,
+        error: true,
+        compact: true,
+        maxWidth: 90,
+      ),
+    );
   }
 
   Future<Response> get(
@@ -106,7 +118,7 @@ class RequestInterceptors extends Interceptor {
     // }
 
     if (UserService.to.hasToken) {
-      options.headers['Authorization'] = 'Bearer ${UserService.to.token}';
+      options.headers['X-Access-Token'] = UserService.to.token;
     }
 
     return handler.next(options);

@@ -2,10 +2,9 @@ import 'package:ducafe_ui_core/ducafe_ui_core.dart' hide SizedBoxExtensions;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
+import 'package:youmeet/pages/index.dart';
 
-import 'index.dart';
-
-class EditProfilePage extends GetView<EditProfileController> {
+class EditProfilePage extends GetView<MyIndexController> {
   const EditProfilePage({super.key});
 
   // 主视图
@@ -58,9 +57,10 @@ class EditProfilePage extends GetView<EditProfileController> {
   Widget _buildAvatar() {
     return <Widget>[
       ImageWidget.img(
-        controller.userAvatar,
+        "http://${controller.userMessage.portrait}",
         width: 80.w,
         height: 80.w,
+        radius: 50,
         fit: BoxFit.cover,
       ),
 
@@ -146,8 +146,7 @@ class EditProfilePage extends GetView<EditProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<EditProfileController>(
-      init: EditProfileController(),
+    return GetBuilder<MyIndexController>(
       id: "edit_profile",
       builder: (_) {
         return Scaffold(

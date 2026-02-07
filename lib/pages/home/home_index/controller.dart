@@ -40,7 +40,7 @@ class HomeIndexController extends GetxController
   // }
 
   /// 打招呼
-  toChat() {
+  toChatPage() {
     Get.toNamed(RouteNames.msgChat);
   }
 }

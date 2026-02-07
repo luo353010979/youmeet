@@ -27,16 +27,20 @@ class MyIndexPage extends GetView<MyIndexController> {
       backgroundColor: Colors.transparent,
       isRipple: false,
       leading: ImageWidget.img(
-        AssetsImages.imgMsgAvaterPng,
+        "http://${controller.userMessage.portrait}",
         width: 54.r,
         height: 54.r,
         fit: BoxFit.cover,
+        radius: 50,
       ),
       title: <Widget>[
-        TextWidget.h4("用户名", weight: FontWeight.bold).paddingRight(12.w),
+        TextWidget.h4(
+          controller.userMessage.name ?? "",
+          weight: FontWeight.bold,
+        ).paddingRight(12.w),
         IconWidget.svg(
               AssetsSvgs.icMyGirlSvg,
-              text: "22岁",
+              text: "${controller.userMessage.age}",
               // fontColor: Get.theme.colorScheme.primary,
               size: 10.r,
               fontSize: 10,
@@ -51,8 +55,10 @@ class MyIndexPage extends GetView<MyIndexController> {
             ),
       ].toRow(),
       subtitle: <Widget>[
-        TextWidget.muted("34粉丝").paddingRight(12.w),
-        TextWidget.muted("34关注"),
+        TextWidget.muted(
+          "${controller.userMessage.concernedNum}粉丝",
+        ).paddingRight(12.w),
+        TextWidget.muted("${controller.userMessage.concernNum}关注"),
       ].toRow(),
       onTap: () => controller.toProfileView(),
     ).paddingVertical(16.h);
@@ -61,22 +67,22 @@ class MyIndexPage extends GetView<MyIndexController> {
   Widget _buildCounter() {
     return <Widget>[
           ColumTextWidget(
-            keyText: TextWidget.h4("21"),
+            keyText: TextWidget.h4("${controller.userMessage.viewedNum}"),
             valueText: TextWidget.muted("看过我", size: 10),
           ),
           SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
           ColumTextWidget(
-            keyText: TextWidget.h4("10"),
+            keyText: TextWidget.h4("${controller.userMessage.viewNum}"),
             valueText: TextWidget.muted("我看过", size: 10),
           ),
           SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
           ColumTextWidget(
-            keyText: TextWidget.h4("60"),
+            keyText: TextWidget.h4("${controller.userMessage.likeNum}"),
             valueText: TextWidget.muted("我喜欢", size: 10),
           ),
           SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
           ColumTextWidget(
-            keyText: TextWidget.h4("18"),
+            keyText: TextWidget.h4("${controller.userMessage.likedNum}"),
             valueText: TextWidget.muted("喜欢我", size: 10),
           ),
         ]
@@ -225,13 +231,10 @@ class MyIndexPage extends GetView<MyIndexController> {
             centerTitle: false,
             actions: [
               IconButton(
-                onPressed: () {},
-                icon: IconWidget.svg(
-                  AssetsSvgs.icMsgSettingSvg,
-                  onTap: () {
-                    Get.toNamed(RouteNames.systemSettingsSettingsIndex);
-                  },
-                ),
+                icon: IconWidget.svg(AssetsSvgs.icMsgSettingSvg),
+                onPressed: () {
+                  Get.toNamed(RouteNames.systemSettingsSettingsIndex);
+                },
               ),
             ],
           ),

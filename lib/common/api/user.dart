@@ -20,10 +20,38 @@ class UserApi {
       "/jeecg-boot/api/txs/login",
       data: data.toJson(),
     );
-    
+
     return BaseResponse.fromJson(
       response.data,
       (data) => UserModel.fromJson(data),
     );
   }
-}
+
+  /// 获取用户信息
+  static Future<BaseResponse<UserMessage>> profile({String? id}) async {
+    final response = await WPHttpService.to.get(
+      "/jeecg-boot/api/userUp/getUserMessage",
+      params: {"id": id},
+    );
+    return BaseResponse.fromJson(
+      response.data,
+      (data) => UserMessage.fromJson(data),
+    );
+  }
+
+  /// 编辑用户信息
+  static Future<BaseResponse<String>> editProfile(
+    UserMessage userMessage,
+  ) async {
+    final response = await WPHttpService.to.post(
+      "/jeecg-boot/api/userUp/edit",
+      data: userMessage.toJson(),
+    );
+    return BaseResponse.fromJson(response.data, (data) => data as String);
+  }
+
+
+  /// 用户动态
+  
+
+} 

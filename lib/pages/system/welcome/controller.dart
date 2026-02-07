@@ -50,7 +50,11 @@ class WelcomeController extends GetxController {
   /// 去首页
   void onToMain() {
     /// 跳转首页, 并关闭所有页面
-    Get.offAllNamed(RouteNames.systemMain);
+    if (UserService.to.hasToken) {
+      Get.offAllNamed(RouteNames.systemMain);
+    } else {
+      Get.offAllNamed(RouteNames.systemLogin);
+    }
   }
 
   /// 下一个

@@ -249,7 +249,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
                   width: 53.w,
                   height: 23.h,
                   fontSize: 11,
-                  onTap: controller.toChat,
+                  onTap: controller.toChatPage,
                   textWeight: FontWeight.bold,
                   backgroundColor: Color(0xFFFF64C8),
                 ),
