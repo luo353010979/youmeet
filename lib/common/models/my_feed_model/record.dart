@@ -5,7 +5,7 @@ class Feed {
   dynamic updateBy;
   dynamic updateTime;
   String? content;
-  dynamic pic;
+  String? pic;
   String? userId;
   int? status;
   dynamic address;
@@ -64,7 +64,7 @@ class Feed {
     updateBy: json['updateBy'] as dynamic,
     updateTime: json['updateTime'] as dynamic,
     content: json['content'] as String?,
-    pic: json['pic'] as dynamic,
+    pic: json['pic'] as String?,
     userId: json['userId'] as String?,
     status: json['status'] as int?,
     address: json['address'] as dynamic,

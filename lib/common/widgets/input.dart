@@ -158,6 +158,7 @@ class _InputWidgetState extends State<InputWidget> {
       keyboardType: widget.keyboardType,
       autofocus: widget.autofocus ?? false,
       maxLines: 1, // 限制为单行
+      textAlign: TextAlign.start,
     );
 
     // 输入区域

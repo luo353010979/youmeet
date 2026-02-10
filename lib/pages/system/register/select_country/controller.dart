@@ -13,7 +13,7 @@ class SelectCountryController extends GetxController {
   void getCountryList() async {
     try {
       BaseResponse<List<CountryModel>> countries =
-          await SystemApi.getCountryList();
+          await SystemApi.requestCountryList();
       countryList = countries.result ?? [];
       print("获取国家列表成功: ${countryList.length} 个国家");
       update(["select_country"]);

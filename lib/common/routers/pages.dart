@@ -24,6 +24,7 @@ class RoutePages {
       page: () => const EditProfileInfoPage(),
     ),
     GetPage(name: RouteNames.myMyIndex, page: () => const MyIndexPage()),
+    GetPage(name: RouteNames.mySendFeed, page: () => const SendFeedPage()),
     GetPage(
       name: RouteNames.postsPostsIndex,
       page: () => const PostsIndexPage(),

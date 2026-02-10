@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ducafe_ui_core/ducafe_ui_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:youmeet/common/index.dart';
 
-enum ImageWidgetType { img, svg, svgRaw }
+enum ImageWidgetType { img, svg, svgRaw, file }
 
 /// 图片组件
 class ImageWidget extends StatefulWidget {
@@ -64,6 +66,19 @@ class ImageWidget extends StatefulWidget {
     this.elevation,
     this.color,
   }) : type = ImageWidgetType.img;
+
+  const ImageWidget.file(
+    this.path, {
+    super.key,
+    this.radius,
+    this.width,
+    this.height,
+    this.fit,
+    this.placeholder,
+    this.errorWidget,
+    this.elevation,
+    this.color,
+  }) : type = ImageWidgetType.file;
 
   const ImageWidget.svg(
     this.path, {
@@ -202,6 +217,10 @@ class _ImageWidgetState extends State<ImageWidget> {
                   .center(),
             ),
       );
+
+      
+    } else if (widget.type == ImageWidgetType.file) {
+      ws = Image.file(File(widget.path), fit: widget.fit, color: widget.color);
     }
 
     // 2 约束

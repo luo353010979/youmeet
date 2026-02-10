@@ -169,80 +169,78 @@ class MyIndexPage extends GetView<MyIndexController> {
   }
 
   Widget _buildPostItem(Feed feed) {
+    List<String> images = feed.pic?.split(",") ?? [];
+
     return <Widget>[
-          ListTileWidget(
-            backgroundColor: Colors.transparent,
-            padding: EdgeInsets.zero,
-            leading: ImageWidget.img(
-              "http://${feed.portrait}",
-              width: 36.r,
-              height: 36.r,
-              fit: BoxFit.cover,
-              radius: 50,
-            ),
-            title: TextWidget.body("${feed.name}"),
-            subtitle: TextWidget.muted("${feed.createTime}"),
-            trailing: [
-              ButtonWidget.outline(
-                "分享",
-                fontSize: 12.sp,
-                textWeight: FontWeight.bold,
-                icon: IconWidget.svg(AssetsSvgs.icMyShareSvg),
-                backgroundColor: Color(0x26F2A3D6),
-                textColor: Color(0xFFFFA2DE),
-                borderColor: Color(0xFFFFA2DE),
-                borderRadius: 50,
-                reverse: true,
-                onTap: () {
-                  print("点击了分享");
-                },
-              ).tight(width: 76.w, height: 24.h),
-            ],
-          ),
+      ListTileWidget(
+        backgroundColor: Colors.transparent,
+        padding: EdgeInsets.zero,
+        leading: ImageWidget.img(
+          "http://${feed.portrait}",
+          width: 36.r,
+          height: 36.r,
+          fit: BoxFit.cover,
+          radius: 50,
+        ),
+        title: TextWidget.body("${feed.name}"),
+        subtitle: TextWidget.muted("${feed.createTime}"),
+        trailing: [
+          ButtonWidget.outline(
+            "分享",
+            fontSize: 12.sp,
+            textWeight: FontWeight.bold,
+            icon: IconWidget.svg(AssetsSvgs.icMyShareSvg),
+            backgroundColor: Color(0x26F2A3D6),
+            textColor: Color(0xFFFFA2DE),
+            borderColor: Color(0xFFFFA2DE),
+            borderRadius: 50,
+            reverse: true,
+            onTap: () {
+              print("点击了分享");
+            },
+          ).tight(width: 76.w, height: 24.h),
+        ],
+      ),
 
-          TextWidget.label(
-            "${feed.content}",
-            weight: FontWeight.bold,
-          ).paddingVertical(8.h),
+      TextWidget.label(
+        "${feed.content}",
+        weight: FontWeight.bold,
+      ).paddingVertical(8.h),
 
-          GridView.count(
-            crossAxisCount: 3,
-            mainAxisSpacing: 6.h,
-            crossAxisSpacing: 6.w,
-            childAspectRatio: 1,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            children: List.generate(3, (index) {
-              return TextWidget.label("图片 ${index + 1}")
-                  .alignCenter()
-                  // .tight(width: 110.w, height: 110.h)
-                  .decorated(
-                    borderRadius: BorderRadius.circular(8.r),
-                    color: Color(0x26F2A3D6),
-                  )
-                  .onTap(() {
-                    print("点击了图片 ${index + 1}");
-                  });
-            }),
-          ),
+      GridView.count(
+        crossAxisCount: 3,
+        mainAxisSpacing: 6.h,
+        crossAxisSpacing: 6.w,
+        childAspectRatio: 1,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        children: List.generate(images.length, (index) {
+          return ImageWidget.img(
+            images[index],
+            width: 110.w,
+            height: 110.h,
+            fit: BoxFit.cover,
+          ).decorated(
+            borderRadius: BorderRadius.circular(8.r),
+            color: Color(0x26F2A3D6),
+          );
+        }),
+      ),
 
-          <Widget>[
-            // LikeWidget(),
-            // TextWidget.muted("等${feed.likeNum}个人赞过"),
-            Spacer(),
-            IconWidget.svg(
-              AssetsSvgs.icPostsLikeDefautSvg,
-              text: "${feed.likeNum}",
-            ).paddingRight(16.w),
-            IconWidget.svg(
-              AssetsSvgs.icPostsCommentSvg,
-              text: "${feed.commentNum}",
-            ),
-          ].toRow().paddingTop(12.h),
-        ]
-        .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
-        .paddingAll(16.w)
-        .onTap(() => {});
+      <Widget>[
+        // LikeWidget(),
+        // TextWidget.muted("等${feed.likeNum}个人赞过"),
+        Spacer(),
+        IconWidget.svg(
+          AssetsSvgs.icPostsLikeDefautSvg,
+          text: "${feed.likeNum}",
+        ).paddingRight(16.w),
+        IconWidget.svg(
+          AssetsSvgs.icPostsCommentSvg,
+          text: "${feed.commentNum}",
+        ),
+      ].toRow().paddingTop(12.h),
+    ].toColumn(crossAxisAlignment: CrossAxisAlignment.start).paddingAll(16.w);
   }
 
   @override
@@ -260,7 +258,7 @@ class MyIndexPage extends GetView<MyIndexController> {
               IconButton(
                 icon: IconWidget.icon(Icons.add_a_photo_outlined, size: 20.sp),
                 onPressed: () {
-                  Get.toNamed(RouteNames.systemSettingsSettingsIndex);
+                  Get.toNamed(RouteNames.mySendFeed);
                 },
               ),
               IconButton(

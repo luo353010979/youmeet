@@ -13,11 +13,12 @@ class Global {
     Loading();
 
     Get.put<ConfigService>(ConfigService());
-    Get.put<WPHttpService>(WPHttpService()); // 用户
-    Get.put<UploadService>(UploadService()); // 用户
+    Get.put<WPHttpService>(WPHttpService());
+    Get.put<UploadService>(UploadService());
     Get.put<UserService>(UserService());
 
     // 初始化配置
     await ConfigService.to.init();
+    await UploadService.to.init();
   }
 }

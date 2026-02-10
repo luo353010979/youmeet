@@ -8,6 +8,7 @@ class RouteNames {
   static const myEditProfile = '/my_edit_profile';
   static const myEditProfileInfo = '/my_edit_profile_info';
   static const myMyIndex = '/my_my_index';
+  static const mySendFeed = '/my_send_feed';
 
   static const postsPostsIndex = '/posts_posts_index';
   static const postsPostDetal = '/posts_post_detal';

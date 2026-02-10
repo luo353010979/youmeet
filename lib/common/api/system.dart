@@ -1,9 +1,8 @@
 import 'package:youmeet/common/index.dart';
-import 'package:youmeet/common/models/qiniu_token_model.dart';
 
 class SystemApi {
   /// 获取国家列表
-  static Future<BaseResponse<List<CountryModel>>> getCountryList() async {
+  static Future<BaseResponse<List<CountryModel>>> requestCountryList() async {
     final response = await WPHttpService.to.get(
       '/jeecg-boot/api/login/getCountyInfo',
     );
@@ -14,7 +13,7 @@ class SystemApi {
   }
 
   /// 获取七牛云上传 token
-  static Future<BaseResponse<QiNiuTokenModel>> getQiNiuToken() async {
+  static Future<BaseResponse<QiNiuTokenModel>> requestQiniuToken() async {
     final response = await WPHttpService.to.get(
       '/jeecg-boot/api/trends/getToken',
     );

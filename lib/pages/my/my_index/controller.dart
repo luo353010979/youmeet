@@ -45,11 +45,8 @@ class MyIndexController extends GetxController {
         userAvatar = pickedFile.path;
         update(["edit_profile"]);
 
-        String qiNiuToken = await UploadService.to.getQiNiuToken();
-
         UploadService.to.upload(
           pickedFile.path,
-          qiNiuToken,
           onProgress: (progress) {},
           onStatus: (state) {},
           onDone: (done) {
