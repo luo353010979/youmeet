@@ -24,7 +24,9 @@ class UserService extends GetxService {
   void onInit() {
     super.onInit();
     // 读 token
-    token = Storage().getString(Constants.storageToken);
+    // token = Storage().getString(Constants.storageToken);
+    token =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzIyMDU2MTMsInVzZXJuYW1lIjoiNzc0MTM4Nzc1NDgyNzk4MDgwIn0.j2RrTAf0i9lZ00EzRNkKWkV6Quh_fpazxQjtAjz0fmY";
 
     // 读 profile
     var profileOffline = Storage().getString(Constants.storageProfile);

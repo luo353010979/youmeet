@@ -78,11 +78,13 @@ class PostsIndexPage extends GetView<PostsIndexController> {
                         return ListTileWidget(
                           leading: IconWidget.svg(
                             "assets/svgs/ic_posts_hot${index + 1}.svg",
-                          ),
+                          ).paddingTop(4),
                           title: TextWidget.label(
                             item.key,
                             weight: FontWeight.bold,
                           ),
+
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           subtitle: TextWidget.label(item.value),
                           padding: EdgeInsets.zero,
                           backgroundColor: Colors.transparent,
@@ -124,11 +126,12 @@ class PostsIndexPage extends GetView<PostsIndexController> {
                         return ListTileWidget(
                           leading: IconWidget.svg(
                             "assets/svgs/ic_posts_hot${index + 1}.svg",
-                          ),
+                          ).paddingTop(4),
                           title: TextWidget.label(
                             item.key,
                             weight: FontWeight.bold,
                           ),
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           subtitle: TextWidget.label(item.value),
                           padding: EdgeInsets.zero,
                           backgroundColor: Colors.transparent,

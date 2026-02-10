@@ -50,8 +50,17 @@ class UserApi {
     return BaseResponse.fromJson(response.data, (data) => data as String);
   }
 
-
   /// 用户动态
-  
-
-} 
+  static Future<BaseResponse<MyFeedModel>> getMyFeed({
+    String? userId,
+  }) async {
+    final response = await WPHttpService.to.get(
+      "/jeecg-boot/api/trends/myPageList",
+      params: {"userId": userId},
+    );
+    return BaseResponse.fromJson(
+      response.data,
+      (data) => MyFeedModel.fromJson(data),
+    );
+  }
+}

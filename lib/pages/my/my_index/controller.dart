@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:youmeet/common/index.dart';
@@ -13,10 +11,14 @@ class MyIndexController extends GetxController {
   List<String> selectedImages = []; // 存储多张图片路径
   final ImagePicker _picker = ImagePicker();
 
+  /// 我的动态列表
+  List<Feed> myFeedList = [];
+
   @override
   void onInit() {
     super.onInit();
     userMessage = UserService.to.profile;
+    fetchMyFeedList();
   }
 
   @override
@@ -89,6 +91,18 @@ class MyIndexController extends GetxController {
     } catch (e) {
       print('选择图片失败: $e');
       Get.snackbar('错误', '选择图片失败，请检查权限设置');
+    }
+  }
+
+  /// 获取我的动态列表
+  void fetchMyFeedList() async {
+    BaseResponse<MyFeedModel> response = await UserApi.getMyFeed();
+    if (response.success) {
+      MyFeedModel? myFeed = response.result;
+      myFeedList = myFeed.records ?? [];
+      update(["my_index"]);
+    } else {
+      print('获取动态列表失败: ${response.message}');
     }
   }
 }

@@ -133,7 +133,10 @@ class MyIndexPage extends GetView<MyIndexController> {
                           height: 44.w,
                           fit: BoxFit.cover,
                         ).onTap(() {
-                          print("点击了编辑形象");
+                          var token = Storage().getString(
+                            Constants.storageToken,
+                          );
+                          print(token);
                         }),
                       ]
                       .toColumn(
@@ -154,68 +157,92 @@ class MyIndexPage extends GetView<MyIndexController> {
     return Card(
       child: ListView.builder(
         itemBuilder: (context, index) {
-          return _buildPostItem();
+          final feed = controller.myFeedList[index];
+          return _buildPostItem(feed);
         },
 
-        itemCount: 5,
+        itemCount: controller.myFeedList.length,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
       ),
     );
   }
 
-  Widget _buildPostItem() {
+  Widget _buildPostItem(Feed feed) {
     return <Widget>[
-      ListTileWidget(
-        backgroundColor: Colors.transparent,
-        padding: EdgeInsets.zero,
-        leading: ImageWidget.img(AssetsImages.imgMsgAvaterPng),
-        title: TextWidget.body("用户名"),
-        subtitle: TextWidget.muted("10分钟前 美国"),
-        trailing: [
-          ButtonWidget.outline(
-            "分享",
-            fontSize: 12.sp,
-            textWeight: FontWeight.bold,
-            icon: IconWidget.svg(AssetsSvgs.icMyShareSvg),
-            backgroundColor: Color(0x26F2A3D6),
-            textColor: Color(0xFFFFA2DE),
-            borderColor: Color(0xFFFFA2DE),
-            borderRadius: 50,
-            reverse: true,
-            onTap: () {
-              print("点击了分享");
-            },
-          ).tight(width: 76.w, height: 24.h),
-        ],
-      ),
+          ListTileWidget(
+            backgroundColor: Colors.transparent,
+            padding: EdgeInsets.zero,
+            leading: ImageWidget.img(
+              "http://${feed.portrait}",
+              width: 36.r,
+              height: 36.r,
+              fit: BoxFit.cover,
+              radius: 50,
+            ),
+            title: TextWidget.body("${feed.name}"),
+            subtitle: TextWidget.muted("${feed.createTime}"),
+            trailing: [
+              ButtonWidget.outline(
+                "分享",
+                fontSize: 12.sp,
+                textWeight: FontWeight.bold,
+                icon: IconWidget.svg(AssetsSvgs.icMyShareSvg),
+                backgroundColor: Color(0x26F2A3D6),
+                textColor: Color(0xFFFFA2DE),
+                borderColor: Color(0xFFFFA2DE),
+                borderRadius: 50,
+                reverse: true,
+                onTap: () {
+                  print("点击了分享");
+                },
+              ).tight(width: 76.w, height: 24.h),
+            ],
+          ),
 
-      TextWidget.label(
-        "我亲爱的朋友 花自向阳开 人终往前走，不要站在雾里 不要执着没有意义的人和事，不要像风，也不要像云，要像你自己。",
-        weight: FontWeight.bold,
-      ).paddingVertical(8.h),
+          TextWidget.label(
+            "${feed.content}",
+            weight: FontWeight.bold,
+          ).paddingVertical(8.h),
 
-      GridView.count(
-        crossAxisCount: 3,
-        mainAxisSpacing: 6.h,
-        crossAxisSpacing: 6.w,
-        childAspectRatio: 1,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        children: List.generate(3, (index) {
-          return TextWidget.label("图片 ${index + 1}")
-              .alignCenter()
-              // .tight(width: 110.w, height: 110.h)
-              .decorated(
-                borderRadius: BorderRadius.circular(8.r),
-                color: Color(0x26F2A3D6),
-              )
-              .onTap(() {
-                print("点击了图片 ${index + 1}");
-              });
-        }),
-      ),
-    ].toColumn().paddingAll(16.w);
+          GridView.count(
+            crossAxisCount: 3,
+            mainAxisSpacing: 6.h,
+            crossAxisSpacing: 6.w,
+            childAspectRatio: 1,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            children: List.generate(3, (index) {
+              return TextWidget.label("图片 ${index + 1}")
+                  .alignCenter()
+                  // .tight(width: 110.w, height: 110.h)
+                  .decorated(
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: Color(0x26F2A3D6),
+                  )
+                  .onTap(() {
+                    print("点击了图片 ${index + 1}");
+                  });
+            }),
+          ),
+
+          <Widget>[
+            // LikeWidget(),
+            // TextWidget.muted("等${feed.likeNum}个人赞过"),
+            Spacer(),
+            IconWidget.svg(
+              AssetsSvgs.icPostsLikeDefautSvg,
+              text: "${feed.likeNum}",
+            ).paddingRight(16.w),
+            IconWidget.svg(
+              AssetsSvgs.icPostsCommentSvg,
+              text: "${feed.commentNum}",
+            ),
+          ].toRow().paddingTop(12.h),
+        ]
+        .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
+        .paddingAll(16.w)
+        .onTap(() => {});
   }
 
   @override
@@ -230,6 +257,12 @@ class MyIndexPage extends GetView<MyIndexController> {
             title: "个人中心",
             centerTitle: false,
             actions: [
+              IconButton(
+                icon: IconWidget.icon(Icons.add_a_photo_outlined, size: 20.sp),
+                onPressed: () {
+                  Get.toNamed(RouteNames.systemSettingsSettingsIndex);
+                },
+              ),
               IconButton(
                 icon: IconWidget.svg(AssetsSvgs.icMsgSettingSvg),
                 onPressed: () {
