@@ -1,7 +1,7 @@
-import 'record.dart';
+import 'feed_record.dart';
 
-class MyFeedModel {
-  List<Feed>? records;
+class FeedModel {
+  List<FeedRecord>? records;
   int? total;
   int? size;
   int? current;
@@ -12,7 +12,7 @@ class MyFeedModel {
   dynamic maxLimit;
   int? pages;
 
-  MyFeedModel({
+  FeedModel({
     this.records,
     this.total,
     this.size,
@@ -25,9 +25,9 @@ class MyFeedModel {
     this.pages,
   });
 
-  factory MyFeedModel.fromJson(Map<String, dynamic> json) => MyFeedModel(
+  factory FeedModel.fromJson(Map<String, dynamic> json) => FeedModel(
     records: (json['records'] as List<dynamic>?)
-        ?.map((e) => Feed.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => FeedRecord.fromJson(e as Map<String, dynamic>))
         .toList(),
     total: json['total'] as int?,
     size: json['size'] as int?,

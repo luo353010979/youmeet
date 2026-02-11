@@ -6,8 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:youmeet/common/index.dart';
 import 'package:youmeet/common/services/upload.dart';
 
-class SendFeedController extends GetxController {
-  SendFeedController();
+class SendPostController extends GetxController {
+  SendPostController();
 
   final contentController = TextEditingController();
   final contentFocusNode = FocusNode();
@@ -42,6 +42,7 @@ class SendFeedController extends GetxController {
   void pickMultipleImages({int? maxImages}) async {
     try {
       final pickedFiles = await _picker.pickMultiImage(
+        limit: 3,
         // maxWidth: 1920,
         // maxHeight: 1920,
         // imageQuality: 85,
@@ -103,7 +104,7 @@ class SendFeedController extends GetxController {
       keys.add("$baseUrl$key");
     }
 
-    Feed feed = Feed(content: content, pic: keys.join(","));
+    FeedRecord feed = FeedRecord(content: content, pic: keys.join(","));
 
     await UserApi.sendFeed(feed);
   }

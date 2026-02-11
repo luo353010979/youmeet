@@ -32,6 +32,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
   Widget _buildPostCard() {
     List<KeyValueModel<String>> list = [
       KeyValueModel(key: "发帖", value: "分享美好倾吐焦虑"),
+      // KeyValueModel(key: "开播", value: "分享美好倾吐焦虑"),
     ];
 
     return <Widget>[
@@ -46,9 +47,12 @@ class PostsIndexPage extends GetView<PostsIndexController> {
                 )
                 .paddingLeft(AppSpace.page)
                 .tight(width: 163.5.w, height: 80.h)
-                .backgroundColor(Color(0xFFFFE1F5)),
+                .backgroundColor(Color(0xFFFFE1F5))
+                .onTap(() {
+                  Get.toNamed(RouteNames.mySendFeed);
+                }),
         ]
-        .toRow()
+        .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
         .paddingSymmetric(horizontal: AppSpace.page)
         .marginOnly(top: 10.h, bottom: 10.h)
         .sliverToBoxAdapter();
@@ -169,9 +173,10 @@ class PostsIndexPage extends GetView<PostsIndexController> {
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: 10,
+            itemCount: controller.feedList.length,
             itemBuilder: (context, index) {
-              return _buildPostItem();
+              final feed = controller.feedList[index];
+              return _buildPostItem(feed);
             },
             separatorBuilder: (context, index) => SizedBox(height: 12.h),
           ),
@@ -181,58 +186,85 @@ class PostsIndexPage extends GetView<PostsIndexController> {
         .sliverToBoxAdapter();
   }
 
-  Widget _buildPostItem() {
+  Widget _buildPostItem(FeedRecord feed) {
+    List<String> images = feed.pic?.split(",") ?? [];
+
     return <Widget>[
-      ListTileWidget(
-        backgroundColor: Colors.transparent,
-        padding: EdgeInsets.zero,
-        leading: ImageWidget.img(AssetsImages.imgMsgAvaterPng),
-        title: TextWidget.body("用户名"),
-        subtitle: TextWidget.muted("10分钟前 美国"),
-        trailing: [
-          ButtonWidget.outline(
-            "关注",
-            fontSize: 12.sp,
-            textWeight: FontWeight.bold,
-            icon: IconWidget.svg(AssetsSvgs.icPostsAddSvg),
-            backgroundColor: Color(0x26F2A3D6),
-            textColor: Color(0xFFFFA2DE),
-            borderColor: Color(0xFFFFA2DE),
-            borderRadius: 50,
-            reverse: true,
-            onTap: () {
-              print("点击了关注");
-            },
-          ).tight(width: 76.w, height: 24.h),
-        ],
-      ),
+          ListTileWidget(
+            backgroundColor: Colors.transparent,
+            padding: EdgeInsets.zero,
+            leading: ImageWidget.img(
+              "http://${feed.portrait}",
+              width: 36.r,
+              height: 36.r,
+              radius: 50,
+              fit: BoxFit.cover,
+            ),
+            title: TextWidget.body(feed.name ?? ""),
+            subtitle: TextWidget.muted(feed.createTime ?? ""),
+            trailing: [
+              ButtonWidget.outline(
+                "关注",
+                fontSize: 12.sp,
+                textWeight: FontWeight.bold,
+                icon: IconWidget.svg(AssetsSvgs.icPostsAddSvg),
+                backgroundColor: Color(0x26F2A3D6),
+                textColor: Color(0xFFFFA2DE),
+                borderColor: Color(0xFFFFA2DE),
+                borderRadius: 50,
+                reverse: true,
+                onTap: () {
+                  print("点击了关注");
+                },
+              ).tight(width: 76.w, height: 24.h),
+            ],
+          ),
 
-      TextWidget.label(
-        "我亲爱的朋友 花自向阳开 人终往前走，不要站在雾里 不要执着没有意义的人和事，不要像风，也不要像云，要像你自己。",
-        weight: FontWeight.bold,
-      ).paddingVertical(8.h),
+          TextWidget.label(
+            feed.content ?? "",
+            weight: FontWeight.bold,
+          ).paddingVertical(8.h),
 
-      GridView.count(
-        crossAxisCount: 3,
-        mainAxisSpacing: 6.h,
-        crossAxisSpacing: 6.w,
-        childAspectRatio: 1,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        children: List.generate(3, (index) {
-          return TextWidget.label("图片 ${index + 1}")
-              .alignCenter()
-              // .tight(width: 110.w, height: 110.h)
-              .decorated(
-                borderRadius: BorderRadius.circular(8.r),
-                color: Color(0x26F2A3D6),
-              )
-              .onTap(() {
+          GridView.count(
+            crossAxisCount: 3,
+            mainAxisSpacing: 6.h,
+            crossAxisSpacing: 6.w,
+            childAspectRatio: 1,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            children: List.generate(images.length, (index) {
+              return ImageWidget.img(
+                images[index],
+                fit: BoxFit.cover,
+              ).decorated(borderRadius: BorderRadius.circular(8.r)).onTap(() {
                 print("点击了图片 ${index + 1}");
               });
-        }),
-      ),
-    ].toColumn().onTap(() => controller.toDetail());
+              // return TextWidget.label("图片 ${index + 1}")
+              //     .alignCenter()
+              //     // .tight(width: 110.w, height: 110.h)
+              //     .decorated(
+              //       borderRadius: BorderRadius.circular(8.r),
+              //       color: Color(0x26F2A3D6),
+              //     )
+              //     .onTap(() {
+              //       print("点击了图片 ${index + 1}");
+              //     });
+            }),
+          ),
+
+          <Widget>[
+            LikeWidget(),
+            TextWidget.muted("等16个人赞过"),
+            Spacer(),
+            IconWidget.svg(
+              AssetsSvgs.icPostsLikeDefautSvg,
+              text: "1000",
+            ).paddingRight(16.w),
+            IconWidget.svg(AssetsSvgs.icPostsCommentSvg, text: "1000"),
+          ].toRow().paddingTop(12.h),
+        ]
+        .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
+        .onTap(() => controller.toDetailPage());
   }
 
   @override

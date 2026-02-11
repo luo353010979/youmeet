@@ -1,359 +1,367 @@
 class UserMessage {
-  String? id;
-  String? createTime;
-  String? updateTime;
-  String? phoneAreaCode;
-  String? shortEn;
-  String? country;
+  String? acceptAge;
   String? account;
-  String? portrait;
-  String? password;
-  int? earningsBalance;
-  int? isFreeze;
-  String? name;
-  dynamic pid;
-  String? userId;
-  String? birthday;
-  int? sex;
-  dynamic longitude;
-  dynamic latitude;
-  int? coin;
-  int? sendCoin;
-  int? nobleGrade;
-  String? expireTime;
-  int? notifyType;
-  int? isLocation;
-  int? isPersonality;
-  String? constellation;
-  int? online;
-  int? freeNum;
-  int? freeMsgNum;
-  int? freeDateNum;
-  int? freeTranslateNum;
-  int? type;
-  dynamic onlineTime;
-  String? freezeTime;
-  dynamic freezeReason;
-  dynamic friendNeedType;
-  dynamic vcr;
-  dynamic pic;
-  dynamic profile;
-  dynamic height;
-  dynamic weight;
-  dynamic language;
-  dynamic acceptAge;
-  dynamic emotionalExperience;
-  dynamic income;
-  dynamic buyCar;
-  dynamic buyHouse;
-  dynamic drink;
-  int? status;
-  String? zoneId;
-  dynamic uniId;
-  String? channel;
-  int? isSend;
-  int? isRenew;
-  dynamic pcode;
-  dynamic imAppid;
-  dynamic ip;
-  String? banTime;
-  dynamic exposureTime;
-  int? exposureNum;
-  dynamic job;
-  dynamic education;
-  int? isAccount;
-  int? isRealName;
-  dynamic isMessage;
-  dynamic isBelieve;
-  dynamic isConcern;
   int? age;
-  dynamic distance;
+  String? agoraToken;
+  String? appKey;
+  String? banTime;
+  String? birthday;
+  int? buyCar;
+  int? buyHouse;
+  String? channel;
+  String? clockinTime;
+  int? coin;
   int? concernNum;
   int? concernedNum;
+  String? constellation;
+  String? country;
+  String? createTime;
+  String? distance;
+  int? drink;
+  double? earningsBalance;
+  String? education;
+  int? emotionalExperience;
+  String? expireTime;
+  int? exposureNum;
+  String? exposureTime;
+  int? freeDateNum;
+  int? freeMsgNum;
+  int? freeNum;
+  int? freeTranslateNum;
+  String? freezeReason;
+  String? freezeTime;
+  String? friendNeedType;
+  int? giftNum;
+  String? header;
+  int? height;
+  String? id;
+  int? income;
+  String? insomniaDuration;
+  String? ip;
+  int? isAccount;
+  int? isBelieve;
+  int? isConcern;
+  int? isCredit;
+  int? isFreeze;
+  int? isHealth;
+  int? isLocation;
+  int? isMessage;
+  int? isPayTaxes;
+  int? isPersonality;
+  int? isReal;
+  int? isRealName;
+  int? isRenew;
+  int? isSend;
+  String? job;
+  int? language;
+  String? latitude;
+  int? likeNum;
+  int? likedNum;
+  String? longitude;
+  String? name;
+  String? nationalFlag;
+  String? nighttimeStatus;
+  int? nobleGrade;
+  int? notifyType;
+  int? num;
+  int? online;
+  String? onlineTime;
+  String? password;
+  String? pcode;
+  String? phoneAreaCode;
+  String? pic;
+  String? pid;
+  String? portrait;
+  String? profile;
+  int? sendCoin;
+  int? seq;
+  String? setBedtime;
+  int? sex;
+  String? shortEn;
+  String? sleepOnsetDuration;
+  int? status;
+  int? type;
+  String? updateTime;
+  String? userId;
+  String? vcr;
   int? viewNum;
   int? viewedNum;
-  int? likedNum;
-  int? likeNum;
-  int? giftNum;
-  dynamic seq;
-  dynamic uniToken;
-  dynamic agoraToken;
-  dynamic appKey;
-  dynamic header;
-  int? isReal;
-  int? isHealth;
-  int? isPayTaxes;
-  int? isCredit;
-  dynamic stardrmSet;
-  String? nationalFlag;
+  int? weight;
+  String? zoneId;
 
   UserMessage({
-    this.id,
-    this.createTime,
-    this.updateTime,
-    this.phoneAreaCode,
-    this.shortEn,
-    this.country,
-    this.account,
-    this.portrait,
-    this.password,
-    this.earningsBalance,
-    this.isFreeze,
-    this.name,
-    this.pid,
-    this.userId,
-    this.birthday,
-    this.sex,
-    this.longitude,
-    this.latitude,
-    this.coin,
-    this.sendCoin,
-    this.nobleGrade,
-    this.expireTime,
-    this.notifyType,
-    this.isLocation,
-    this.isPersonality,
-    this.constellation,
-    this.online,
-    this.freeNum,
-    this.freeMsgNum,
-    this.freeDateNum,
-    this.freeTranslateNum,
-    this.type,
-    this.onlineTime,
-    this.freezeTime,
-    this.freezeReason,
-    this.friendNeedType,
-    this.vcr,
-    this.pic,
-    this.profile,
-    this.height,
-    this.weight,
-    this.language,
     this.acceptAge,
-    this.emotionalExperience,
-    this.income,
-    this.buyCar,
-    this.buyHouse,
-    this.drink,
-    this.status,
-    this.zoneId,
-    this.uniId,
-    this.channel,
-    this.isSend,
-    this.isRenew,
-    this.pcode,
-    this.imAppid,
-    this.ip,
-    this.banTime,
-    this.exposureTime,
-    this.exposureNum,
-    this.job,
-    this.education,
-    this.isAccount,
-    this.isRealName,
-    this.isMessage,
-    this.isBelieve,
-    this.isConcern,
+    this.account,
     this.age,
-    this.distance,
-    this.concernNum,
-    this.concernedNum,
-    this.viewNum,
-    this.viewedNum,
-    this.likedNum,
-    this.likeNum,
-    this.giftNum,
-    this.seq,
-    this.uniToken,
     this.agoraToken,
     this.appKey,
+    this.banTime,
+    this.birthday,
+    this.buyCar,
+    this.buyHouse,
+    this.channel,
+    this.clockinTime,
+    this.coin,
+    this.concernNum,
+    this.concernedNum,
+    this.constellation,
+    this.country,
+    this.createTime,
+    this.distance,
+    this.drink,
+    this.earningsBalance,
+    this.education,
+    this.emotionalExperience,
+    this.expireTime,
+    this.exposureNum,
+    this.exposureTime,
+    this.freeDateNum,
+    this.freeMsgNum,
+    this.freeNum,
+    this.freeTranslateNum,
+    this.freezeReason,
+    this.freezeTime,
+    this.friendNeedType,
+    this.giftNum,
     this.header,
-    this.isReal,
-    this.isHealth,
-    this.isPayTaxes,
+    this.height,
+    this.id,
+    this.income,
+    this.insomniaDuration,
+    this.ip,
+    this.isAccount,
+    this.isBelieve,
+    this.isConcern,
     this.isCredit,
-    this.stardrmSet,
+    this.isFreeze,
+    this.isHealth,
+    this.isLocation,
+    this.isMessage,
+    this.isPayTaxes,
+    this.isPersonality,
+    this.isReal,
+    this.isRealName,
+    this.isRenew,
+    this.isSend,
+    this.job,
+    this.language,
+    this.latitude,
+    this.likeNum,
+    this.likedNum,
+    this.longitude,
+    this.name,
     this.nationalFlag,
+    this.nighttimeStatus,
+    this.nobleGrade,
+    this.notifyType,
+    this.num,
+    this.online,
+    this.onlineTime,
+    this.password,
+    this.pcode,
+    this.phoneAreaCode,
+    this.pic,
+    this.pid,
+    this.portrait,
+    this.profile,
+    this.sendCoin,
+    this.seq,
+    this.setBedtime,
+    this.sex,
+    this.shortEn,
+    this.sleepOnsetDuration,
+    this.status,
+    this.type,
+    this.updateTime,
+    this.userId,
+    this.vcr,
+    this.viewNum,
+    this.viewedNum,
+    this.weight,
+    this.zoneId,
   });
 
   factory UserMessage.fromJson(Map<String, dynamic> json) => UserMessage(
-    id: json['id'] as String?,
-    createTime: json['createTime'] as String?,
-    updateTime: json['updateTime'] as String?,
-    phoneAreaCode: json['phoneAreaCode'] as String?,
-    shortEn: json['shortEn'] as String?,
-    country: json['country'] as String?,
+    acceptAge: json['acceptAge'] as String?,
     account: json['account'] as String?,
-    portrait: json['portrait'] as String?,
-    password: json['password'] as String?,
-    earningsBalance: json['earningsBalance'] as int?,
-    isFreeze: json['isFreeze'] as int?,
-    name: json['name'] as String?,
-    pid: json['pid'] as dynamic,
-    userId: json['userId'] as String?,
-    birthday: json['birthday'] as String?,
-    sex: json['sex'] as int?,
-    longitude: json['longitude'] as dynamic,
-    latitude: json['latitude'] as dynamic,
-    coin: json['coin'] as int?,
-    sendCoin: json['sendCoin'] as int?,
-    nobleGrade: json['nobleGrade'] as int?,
-    expireTime: json['expireTime'] as String?,
-    notifyType: json['notifyType'] as int?,
-    isLocation: json['isLocation'] as int?,
-    isPersonality: json['isPersonality'] as int?,
-    constellation: json['constellation'] as String?,
-    online: json['online'] as int?,
-    freeNum: json['freeNum'] as int?,
-    freeMsgNum: json['freeMsgNum'] as int?,
-    freeDateNum: json['freeDateNum'] as int?,
-    freeTranslateNum: json['freeTranslateNum'] as int?,
-    type: json['type'] as int?,
-    onlineTime: json['onlineTime'] as dynamic,
-    freezeTime: json['freezeTime'] as String?,
-    freezeReason: json['freezeReason'] as dynamic,
-    friendNeedType: json['friendNeedType'] as dynamic,
-    vcr: json['vcr'] as dynamic,
-    pic: json['pic'] as dynamic,
-    profile: json['profile'] as dynamic,
-    height: json['height'] as dynamic,
-    weight: json['weight'] as dynamic,
-    language: json['language'] as dynamic,
-    acceptAge: json['acceptAge'] as dynamic,
-    emotionalExperience: json['emotionalExperience'] as dynamic,
-    income: json['income'] as dynamic,
-    buyCar: json['buyCar'] as dynamic,
-    buyHouse: json['buyHouse'] as dynamic,
-    drink: json['drink'] as dynamic,
-    status: json['status'] as int?,
-    zoneId: json['zoneId'] as String?,
-    uniId: json['uniId'] as dynamic,
-    channel: json['channel'] as String?,
-    isSend: json['isSend'] as int?,
-    isRenew: json['isRenew'] as int?,
-    pcode: json['pcode'] as dynamic,
-    imAppid: json['imAppid'] as dynamic,
-    ip: json['ip'] as dynamic,
-    banTime: json['banTime'] as String?,
-    exposureTime: json['exposureTime'] as dynamic,
-    exposureNum: json['exposureNum'] as int?,
-    job: json['job'] as dynamic,
-    education: json['education'] as dynamic,
-    isAccount: json['isAccount'] as int?,
-    isRealName: json['isRealName'] as int?,
-    isMessage: json['isMessage'] as dynamic,
-    isBelieve: json['isBelieve'] as dynamic,
-    isConcern: json['isConcern'] as dynamic,
     age: json['age'] as int?,
-    distance: json['distance'] as dynamic,
+    agoraToken: json['agoraToken'] as String?,
+    appKey: json['appKey'] as String?,
+    banTime: json['banTime'] as String?,
+    birthday: json['birthday'] as String?,
+    buyCar: json['buyCar'] as int?,
+    buyHouse: json['buyHouse'] as int?,
+    channel: json['channel'] as String?,
+    clockinTime: json['clockinTime'] as String?,
+    coin: json['coin'] as int?,
     concernNum: json['concernNum'] as int?,
     concernedNum: json['concernedNum'] as int?,
+    constellation: json['constellation'] as String?,
+    country: json['country'] as String?,
+    createTime: json['createTime'] as String?,
+    distance: json['distance'] as String?,
+    drink: json['drink'] as int?,
+    earningsBalance: json['earningsBalance'] as double?,
+    education: json['education'] as String?,
+    emotionalExperience: json['emotionalExperience'] as int?,
+    expireTime: json['expireTime'] as String?,
+    exposureNum: json['exposureNum'] as int?,
+    exposureTime: json['exposureTime'] as String?,
+    freeDateNum: json['freeDateNum'] as int?,
+    freeMsgNum: json['freeMsgNum'] as int?,
+    freeNum: json['freeNum'] as int?,
+    freeTranslateNum: json['freeTranslateNum'] as int?,
+    freezeReason: json['freezeReason'] as String?,
+    freezeTime: json['freezeTime'] as String?,
+    friendNeedType: json['friendNeedType'] as String?,
+    giftNum: json['giftNum'] as int?,
+    header: json['header'] as String?,
+    height: json['height'] as int?,
+    id: json['id'] as String?,
+    income: json['income'] as int?,
+    insomniaDuration: json['insomniaDuration'] as String?,
+    ip: json['ip'] as String?,
+    isAccount: json['isAccount'] as int?,
+    isBelieve: json['isBelieve'] as int?,
+    isConcern: json['isConcern'] as int?,
+    isCredit: json['isCredit'] as int?,
+    isFreeze: json['isFreeze'] as int?,
+    isHealth: json['isHealth'] as int?,
+    isLocation: json['isLocation'] as int?,
+    isMessage: json['isMessage'] as int?,
+    isPayTaxes: json['isPayTaxes'] as int?,
+    isPersonality: json['isPersonality'] as int?,
+    isReal: json['isReal'] as int?,
+    isRealName: json['isRealName'] as int?,
+    isRenew: json['isRenew'] as int?,
+    isSend: json['isSend'] as int?,
+    job: json['job'] as String?,
+    language: json['language'] as int?,
+    latitude: json['latitude'] as String?,
+    likeNum: json['likeNum'] as int?,
+    likedNum: json['likedNum'] as int?,
+    longitude: json['longitude'] as String?,
+    name: json['name'] as String?,
+    nationalFlag: json['nationalFlag'] as String?,
+    nighttimeStatus: json['nighttimeStatus'] as String?,
+    nobleGrade: json['nobleGrade'] as int?,
+    notifyType: json['notifyType'] as int?,
+    num: json['num'] as int?,
+    online: json['online'] as int?,
+    onlineTime: json['onlineTime'] as String?,
+    password: json['password'] as String?,
+    pcode: json['pcode'] as String?,
+    phoneAreaCode: json['phoneAreaCode'] as String?,
+    pic: json['pic'] as String?,
+    pid: json['pid'] as String?,
+    portrait: json['portrait'] as String?,
+    profile: json['profile'] as String?,
+    sendCoin: json['sendCoin'] as int?,
+    seq: json['seq'] as int?,
+    setBedtime: json['setBedtime'] as String?,
+    sex: json['sex'] as int?,
+    shortEn: json['shortEn'] as String?,
+    sleepOnsetDuration: json['sleepOnsetDuration'] as String?,
+    status: json['status'] as int?,
+    type: json['type'] as int?,
+    updateTime: json['updateTime'] as String?,
+    userId: json['userId'] as String?,
+    vcr: json['vcr'] as String?,
     viewNum: json['viewNum'] as int?,
     viewedNum: json['viewedNum'] as int?,
-    likedNum: json['likedNum'] as int?,
-    likeNum: json['likeNum'] as int?,
-    giftNum: json['giftNum'] as int?,
-    seq: json['seq'] as dynamic,
-    uniToken: json['uniToken'] as dynamic,
-    agoraToken: json['agoraToken'] as dynamic,
-    appKey: json['appKey'] as dynamic,
-    header: json['header'] as dynamic,
-    isReal: json['isReal'] as int?,
-    isHealth: json['isHealth'] as int?,
-    isPayTaxes: json['isPayTaxes'] as int?,
-    isCredit: json['isCredit'] as int?,
-    stardrmSet: json['stardrmSet'] as dynamic,
-    nationalFlag: json['nationalFlag'] as String?,
+    weight: json['weight'] as int?,
+    zoneId: json['zoneId'] as String?,
   );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'createTime': createTime,
-    'updateTime': updateTime,
-    'phoneAreaCode': phoneAreaCode,
-    'shortEn': shortEn,
-    'country': country,
-    'account': account,
-    'portrait': portrait,
-    'password': password,
-    'earningsBalance': earningsBalance,
-    'isFreeze': isFreeze,
-    'name': name,
-    'pid': pid,
-    'userId': userId,
-    'birthday': birthday,
-    'sex': sex,
-    'longitude': longitude,
-    'latitude': latitude,
-    'coin': coin,
-    'sendCoin': sendCoin,
-    'nobleGrade': nobleGrade,
-    'expireTime': expireTime,
-    'notifyType': notifyType,
-    'isLocation': isLocation,
-    'isPersonality': isPersonality,
-    'constellation': constellation,
-    'online': online,
-    'freeNum': freeNum,
-    'freeMsgNum': freeMsgNum,
-    'freeDateNum': freeDateNum,
-    'freeTranslateNum': freeTranslateNum,
-    'type': type,
-    'onlineTime': onlineTime,
-    'freezeTime': freezeTime,
-    'freezeReason': freezeReason,
-    'friendNeedType': friendNeedType,
-    'vcr': vcr,
-    'pic': pic,
-    'profile': profile,
-    'height': height,
-    'weight': weight,
-    'language': language,
     'acceptAge': acceptAge,
-    'emotionalExperience': emotionalExperience,
-    'income': income,
-    'buyCar': buyCar,
-    'buyHouse': buyHouse,
-    'drink': drink,
-    'status': status,
-    'zoneId': zoneId,
-    'uniId': uniId,
-    'channel': channel,
-    'isSend': isSend,
-    'isRenew': isRenew,
-    'pcode': pcode,
-    'imAppid': imAppid,
-    'ip': ip,
-    'banTime': banTime,
-    'exposureTime': exposureTime,
-    'exposureNum': exposureNum,
-    'job': job,
-    'education': education,
-    'isAccount': isAccount,
-    'isRealName': isRealName,
-    'isMessage': isMessage,
-    'isBelieve': isBelieve,
-    'isConcern': isConcern,
+    'account': account,
     'age': age,
-    'distance': distance,
-    'concernNum': concernNum,
-    'concernedNum': concernedNum,
-    'viewNum': viewNum,
-    'viewedNum': viewedNum,
-    'likedNum': likedNum,
-    'likeNum': likeNum,
-    'giftNum': giftNum,
-    'seq': seq,
-    'uniToken': uniToken,
     'agoraToken': agoraToken,
     'appKey': appKey,
+    'banTime': banTime,
+    'birthday': birthday,
+    'buyCar': buyCar,
+    'buyHouse': buyHouse,
+    'channel': channel,
+    'clockinTime': clockinTime,
+    'coin': coin,
+    'concernNum': concernNum,
+    'concernedNum': concernedNum,
+    'constellation': constellation,
+    'country': country,
+    'createTime': createTime,
+    'distance': distance,
+    'drink': drink,
+    'earningsBalance': earningsBalance,
+    'education': education,
+    'emotionalExperience': emotionalExperience,
+    'expireTime': expireTime,
+    'exposureNum': exposureNum,
+    'exposureTime': exposureTime,
+    'freeDateNum': freeDateNum,
+    'freeMsgNum': freeMsgNum,
+    'freeNum': freeNum,
+    'freeTranslateNum': freeTranslateNum,
+    'freezeReason': freezeReason,
+    'freezeTime': freezeTime,
+    'friendNeedType': friendNeedType,
+    'giftNum': giftNum,
     'header': header,
-    'isReal': isReal,
-    'isHealth': isHealth,
-    'isPayTaxes': isPayTaxes,
+    'height': height,
+    'id': id,
+    'income': income,
+    'insomniaDuration': insomniaDuration,
+    'ip': ip,
+    'isAccount': isAccount,
+    'isBelieve': isBelieve,
+    'isConcern': isConcern,
     'isCredit': isCredit,
-    'stardrmSet': stardrmSet,
+    'isFreeze': isFreeze,
+    'isHealth': isHealth,
+    'isLocation': isLocation,
+    'isMessage': isMessage,
+    'isPayTaxes': isPayTaxes,
+    'isPersonality': isPersonality,
+    'isReal': isReal,
+    'isRealName': isRealName,
+    'isRenew': isRenew,
+    'isSend': isSend,
+    'job': job,
+    'language': language,
+    'latitude': latitude,
+    'likeNum': likeNum,
+    'likedNum': likedNum,
+    'longitude': longitude,
+    'name': name,
     'nationalFlag': nationalFlag,
+    'nighttimeStatus': nighttimeStatus,
+    'nobleGrade': nobleGrade,
+    'notifyType': notifyType,
+    'num': num,
+    'online': online,
+    'onlineTime': onlineTime,
+    'password': password,
+    'pcode': pcode,
+    'phoneAreaCode': phoneAreaCode,
+    'pic': pic,
+    'pid': pid,
+    'portrait': portrait,
+    'profile': profile,
+    'sendCoin': sendCoin,
+    'seq': seq,
+    'setBedtime': setBedtime,
+    'sex': sex,
+    'shortEn': shortEn,
+    'sleepOnsetDuration': sleepOnsetDuration,
+    'status': status,
+    'type': type,
+    'updateTime': updateTime,
+    'userId': userId,
+    'vcr': vcr,
+    'viewNum': viewNum,
+    'viewedNum': viewedNum,
+    'weight': weight,
+    'zoneId': zoneId,
   };
 }

@@ -10,5 +10,6 @@ export 'request/user_login_req.dart';
 export 'user_model/user_model.dart';
 export 'user_model/user_message.dart';
 export 'qiniu_token_model.dart';
-export 'my_feed_model/my_feed_model.dart';
-export 'my_feed_model/record.dart';
+export 'feed_model/feed_model.dart';
+export 'feed_model/feed_record.dart';
+export 'request/post_req.dart';

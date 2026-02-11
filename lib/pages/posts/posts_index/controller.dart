@@ -1,5 +1,6 @@
 import 'package:expandable/expandable.dart';
 import 'package:get/get.dart';
+import 'package:youmeet/common/api/posts.dart';
 import 'package:youmeet/common/index.dart';
 
 class PostsIndexController extends GetxController {
@@ -11,8 +12,10 @@ class PostsIndexController extends GetxController {
 
   final expandController = ExpandableController();
 
+  List<FeedRecord> feedList = [];
+
   _initData() {
-    update(["posts_index"]);
+    requestRecommendFeed();
   }
 
   void expanded() {
@@ -32,7 +35,28 @@ class PostsIndexController extends GetxController {
     expandController.dispose();
   }
 
-  void toDetail() {
+  /// 跳转到帖子详情
+  void toDetailPage() {
     Get.toNamed(RouteNames.postsPostDetal);
+  }
+
+  void requestRecommendFeed() async {
+    final latitude = ConfigService.to.position?.latitude.toString() ?? "0";
+    final longitude = ConfigService.to.position?.longitude.toString() ?? "0";
+    final PostsReq postsReq = PostsReq(
+      latitude: latitude,
+      longitude: longitude,
+      isVideo: 0,
+      pageNo: 1,
+      pageSize: 10,
+    );
+    final response = await PostApi.requestRecommendFeed(postsReq);
+    if (response.success) {
+      feedList = response.result.records ?? [];
+      update(["posts_index"]);
+    } else {
+      // 处理错误的响应
+      print('请求推荐动态失败: ${response.message}');
+    }
   }
 }

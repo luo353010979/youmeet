@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
 import 'package:youmeet/pages/index.dart';
 
-import 'index.dart';
-
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -90,10 +88,10 @@ class _MainViewGetX extends GetView<MainController> {
           controller: controller.pageController,
           onPageChanged: controller.onIndexChanged,
           children: const [
-            HomeIndexPage(),
-            MsgIndexPage(),
-            PostsIndexPage(),
-            MyIndexPage(),
+            KeepAliveWrapper(child: HomeIndexPage()),
+            KeepAliveWrapper(child: MsgIndexPage()),
+            KeepAliveWrapper(child: PostsIndexPage()),
+            KeepAliveWrapper(child: MyIndexPage()),
           ],
         ),
       ),

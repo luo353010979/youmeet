@@ -142,7 +142,7 @@ class MyIndexPage extends GetView<MyIndexController> {
                       .toColumn(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       )
-                      .tight(width: 150.r, height: 150.r),
+                      .tight(width: 150.w, height: 150.w),
                 ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
               ]
               .toColumn(
@@ -150,7 +150,7 @@ class MyIndexPage extends GetView<MyIndexController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
               )
               .paddingAll(16.w),
-    ).tight(width: 343.w, height: 215.h).marginOnly(bottom: 20.h);
+    ).tight(height: 215.w).marginOnly(bottom: 20.h);
   }
 
   Widget _buildPostList() {
@@ -168,7 +168,7 @@ class MyIndexPage extends GetView<MyIndexController> {
     );
   }
 
-  Widget _buildPostItem(Feed feed) {
+  Widget _buildPostItem(FeedRecord feed) {
     List<String> images = feed.pic?.split(",") ?? [];
 
     return <Widget>[
@@ -255,12 +255,6 @@ class MyIndexPage extends GetView<MyIndexController> {
             title: "个人中心",
             centerTitle: false,
             actions: [
-              IconButton(
-                icon: IconWidget.icon(Icons.add_a_photo_outlined, size: 20.sp),
-                onPressed: () {
-                  Get.toNamed(RouteNames.mySendFeed);
-                },
-              ),
               IconButton(
                 icon: IconWidget.svg(AssetsSvgs.icMsgSettingSvg),
                 onPressed: () {

@@ -91,6 +91,7 @@ class SettingsIndexPage extends GetView<SettingsIndexController> {
                   padding: EdgeInsets.zero,
                   title: TextWidget.label("退出登录", weight: FontWeight.w500),
                   trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
+                  onTap: UserService.to.logout,
                 ).tight(height: 44.h),
               ]
               .toColumn(mainAxisSize: MainAxisSize.min)

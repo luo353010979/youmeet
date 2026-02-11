@@ -12,7 +12,7 @@ class MyIndexController extends GetxController {
   final ImagePicker _picker = ImagePicker();
 
   /// 我的动态列表
-  List<Feed> myFeedList = [];
+  List<FeedRecord> myFeedList = [];
 
   @override
   void onInit() {
@@ -93,9 +93,9 @@ class MyIndexController extends GetxController {
 
   /// 获取我的动态列表
   void fetchMyFeedList() async {
-    BaseResponse<MyFeedModel> response = await UserApi.getMyFeed();
+    BaseResponse<FeedModel> response = await UserApi.getMyFeed();
     if (response.success) {
-      MyFeedModel? myFeed = response.result;
+      FeedModel? myFeed = response.result;
       myFeedList = myFeed.records ?? [];
       update(["my_index"]);
     } else {

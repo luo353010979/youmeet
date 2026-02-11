@@ -2,8 +2,8 @@ import 'package:ducafe_ui_core/ducafe_ui_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
-import 'package:youmeet/pages/posts/post_detal/widgets/comment.dart';
-import 'package:youmeet/pages/posts/post_detal/widgets/like.dart';
+import 'package:youmeet/common/components/comment.dart';
+import 'package:youmeet/common/components/like.dart';
 
 import 'index.dart';
 

@@ -24,9 +24,7 @@ class UserService extends GetxService {
   void onInit() {
     super.onInit();
     // 读 token
-    // token = Storage().getString(Constants.storageToken);
-    token =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzIyMDU2MTMsInVzZXJuYW1lIjoiNzc0MTM4Nzc1NDgyNzk4MDgwIn0.j2RrTAf0i9lZ00EzRNkKWkV6Quh_fpazxQjtAjz0fmY";
+    token = Storage().getString(Constants.storageToken);
 
     // 读 profile
     var profileOffline = Storage().getString(Constants.storageProfile);
@@ -67,6 +65,7 @@ class UserService extends GetxService {
     await Storage().remove(Constants.storageToken);
     _profile(UserMessage());
     token = '';
+    Get.offAllNamed(RouteNames.systemLogin);
   }
 
   /// 检查是否登录

@@ -26,10 +26,16 @@ class ConfigService extends GetxService {
   // 是否首次打开
   bool get isAlreadyOpen => Storage().getBool(Constants.storageAlreadyOpen);
 
+  // 定位
+  Position? _position;
+
+  Position? get position => _position;
+
   // 初始化
   Future<ConfigService> init() async {
     await getPlatform();
     await initTheme();
+    getLocation();
     initLocale();
     return this;
   }
@@ -120,13 +126,21 @@ class ConfigService extends GetxService {
       );
     }
 
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition(
+    final location = await Geolocator.getCurrentPosition(
       locationSettings: LocationSettings(
         accuracy: LocationAccuracy.high,
         distanceFilter: 100,
       ),
     );
+
+    print(
+      '获取到位置: latitude: ${location.latitude}, longitude: ${location.longitude}',
+    );
+
+    _position = location;
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return location;
   }
 }

@@ -217,8 +217,6 @@ class _ImageWidgetState extends State<ImageWidget> {
                   .center(),
             ),
       );
-
-      
     } else if (widget.type == ImageWidgetType.file) {
       ws = Image.file(File(widget.path), fit: widget.fit, color: widget.color);
     }

@@ -5,8 +5,8 @@ import 'package:youmeet/common/index.dart';
 
 import 'index.dart';
 
-class SendFeedPage extends GetView<SendFeedController> {
-  const SendFeedPage({super.key});
+class SendPostPage extends GetView<SendPostController> {
+  const SendPostPage({super.key});
 
   // 主视图
   Widget _buildView(BuildContext context) {
@@ -37,8 +37,8 @@ class SendFeedPage extends GetView<SendFeedController> {
   }
 
   Widget _buildImages() {
-    const maxImages = 9;
     final imageCount = controller.selectedImages.length;
+    const maxImages = 9;
     final showPlaceholder = imageCount < maxImages;
     final totalItems = showPlaceholder ? imageCount + 1 : imageCount;
 
@@ -84,8 +84,8 @@ class SendFeedPage extends GetView<SendFeedController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SendFeedController>(
-      init: SendFeedController(),
+    return GetBuilder<SendPostController>(
+      init: SendPostController(),
       id: "send_feed",
       builder: (_) {
         return Scaffold(
