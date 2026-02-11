@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:youmeet/common/values/index.dart';
 
 class EditProfileController extends GetxController {
   EditProfileController();

@@ -12,7 +12,7 @@ class PostsIndexController extends GetxController {
 
   final expandController = ExpandableController();
 
-  List<FeedRecord> feedList = [];
+  List<Record> feedList = [];
 
   _initData() {
     requestRecommendFeed();

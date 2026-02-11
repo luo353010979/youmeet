@@ -12,7 +12,7 @@ class MyIndexController extends GetxController {
   final ImagePicker _picker = ImagePicker();
 
   /// 我的动态列表
-  List<FeedRecord> myFeedList = [];
+  List<Record> myFeedList = [];
 
   @override
   void onInit() {

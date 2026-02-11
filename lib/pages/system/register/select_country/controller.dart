@@ -14,7 +14,7 @@ class SelectCountryController extends GetxController {
     try {
       BaseResponse<List<CountryModel>> countries =
           await SystemApi.requestCountryList();
-      countryList = countries.result ?? [];
+      countryList = countries.result;
       print("获取国家列表成功: ${countryList.length} 个国家");
       update(["select_country"]);
     } catch (e) {

@@ -63,7 +63,7 @@ class UserApi {
   }
 
   /// 发布动态
-  static Future<BaseResponse<String>> sendFeed(FeedRecord feed) async {
+  static Future<BaseResponse<String>> sendFeed(Record feed) async {
     final response = await WPHttpService.to.post(
       "/jeecg-boot/api/trends/add",
       data: feed.toJson(),
