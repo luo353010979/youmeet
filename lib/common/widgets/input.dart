@@ -18,6 +18,7 @@ class InputWidget extends StatefulWidget {
     this.autofocus,
     this.border,
     this.borderRadius,
+    this.onSubmitted,
     // required this.focusNode,
     // required this.style,
     // required this.cursorColor,
@@ -57,6 +58,8 @@ class InputWidget extends StatefulWidget {
   final Border? border;
 
   final BorderRadius? borderRadius;
+
+  final ValueChanged<String>? onSubmitted;
 
   // final FocusNode focusNode;
   // final TextStyle style;
@@ -159,6 +162,9 @@ class _InputWidgetState extends State<InputWidget> {
       autofocus: widget.autofocus ?? false,
       maxLines: 1, // 限制为单行
       textAlign: TextAlign.start,
+      onSubmitted: (value) {
+        widget.onSubmitted?.call(value);
+      },
     );
 
     // 输入区域

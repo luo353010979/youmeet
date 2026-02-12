@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:youmeet/common/index.dart';
@@ -10,6 +11,12 @@ class MyIndexController extends GetxController {
   String userAvatar = AssetsImages.imgMsgAvaterPng;
   List<String> selectedImages = []; // 存储多张图片路径
   final ImagePicker _picker = ImagePicker();
+
+  /// 刷新控制器
+  final refreshController = EasyRefreshController(
+    controlFinishRefresh: true,
+    controlFinishLoad: true,
+  );
 
   /// 我的动态列表
   List<Record> myFeedList = [];
@@ -92,7 +99,7 @@ class MyIndexController extends GetxController {
   }
 
   /// 获取我的动态列表
-  void fetchMyFeedList() async {
+  Future<void> fetchMyFeedList() async {
     BaseResponse<FeedModel> response = await UserApi.getMyFeed();
     if (response.success) {
       FeedModel? myFeed = response.result;
@@ -101,5 +108,11 @@ class MyIndexController extends GetxController {
     } else {
       print('获取动态列表失败: ${response.message}');
     }
+  }
+
+  /// 下拉刷新
+  void onRefresh() async {
+    await fetchMyFeedList();
+    refreshController.finishRefresh();
   }
 }

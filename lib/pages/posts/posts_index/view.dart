@@ -1,4 +1,5 @@
 import 'package:ducafe_ui_core/ducafe_ui_core.dart';
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,20 +12,23 @@ class PostsIndexPage extends GetView<PostsIndexController> {
 
   // 主视图
   Widget _buildView() {
-    return CustomScrollView(
-      physics: BouncingScrollPhysics(),
-      slivers: [
-        _buildPostCard(),
-        Container(
-          height: 2.h,
-          color: Colors.grey[200],
-        ).paddingHorizontal(AppSpace.page.w).sliverToBoxAdapter(),
-        _buildHotTopic(),
+    return EasyRefresh(
+      controller: controller.refreshController,
+      onRefresh: controller.onRefresh,
+      child: CustomScrollView(
+        slivers: [
+          _buildPostCard(),
+          Container(
+            height: 2.h,
+            color: Colors.grey[200],
+          ).paddingHorizontal(AppSpace.page.w).sliverToBoxAdapter(),
+          _buildHotTopic(),
 
-        Container(height: 4.h, color: Colors.grey[200]).sliverToBoxAdapter(),
+          Container(height: 4.h, color: Colors.grey[200]).sliverToBoxAdapter(),
 
-        _buildPostList(),
-      ],
+          _buildPostList(),
+        ],
+      ),
     );
   }
 
@@ -236,35 +240,52 @@ class PostsIndexPage extends GetView<PostsIndexController> {
               return ImageWidget.img(
                 images[index],
                 fit: BoxFit.cover,
-              ).decorated(borderRadius: BorderRadius.circular(8.r)).onTap(() {
+                radius: 10,
+              ).onTap(() {
                 print("点击了图片 ${index + 1}");
               });
-              // return TextWidget.label("图片 ${index + 1}")
-              //     .alignCenter()
-              //     // .tight(width: 110.w, height: 110.h)
-              //     .decorated(
-              //       borderRadius: BorderRadius.circular(8.r),
-              //       color: Color(0x26F2A3D6),
-              //     )
-              //     .onTap(() {
-              //       print("点击了图片 ${index + 1}");
-              //     });
             }),
           ),
 
           <Widget>[
-            LikeWidget(),
-            TextWidget.muted("等16个人赞过"),
+            // LikeWidget(),
+            // TextWidget.muted("等${feed.likeNum ?? 0}个人赞过"),
             Spacer(),
             IconWidget.svg(
-              AssetsSvgs.icPostsLikeDefautSvg,
-              text: "1000",
+              feed.isLike == 0
+                  ? AssetsSvgs.icPostsLikeDefautSvg
+                  : AssetsSvgs.icPostsLikeActiveSvg,
+              size: 16.r,
+              text: "${feed.likeNum ?? 0}",
+
+              onTap: () {
+                /// 点赞/取消点赞
+                controller.onTapLike(feed);
+              },
             ).paddingRight(16.w),
-            IconWidget.svg(AssetsSvgs.icPostsCommentSvg, text: "1000"),
+            IconWidget.svg(
+              AssetsSvgs.icPostsCommentSvg,
+              size: 16.r,
+              text: "${feed.commentNum ?? 0}",
+              onTap: () async {
+                final str = await Get.bottomSheet(
+                  InputCommentWidget(),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(16.r),
+                    ),
+                  ),
+                );
+                if (str != null && str is String && str.isNotEmpty) {
+                  // 这里可以调用接口提交评论内容
+                  controller.onTapComment(feed);
+                }
+              },
+            ),
           ].toRow().paddingTop(12.h),
         ]
         .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
-        .onTap(() => controller.toDetailPage());
+        .onTap(() => controller.toDetailPage(feed.id!));
   }
 
   @override

@@ -46,5 +46,7 @@ class AssetsImages {
   static const imgMsgUploadPng = 'assets/images/img_msg_upload.png';
   static const imgMsgMicophonePng = 'assets/images/img_msg_micophone.png';
 
+  static const imgPostsSendPng = 'assets/images/img_posts_send.png';
+
   static const imgMyEditPng = 'assets/images/img_my_edit.png';
 }

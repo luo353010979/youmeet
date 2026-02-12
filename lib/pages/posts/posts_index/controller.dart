@@ -1,6 +1,6 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:expandable/expandable.dart';
 import 'package:get/get.dart';
-import 'package:youmeet/common/api/posts.dart';
 import 'package:youmeet/common/index.dart';
 
 class PostsIndexController extends GetxController {
@@ -10,7 +10,14 @@ class PostsIndexController extends GetxController {
     return KeyValueModel(key: '# 热门话题 $index', value: '这是热门话题描述 $index');
   }).obs;
 
+  /// 展开折叠控制器
   final expandController = ExpandableController();
+
+  /// 刷新控制器
+  final refreshController = EasyRefreshController(
+    controlFinishRefresh: true,
+    controlFinishLoad: true,
+  );
 
   List<Record> feedList = [];
 
@@ -33,14 +40,19 @@ class PostsIndexController extends GetxController {
   void onClose() {
     super.onClose();
     expandController.dispose();
+    refreshController.dispose();
   }
 
   /// 跳转到帖子详情
-  void toDetailPage() {
-    Get.toNamed(RouteNames.postsPostDetal);
+  void toDetailPage(String postId) {
+    Get.toNamed(
+      RouteNames.postsPostDetal,
+      arguments: {Constants.POST_ID: postId},
+    );
   }
 
-  void requestRecommendFeed() async {
+  /// 请求推荐动态列表
+  Future<void> requestRecommendFeed() async {
     final latitude = ConfigService.to.position?.latitude.toString() ?? "0";
     final longitude = ConfigService.to.position?.longitude.toString() ?? "0";
     final PostsReq postsReq = PostsReq(
@@ -58,5 +70,30 @@ class PostsIndexController extends GetxController {
       // 处理错误的响应
       print('请求推荐动态失败: ${response.message}');
     }
+  }
+
+  /// 点赞
+  void onTapLike(Record record) async {
+    final response = await PostApi.like(record.id ?? '');
+    if (response.success) {
+      // 刷新数据
+      record.isLike = record.isLike == 0 ? 1 : 0;
+      record.likeNum = record.isLike == 1
+          ? (record.likeNum ?? 0) + 1
+          : (record.likeNum ?? 0) - 1;
+      update(["posts_index"]);
+    } else {
+      // 处理错误的响应
+      print('点赞失败: ${response.message}');
+    }
+  }
+
+  /// 评论
+  void onTapComment(Record record) {}
+
+  /// 下拉刷新
+  void onRefresh() async {
+    await requestRecommendFeed();
+    refreshController.finishRefresh();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:ducafe_ui_core/ducafe_ui_core.dart';
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
@@ -10,14 +11,17 @@ class MyIndexPage extends GetView<MyIndexController> {
 
   // 主视图
   Widget _buildView() {
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: <Widget>[
-        _buildUserInfo(),
-        _buildCounter(),
-        _buildMyImage(),
-        _buildPostList(),
-      ].toColumn().paddingHorizontal(AppSpace.page.w),
+    return EasyRefresh(
+      controller: controller.refreshController,
+      onRefresh: controller.onRefresh,
+      child: SingleChildScrollView(
+        child: <Widget>[
+          _buildUserInfo(),
+          _buildCounter(),
+          _buildMyImage(),
+          _buildPostList(),
+        ].toColumn().paddingHorizontal(AppSpace.page.w),
+      ),
     );
   }
 
@@ -233,10 +237,12 @@ class MyIndexPage extends GetView<MyIndexController> {
         Spacer(),
         IconWidget.svg(
           AssetsSvgs.icPostsLikeDefautSvg,
+          size: 16.r,
           text: "${feed.likeNum}",
         ).paddingRight(16.w),
         IconWidget.svg(
           AssetsSvgs.icPostsCommentSvg,
+          size: 16.r,
           text: "${feed.commentNum}",
         ),
       ].toRow().paddingTop(12.h),

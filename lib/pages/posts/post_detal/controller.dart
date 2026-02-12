@@ -1,27 +1,25 @@
 import 'package:get/get.dart';
+import 'package:youmeet/common/index.dart';
 
 class PostDetalController extends GetxController {
   PostDetalController();
 
-  _initData() {
-    update(["post_detal"]);
-  }
-
-  void onTap() {}
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
+  Record? postDetail;
 
   @override
-  void onReady() {
-    super.onReady();
-    _initData();
+  void onInit() {
+    super.onInit();
+    String id = Get.arguments?[Constants.POST_ID] ?? '';
+    if (id.isNotEmpty) {
+      fetchPostDetail(id);
+    }
   }
 
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
+  Future<void> fetchPostDetail(String id) async {
+    final response = await PostApi.getPostDetail(id);
+    if (response.success) {
+      postDetail = response.result;
+      update(["post_detal"]);
+    }
+  }
 }

@@ -28,6 +28,7 @@ static const imgPlay_3Png = 'assets/images/img_play_3.png';
 static const imgPlay_4Png = 'assets/images/img_play_4.png';
 static const imgPlay_5Png = 'assets/images/img_play_5.png';
 static const imgPlay_6Png = 'assets/images/img_play_6.png';
+static const imgPostsSendPng = 'assets/images/img_posts_send.png';
 static const logoPng = 'assets/images/logo.png';
 static const orderConfirmedPng = 'assets/images/order-confirmed.png';
 static const pCashPng = 'assets/images/p-cash.png';

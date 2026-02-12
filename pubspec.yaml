@@ -46,6 +46,7 @@ dependencies:
   dio: ^5.9.0
   # 主题切换
   adaptive_theme: ^3.7.2
+  # UI 扩展
   ducafe_ui_core: ^1.0.6
   # 图片缓存
   cached_network_image: ^3.4.1
@@ -55,15 +56,23 @@ dependencies:
   carousel_slider: ^5.1.1
   # 表单验证
   validatorless: ^1.2.5
+  # 验证码输入框
   pinput: ^6.0.1
+  # 加载动画
   flutter_easyloading: ^3.0.5
   encrypt: ^5.0.3
+  # 七牛云存储
   qiniu_flutter_sdk: ^0.7.5
+  # 图片选择器
   image_picker: ^1.2.1
+  # 展开折叠
   expandable: ^5.0.1
+  # 位置服务
   geolocator: ^14.0.2
+  # 网络请求日志美化
   pretty_dio_logger: ^1.4.0
-
+  # 列表下拉加载更多
+  easy_refresh: ^3.4.0
 
 dev_dependencies:
   flutter_test:

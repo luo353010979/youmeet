@@ -1,4 +1,4 @@
-import 'package:ducafe_ui_core/ducafe_ui_core.dart';
+import 'package:ducafe_ui_core/ducafe_ui_core.dart' hide SizedBoxExtensions;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
@@ -9,13 +9,22 @@ class PostDetalPage extends GetView<PostDetalController> {
   const PostDetalPage({super.key});
 
   Widget _buildPostItem() {
+    Record? feed = controller.postDetail;
+    List<String> images = feed?.pic?.split(",") ?? [];
+
     return <Widget>[
       ListTileWidget(
         backgroundColor: Colors.transparent,
         padding: EdgeInsets.zero,
-        leading: ImageWidget.img(AssetsImages.imgMsgAvaterPng),
-        title: TextWidget.body("用户名", weight: FontWeight.w500),
-        subtitle: TextWidget.muted("05月30日 14:20"),
+        leading: ImageWidget.img(
+          "http://${feed?.portrait ?? ''}",
+          width: 36.r,
+          height: 36.r,
+          radius: 50,
+          fit: BoxFit.cover,
+        ),
+        title: TextWidget.body(feed?.name ?? "", weight: FontWeight.w500),
+        subtitle: TextWidget.muted(feed?.createTime ?? ""),
         trailing: [
           ButtonWidget.primary(
             "关注",
@@ -33,7 +42,7 @@ class PostDetalPage extends GetView<PostDetalController> {
       ),
 
       TextWidget.label(
-        "我亲爱的朋友 花自向阳开 人终往前走，不要站在雾里 不要执着没有意义的人和事，不要像风，也不要像云，要像你自己。",
+        feed?.content ?? "",
         weight: FontWeight.bold,
       ).paddingVertical(8.h),
 
@@ -44,29 +53,29 @@ class PostDetalPage extends GetView<PostDetalController> {
         childAspectRatio: 1,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        children: List.generate(3, (index) {
-          return TextWidget.label("图片 ${index + 1}")
-              .alignCenter()
-              // .tight(width: 110.w, height: 110.h)
-              .decorated(
-                borderRadius: BorderRadius.circular(8.r),
-                color: Color(0x26F2A3D6),
-              )
-              .onTap(() {
-                print("点击了图片 ${index + 1}");
-              });
+        children: List.generate(images.length, (index) {
+          return ImageWidget.img(
+            images[index],
+            fit: BoxFit.cover,
+            radius: 10,
+          ).onTap(() {
+            print("点击了图片 ${index + 1}");
+          });
         }),
       ),
 
       <Widget>[
-        LikeWidget(),
-        TextWidget.muted("等16个人赞过"),
+        // LikeWidget(),
+        // TextWidget.muted("等16个人赞过"),
         Spacer(),
         IconWidget.svg(
           AssetsSvgs.icPostsLikeDefautSvg,
-          text: "1000",
+          text: "${feed?.likeNum ?? "0"}",
         ).paddingRight(16.w),
-        IconWidget.svg(AssetsSvgs.icPostsCommentSvg, text: "1000"),
+        IconWidget.svg(
+          AssetsSvgs.icPostsCommentSvg,
+          text: "${feed?.commentNum ?? "0"}",
+        ),
       ].toRow().paddingTop(12.h),
     ].toColumn(crossAxisAlignment: CrossAxisAlignment.start);
   }
@@ -89,6 +98,7 @@ class PostDetalPage extends GetView<PostDetalController> {
       padding: EdgeInsets.all(16.w),
       child: <Widget>[
         _buildPostItem(),
+        16.verticalSpace,
         _buildCommentItem(),
       ].toColumn(crossAxisAlignment: CrossAxisAlignment.start),
     );

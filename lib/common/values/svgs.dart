@@ -73,6 +73,7 @@ class AssetsSvgs {
   static const icLikeDefautSvg = 'assets/svgs/ic_like_defaut.svg';
   static const icPostsCommentSvg = 'assets/svgs/ic_posts_comment.svg';
   static const icPostsLikeDefautSvg = 'assets/svgs/ic_posts_like_defaut.svg';
+  static const icPostsLikeActiveSvg = 'assets/svgs/ic_posts_like_active.svg';
 
   static const icMyShareSvg = 'assets/svgs/ic_my_share.svg';
   static const icMyGirlSvg = 'assets/svgs/ic_my_girl.svg';

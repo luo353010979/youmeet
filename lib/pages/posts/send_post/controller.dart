@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:youmeet/common/index.dart';
 import 'package:youmeet/common/services/upload.dart';
 
@@ -12,8 +11,7 @@ class SendPostController extends GetxController {
   final contentController = TextEditingController();
   final contentFocusNode = FocusNode();
 
-  List<String> selectedImages = []; // 存储多张图片路径
-  final ImagePicker _picker = ImagePicker();
+  List<String> imagePaths = []; // 存储多张图片路径
 
   _initData() {
     update(["send_feed"]);
@@ -37,37 +35,6 @@ class SendPostController extends GetxController {
     super.onClose();
     contentController.dispose();
     contentFocusNode.dispose();
-  }
-
-  void pickMultipleImages({int? maxImages}) async {
-    try {
-      final pickedFiles = await _picker.pickMultiImage(
-        limit: 3,
-        // maxWidth: 1920,
-        // maxHeight: 1920,
-        // imageQuality: 85,
-      );
-
-      if (pickedFiles.isNotEmpty) {
-        // 如果设置了最大数量限制
-        if (maxImages != null && pickedFiles.length > maxImages) {
-          selectedImages = pickedFiles
-              .take(maxImages)
-              .map((e) => e.path)
-              .toList();
-          Get.snackbar('提示', '最多只能选择 $maxImages 张图片');
-        } else {
-          selectedImages = pickedFiles.map((e) => e.path).toList();
-        }
-
-        print('选中 ${selectedImages.length} 张图片');
-        print(selectedImages.toString());
-        update(["send_feed"]);
-      }
-    } catch (e) {
-      print('选择图片失败: $e');
-      Get.snackbar('错误', '选择图片失败，请检查权限设置');
-    }
   }
 
   /// 并发上传所有图片，通过 Stream 实时返回每个上传完成的 key
@@ -94,18 +61,25 @@ class SendPostController extends GetxController {
     return streamController.stream;
   }
 
+  /// 发布动态
   void sendFeed() async {
     String content = contentController.text;
     List<String> keys = [];
     final token = UserService.to.token;
     String baseUrl = "http://t.pic.mooneyu.com/";
 
-    await for (final key in uploadImagesStream(selectedImages, token)) {
+    await for (final key in uploadImagesStream(imagePaths, token)) {
       keys.add("$baseUrl$key");
     }
 
     Record feed = Record(content: content, pic: keys.join(","));
 
     await UserApi.sendFeed(feed);
+  }
+
+  /// 构建图片选择网格
+  void setImagePaths(List<String> paths) {
+    imagePaths = paths;
+    print(paths);
   }
 }
