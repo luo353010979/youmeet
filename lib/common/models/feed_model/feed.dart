@@ -1,7 +1,7 @@
 import 'comment.dart';
 import 'like.dart';
 
-class Record {
+class Feed {
   String? address;
   int? commentNum;
   List<Comment>? comments;
@@ -30,7 +30,7 @@ class Record {
   String? voice;
   String? voiceTaskId;
 
-  Record({
+  Feed({
     this.address,
     this.commentNum,
     this.comments,
@@ -60,7 +60,7 @@ class Record {
     this.voiceTaskId,
   });
 
-  factory Record.fromJson(Map<String, dynamic> json) => Record(
+  factory Feed.fromJson(Map<String, dynamic> json) => Feed(
     address: json['address'] as String?,
     commentNum: json['commentNum'] as int?,
     comments: (json['comments'] as List<dynamic>?)

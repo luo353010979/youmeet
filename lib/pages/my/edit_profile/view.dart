@@ -21,7 +21,12 @@ class EditProfilePage extends GetView<MyIndexController> {
 
                 8.verticalSpace,
 
-                _buildImages(),
+                ImageSelectorWidget(
+                  maxImages: 3,
+                  onImagesSelected: (imagePaths) {
+                    controller.setImagePaths(imagePaths);
+                  },
+                ),
 
                 12.verticalSpace,
 
@@ -77,56 +82,6 @@ class EditProfilePage extends GetView<MyIndexController> {
     ].toStack().center();
   }
 
-  /// 图片展示墙
-  Widget _buildImages() {
-    const maxImages = 3;
-    final imageCount = controller.selectedImages.length;
-    final showPlaceholder = imageCount < maxImages;
-    final totalItems = showPlaceholder ? imageCount + 1 : imageCount;
-
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: 8.w,
-        crossAxisSpacing: 8.w,
-        // childAspectRatio: 1,
-      ),
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: totalItems,
-      itemBuilder: (context, index) {
-        if (index < imageCount) {
-          // 显示已选择的图片
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(8.r),
-            child: ImageWidget.img(
-              controller.selectedImages[index],
-              width: 108.w,
-              height: 108.w,
-              fit: BoxFit.cover,
-            ).clipRRect(all: 12.r),
-          );
-        } else {
-          // 显示上传占位符（只在未满时显示一个）
-          return IconWidget.svg(
-                AssetsSvgs.icProfileAdd2Svg,
-                width: 16.w,
-                height: 16.w,
-              )
-              .center()
-              .decorated(
-                border: Border.all(color: Color(0xFFF1F1F1), width: 1.w),
-              )
-              .onTap(() {
-                controller.pickMultipleImages(
-                  maxImages: maxImages - imageCount,
-                );
-              });
-        }
-      },
-    );
-  }
-
   /// 视频展示墙
   Widget _buildVideo() {
     return IconWidget.svg(
@@ -140,7 +95,7 @@ class EditProfilePage extends GetView<MyIndexController> {
           border: Border.all(color: Color(0xFFF1F1F1), width: 1.w),
         )
         .onTap(() {
-          controller.pickMultipleImages();
+          // controller.pickMultipleImages();
         });
   }
 

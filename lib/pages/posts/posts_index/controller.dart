@@ -19,7 +19,7 @@ class PostsIndexController extends GetxController {
     controlFinishLoad: true,
   );
 
-  List<Record> feedList = [];
+  List<Feed> feedList = [];
 
   _initData() {
     requestRecommendFeed();
@@ -73,7 +73,7 @@ class PostsIndexController extends GetxController {
   }
 
   /// 点赞
-  void onTapLike(Record record) async {
+  void onTapLike(Feed record) async {
     final response = await PostApi.like(record.id ?? '');
     if (response.success) {
       // 刷新数据
@@ -89,7 +89,19 @@ class PostsIndexController extends GetxController {
   }
 
   /// 评论
-  void onTapComment(Record record) {}
+  void onTapComment(Feed record, String content) async {
+    final commentReq = CommentReq(id: record.id, trendsContent: content);
+    final response = await PostApi.addComment(commentReq);
+    if (response.success) {
+      Loading.show("评论成功");
+      // 刷新数据
+      record.commentNum = (record.commentNum ?? 0) + 1;
+      update(["posts_index"]);
+    } else {
+      // 处理错误的响应
+      print('评论失败: ${response.message}');
+    }
+  }
 
   /// 下拉刷新
   void onRefresh() async {

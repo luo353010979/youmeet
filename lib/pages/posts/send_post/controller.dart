@@ -72,7 +72,7 @@ class SendPostController extends GetxController {
       keys.add("$baseUrl$key");
     }
 
-    Record feed = Record(content: content, pic: keys.join(","));
+    Feed feed = Feed(content: content, pic: keys.join(","));
 
     await UserApi.sendFeed(feed);
   }

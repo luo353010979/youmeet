@@ -9,7 +9,7 @@ class PostDetalPage extends GetView<PostDetalController> {
   const PostDetalPage({super.key});
 
   Widget _buildPostItem() {
-    Record? feed = controller.postDetail;
+    Feed? feed = controller.feed;
     List<String> images = feed?.pic?.split(",") ?? [];
 
     return <Widget>[
@@ -80,13 +80,14 @@ class PostDetalPage extends GetView<PostDetalController> {
     ].toColumn(crossAxisAlignment: CrossAxisAlignment.start);
   }
 
-  Widget _buildCommentItem() {
+  Widget _buildCommentList() {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: 3,
+      itemCount: controller.comments.length,
       itemBuilder: (context, index) {
-        return CommentWidget();
+        final comment = controller.comments[index];
+        return CommentWidget(comment: comment);
       },
       separatorBuilder: (context, index) => SizedBox(height: 12.h),
     );
@@ -99,7 +100,7 @@ class PostDetalPage extends GetView<PostDetalController> {
       child: <Widget>[
         _buildPostItem(),
         16.verticalSpace,
-        _buildCommentItem(),
+        _buildCommentList(),
       ].toColumn(crossAxisAlignment: CrossAxisAlignment.start),
     );
   }

@@ -1,9 +1,9 @@
-import 'record.dart';
+import 'feed.dart';
 
 class FeedModel {
   int? current;
   int? pages;
-  List<Record>? records;
+  List<Feed>? records;
   int? size;
   int? total;
 
@@ -13,7 +13,7 @@ class FeedModel {
     current: json['current'] as int?,
     pages: json['pages'] as int?,
     records: (json['records'] as List<dynamic>?)
-        ?.map((e) => Record.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => Feed.fromJson(e as Map<String, dynamic>))
         .toList(),
     size: json['size'] as int?,
     total: json['total'] as int?,

@@ -11,7 +11,6 @@ class SendPostPage extends GetView<SendPostController> {
   // 主视图
   Widget _buildView(BuildContext context) {
     return <Widget>[
-
           TextField(
             controller: controller.contentController,
             focusNode: controller.contentFocusNode,
@@ -33,17 +32,10 @@ class SendPostPage extends GetView<SendPostController> {
           ),
           20.verticalSpace,
 
-
           ImageSelectorWidget(
             maxImages: 9,
             onImagesSelected: controller.setImagePaths,
           ),
-
-
-        
-
-
-
         ]
         .toColumn(mainAxisSize: MainAxisSize.min)
         .padding(horizontal: 16.w, bottom: 16.w)
@@ -51,9 +43,8 @@ class SendPostPage extends GetView<SendPostController> {
         .marginOnly(top: 8.h);
   }
 
-
   Widget _buildItem() {
-    return <Widget>[].toRow() ;
+    return <Widget>[].toRow();
   }
 
   @override

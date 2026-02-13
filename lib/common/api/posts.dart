@@ -1,4 +1,5 @@
 import 'package:youmeet/common/index.dart';
+import 'package:youmeet/common/models/comment_model/comment_model.dart';
 
 class PostApi {
   /// 推荐动态
@@ -27,15 +28,37 @@ class PostApi {
   }
 
   /// 根据ID查询动态详情
-  static Future<BaseResponse<Record>> getPostDetail(String id) async {
+  static Future<BaseResponse<Feed>> getPostDetail(String id) async {
     final response = await WPHttpService.to.get(
       "/jeecg-boot/api/trends/queryById",
       params: {"id": id},
     );
 
+    return BaseResponse.fromJson(response.data, (data) => Feed.fromJson(data));
+  }
+
+  /// 根据动态ID查询评论列表
+  static Future<BaseResponse<CommentModel>> getCommentsByPostId({
+    required String trendsId,
+  }) async {
+    final response = await WPHttpService.to.get(
+      "/jeecg-boot/api/trendsComment/getCommentsById",
+      params: {"trendsId": trendsId},
+    );
+
     return BaseResponse.fromJson(
       response.data,
-      (data) => Record.fromJson(data),
+      (data) => CommentModel.fromJson(data),
     );
+  }
+
+  /// 评论
+  static Future<BaseResponse<String>> addComment(CommentReq data) async {
+    final response = await WPHttpService.to.post(
+      "/jeecg-boot/api/trendsComment/add",
+      data: data.toJson(),
+    );
+
+    return BaseResponse.fromJson(response.data, (data) => data.toString());
   }
 }

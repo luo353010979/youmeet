@@ -190,7 +190,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
         .sliverToBoxAdapter();
   }
 
-  Widget _buildPostItem(Record feed) {
+  Widget _buildPostItem(Feed feed) {
     List<String> images = feed.pic?.split(",") ?? [];
 
     return <Widget>[
@@ -246,43 +246,43 @@ class PostsIndexPage extends GetView<PostsIndexController> {
               });
             }),
           ),
+          // 评论点赞
+          // <Widget>[
+          //   // LikeWidget(),
+          //   // TextWidget.muted("等${feed.likeNum ?? 0}个人赞过"),
+          //   Spacer(),
+          //   IconWidget.svg(
+          //     feed.isLike == 0
+          //         ? AssetsSvgs.icPostsLikeDefautSvg
+          //         : AssetsSvgs.icPostsLikeActiveSvg,
+          //     size: 16.r,
+          //     text: "${feed.likeNum ?? 0}",
 
-          <Widget>[
-            // LikeWidget(),
-            // TextWidget.muted("等${feed.likeNum ?? 0}个人赞过"),
-            Spacer(),
-            IconWidget.svg(
-              feed.isLike == 0
-                  ? AssetsSvgs.icPostsLikeDefautSvg
-                  : AssetsSvgs.icPostsLikeActiveSvg,
-              size: 16.r,
-              text: "${feed.likeNum ?? 0}",
-
-              onTap: () {
-                /// 点赞/取消点赞
-                controller.onTapLike(feed);
-              },
-            ).paddingRight(16.w),
-            IconWidget.svg(
-              AssetsSvgs.icPostsCommentSvg,
-              size: 16.r,
-              text: "${feed.commentNum ?? 0}",
-              onTap: () async {
-                final str = await Get.bottomSheet(
-                  InputCommentWidget(),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(16.r),
-                    ),
-                  ),
-                );
-                if (str != null && str is String && str.isNotEmpty) {
-                  // 这里可以调用接口提交评论内容
-                  controller.onTapComment(feed);
-                }
-              },
-            ),
-          ].toRow().paddingTop(12.h),
+          //     onTap: () {
+          //       /// 点赞/取消点赞
+          //       controller.onTapLike(feed);
+          //     },
+          //   ).paddingRight(16.w),
+          //   IconWidget.svg(
+          //     AssetsSvgs.icPostsCommentSvg,
+          //     size: 16.r,
+          //     text: "${feed.commentNum ?? 0}",
+          //     onTap: () async {
+          //       final str = await Get.bottomSheet(
+          //         InputCommentWidget(),
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.vertical(
+          //             top: Radius.circular(16.r),
+          //           ),
+          //         ),
+          //       );
+          //       if (str != null && str is String && str.isNotEmpty) {
+          //         // 这里可以调用接口提交评论内容
+          //         controller.onTapComment(feed, str);
+          //       }
+          //     },
+          //   ),
+          // ].toRow().paddingTop(12.h),
         ]
         .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
         .onTap(() => controller.toDetailPage(feed.id!));

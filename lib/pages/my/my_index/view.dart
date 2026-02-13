@@ -172,7 +172,7 @@ class MyIndexPage extends GetView<MyIndexController> {
     );
   }
 
-  Widget _buildPostItem(Record feed) {
+  Widget _buildPostItem(Feed feed) {
     List<String> images = feed.pic?.split(",") ?? [];
 
     return <Widget>[

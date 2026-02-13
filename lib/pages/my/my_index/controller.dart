@@ -8,8 +8,8 @@ class MyIndexController extends GetxController {
   MyIndexController();
 
   late UserMessage userMessage;
-  String userAvatar = AssetsImages.imgMsgAvaterPng;
-  List<String> selectedImages = []; // 存储多张图片路径
+  String userAvatar = "t.pic.mooneyu.com/FiHJJ2nmON_UOfP5D8cJf3h9pUrU"; // 用户头像
+  List<String> imagePaths = []; // 存储多张图片路径
   final ImagePicker _picker = ImagePicker();
 
   /// 刷新控制器
@@ -19,7 +19,7 @@ class MyIndexController extends GetxController {
   );
 
   /// 我的动态列表
-  List<Record> myFeedList = [];
+  List<Feed> myFeedList = [];
 
   @override
   void onInit() {
@@ -38,10 +38,11 @@ class MyIndexController extends GetxController {
     // print(userMessage.toJson());
   }
 
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
+  @override
+  void onClose() {
+    super.onClose();
+    refreshController.dispose();
+  }
 
   // 选择单张图片
   void pickImage() async {
@@ -49,16 +50,20 @@ class MyIndexController extends GetxController {
       final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         print('选中图片: ${pickedFile.path}');
-        userAvatar = pickedFile.path;
-        update(["edit_profile"]);
 
         UploadService.to.upload(
           pickedFile.path,
-          onProgress: (progress) {},
-          onStatus: (state) {},
+          onProgress: (progress) {
+            print('上传进度: $progress%');
+          },
+          onStatus: (state) {
+            print(state);
+          },
           onDone: (done) {
             print('上传完成: ${done.key}');
-            "http://t.pic.mooneyu.com/${done.key}";
+            userMessage.portrait = "t.pic.mooneyu.com/${done.key}";
+            UserService.to.setProfile(userMessage);
+            update(["edit_profile"]);
           },
         );
       }
@@ -69,33 +74,8 @@ class MyIndexController extends GetxController {
   }
 
   // 选择多张图片
-  void pickMultipleImages({int? maxImages}) async {
-    try {
-      final pickedFiles = await _picker.pickMultiImage(
-        maxWidth: 1920,
-        maxHeight: 1920,
-        imageQuality: 85,
-      );
-
-      if (pickedFiles.isNotEmpty) {
-        // 如果设置了最大数量限制
-        if (maxImages != null && pickedFiles.length > maxImages) {
-          selectedImages = pickedFiles
-              .take(maxImages)
-              .map((e) => e.path)
-              .toList();
-          Get.snackbar('提示', '最多只能选择 $maxImages 张图片');
-        } else {
-          selectedImages = pickedFiles.map((e) => e.path).toList();
-        }
-
-        print('选中 ${selectedImages.length} 张图片');
-        update(["edit_profile"]);
-      }
-    } catch (e) {
-      print('选择图片失败: $e');
-      Get.snackbar('错误', '选择图片失败，请检查权限设置');
-    }
+  void setImagePaths(List<String> paths) {
+    imagePaths = paths;
   }
 
   /// 获取我的动态列表
