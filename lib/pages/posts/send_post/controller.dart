@@ -68,13 +68,23 @@ class SendPostController extends GetxController {
     final token = UserService.to.token;
     String baseUrl = "http://t.pic.mooneyu.com/";
 
+    await UploadService.to.requestQiniuToken();
+
     await for (final key in uploadImagesStream(imagePaths, token)) {
       keys.add("$baseUrl$key");
     }
 
     Feed feed = Feed(content: content, pic: keys.join(","));
 
-    await UserApi.sendFeed(feed);
+    final response = await UserApi.sendFeed(feed);
+    if (response.success) {
+      Loading.success("发布成功");
+      Future.delayed(Duration(seconds: 1), () {
+        Get.back();
+      });
+    } else {
+      print('发布动态失败: ${response.message}');
+    }
   }
 
   /// 构建图片选择网格

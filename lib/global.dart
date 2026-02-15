@@ -19,6 +19,5 @@ class Global {
 
     // 初始化配置
     await ConfigService.to.init();
-    await UploadService.to.init();
   }
 }

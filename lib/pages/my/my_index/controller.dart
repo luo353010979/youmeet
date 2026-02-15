@@ -51,6 +51,8 @@ class MyIndexController extends GetxController {
       if (pickedFile != null) {
         print('选中图片: ${pickedFile.path}');
 
+        await UploadService.to.requestQiniuToken();
+
         UploadService.to.upload(
           pickedFile.path,
           onProgress: (progress) {

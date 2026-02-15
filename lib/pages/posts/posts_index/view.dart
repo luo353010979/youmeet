@@ -285,7 +285,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
           // ].toRow().paddingTop(12.h),
         ]
         .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
-        .onTap(() => controller.toDetailPage(feed.id!));
+        .onTap(() => controller.toDetailPage(feed));
   }
 
   @override

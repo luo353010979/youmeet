@@ -1,24 +1,27 @@
 import 'package:ducafe_ui_core/ducafe_ui_core.dart' hide SizedBoxExtensions;
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
 
-class CommentWidget extends StatefulWidget {
-  const CommentWidget({super.key, required this.comment});
+class CommentWidget extends StatelessWidget {
+  const CommentWidget({
+    super.key,
+    required this.comment,
+    this.onReply,
+    this.onLike,
+  });
 
   final FeedComments comment;
+  final void Function(FeedComments comment, String content)? onReply;
+  final void Function()? onLike;
 
-  @override
-  State<CommentWidget> createState() => _CommentWidgetState();
-}
-
-class _CommentWidgetState extends State<CommentWidget> {
   @override
   Widget build(BuildContext context) {
     return <Widget>[
       // 头像
       <Widget>[
         ImageWidget.img(
-          "http://${widget.comment.portrait ?? ''}",
+          "http://${comment.portrait ?? ''}",
           width: 32.r,
           height: 32.r,
           radius: 50,
@@ -27,21 +30,30 @@ class _CommentWidgetState extends State<CommentWidget> {
 
         // 用户名和评论内容
         <Widget>[
-              TextWidget.muted(widget.comment.name ?? ""),
+              TextWidget.muted(comment.name ?? ""),
               TextWidget.label(
-                widget.comment.trendsContent ?? "",
+                comment.trendsContent ?? "",
               ).paddingVertical(4.h),
 
               // 时间和回复
               <Widget>[
-                TextWidget.muted(
-                  widget.comment.createTime ?? "",
-                ).paddingRight(16.w),
+                TextWidget.muted(comment.createTime ?? "").paddingRight(16.w),
                 ButtonWidget.text(
                   "回复",
                   fontSize: 10.sp,
-                  onTap: () {
-                    print("点击了回复");
+                  onTap: () async {
+                    final str = await Get.bottomSheet(
+                      InputCommentWidget(),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(16.r),
+                        ),
+                      ),
+                    );
+                    if (str != null && str is String && str.isNotEmpty) {
+                      // 这里可以调用接口提交评论内容
+                      onReply?.call(comment, str);
+                    }
                   },
                 ).tight(width: 32.w, height: 14.h),
               ].toRow().paddingBottom(12.h),
@@ -52,15 +64,16 @@ class _CommentWidgetState extends State<CommentWidget> {
 
         // 点赞
         IconWidget.svg(
-          widget.comment.isLike == 1
+          comment.isLike == 1
               ? AssetsSvgs.icLikeActiveSvg
               : AssetsSvgs.icLikeDefautSvg,
-          text: "${widget.comment.likeNum ?? 0}",
+          text: "${comment.likeNum ?? 0}",
           fontSize: 10,
+          onTap: onLike,
         ),
       ].toRow(crossAxisAlignment: CrossAxisAlignment.start),
 
-      _buildReplyItem(widget.comment.comments ?? []).paddingLeft(40.w),
+      _buildReplyItem(comment.comments ?? []).paddingLeft(40.w),
     ].toColumn(crossAxisAlignment: CrossAxisAlignment.start);
   }
 
@@ -96,8 +109,19 @@ class _CommentWidgetState extends State<CommentWidget> {
                     ButtonWidget.text(
                       "回复",
                       fontSize: 10.sp,
-                      onTap: () {
-                        print("点击了回复");
+                      onTap: () async {
+                        final str = await Get.bottomSheet(
+                          InputCommentWidget(),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(16.r),
+                            ),
+                          ),
+                        );
+                        if (str != null && str is String && str.isNotEmpty) {
+                          // 这里可以调用接口提交评论内容
+                          onReply?.call(reply, str);
+                        }
                       },
                     ).tight(width: 32.w, height: 14.h),
                   ].toRow().paddingBottom(12.h),
@@ -113,6 +137,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                   : AssetsSvgs.icLikeDefautSvg,
               text: "${reply.likeNum ?? 0}",
               fontSize: 10,
+              onTap: onLike,
             ),
           ].toRow(crossAxisAlignment: CrossAxisAlignment.start),
 

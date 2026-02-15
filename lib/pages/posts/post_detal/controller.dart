@@ -10,9 +10,9 @@ class PostDetalController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    String id = Get.arguments?[Constants.POST_ID] ?? '';
-    if (id.isNotEmpty) {
-      fetchPostDetailAndComments(id);
+    feed = Get.arguments?[Constants.paramFeed];
+    if (feed != null) {
+      fetchComments(feed!.id ?? '');
     }
   }
 
@@ -35,21 +35,38 @@ class PostDetalController extends GetxController {
     final response = await PostApi.getCommentsByPostId(trendsId: id);
     if (response.success) {
       comments = response.result.records ?? [];
+      update(["post_detal"]);
     }
   }
 
-  /// 评论
-  void onTapComment(Feed record, String content) async {
-    final commentReq = CommentReq(id: record.id, trendsContent: content);
+  /// 评论动态
+  void onTapComment(Feed feed, String content) async {
+    final commentReq = CommentReq(pid: feed.id, trendsContent: content);
     final response = await PostApi.addComment(commentReq);
     if (response.success) {
-      Loading.show("评论成功");
+      Loading.success("评论成功");
       // 刷新数据
-      record.commentNum = (record.commentNum ?? 0) + 1;
-      update(["posts_index"]);
+      feed.commentNum = (feed.commentNum ?? 0) + 1;
+      fetchComments(feed.id ?? '');
+      update(["post_detal"]);
     } else {
       // 处理错误的响应
       print('评论失败: ${response.message}');
+    }
+  }
+
+  /// 回复评论
+  void onReplayComment(FeedComments comment, String content) async {
+    final commentReq = CommentReq(pid: comment.id, trendsContent: content);
+    final response = await PostApi.addComment(commentReq);
+    if (response.success) {
+      Loading.success("回复成功");
+      // 刷新数据
+      fetchComments(comment.trendsId ?? '');
+      update(["post_detal"]);
+    } else {
+      // 处理错误的响应
+      print('回复失败: ${response.message}');
     }
   }
 }

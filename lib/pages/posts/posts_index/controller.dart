@@ -44,10 +44,10 @@ class PostsIndexController extends GetxController {
   }
 
   /// 跳转到帖子详情
-  void toDetailPage(String postId) {
+  void toDetailPage(Feed feed) {
     Get.toNamed(
       RouteNames.postsPostDetal,
-      arguments: {Constants.POST_ID: postId},
+      arguments: {Constants.paramFeed: feed},
     );
   }
 
