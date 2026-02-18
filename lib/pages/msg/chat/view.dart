@@ -44,7 +44,7 @@ class ChatPage extends GetView<ChatController> {
       ),
 
       InputWidget(
-        placeholder: "请输入消息内容",
+        placeholder: LocaleKeys.content.tr,
         borderRadius: BorderRadius.circular(8.r),
       ).expanded(),
 
@@ -78,7 +78,7 @@ class ChatPage extends GetView<ChatController> {
           title: TextWidget.body('张思雨', weight: FontWeight.bold),
           trailing: [
             TextWidget.label(
-                  '申请报告',
+                  LocaleKeys.report.tr,
                   weight: FontWeight.bold,
                   color: Colors.white,
                 )
@@ -108,7 +108,7 @@ class ChatPage extends GetView<ChatController> {
                       space: 0,
                     ),
                     ButtonWidget.primary(
-                      "申请查看",
+                      LocaleKeys.check.tr,
                       width: 64.w,
                       height: 22.h,
                       fontSize: 11,
@@ -139,7 +139,7 @@ class ChatPage extends GetView<ChatController> {
       elevation: 4,
       child:
           <Widget>[
-                TextWidget.body("请上传您的安全报告", weight: FontWeight.bold),
+                TextWidget.body(LocaleKeys.uploadReport.tr, weight: FontWeight.bold),
 
                 controller.types
                     .map(
@@ -170,7 +170,7 @@ class ChatPage extends GetView<ChatController> {
                     .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
                 ButtonWidget.primary(
-                  "完成",
+                  LocaleKeys.complete.tr,
                   height: 32.h,
                   onTap: controller.onComplete,
                 ),

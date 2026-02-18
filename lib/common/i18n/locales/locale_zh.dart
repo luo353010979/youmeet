@@ -14,61 +14,28 @@ Map<String, String> localeZh = {
   LocaleKeys.commonMessageSuccess: '@method 成功',
   LocaleKeys.commonMessageIncorrect: '@method 不正确',
   LocaleKeys.commonNext: '下一步',
-
-  // 样式
-  LocaleKeys.stylesTitle: '样式 && 功能 && 调试',
-
-  // welcome 欢迎
-  LocaleKeys.welcomeOneTitle: '选择您喜欢的产品',
-  LocaleKeys.welcomeOneDesc:
-      'Contrary to popular belief, Lorem Ipsum is not simply random text',
-  LocaleKeys.welcomeTwoTitle: '完成您的购物',
-  LocaleKeys.welcomeTwoDesc:
-      'Contrary to popular belief, Lorem Ipsum is not simply random text',
-  LocaleKeys.welcomeThreeTitle: '足不出户的购物体验',
-  LocaleKeys.welcomeThreeDesc:
-      'Contrary to popular belief, Lorem Ipsum is not simply random text',
-  LocaleKeys.welcomeSkip: '跳过',
-  LocaleKeys.welcomeNext: '下一页',
-  LocaleKeys.welcomeStart: '立刻开始',
+  LocaleKeys.selectLanguage: '选择语言',
 
   // 登录、注册 - 通用
   LocaleKeys.loginForgotPassword: '忘记密码?',
   LocaleKeys.loginSignIn: '登 陆',
   LocaleKeys.loginSignUp: '注 册',
-  LocaleKeys.loginOrText: '- 或者 -',
 
-  // 注册 - register user
-  LocaleKeys.registerTitle: '欢迎',
-  LocaleKeys.registerDesc: '注册新账号',
-  LocaleKeys.registerFormName: '登录账号',
-  LocaleKeys.registerFormEmail: '电子邮件',
-  LocaleKeys.registerFormPhoneNumber: '电话号码',
-  LocaleKeys.registerFormPassword: '密码',
-  LocaleKeys.registerFormFirstName: '姓',
-  LocaleKeys.registerFormLastName: '名',
-  LocaleKeys.registerHaveAccount: '你有现成账号?',
+  // 注册
+  LocaleKeys.commonLanguage: '常用语言',
+  LocaleKeys.phonePlaceholder: '请输入手机号',
+  LocaleKeys.verifyCode: '验证码',
+  LocaleKeys.verifyPlaceHolder: '请输入验证码',
+  LocaleKeys.getVerifyCode: '获取验证码',
+  LocaleKeys.loginPassword: '登录密码',
+  LocaleKeys.confirmPassword: '确认密码',
 
-  // 验证提示
-  LocaleKeys.validatorRequired: '字段不能为空',
-  LocaleKeys.validatorEmail: '请输入 email 格式',
-  LocaleKeys.validatorMin: '长度不能小于 @size',
-  LocaleKeys.validatorMax: '长度不能大于 @size',
-  LocaleKeys.validatorPassword: '密码长度必须 大于 @min 小于 @max',
-
-  // 注册PIN - register pin
-  LocaleKeys.registerPinTitle: '验证',
-  LocaleKeys.registerPinDesc: '我们将向您发送PIN码以继续您的帐户',
-  LocaleKeys.registerPinFormTip: 'Pin',
-  LocaleKeys.registerPinButton: '提交',
-
-  // 登录 - back login
-  LocaleKeys.loginBackTitle: '欢迎登陆!',
-  LocaleKeys.loginBackDesc: '登陆后继续',
-  LocaleKeys.loginBackFieldEmail: '账号',
-  LocaleKeys.loginBackFieldPassword: '登陆密码',
+  // 登录
   LocaleKeys.usernamePlaceholder: '请输入账号',
   LocaleKeys.passwordPlaceholder: '请输入密码',
+  LocaleKeys.agreeTerms: '我已阅读并同意',
+  LocaleKeys.userAgreement: '用户协议',
+  LocaleKeys.privacyPolicy: '隐私政策',
 
   // APP 导航
   LocaleKeys.tabBarHome: '首页',
@@ -76,9 +43,84 @@ Map<String, String> localeZh = {
   LocaleKeys.tabBarMessage: '消息',
   LocaleKeys.tabBarProfile: '我的',
 
-  // 商品 - 首页
-  LocaleKeys.gHomeSearch: '搜索商品',
-  LocaleKeys.gHomeFlashSell: '热卖商品',
-  LocaleKeys.gHomeNewProduct: '新上商品',
-  LocaleKeys.gHomeMore: '所有',
+  // 首页
+  LocaleKeys.certification: '附近认证',
+  LocaleKeys.safeDating: '安全交友',
+  LocaleKeys.reliable: '真实可靠',
+  LocaleKeys.viewNow: '立即查看',
+  LocaleKeys.tab_1: '推荐',
+  LocaleKeys.tab_2: '同城',
+  LocaleKeys.tab_3: '新用户',
+  LocaleKeys.highlyTrustedMatch: '高度信任匹配',
+  LocaleKeys.qualification: '您安全资质已核验 @size 项',
+  LocaleKeys.apply: '发起核验申请',
+  LocaleKeys.improve: '完善我的资质',
+  LocaleKeys.viewApplication: '申请查看报告',
+  LocaleKeys.sayHi: '打招呼',
+  LocaleKeys.tag1: '实名',
+  LocaleKeys.tag2: '健康',
+  LocaleKeys.tag3: '纳税',
+  LocaleKeys.tag4: '信用',
+
+  // 消息页
+  LocaleKeys.message: '消息',
+  LocaleKeys.search: '请输入关键字搜索',
+  LocaleKeys.report: '申请报告',
+  LocaleKeys.check: '申请查看',
+  LocaleKeys.loveFourTitle1: '恋爱四项',
+  LocaleKeys.loveFourTitle2: '个人纳税',
+  LocaleKeys.loveFourTitle3: '个人信用',
+  LocaleKeys.content: '请输入消息内容',
+  LocaleKeys.uploadReport: '请上传您的安全报告',
+  LocaleKeys.complete: '完成',
+
+  //圈子
+  LocaleKeys.circle: '圈子',
+  LocaleKeys.hotTopic: '热门话题',
+  LocaleKeys.post: '发帖',
+  LocaleKeys.share: '分享美好倾吐焦虑',
+  LocaleKeys.expand: '展开',
+  LocaleKeys.collapse: '收起',
+  LocaleKeys.look: '看看大家',
+  LocaleKeys.follow: '关注',
+  LocaleKeys.unfollow: '取消关注',
+  LocaleKeys.sendFeed: '发布动态',
+
+  // 圈子详情
+  LocaleKeys.detail: '详情',
+  LocaleKeys.reply: '回复',
+
+  // 我的
+  LocaleKeys.userCenter: '个人中心',
+  LocaleKeys.fans: '粉丝',
+  LocaleKeys.lookMe: '看过我',
+  LocaleKeys.lookedMe: '我看过',
+  LocaleKeys.likeMe: '喜欢我',
+  LocaleKeys.likedMe: '我喜欢',
+  LocaleKeys.myImage: '我的形象',
+  LocaleKeys.editImage: '编辑形象',
+
+  // 编辑个人信息
+  LocaleKeys.editProfile: '编辑个人信息',
+  LocaleKeys.showcaseWall: '展示墙',
+  LocaleKeys.profile: '个人资料',
+  LocaleKeys.datingProfile: '交友资料',
+
+  // 个人资料
+  LocaleKeys.nickname: '昵称',
+  LocaleKeys.introduction: '简介',
+  LocaleKeys.gender: '性别',
+  LocaleKeys.birth: '生日',
+  LocaleKeys.height: '身高',
+  LocaleKeys.weight: '体重',
+  LocaleKeys.personalityTags: '个性标签',
+  LocaleKeys.identityVerification: '身份验证',
+
+  // 设置
+  LocaleKeys.messageNotification: '消息通知',
+  LocaleKeys.locationService: '位置服务',
+  LocaleKeys.personalizedRecommendation: '个性化推荐',
+  LocaleKeys.teenMode: '青少年模式',
+  LocaleKeys.aboutUs: '关于我们',
+  LocaleKeys.logout: '退出登录',
 };

@@ -14,9 +14,7 @@ Map<String, String> localeEn = {
   LocaleKeys.commonMessageSuccess: '@method successfully',
   LocaleKeys.commonMessageIncorrect: '@method incorrect',
   LocaleKeys.commonNext: 'Next',
-
-  // 样式
-  LocaleKeys.stylesTitle: 'Sytles && Function',
+  LocaleKeys.selectLanguage: 'Language',
 
   // welcome 欢迎
   LocaleKeys.welcomeOneTitle: 'Choose Your Desire Product',
@@ -32,54 +30,29 @@ Map<String, String> localeEn = {
   LocaleKeys.welcomeNext: 'Next',
   LocaleKeys.welcomeStart: 'Get Started',
 
-  // 登录、注册 - 通用
   LocaleKeys.loginForgotPassword: 'Forgot Password?',
-  LocaleKeys.loginSignIn: 'Sign In',
+
+  // 注册
+  LocaleKeys.commonLanguage: 'Language',
+  LocaleKeys.phonePlaceholder: 'Please enter phone number',
+  LocaleKeys.verifyCode: 'Code',
+  LocaleKeys.verifyPlaceHolder: 'Please enter verification code',
+  LocaleKeys.getVerifyCode: 'Get',
+  LocaleKeys.loginPassword: 'Password',
+  LocaleKeys.confirmPassword: 'Confirm',
   LocaleKeys.loginSignUp: 'Sign Up',
-  LocaleKeys.loginOrText: '- OR -',
 
-  // 注册 - new user
-  LocaleKeys.registerTitle: 'Register',
-  LocaleKeys.registerDesc: 'Sign up to continue',
-  LocaleKeys.registerFormName: 'User Name',
-  LocaleKeys.registerFormEmail: 'Email',
-  LocaleKeys.registerFormPhoneNumber: 'Phone number',
-  LocaleKeys.registerFormPassword: 'Password',
-  LocaleKeys.registerFormFirstName: 'First name',
-  LocaleKeys.registerFormLastName: 'Last name',
-  LocaleKeys.registerHaveAccount: 'Already have an account?',
-
-  // 验证提示
-  LocaleKeys.validatorRequired: 'The field is obligatory',
-  LocaleKeys.validatorEmail: 'The field must be an email',
-  LocaleKeys.validatorMin: 'Length cannot be less than @size',
-  LocaleKeys.validatorMax: 'Length cannot be greater than @size',
-  LocaleKeys.validatorPassword:
-      'password must have between @min and @max digits',
-
-  // 注册PIN - register pin
-  LocaleKeys.registerPinTitle: 'Verification',
-  LocaleKeys.registerPinDesc: 'we will send you a Pin to continue your account',
-  LocaleKeys.registerPinFormTip: 'Pin',
-  LocaleKeys.registerPinButton: 'Submit',
-
-  // 登录 - back login
-  LocaleKeys.loginBackTitle: 'Welcome login!',
-  LocaleKeys.loginBackDesc: 'Sign in to continue',
-  LocaleKeys.loginBackFieldEmail: 'Name',
-  LocaleKeys.loginBackFieldPassword: 'Password',
+  // 登录
   LocaleKeys.usernamePlaceholder: 'Please enter username',
   LocaleKeys.passwordPlaceholder: 'Please enter password',
+  LocaleKeys.agreeTerms: 'I agree to the',
+  LocaleKeys.userAgreement: 'User Agreement',
+  LocaleKeys.privacyPolicy: 'Privacy Policy',
+  LocaleKeys.loginSignIn: 'Sign In',
 
   // APP 导航
   LocaleKeys.tabBarHome: 'Home',
   LocaleKeys.tabBarPosts: 'Posts',
   LocaleKeys.tabBarMessage: 'Message',
   LocaleKeys.tabBarProfile: 'Profile',
-
-  // 商品 - 首页
-  LocaleKeys.gHomeSearch: 'Search Product',
-  LocaleKeys.gHomeFlashSell: 'Flash Sell',
-  LocaleKeys.gHomeNewProduct: 'New Product',
-  LocaleKeys.gHomeMore: 'ALL',
 };

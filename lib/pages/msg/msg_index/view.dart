@@ -12,7 +12,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
   Widget _buildSearchBar() {
     return InputWidget(
       prefix: IconWidget.svg(AssetsSvgs.icMsgSearchSvg),
-      placeholder: "请输入关键字搜索",
+      placeholder: LocaleKeys.search.tr,
     ).paddingSymmetric(horizontal: 16.w, vertical: 10.h);
   }
 
@@ -57,7 +57,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
       builder: (_) {
         return ScaffoldWidget(
           appBar: AppBarWidget(
-            title: "消息",
+            title: LocaleKeys.message.tr,
             centerTitle: false,
             backgroundColor: Colors.transparent,
             actions: [

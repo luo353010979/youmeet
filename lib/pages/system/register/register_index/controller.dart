@@ -5,6 +5,8 @@ import 'package:youmeet/common/index.dart';
 class RegisterIndexController extends GetxController {
   RegisterIndexController();
 
+  String get currentLanguage => ConfigService.to.locale.languageCode == 'zh' ? "中文" : "English";
+
   final phoneController = TextEditingController();
 
   final verifyCodeController = TextEditingController();
@@ -61,7 +63,7 @@ class RegisterIndexController extends GetxController {
   }
 
   void selectLanguage() {
-    print("选择语言");
+    Get.toNamed(RouteNames.systemRegisterSelectLanguage);
   }
 
   void onCountryCodeChanged(String value) {

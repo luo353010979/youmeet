@@ -52,7 +52,7 @@ class PostApi {
     );
   }
 
-  /// 评论
+  /// 发送评论
   static Future<BaseResponse<String>> addComment(CommentReq data) async {
     final response = await WPHttpService.to.post(
       "/jeecg-boot/api/trendsComment/add",

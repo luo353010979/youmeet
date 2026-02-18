@@ -12,9 +12,7 @@ class LocaleKeys {
   static const commonMessageSuccess = 'common_message_success';
   static const commonMessageIncorrect = 'common_message_incorrect';
   static const commonNext = 'common_next';
-
-  // 样式
-  static const stylesTitle = 'styles_title';
+  static const selectLanguage = 'select_language';
 
   // 欢迎页
   static const welcomeOneTitle = 'welcome_one_title';
@@ -30,40 +28,23 @@ class LocaleKeys {
   // 登录、注册 - 通用
   static const loginForgotPassword = 'login_forgot_password';
   static const loginSignIn = 'login_sign_in';
-  static const loginOrText = 'login_or_text';
   static const loginSignUp = 'login_sign_up';
 
-  // 注册 - register user
-  static const registerTitle = 'register_title';
-  static const registerDesc = 'register_desc';
-  static const registerFormName = 'register_form_name';
-  static const registerFormEmail = 'register_form_email';
-  static const registerFormPhoneNumber = 'register_form_phone_number';
-  static const registerFormPassword = 'register_form_password';
-  static const registerFormFirstName = 'register_form_first_name';
-  static const registerFormLastName = 'register_form_last_name';
-  static const registerHaveAccount = 'register_have_account';
-
-  // 验证提示
-  static const validatorRequired = 'validator_required';
-  static const validatorEmail = 'validator_email';
-  static const validatorMin = 'validator_min';
-  static const validatorMax = 'validator_max';
-  static const validatorPassword = 'validator_password';
-
-  // 注册PIN - register pin
-  static const registerPinTitle = 'register_pin_title';
-  static const registerPinDesc = 'register_pin_desc';
-  static const registerPinFormTip = 'register_pin_form_tip';
-  static const registerPinButton = 'register_pin_button';
+  // 注册
+  static const commonLanguage = 'common_language';
+  static const phonePlaceholder = 'phone_placeholder';
+  static const verifyCode = 'verify_code';
+  static const verifyPlaceHolder = 'verify_placeholder';
+  static const getVerifyCode = 'get_verify_code';
+  static const loginPassword = 'login_password';
+  static const confirmPassword = 'confirm_password';
 
   // 登录 - back login
-  static const loginBackTitle = 'login_back_title';
-  static const loginBackDesc = 'login_back_desc';
-  static const loginBackFieldEmail = 'login_back_field_email';
-  static const loginBackFieldPassword = 'login_back_field_password';
   static const usernamePlaceholder = 'username_placeholder';
   static const passwordPlaceholder = 'password_placeholder';
+  static const agreeTerms = 'agree_terms';
+  static const userAgreement = 'user_agreement';
+  static const privacyPolicy = 'privacy_policy';
 
   // APP 主导航
   static const tabBarHome = 'tab_bar_home';
@@ -71,9 +52,86 @@ class LocaleKeys {
   static const tabBarMessage = 'tab_bar_message';
   static const tabBarProfile = 'tab_bar_profile';
 
-  // 商品 - 首页
-  static const gHomeSearch = 'goods_home_search';
-  static const gHomeFlashSell = 'goods_home_flash_shell';
-  static const gHomeNewProduct = 'goods_home_new_product';
-  static const gHomeMore = 'goods_home_more';
+  // 首页
+  static const certification = 'certification';
+  static const safeDating = 'safe_dating';
+  static const reliable = 'reliable';
+  static const viewNow = 'view_now';
+  static const tab_1 = 'recommend';
+  static const tab_2 = 'same_city';
+  static const tab_3 = 'new_user';
+  static const highlyTrustedMatch = 'highly_trusted_match';
+  static const qualification = 'qualification';
+  static const apply = 'apply';
+  static const improve = 'improve';
+  static const viewApplication = 'view_application';
+  static const sayHi = 'say_hi';
+  static const tag1 = 'tag1';
+  static const tag2 = 'tag2';
+  static const tag3 = 'tag3';
+  static const tag4 = 'tag4';
+
+  // 消页
+  static const message = 'message';
+  static const search = 'search';
+  static const report = 'report';
+  static const check = 'check';
+  static const loveFourTitle1 = 'love_four_title_1';
+  static const loveFourTitle2 = 'love_four_title_2';
+  static const loveFourTitle3 = 'love_four_title_3';
+  static const loveFourTitle4 = 'love_four_title_4';
+  static const content = 'content ';
+  static const uploadReport = 'upload_report';
+  static const complete = 'complete';
+
+  // 圈子
+  static const circle = 'circle';
+  static const hotTopic = 'hot_topic';
+  static const post = 'post';
+  static const share = 'share';
+  static const comment = 'comment';
+  static const expand = 'expand';
+  static const collapse = 'collapse';
+  static const look = 'look';
+  static const follow = 'follow';
+  static const unfollow = 'unfollow';
+  static const sendFeed = 'send_feed';
+
+  // 圈子详情
+  static const detail = 'detail';
+  static const reply = 'reply';
+
+  // 我的
+  static const userCenter = 'user_center';
+  static const fans = 'fans';
+  static const lookMe = 'look_me';
+  static const lookedMe = 'looked_me';
+  static const likeMe = 'like_me';
+  static const likedMe = 'liked_me';
+  static const myImage = 'my_image';
+  static const editImage = 'edit_image';
+
+  // 编辑个人信息
+  static const editProfile = 'edit_profile';
+  static const showcaseWall = 'showcase_wall';
+  static const profile = 'profile';
+  static const datingProfile = 'dating_profile';
+
+  // 个人资料
+  static const nickname = 'nickname';
+  static const introduction = 'introduction';
+  static const gender = 'gender';
+  static const birth = 'birth';
+  static const height = 'height';
+  static const weight = 'weight';
+  static const personalityTags = 'personality_tags';
+  static const identityVerification = 'identity_verification';
+
+  // 设置
+  static const messageNotification = 'message_notification';
+  static const locationService = 'location_service';
+  static const personalizedRecommendation = 'personalized_recommendation';
+  static const teenMode = 'teen_mode';
+  static const aboutUs = 'about_us';
+  static const logout = 'logout';
 }

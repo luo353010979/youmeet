@@ -34,10 +34,12 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
             child: <Widget>[
               ListTileWidget(
                 padding: EdgeInsets.zero,
-                title: TextWidget.label("常用语言").tight(width: 100.w),
+                title: TextWidget.label(
+                  LocaleKeys.commonLanguage.tr,
+                ).tight(width: 100.w),
                 trailing: [
                   IconWidget.svg(
-                    text: "中文",
+                    text: controller.currentLanguage,
                     fontColor: context.theme.colorScheme.primary,
                     AssetsSvgs.icArrowRightSvg,
                     isReverse: true,
@@ -76,7 +78,7 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
                     color: context.theme.colorScheme.onSurface,
                   ),
                   decoration: InputDecoration(
-                    hintText: "请输入手机号",
+                    hintText: LocaleKeys.phonePlaceholder.tr,
                     hintStyle: TextStyle(fontSize: 14),
                     border: InputBorder.none,
                   ),
@@ -89,10 +91,12 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
                 visible: !controller.hideVerifyCode,
                 child: ListTileWidget(
                   padding: EdgeInsets.zero,
-                  leading: TextWidget.label("验证码").tight(width: 85.w),
+                  leading: TextWidget.label(
+                    LocaleKeys.verifyCode.tr,
+                  ).tight(width: 85.w),
                   trailing: [
                     TextWidget.label(
-                      "获取验证码",
+                      LocaleKeys.getVerifyCode.tr,
                       color: context.theme.colorScheme.primary,
                     ).onTap(() => controller.gerVerifyCode()),
                   ],
@@ -106,7 +110,7 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
                       // letterSpacing: 1.2,
                     ),
                     decoration: InputDecoration(
-                      hintText: "请输入验证码",
+                      hintText: LocaleKeys.verifyPlaceHolder.tr,
                       hintStyle: TextStyle(fontSize: 14),
                       border: InputBorder.none,
                     ),
@@ -118,7 +122,9 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
 
               ListTileWidget(
                 padding: EdgeInsets.zero,
-                leading: TextWidget.label("登录密码").tight(width: 85.w),
+                leading: TextWidget.label(
+                  LocaleKeys.loginPassword.tr,
+                ).tight(width: 85.w),
                 title: TextFormField(
                   controller: controller.passwordController,
                   onTapOutside: (event) =>
@@ -129,7 +135,7 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
                     // letterSpacing: 1.2,
                   ),
                   decoration: InputDecoration(
-                    hintText: "请输入密码",
+                    hintText: LocaleKeys.loginPassword.tr,
                     hintStyle: TextStyle(fontSize: 14),
                     border: InputBorder.none,
                   ),
@@ -140,7 +146,9 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
 
               ListTileWidget(
                 padding: EdgeInsets.zero,
-                leading: TextWidget.label("确认密码").tight(width: 85.w),
+                leading: TextWidget.label(
+                  LocaleKeys.confirmPassword.tr,
+                ).tight(width: 85.w),
                 title: TextFormField(
                   controller: controller.confirmPasswordController,
                   onTapOutside: (event) =>
@@ -151,7 +159,7 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
                     // letterSpacing: 1.2,
                   ),
                   decoration: InputDecoration(
-                    hintText: "请确认密码",
+                    hintText: LocaleKeys.confirmPassword.tr,
                     hintStyle: TextStyle(fontSize: 14),
                     border: InputBorder.none,
                   ),
@@ -177,12 +185,18 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
                 onChanged: controller.updateAgreePrivacy,
                 activeColor: Get.theme.colorScheme.primary,
               ),
-              TextWidget.muted("我已阅读并同意"),
+              TextWidget.muted(LocaleKeys.agreeTerms.tr),
 
-              TextWidget.muted("《用户协议》", color: Color(0xffFF37A8)).onTap(() {
+              TextWidget.muted(
+                "《${LocaleKeys.userAgreement.tr}》",
+                color: Color(0xffFF37A8),
+              ).onTap(() {
                 Get.toNamed(RouteNames.systemSettingsUserAgreement);
               }),
-              TextWidget.muted("《隐私政策》", color: Color(0xffFF37A8)).onTap(() {
+              TextWidget.muted(
+                "《${LocaleKeys.privacyPolicy.tr}》",
+                color: Color(0xffFF37A8),
+              ).onTap(() {
                 Get.toNamed(RouteNames.systemSettingsPrivacyAgreement);
               }),
             ]
@@ -219,7 +233,10 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
       builder: (_) {
         return Scaffold(
           backgroundColor: Color(0XFFF7F7F7),
-          appBar: AppBarWidget(title: "注册账号", backgroundColor: Colors.white),
+          appBar: AppBarWidget(
+            title: LocaleKeys.loginSignUp.tr,
+            backgroundColor: Colors.white,
+          ),
           body: SafeArea(child: _buildView(context)),
         );
       },

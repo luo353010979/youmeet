@@ -74,6 +74,8 @@ dependencies:
   # 列表下拉加载更多
   easy_refresh: ^3.4.0
 
+  wukongimfluttersdk: ^1.6.7
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

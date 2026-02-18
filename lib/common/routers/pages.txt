@@ -28,16 +28,16 @@
         page: () => const MyIndexPage(),
       ),
       GetPage(
-        name: RouteNames.mySendFeed,
-        page: () => const SendFeedPage(),
-      ),
-      GetPage(
         name: RouteNames.postsPostsIndex,
         page: () => const PostsIndexPage(),
       ),
       GetPage(
         name: RouteNames.postsPostDetal,
         page: () => const PostDetalPage(),
+      ),
+      GetPage(
+        name: RouteNames.postsSendPost,
+        page: () => const SendPostPage(),
       ),
       GetPage(
         name: RouteNames.systemLogin,
@@ -62,6 +62,10 @@
       GetPage(
         name: RouteNames.systemRegisterSelectCountry,
         page: () => const SelectCountryPage(),
+      ),
+      GetPage(
+        name: RouteNames.systemRegisterSelectLanguage,
+        page: () => const SelectLanguagePage(),
       ),
       GetPage(
         name: RouteNames.systemSettingsAboutUs,

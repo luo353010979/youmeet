@@ -65,7 +65,7 @@ class LoginPage extends GetView<LoginController> {
                           borderSide: BorderSide(width: 1, color: Colors.white),
                         ),
                         contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
-                        hintText: "请输入账号",
+                        hintText: LocaleKeys.usernamePlaceholder.tr,
                         hintStyle: TextStyle(fontSize: 14),
                       ),
                     ),
@@ -123,7 +123,7 @@ class LoginPage extends GetView<LoginController> {
                           borderSide: BorderSide(width: 1, color: Colors.white),
                         ),
                         contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
-                        hintText: "请输入密码",
+                        hintText: LocaleKeys.passwordPlaceholder.tr,
                         hintStyle: TextStyle(fontSize: 14),
                       ),
                     ),
@@ -142,12 +142,18 @@ class LoginPage extends GetView<LoginController> {
   Widget _buildAgree() {
     return <Widget>[
       Checkbox(value: true, onChanged: (value) {}),
-      TextWidget.muted("我已阅读并同意"),
+      TextWidget.muted(LocaleKeys.agreeTerms.tr),
 
-      TextWidget.muted("《用户协议》", color: Color(0xffFF37A8)).onTap(() {
+      TextWidget.muted(
+        "《${LocaleKeys.userAgreement.tr}》",
+        color: Color(0xffFF37A8),
+      ).onTap(() {
         Get.toNamed(RouteNames.systemSettingsUserAgreement);
       }),
-      TextWidget.muted("《隐私政策》", color: Color(0xffFF37A8)).onTap(() {
+      TextWidget.muted(
+        "《${LocaleKeys.privacyPolicy.tr}》",
+        color: Color(0xffFF37A8),
+      ).onTap(() {
         Get.toNamed(RouteNames.systemSettingsPrivacyAgreement);
       }),
     ].toRow(mainAxisAlignment: MainAxisAlignment.start);

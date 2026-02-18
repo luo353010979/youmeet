@@ -21,6 +21,7 @@ class RouteNames {
   static const systemRegisterRegisterUploadPicture =
       '/system_register_register_upload_picture';
   static const systemRegisterSelectCountry = '/system_register_select_country';
+  static const systemRegisterSelectLanguage = '/system_register_select_language';
   static const systemSettingsAboutUs = '/system_settings_about_us';
   static const systemSettingsPrivacyAgreement =
       '/system_settings_privacy_agreement';

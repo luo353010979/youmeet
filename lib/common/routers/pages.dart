@@ -53,6 +53,10 @@ class RoutePages {
       page: () => const SelectCountryPage(),
     ),
     GetPage(
+      name: RouteNames.systemRegisterSelectLanguage,
+      page: () => const SelectLanguagePage(),
+    ),
+    GetPage(
       name: RouteNames.systemSettingsAboutUs,
       page: () => const AboutUsPage(),
     ),

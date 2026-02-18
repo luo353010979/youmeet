@@ -20,13 +20,13 @@ class HomeIndexPage extends GetView<HomeIndexController> {
   Widget _buildSlider() {
     return <Widget>[
       TextWidget.label(
-        "安全交友",
+        LocaleKeys.safeDating.tr,
         size: 16,
         weight: FontWeight.w900,
       ).positioned(left: 16.w, top: 24.h),
 
       TextWidget.label(
-        "真实可靠",
+        LocaleKeys.reliable.tr,
         size: 26,
         weight: FontWeight.bold,
       ).positioned(left: 16.w, top: 52.h),
@@ -37,7 +37,9 @@ class HomeIndexPage extends GetView<HomeIndexController> {
         weight: FontWeight.w900,
       ).positioned(left: 245.w, top: 52.h),
 
-      TextWidget.muted("下一页").positioned(left: 20.w, top: 107.h),
+      TextWidget.muted(
+        LocaleKeys.commonNext.tr,
+      ).positioned(left: 20.w, top: 107.h),
 
       ImageWidget.img(
         AssetsImages.imgHomeAvaterPng,
@@ -53,7 +55,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
       ).positioned(top: 76.h, left: 246.w),
 
       TextWidget.label(
-        "立即查看",
+        LocaleKeys.viewNow.tr,
         color: Color(0xFFDA597F),
         weight: FontWeight.w900,
       ).positioned(left: 247.w, top: 108.5.h),
@@ -96,11 +98,15 @@ class HomeIndexPage extends GetView<HomeIndexController> {
           ).paddingHorizontal(14.w),
 
           <Widget>[
-            TextWidget.label("您安全资质已核验 2 项", size: 16, weight: FontWeight.bold),
+            TextWidget.label(
+              LocaleKeys.qualification.trParams({'size': '1'}),
+              size: 16,
+              weight: FontWeight.bold,
+            ),
 
             <Widget>[
               ButtonWidget.primary(
-                "发起核验申请",
+                LocaleKeys.apply.tr,
                 width: 92.w,
                 height: 25.h,
                 fontSize: 12,
@@ -108,7 +114,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
                 onTap: () {},
               ),
               ButtonWidget.outline(
-                "完善我的资质",
+                LocaleKeys.improve.tr,
                 width: 92.w,
                 height: 25.h,
                 fontSize: 12,
@@ -157,7 +163,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
           return _buildTips(context);
         } else if (index == 1) {
           return TextWidget.body(
-            "高度信任匹配",
+            LocaleKeys.highlyTrustedMatch.tr,
             weight: FontWeight.bold,
           ).paddingBottom(10.h);
         } else {
@@ -227,15 +233,15 @@ class HomeIndexPage extends GetView<HomeIndexController> {
               ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
               <Widget>[
-                _buildChip("实名"),
-                _buildChip("健康"),
-                _buildChip("纳税"),
-                _buildChip("信用"),
+                _buildChip(LocaleKeys.tag1.tr),
+                _buildChip(LocaleKeys.tag2.tr),
+                _buildChip(LocaleKeys.tag3.tr),
+                _buildChip(LocaleKeys.tag4.tr),
               ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
               <Widget>[
                 ButtonWidget.outline(
-                  "申请查看报告",
+                  LocaleKeys.viewApplication.tr,
                   width: 86.w,
                   height: 23.h,
                   fontSize: 11,
@@ -245,7 +251,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
                   onTap: () {},
                 ),
                 ButtonWidget.primary(
-                  "打招呼",
+                  LocaleKeys.sayHi.tr,
                   width: 53.w,
                   height: 23.h,
                   fontSize: 11,
@@ -289,7 +295,10 @@ class HomeIndexPage extends GetView<HomeIndexController> {
       id: "home_index",
       builder: (_) {
         return ScaffoldWidget(
-          appBar: AppBarWidget(title: "附近认证", centerTitle: false),
+          appBar: AppBarWidget(
+            title: LocaleKeys.certification.tr,
+            centerTitle: false,
+          ),
           child: _buildView(context),
         );
       },

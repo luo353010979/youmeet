@@ -12,9 +12,18 @@ class ChatController extends GetxController {
   ChatController();
 
   List<TypeModel> types = [
-    TypeModel(title: "恋爱四项", icon: AssetsSvgs.icMsg_01Svg),
-    TypeModel(title: "个人纳税", icon: AssetsSvgs.icMsg_02Svg),
-    TypeModel(title: "个人信用", icon: AssetsSvgs.icMsg_03Svg),
+    TypeModel(
+      title: LocaleKeys.loveFourTitle1.tr,
+      icon: AssetsSvgs.icMsg_01Svg,
+    ),
+    TypeModel(
+      title: LocaleKeys.loveFourTitle2.tr,
+      icon: AssetsSvgs.icMsg_02Svg,
+    ),
+    TypeModel(
+      title: LocaleKeys.loveFourTitle3.tr,
+      icon: AssetsSvgs.icMsg_03Svg,
+    ),
   ];
 
   final List<String> messages = [
