@@ -55,9 +55,7 @@ class MyIndexController extends GetxController {
 
         UploadService.to.upload(
           pickedFile.path,
-          onProgress: (progress) {
-            print('上传进度: $progress%');
-          },
+          onProgress: (progress) {},
           onStatus: (state) {
             print(state);
           },
@@ -96,5 +94,22 @@ class MyIndexController extends GetxController {
   void onRefresh() async {
     await fetchMyFeedList();
     refreshController.finishRefresh();
+  }
+
+  // 跳转到编辑页面并处理返回结果
+  void toEditPage({required int type}) async {
+    final result = await Get.toNamed(RouteNames.myEdit);
+    if (result != null) {
+      switch (type) {
+        case Constants.editNickname:
+          userMessage.name = result;
+          break;
+        case Constants.editProfile:
+          userMessage.profile = result;
+          break;
+      }
+
+      update(["edit_profile_info"]);
+    }
   }
 }

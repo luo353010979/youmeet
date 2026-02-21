@@ -14,6 +14,8 @@ Map<String, String> localeZh = {
   LocaleKeys.commonMessageSuccess: '@method 成功',
   LocaleKeys.commonMessageIncorrect: '@method 不正确',
   LocaleKeys.commonNext: '下一步',
+  LocaleKeys.commonEdit: '编辑',
+  LocaleKeys.commonEditPlaceholder: '请输入',
   LocaleKeys.selectLanguage: '选择语言',
 
   // 登录、注册 - 通用
@@ -115,6 +117,8 @@ Map<String, String> localeZh = {
   LocaleKeys.weight: '体重',
   LocaleKeys.personalityTags: '个性标签',
   LocaleKeys.identityVerification: '身份验证',
+  LocaleKeys.man: '男',
+  LocaleKeys.woman: '女',
 
   // 设置
   LocaleKeys.messageNotification: '消息通知',

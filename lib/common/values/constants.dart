@@ -15,4 +15,8 @@ class Constants {
   static const storageProfile = 'profile'; // 用户资料缓存
 
   static const paramFeed = 'param_feed'; // 动态详情
+
+  static const editParams = "edit_params"; // 编辑参数
+  static const editNickname = 0; // 编辑昵称
+  static const editProfile = 1; // 编辑个人简介
 }

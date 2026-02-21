@@ -4,6 +4,7 @@ export 'home/home_index/index.dart';
 export 'home/matching_detail/index.dart';
 export 'msg/chat/index.dart';
 export 'msg/msg_index/index.dart';
+export 'my/edit/index.dart';
 export 'my/edit_profile/index.dart';
 export 'my/edit_profile_info/index.dart';
 export 'my/my_index/index.dart';

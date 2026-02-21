@@ -16,6 +16,10 @@
         page: () => const MsgIndexPage(),
       ),
       GetPage(
+        name: RouteNames.myEdit,
+        page: () => const EditPage(),
+      ),
+      GetPage(
         name: RouteNames.myEditProfile,
         page: () => const EditProfilePage(),
       ),

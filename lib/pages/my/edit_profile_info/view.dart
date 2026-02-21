@@ -12,37 +12,41 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
     return <Widget>[
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
-        leading: TextWidget.label("昵称").tight(width: 80.w),
+        leading: TextWidget.label(LocaleKeys.nickname.tr).tight(width: 80.w),
         title: TextWidget.label(
           controller.userMessage.name ?? "",
           color: Color(0xFF666666),
         ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
-        onTap: () {},
+        onTap: () => controller.toEditPage(type: Constants.editNickname),
       ).tight(height: 50.h),
 
       Divider(height: 1.h, color: Color(0x1A333333)),
 
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
-        leading: TextWidget.label("简介").tight(width: 80.w),
+        leading: TextWidget.label(LocaleKeys.profile.tr).tight(width: 80.w),
         title: TextWidget.label(
-          controller.userMessage.profile ?? "未填写",
+          controller.userMessage.profile ?? "",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           color: Color(0xFF666666),
         ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
-        onTap: () {},
+        onTap: () {
+          controller.toEditPage(type: Constants.editProfile);
+        },
       ).tight(height: 50.h),
 
       8.verticalSpace,
 
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
-        leading: TextWidget.label("性别").tight(width: 80.w),
+        leading: TextWidget.label(LocaleKeys.gender.tr).tight(width: 80.w),
         title: TextWidget.label(
-          controller.userMessage.sex == 1 ? "男" : "女",
+          controller.userMessage.sex == 1
+              ? LocaleKeys.man.tr
+              : LocaleKeys.woman.tr,
           color: Color(0xFF666666),
         ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
@@ -52,7 +56,7 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
 
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
-        leading: TextWidget.label("生日").tight(width: 80.w),
+        leading: TextWidget.label(LocaleKeys.birth.tr).tight(width: 80.w),
         title: TextWidget.label(
           "${controller.userMessage.birthday}",
           color: Color(0xFF666666),
@@ -65,7 +69,7 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
 
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
-        leading: TextWidget.label("身高").tight(width: 80.w),
+        leading: TextWidget.label(LocaleKeys.height.tr).tight(width: 80.w),
         title: TextWidget.label(
           "${controller.userMessage.height ?? "0"} cm",
           color: Color(0xFF666666),
@@ -78,7 +82,7 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
 
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
-        leading: TextWidget.label("体重").tight(width: 80.w),
+        leading: TextWidget.label(LocaleKeys.weight.tr).tight(width: 80.w),
         title: TextWidget.label(
           "${controller.userMessage.weight ?? "0"} kg",
           color: Color(0xFF666666),
@@ -91,7 +95,9 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
 
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
-        leading: TextWidget.label("个性标签").tight(width: 80.w),
+        leading: TextWidget.label(
+          LocaleKeys.personalityTags.tr,
+        ).tight(width: 80.w),
         title: TextWidget.label("二次元、夜猫子、社交达人、开心的吃货", color: Color(0xFF666666)),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
         onTap: () {},
@@ -101,7 +107,9 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
 
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
-        leading: TextWidget.label("身份验证").tight(width: 80.w),
+        leading: TextWidget.label(
+          LocaleKeys.identityVerification.tr,
+        ).tight(width: 80.w),
         title: TextWidget.label("已验证", color: Color(0xFF666666)),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
       ).tight(height: 50.h),
@@ -110,10 +118,14 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
 
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
-        leading: TextWidget.label("我的语言").tight(width: 80.w),
+        leading: TextWidget.label(
+          LocaleKeys.commonLanguage.tr,
+        ).tight(width: 80.w),
         title: TextWidget.label("中文", color: Color(0xFF666666)),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
-        onTap: () {},
+        onTap: () {
+          Get.toNamed(RouteNames.systemRegisterSelectLanguage);
+        },
       ).tight(height: 50.h),
     ].toColumn().marginOnly(top: 12.h);
   }

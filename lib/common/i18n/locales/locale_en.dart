@@ -1,58 +1,112 @@
 import '../locale_keys.dart';
 
-/// 多语言 英文
+/// Multi-language English
 Map<String, String> localeEn = {
-  // 通用
-  LocaleKeys.commonSearchInput: 'Enter keyword',
+  // Common
   LocaleKeys.commonBottomSave: 'Save',
-  LocaleKeys.commonBottomRemove: 'Remove',
+  LocaleKeys.commonBottomRemove: 'Delete',
   LocaleKeys.commonBottomCancel: 'Cancel',
   LocaleKeys.commonBottomConfirm: 'Confirm',
-  LocaleKeys.commonBottomApply: 'Apply',
-  LocaleKeys.commonBottomBack: 'Back',
-  LocaleKeys.commonSelectTips: 'Please select',
-  LocaleKeys.commonMessageSuccess: '@method successfully',
-  LocaleKeys.commonMessageIncorrect: '@method incorrect',
   LocaleKeys.commonNext: 'Next',
-  LocaleKeys.selectLanguage: 'Language',
-
-  // welcome 欢迎
-  LocaleKeys.welcomeOneTitle: 'Choose Your Desire Product',
-  LocaleKeys.welcomeOneDesc:
-      'Contrary to popular belief, Lorem Ipsum is not simply random text',
-  LocaleKeys.welcomeTwoTitle: 'Complete your shopping',
-  LocaleKeys.welcomeTwoDesc:
-      'Contrary to popular belief, Lorem Ipsum is not simply random text',
-  LocaleKeys.welcomeThreeTitle: 'Get product at your door',
-  LocaleKeys.welcomeThreeDesc:
-      'Contrary to popular belief, Lorem Ipsum is not simply random text',
-  LocaleKeys.welcomeSkip: 'Skip',
-  LocaleKeys.welcomeNext: 'Next',
-  LocaleKeys.welcomeStart: 'Get Started',
-
+  LocaleKeys.commonEdit: 'Edit',
+  LocaleKeys.commonEditPlaceholder: 'Please enter',
+  LocaleKeys.selectLanguage: 'Select Language',
+  // Login & Register - Common
   LocaleKeys.loginForgotPassword: 'Forgot Password?',
-
-  // 注册
-  LocaleKeys.commonLanguage: 'Language',
-  LocaleKeys.phonePlaceholder: 'Please enter phone number',
-  LocaleKeys.verifyCode: 'Code',
-  LocaleKeys.verifyPlaceHolder: 'Please enter verification code',
-  LocaleKeys.getVerifyCode: 'Get',
-  LocaleKeys.loginPassword: 'Password',
-  LocaleKeys.confirmPassword: 'Confirm',
+  LocaleKeys.loginSignIn: 'Sign In',
   LocaleKeys.loginSignUp: 'Sign Up',
-
-  // 登录
-  LocaleKeys.usernamePlaceholder: 'Please enter username',
-  LocaleKeys.passwordPlaceholder: 'Please enter password',
-  LocaleKeys.agreeTerms: 'I agree to the',
+  // Register
+  LocaleKeys.commonLanguage: 'Language',
+  LocaleKeys.phonePlaceholder: 'Enter Phone Number',
+  LocaleKeys.verifyCode: 'Verification Code',
+  LocaleKeys.verifyPlaceHolder: 'Enter Verification Code',
+  LocaleKeys.getVerifyCode: 'Get Code',
+  LocaleKeys.loginPassword: 'Login Password',
+  LocaleKeys.confirmPassword: 'Confirm Password',
+  // Login
+  LocaleKeys.usernamePlaceholder: 'Enter Account',
+  LocaleKeys.passwordPlaceholder: 'Enter Password',
+  LocaleKeys.agreeTerms: 'I have read and agree to the',
   LocaleKeys.userAgreement: 'User Agreement',
   LocaleKeys.privacyPolicy: 'Privacy Policy',
-  LocaleKeys.loginSignIn: 'Sign In',
-
-  // APP 导航
+  // APP Navigation
   LocaleKeys.tabBarHome: 'Home',
-  LocaleKeys.tabBarPosts: 'Posts',
-  LocaleKeys.tabBarMessage: 'Message',
-  LocaleKeys.tabBarProfile: 'Profile',
+  LocaleKeys.tabBarPosts: 'Community',
+  LocaleKeys.tabBarMessage: 'Messages',
+  LocaleKeys.tabBarProfile: 'Me',
+  // Home
+  LocaleKeys.certification: 'Nearby Verification',
+  LocaleKeys.safeDating: 'Safe Dating',
+  LocaleKeys.reliable: 'Genuine & Reliable',
+  LocaleKeys.viewNow: 'View Now',
+  LocaleKeys.tab_1: 'Recommended',
+  LocaleKeys.tab_2: 'Local',
+  LocaleKeys.tab_3: 'New Users',
+  LocaleKeys.highlyTrustedMatch: 'Highly Trusted Matches',
+  LocaleKeys.qualification: '@size of your safety credentials verified',
+  LocaleKeys.apply: 'Apply for Verification',
+  LocaleKeys.improve: 'Complete My Credentials',
+  LocaleKeys.viewApplication: 'View Application Report',
+  LocaleKeys.sayHi: 'Say Hi',
+  LocaleKeys.tag1: 'Real Name',
+  LocaleKeys.tag2: 'Health',
+  LocaleKeys.tag3: 'Tax',
+  LocaleKeys.tag4: 'Credit',
+  // Messages
+  LocaleKeys.message: 'Messages',
+  LocaleKeys.search: 'Search',
+  LocaleKeys.report: 'Apply for Report',
+  LocaleKeys.check: 'Request to View',
+  LocaleKeys.loveFourTitle1: 'Dating Verification',
+  LocaleKeys.loveFourTitle2: 'Personal Tax',
+  LocaleKeys.loveFourTitle3: 'Personal Credit',
+  LocaleKeys.content: 'Enter Message',
+  LocaleKeys.uploadReport: 'Upload Your Safety Report',
+  LocaleKeys.complete: 'Done',
+  // Community
+  LocaleKeys.circle: 'Community',
+  LocaleKeys.hotTopic: 'Trending Topics',
+  LocaleKeys.post: 'Post',
+  LocaleKeys.share: 'Share Joys & Pour Your Heart Out',
+  LocaleKeys.expand: 'Expand',
+  LocaleKeys.collapse: 'Collapse',
+  LocaleKeys.look: 'See What Others Share',
+  LocaleKeys.follow: 'Follow',
+  LocaleKeys.unfollow: 'Unfollow',
+  LocaleKeys.sendFeed: 'Post Moment',
+  // Community Detail
+  LocaleKeys.detail: 'Detail',
+  LocaleKeys.reply: 'Reply',
+  // Me
+  LocaleKeys.userCenter: 'Profile',
+  LocaleKeys.fans: 'Fans',
+  LocaleKeys.lookMe: 'Viewed Me',
+  LocaleKeys.lookedMe: 'I Viewed',
+  LocaleKeys.likeMe: 'Liked Me',
+  LocaleKeys.likedMe: 'I Liked',
+  LocaleKeys.myImage: 'My Profile',
+  LocaleKeys.editImage: 'Edit Profile',
+  LocaleKeys.man: 'Male',
+  LocaleKeys.woman: 'Female',
+  // Edit Profile
+  LocaleKeys.editProfile: 'Edit Profile',
+  LocaleKeys.showcaseWall: 'Showcase',
+  LocaleKeys.profile: 'Personal Info',
+  LocaleKeys.datingProfile: 'Dating Profile',
+  // Personal Info
+  LocaleKeys.nickname: 'Nickname',
+  LocaleKeys.introduction: 'Bio',
+  LocaleKeys.gender: 'Gender',
+  LocaleKeys.birth: 'Birthday',
+  LocaleKeys.height: 'Height',
+  LocaleKeys.weight: 'Weight',
+  LocaleKeys.personalityTags: 'Personality Tags',
+  LocaleKeys.identityVerification: 'Identity Verification',
+  // Settings
+  LocaleKeys.messageNotification: 'Message Notifications',
+  LocaleKeys.locationService: 'Location Services',
+  LocaleKeys.personalizedRecommendation: 'Personalized Recommendations',
+  LocaleKeys.teenMode: 'Teen Mode',
+  LocaleKeys.aboutUs: 'About Us',
+  LocaleKeys.logout: 'Sign Out',
 };

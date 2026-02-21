@@ -15,6 +15,8 @@ class RoutePages {
     ),
     GetPage(name: RouteNames.msgChat, page: () => const ChatPage()),
     GetPage(name: RouteNames.msgMsgIndex, page: () => const MsgIndexPage()),
+
+    GetPage(name: RouteNames.myEdit, page: () => const EditPage()),
     GetPage(
       name: RouteNames.myEditProfile,
       page: () => const EditProfilePage(),

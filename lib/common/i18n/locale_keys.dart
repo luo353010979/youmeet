@@ -12,6 +12,9 @@ class LocaleKeys {
   static const commonMessageSuccess = 'common_message_success';
   static const commonMessageIncorrect = 'common_message_incorrect';
   static const commonNext = 'common_next';
+  static const commonEdit = 'common_edit';
+  static const commonEditPlaceholder = 'common_edit_placeholder';
+
   static const selectLanguage = 'select_language';
 
   // 欢迎页
@@ -126,6 +129,8 @@ class LocaleKeys {
   static const weight = 'weight';
   static const personalityTags = 'personality_tags';
   static const identityVerification = 'identity_verification';
+  static const man = 'man';
+  static const woman = 'woman';
 
   // 设置
   static const messageNotification = 'message_notification';

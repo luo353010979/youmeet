@@ -5,6 +5,7 @@ class RouteNames {
   static const msgChat = '/msg_chat';
   static const msgMsgIndex = '/msg_msg_index';
 
+  static const myEdit = '/my_edit';
   static const myEditProfile = '/my_edit_profile';
   static const myEditProfileInfo = '/my_edit_profile_info';
   static const myMyIndex = '/my_my_index';

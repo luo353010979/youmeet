@@ -1,5 +1,4 @@
 import 'package:youmeet/common/index.dart';
-import 'package:youmeet/common/models/comment_model/comment_model.dart';
 
 class PostApi {
   /// 推荐动态
