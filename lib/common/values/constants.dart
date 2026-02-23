@@ -2,6 +2,8 @@
 class Constants {
   // wp 服务器
   static const wpApiBaseUrl = 'http://114.66.37.86:8180';
+  static const wkImAddr = '114.66.37.86:5100';
+
   // 本地存储key
   static const storageLanguageCode = 'language_code';
 
@@ -19,4 +21,6 @@ class Constants {
   static const editParams = "edit_params"; // 编辑参数
   static const editNickname = 0; // 编辑昵称
   static const editProfile = 1; // 编辑个人简介
+  static const editHeight = 2; // 编辑身高
+  static const editWeight = 3; // 编辑体重
 }

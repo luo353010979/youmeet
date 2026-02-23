@@ -75,7 +75,7 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
           color: Color(0xFF666666),
         ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
-        onTap: () {},
+        onTap: () => controller.toEditPage(type: Constants.editHeight),
       ).tight(height: 50.h),
 
       Divider(height: 1.h, color: Color(0x1A333333)),
@@ -88,7 +88,7 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
           color: Color(0xFF666666),
         ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
-        onTap: () {},
+        onTap: () => controller.toEditPage(type: Constants.editWeight),
       ).tight(height: 50.h),
 
       Divider(height: 1.h, color: Color(0x1A333333)),
@@ -148,7 +148,9 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
                     "保存",
                     width: 50.w,
                     height: 25.h,
-                    onTap: () {},
+                    onTap: () {
+                      controller.saveProfile();
+                    },
                   ),
                 ),
               ),

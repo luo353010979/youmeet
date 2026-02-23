@@ -34,7 +34,7 @@ class PostDetalController extends GetxController {
   Future<void> fetchComments(String id) async {
     final response = await PostApi.getCommentsByPostId(trendsId: id);
     if (response.success) {
-      comments = response.result.records ?? [];
+      comments = response.result?.records ?? [];
       update(["post_detal"]);
     }
   }

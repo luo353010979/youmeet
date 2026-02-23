@@ -52,9 +52,12 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
   Widget _buildAvatarWidget() {
     return <Widget>[
       ImageWidget.img(
-        AssetsImages.imgAvatarPng,
+        controller.avatarPath.isNotEmpty
+            ? "http://${controller.avatarPath}"
+            : AssetsImages.imgAvatarPng,
         width: 80.r,
         height: 80.r,
+        radius: 50,
         fit: BoxFit.cover,
       ),
       ImageWidget.img(
@@ -64,7 +67,7 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
             fit: BoxFit.cover,
           )
           .onTap(() {
-            // controller.chooseAvatar();
+            controller.pickImage();
           })
           .positioned(right: 0, bottom: 0),
     ].toStack();

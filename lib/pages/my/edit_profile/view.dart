@@ -117,7 +117,9 @@ class EditProfilePage extends GetView<MyIndexController> {
                     "保存",
                     width: 50.w,
                     height: 25.h,
-                    onTap: () {},
+                    onTap: () {
+                      controller.saveProfile();
+                    },
                   ),
                 ),
               ),

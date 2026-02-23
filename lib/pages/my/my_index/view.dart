@@ -1,4 +1,4 @@
-import 'package:ducafe_ui_core/ducafe_ui_core.dart';
+import 'package:ducafe_ui_core/ducafe_ui_core.dart' hide SizedBoxExtensions;
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -97,64 +97,68 @@ class MyIndexPage extends GetView<MyIndexController> {
   /// 我的形象
   Widget _buildMyImage() {
     return Card(
-      child:
-          <Widget>[
-                TextWidget.body("我的形象", weight: FontWeight.bold),
+      child: <Widget>[
+        TextWidget.body("我的形象", weight: FontWeight.bold),
 
-                <Widget>[
-                  TextWidget.label("图片1")
-                      .alignCenter()
-                      .tight(width: 150.w, height: 150.w)
-                      .decorated(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: Color(0x26F2A3D6),
-                      ),
+        12.verticalSpace,
 
-                  <Widget>[
-                        <Widget>[
-                          TextWidget.label("图片2")
-                              .alignCenter()
-                              .tight(width: 71.w, height: 98.w)
-                              .decorated(
-                                borderRadius: BorderRadius.circular(8.r),
-                                color: Color(0x26F2A3D6),
-                              ),
+        ImageSelectorWidget(
+          maxImages: 3,
+          onImagesSelected: (images) {
+            controller.onMyImageSelected(images);
+          },
+        ),
 
-                          TextWidget.label("图片3")
-                              .alignCenter()
-                              .tight(width: 71.w, height: 98.w)
-                              .decorated(
-                                borderRadius: BorderRadius.circular(8.r),
-                                color: Color(0x26F2A3D6),
-                              ),
-                        ].toRow(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        ),
+        // <Widget>[
+        //   TextWidget.label("图片1")
+        //       .alignCenter()
+        //       .tight(width: 150.w, height: 150.w)
+        //       .decorated(
+        //         borderRadius: BorderRadius.circular(8.r),
+        //         color: Color(0x26F2A3D6),
+        //       ),
 
-                        ImageWidget.img(
-                          AssetsImages.imgMyEditPng,
-                          width: 150.w,
-                          height: 44.w,
-                          fit: BoxFit.cover,
-                        ).onTap(() {
-                          var token = Storage().getString(
-                            Constants.storageToken,
-                          );
-                          print(token);
-                        }),
-                      ]
-                      .toColumn(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      )
-                      .tight(width: 150.w, height: 150.w),
-                ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
-              ]
-              .toColumn(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              )
-              .paddingAll(16.w),
-    ).tight(height: 215.w).marginOnly(bottom: 20.h);
+        //   <Widget>[
+        //         <Widget>[
+        //           TextWidget.label("图片2")
+        //               .alignCenter()
+        //               .tight(width: 71.w, height: 98.w)
+        //               .decorated(
+        //                 borderRadius: BorderRadius.circular(8.r),
+        //                 color: Color(0x26F2A3D6),
+        //               ),
+
+        //           TextWidget.label("图片3")
+        //               .alignCenter()
+        //               .tight(width: 71.w, height: 98.w)
+        //               .decorated(
+        //                 borderRadius: BorderRadius.circular(8.r),
+        //                 color: Color(0x26F2A3D6),
+        //               ),
+        //         ].toRow(
+        //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //         ),
+
+        //         ImageWidget.img(
+        //           AssetsImages.imgMyEditPng,
+        //           width: 150.w,
+        //           height: 44.w,
+        //           fit: BoxFit.cover,
+        //         ).onTap(() {
+        //           var token = Storage().getString(
+        //             Constants.storageToken,
+        //           );
+        //           print(token);
+        //         }),
+        //       ]
+        //       .toColumn(
+        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       )
+        //       .tight(width: 150.w, height: 150.w),
+        // ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
+      ].toColumn(crossAxisAlignment: CrossAxisAlignment.start).paddingAll(16.w),
+    ).marginOnly(bottom: 20.h);
+    // ).marginOnly(bottom: 20.h);
   }
 
   Widget _buildPostList() {
@@ -188,22 +192,22 @@ class MyIndexPage extends GetView<MyIndexController> {
         ),
         title: TextWidget.body("${feed.name}"),
         subtitle: TextWidget.muted("${feed.createTime}"),
-        trailing: [
-          ButtonWidget.outline(
-            "分享",
-            fontSize: 12.sp,
-            textWeight: FontWeight.bold,
-            icon: IconWidget.svg(AssetsSvgs.icMyShareSvg),
-            backgroundColor: Color(0x26F2A3D6),
-            textColor: Color(0xFFFFA2DE),
-            borderColor: Color(0xFFFFA2DE),
-            borderRadius: 50,
-            reverse: true,
-            onTap: () {
-              print("点击了分享");
-            },
-          ).tight(width: 76.w, height: 24.h),
-        ],
+        // trailing: [
+        //   ButtonWidget.outline(
+        //     "分享",
+        //     fontSize: 12.sp,
+        //     textWeight: FontWeight.bold,
+        //     icon: IconWidget.svg(AssetsSvgs.icMyShareSvg),
+        //     backgroundColor: Color(0x26F2A3D6),
+        //     textColor: Color(0xFFFFA2DE),
+        //     borderColor: Color(0xFFFFA2DE),
+        //     borderRadius: 50,
+        //     reverse: true,
+        //     onTap: () {
+        //       print("点击了分享");
+        //     },
+        //   ).tight(width: 76.w, height: 24.h),
+        // ],
       ),
 
       TextWidget.label(

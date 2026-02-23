@@ -64,7 +64,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
               IconWidget.svg(
                 AssetsSvgs.icMsgSettingSvg,
                 onTap: () {
-                  print("消息设置");
+                  controller.connectIM();
                 },
               ).paddingOnly(right: 16),
             ],

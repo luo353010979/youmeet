@@ -11,6 +11,11 @@ class ChatPage extends GetView<ChatController> {
   // 主视图
   Widget _buildView(BuildContext context) {
     return <Widget>[
+      InputWidget(
+        controller: controller.idController,
+        placeholder: LocaleKeys.content.tr,
+        borderRadius: BorderRadius.circular(8.r),
+      ),
       _buildMessageList().expanded(),
       _buildInputBar(),
     ].toColumn();
@@ -44,8 +49,10 @@ class ChatPage extends GetView<ChatController> {
       ),
 
       InputWidget(
+        controller: controller.msgController,
         placeholder: LocaleKeys.content.tr,
         borderRadius: BorderRadius.circular(8.r),
+        onSubmitted: (value) => controller.sendMessage(value),
       ).expanded(),
 
       IconButton(
@@ -139,7 +146,10 @@ class ChatPage extends GetView<ChatController> {
       elevation: 4,
       child:
           <Widget>[
-                TextWidget.body(LocaleKeys.uploadReport.tr, weight: FontWeight.bold),
+                TextWidget.body(
+                  LocaleKeys.uploadReport.tr,
+                  weight: FontWeight.bold,
+                ),
 
                 controller.types
                     .map(

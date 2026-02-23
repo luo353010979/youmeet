@@ -18,7 +18,7 @@ class UserMessage {
   String? createTime;
   String? distance;
   int? drink;
-  double? earningsBalance;
+  dynamic earningsBalance;
   String? education;
   int? emotionalExperience;
   String? expireTime;
@@ -201,7 +201,7 @@ class UserMessage {
     createTime: json['createTime'] as String?,
     distance: json['distance'] as String?,
     drink: json['drink'] as int?,
-    earningsBalance: json['earningsBalance'] as double?,
+    earningsBalance: json['earningsBalance'],
     education: json['education'] as String?,
     emotionalExperience: json['emotionalExperience'] as int?,
     expireTime: json['expireTime'] as String?,

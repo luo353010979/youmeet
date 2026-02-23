@@ -73,9 +73,15 @@ class MyIndexController extends GetxController {
     }
   }
 
-  // 选择多张图片
+  /// 个人信息-展示墙照片
   void setImagePaths(List<String> paths) {
     imagePaths = paths;
+  }
+
+  /// 我的形象
+  void onMyImageSelected(List<String> images) {
+    print('选中图片路径: $images');
+    // 这里可以处理选中的图片路径，例如上传到服务器或更新UI
   }
 
   /// 获取我的动态列表
@@ -83,7 +89,7 @@ class MyIndexController extends GetxController {
     BaseResponse<FeedModel> response = await UserApi.getMyFeed();
     if (response.success) {
       FeedModel? myFeed = response.result;
-      myFeedList = myFeed.records ?? [];
+      myFeedList = myFeed?.records ?? [];
       update(["my_index"]);
     } else {
       print('获取动态列表失败: ${response.message}');
@@ -107,9 +113,19 @@ class MyIndexController extends GetxController {
         case Constants.editProfile:
           userMessage.profile = result;
           break;
+        case Constants.editHeight:
+          userMessage.height = int.tryParse(result) ?? userMessage.height;
+          break;
+        case Constants.editWeight:
+          userMessage.weight = int.tryParse(result) ?? userMessage.weight;
       }
-
       update(["edit_profile_info"]);
     }
+  }
+
+  /// 保存资料
+  void saveProfile() async {
+    await UserService.to.setProfile(userMessage);
+    Get.back();
   }
 }

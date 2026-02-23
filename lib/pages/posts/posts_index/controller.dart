@@ -64,7 +64,7 @@ class PostsIndexController extends GetxController {
     );
     final response = await PostApi.requestRecommendFeed(postsReq);
     if (response.success) {
-      feedList = response.result.records ?? [];
+      feedList = response.result?.records ?? [];
       update(["posts_index"]);
     } else {
       // 处理错误的响应

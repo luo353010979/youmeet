@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:youmeet/common/index.dart';
+import 'package:youmeet/common/services/upload.dart';
 
 class RegisterIndexController extends GetxController {
   RegisterIndexController();
 
-  String get currentLanguage => ConfigService.to.locale.languageCode == 'zh' ? "中文" : "English";
+  String get currentLanguage =>
+      ConfigService.to.locale.languageCode == 'zh' ? "中文" : "English";
 
   final phoneController = TextEditingController();
 
@@ -20,6 +23,8 @@ class RegisterIndexController extends GetxController {
 
   final birthController = TextEditingController();
   final birthFocusNode = FocusNode();
+
+  final ImagePicker _picker = ImagePicker();
 
   CountryModel countryModel = CountryModel(
     id: "1",
@@ -36,7 +41,7 @@ class RegisterIndexController extends GetxController {
     appKey: null,
   );
 
-  String avatarUri = "";
+  String avatarPath = "";
 
   int gender = 1;
 
@@ -74,9 +79,10 @@ class RegisterIndexController extends GetxController {
   void updateButtonState() {
     isRegisterEnabled =
         phoneController.text.isNotEmpty &&
-        passwordController.text.isNotEmpty &&
         verifyCodeController.text.isNotEmpty &&
-        confirmPasswordController.text.isNotEmpty;
+        passwordController.text.isNotEmpty &&
+        confirmPasswordController.text.isNotEmpty &&
+        passwordController.text == confirmPasswordController.text;
     update(["register_btn"]);
   }
 
@@ -102,6 +108,7 @@ class RegisterIndexController extends GetxController {
 
   void onRegister() async {
     UserRegisterReq req = UserRegisterReq(
+      portrait: avatarPath,
       account: phoneController.text,
       password: passwordController.text,
       name: nikenameController.text,
@@ -135,5 +142,33 @@ class RegisterIndexController extends GetxController {
   void updateAgreePrivacy(bool? value) {
     isAgreePrivacy = value ?? false;
     update(["privacy"]);
+  }
+
+  // 选择单张图片
+  void pickImage() async {
+    try {
+      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        print('选中图片: ${pickedFile.path}');
+
+        await UploadService.to.requestQiniuToken();
+
+        UploadService.to.upload(
+          pickedFile.path,
+          onProgress: (progress) {},
+          onStatus: (state) {
+            print(state);
+          },
+          onDone: (done) {
+            print('上传完成: ${done.key}');
+            avatarPath = "t.pic.mooneyu.com/${done.key}";
+            update(["register_basic_information"]);
+          },
+        );
+      }
+    } catch (e) {
+      print('选择图片失败: $e');
+      Get.snackbar('错误', '选择图片失败，请检查权限设置');
+    }
   }
 }

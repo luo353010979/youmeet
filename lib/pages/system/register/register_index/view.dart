@@ -126,6 +126,7 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
                   LocaleKeys.loginPassword.tr,
                 ).tight(width: 85.w),
                 title: TextFormField(
+                  obscureText: true,
                   controller: controller.passwordController,
                   onTapOutside: (event) =>
                       FocusScope.of(context).requestFocus(FocusNode()),
@@ -150,6 +151,7 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
                   LocaleKeys.confirmPassword.tr,
                 ).tight(width: 85.w),
                 title: TextFormField(
+                  obscureText: true,
                   controller: controller.confirmPasswordController,
                   onTapOutside: (event) =>
                       FocusScope.of(context).requestFocus(FocusNode()),

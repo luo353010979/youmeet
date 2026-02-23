@@ -3,14 +3,14 @@ class BaseResponse<T> {
   bool success;
   String message;
   int code;
-  T result;
+  T? result;
   int timestamp;
 
   BaseResponse({
     required this.success,
     required this.message,
     required this.code,
-    required this.result,
+    this.result,
     required this.timestamp,
   });
 
@@ -21,7 +21,7 @@ class BaseResponse<T> {
     success: json['success'] as bool,
     message: json['message'] as String,
     code: json['code'] as int,
-    result: fromJsonT(json['result']),
+    result: json['result'] != null ? fromJsonT(json['result']) : null,
     timestamp: json['timestamp'] as int,
   );
 
@@ -29,7 +29,7 @@ class BaseResponse<T> {
     'success': success,
     'message': message,
     'code': code,
-    'result': toJsonT(result),
+    'result': result != null ? toJsonT(result as T) : null,
     'timestamp': timestamp,
   };
 }
