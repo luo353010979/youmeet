@@ -41,9 +41,8 @@ class RegisterIndexController extends GetxController {
     appKey: null,
   );
 
-  String avatarPath = "";
-
-  int gender = 1;
+  // 注册请求参数
+  UserRegisterReq req = UserRegisterReq(sex: 1);
 
   bool isRegisterEnabled = false;
 
@@ -100,25 +99,22 @@ class RegisterIndexController extends GetxController {
     }
   }
 
+  //portrait
   /// 更新性别
   void updateGender(int i) {
-    gender = i;
+    req.sex = i;
     update(["gender"]);
   }
 
   void onRegister() async {
-    UserRegisterReq req = UserRegisterReq(
-      portrait: avatarPath,
-      account: phoneController.text,
-      password: passwordController.text,
-      name: nikenameController.text,
-      birthday: birthController.text,
-      country: countryModel.chinese,
-      phoneAreaCode: countryModel.phone,
-      sex: gender,
-      shortEn: countryModel.shortEn,
-      zoneId: countryModel.zoneId,
-    );
+    req.account = phoneController.text;
+    req.password = passwordController.text;
+    req.name = nikenameController.text;
+    req.birthday = birthController.text;
+    req.country = countryModel.chinese;
+    req.phoneAreaCode = countryModel.phone;
+    req.shortEn = countryModel.shortEn;
+    req.zoneId = countryModel.zoneId;
     final isRegister = await UserService.to.register(req);
     if (isRegister) {
       Get.offAllNamed(RouteNames.systemMain);
@@ -145,24 +141,29 @@ class RegisterIndexController extends GetxController {
   }
 
   // 选择单张图片
-  void pickImage() async {
+  void pickImage(String type) async {
     try {
       final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
-        print('选中图片: ${pickedFile.path}');
-
         await UploadService.to.requestQiniuToken();
 
         UploadService.to.upload(
           pickedFile.path,
           onProgress: (progress) {},
-          onStatus: (state) {
-            print(state);
-          },
+          onStatus: (state) {},
           onDone: (done) {
             print('上传完成: ${done.key}');
-            avatarPath = "t.pic.mooneyu.com/${done.key}";
-            update(["register_basic_information"]);
+            switch (type) {
+              case Constants.avatar:
+                req.portrait = "t.pic.mooneyu.com/${done.key}";
+                update(["register_basic_information"]);
+                break;
+              case Constants.realPic:
+                req.realPic = "t.pic.mooneyu.com/${done.key}";
+                update(["register_upload_picture"]);
+                break;
+              default:
+            }
           },
         );
       }

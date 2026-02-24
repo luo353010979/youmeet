@@ -147,10 +147,11 @@ class UserService extends GetxService {
         return true;
       } else {
         Loading.error(response.message);
-        throw Exception(response.message);
+        return false;
       }
     } catch (e) {
-      rethrow;
+      print(e);
+      return false;
     } finally {
       Loading.dismiss();
     }

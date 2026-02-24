@@ -29,10 +29,7 @@ class MsgIndexController extends GetxController {
   //   super.onClose();
   // }
 
-  
-
   void connectIM() async {
     // 连接 IM 服务器
-    
   }
 }

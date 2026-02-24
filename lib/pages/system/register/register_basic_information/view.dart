@@ -33,15 +33,15 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
           Spacer(),
 
           ButtonWidget.primary(
-            "注册",
+            LocaleKeys.commonNext.tr,
             textWeight: FontWeight.bold,
             height: 44.h,
             elevation: 0,
             borderRadius: 50,
             onTap: () {
               // 跳转到实名认证
-              // Get.toNamed(RouteNames.systemRegisterRegisterUploadPicture);
-              controller.onRegister();
+              Get.toNamed(RouteNames.systemRegisterRegisterUploadPicture);
+              // controller.onRegister();
             },
           ).tight(height: 44.h).paddingBottom(30.h),
         ]
@@ -52,8 +52,8 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
   Widget _buildAvatarWidget() {
     return <Widget>[
       ImageWidget.img(
-        controller.avatarPath.isNotEmpty
-            ? "http://${controller.avatarPath}"
+        controller.req.portrait?.isNotEmpty == true
+            ? "http://${controller.req.portrait}"
             : AssetsImages.imgAvatarPng,
         width: 80.r,
         height: 80.r,
@@ -67,7 +67,7 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
             fit: BoxFit.cover,
           )
           .onTap(() {
-            controller.pickImage();
+            controller.pickImage(Constants.avatar);
           })
           .positioned(right: 0, bottom: 0),
     ].toStack();
@@ -170,8 +170,8 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
               height: 24.h,
               borderRadius: 50,
               elevation: 0,
-              textColor: controller.gender == 1 ? Colors.white : Colors.black,
-              backgroundColor: controller.gender == 1
+              textColor: controller.req.sex == 1 ? Colors.white : Colors.black,
+              backgroundColor: controller.req.sex == 1
                   ? Get.theme.colorScheme.primary
                   : Colors.white,
               onTap: () {
@@ -184,8 +184,8 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
               height: 24.h,
               borderRadius: 50,
               elevation: 0,
-              textColor: controller.gender == 2 ? Colors.white : Colors.black,
-              backgroundColor: controller.gender == 2
+              textColor: controller.req.sex == 2 ? Colors.white : Colors.black,
+              backgroundColor: controller.req.sex == 2
                   ? Get.theme.colorScheme.primary
                   : Colors.white,
               onTap: () {

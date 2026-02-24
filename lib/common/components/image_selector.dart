@@ -33,7 +33,7 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
   /// 选择图片
   void pickMultipleImages({int? maxImages}) async {
     try {
-      final pickedFiles = await _picker.pickMultiImage(limit: maxImages,);
+      final pickedFiles = await _picker.pickMultiImage(limit: maxImages);
 
       if (pickedFiles.isNotEmpty) {
         // 如果设置了最大数量限制

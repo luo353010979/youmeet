@@ -2,18 +2,19 @@ import 'package:ducafe_ui_core/ducafe_ui_core.dart' hide SizedBoxExtensions;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
+import 'package:youmeet/pages/index.dart';
 
-import 'index.dart';
-
-class RegisterUploadPicturePage
-    extends GetView<RegisterUploadPictureController> {
+class RegisterUploadPicturePage extends GetView<RegisterIndexController> {
   const RegisterUploadPicturePage({super.key});
 
   // 主视图
   Widget _buildView() {
     return Center(
       child: <Widget>[
-        _takePhotoWidget(),
+        controller.req.realPic != null && controller.req.realPic!.isNotEmpty
+            ? _buildRealPicWidget()
+            : _takePhotoWidget(),
+        // _takePhotoWidget(),
         15.verticalSpace,
         _buildImageWidget(),
       ].toColumn(crossAxisAlignment: CrossAxisAlignment.center),
@@ -34,7 +35,9 @@ class RegisterUploadPicturePage
                   "拍照",
                   elevation: 0,
                   borderRadius: 50,
-                  onTap: () {},
+                  onTap: () {
+                    controller.pickImage(Constants.realPic);
+                  },
                 ),
               ]
               .toColumn(
@@ -45,18 +48,44 @@ class RegisterUploadPicturePage
     ).tight(width: 320.w, height: 436.h);
   }
 
+  Widget _buildRealPicWidget() {
+    return ImageWidget.img(
+      "http://${controller.req.realPic}",
+      width: 320.w,
+      height: 436.h,
+      fit: BoxFit.cover,
+    );
+  }
+
   Widget _buildImageWidget() {
     return Container(width: 320.w, height: 220.h, color: Colors.grey[300]);
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RegisterUploadPictureController>(
-      init: RegisterUploadPictureController(),
+    return GetBuilder<RegisterIndexController>(
       id: "register_upload_picture",
       builder: (_) {
         return Scaffold(
-          appBar: AppBarWidget(title: "实名认证", backgroundColor: Colors.white),
+          appBar: AppBarWidget(
+            title: "实名认证",
+            backgroundColor: Colors.white,
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(right: 16.w),
+                child: Center(
+                  child: ButtonWidget.primary(
+                    "保存",
+                    width: 50.w,
+                    height: 25.h,
+                    onTap: () {
+                      controller.onRegister();
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
           body: SafeArea(child: _buildView()),
         );
       },

@@ -142,6 +142,10 @@ class ChatPage extends GetView<ChatController> {
   }
 
   Widget _buildUploadCard() {
+    final realPic = controller.displayRealPic;
+    final payTaxesPic = controller.displayPayTaxesPic;
+    final creditPic = controller.displayCreditPic;
+
     return Card(
       elevation: 4,
       child:
@@ -151,33 +155,11 @@ class ChatPage extends GetView<ChatController> {
                   weight: FontWeight.bold,
                 ),
 
-                controller.types
-                    .map(
-                      (type) =>
-                          <Widget>[
-                                ImageWidget.img(
-                                  AssetsImages.imgMsgUploadPng,
-                                  width: 32.r,
-                                  height: 30.r,
-                                ),
-
-                                TextWidget.label(
-                                  type.title,
-                                  weight: FontWeight.bold,
-                                ),
-                              ]
-                              .toColumnSpace(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                space: 5.h,
-                              )
-                              .tight(width: 95.w, height: 71.h)
-                              .decorated(
-                                color: Color(0xFFF4F3F3),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                    )
-                    .toList()
-                    .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
+                <Widget>[
+                  _buildUploadCell(LocaleKeys.loveFourTitle1.tr, 1, realPic),
+                  _buildUploadCell(  LocaleKeys.loveFourTitle2.tr, 2,  payTaxesPic ),
+                  _buildUploadCell(LocaleKeys.loveFourTitle3.tr, 3, creditPic),
+                ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
                 ButtonWidget.primary(
                   LocaleKeys.complete.tr,
@@ -188,6 +170,42 @@ class ChatPage extends GetView<ChatController> {
               .toColumn(mainAxisAlignment: MainAxisAlignment.spaceBetween)
               .paddingSymmetric(horizontal: 14.w, vertical: 10.h),
     ).tight(width: 343.w, height: 165.h);
+  }
+
+  Widget _buildUploadCell(String title, int id, String? imageUrl) {
+    if (imageUrl != null && imageUrl.isNotEmpty) {
+      return ImageWidget.img(
+        imageUrl,
+        width: 95.w,
+        height: 71.h,
+        fit: BoxFit.cover,
+      ).onTap(() {
+        controller.pickImage(id);
+      });
+    }
+    
+    return _buildUploadItem(title, id);
+  }
+
+  Widget _buildUploadItem(String title, int id) {
+    return <Widget>[
+          ImageWidget.img(
+            AssetsImages.imgMsgUploadPng,
+            width: 32.r,
+            height: 30.r,
+          ),
+
+          TextWidget.label(title, weight: FontWeight.bold),
+        ]
+        .toColumnSpace(mainAxisAlignment: MainAxisAlignment.center, space: 5.h)
+        .tight(width: 95.w, height: 71.h)
+        .decorated(
+          color: Color(0xFFF4F3F3),
+          borderRadius: BorderRadius.circular(8),
+        )
+        .onTap(() {
+          controller.pickImage(id);
+        });
   }
 
   @override

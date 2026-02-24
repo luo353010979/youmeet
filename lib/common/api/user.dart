@@ -14,6 +14,29 @@ class UserApi {
     );
   }
 
+  /// 编辑安全报告
+  static Future<BaseResponse<String>> editReport(EditReportReq data) async {
+    final response = await WPHttpService.to.post(
+      "/jeecg-boot/api/ym/edit",
+      data: data.toJson(),
+    );
+    return BaseResponse.fromJson(response.data, (data) => data as String);
+  }
+
+  /// 获取安全报告
+  static Future<BaseResponse<SafeReportModel>> getSafeReport({
+    required String id,
+  }) async {
+    final response = await WPHttpService.to.get(
+      "/jeecg-boot/api/ym/queryById",
+      params: {"id": id},
+    );
+    return BaseResponse.fromJson(
+      response.data,
+      (data) => SafeReportModel.fromJson(data),
+    );
+  }
+
   /// 用户登录
   static Future<BaseResponse<UserModel>> login(UserLoginReq data) async {
     final response = await WPHttpService.to.post(
