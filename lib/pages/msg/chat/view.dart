@@ -157,7 +157,11 @@ class ChatPage extends GetView<ChatController> {
 
                 <Widget>[
                   _buildUploadCell(LocaleKeys.loveFourTitle1.tr, 1, realPic),
-                  _buildUploadCell(  LocaleKeys.loveFourTitle2.tr, 2,  payTaxesPic ),
+                  _buildUploadCell(
+                    LocaleKeys.loveFourTitle2.tr,
+                    2,
+                    payTaxesPic,
+                  ),
                   _buildUploadCell(LocaleKeys.loveFourTitle3.tr, 3, creditPic),
                 ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
@@ -183,7 +187,7 @@ class ChatPage extends GetView<ChatController> {
         controller.pickImage(id);
       });
     }
-    
+
     return _buildUploadItem(title, id);
   }
 

@@ -9,8 +9,8 @@ class PostsReq {
     required this.latitude,
     required this.longitude,
     this.isVideo,
-    this.pageNo,
-    this.pageSize,
+    this.pageNo = 1,
+    this.pageSize = 10,
   });
 
   factory PostsReq.fromJson(Map<String, dynamic> json) => PostsReq(
