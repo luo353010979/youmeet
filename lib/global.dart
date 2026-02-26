@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:youmeet/common/services/upload.dart';
 
 import 'common/index.dart';
 
@@ -16,6 +15,7 @@ class Global {
     Get.put<WPHttpService>(WPHttpService());
     Get.put<UploadService>(UploadService());
     Get.put<UserService>(UserService());
+    Get.put<MsgService>(MsgService());
 
     // 初始化配置
     await ConfigService.to.init();

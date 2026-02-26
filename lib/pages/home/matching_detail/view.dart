@@ -79,28 +79,29 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
           },
         ),
         // 指示器
-        Positioned(
-          bottom: 100.h,
-          left: 0,
-          right: 0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              controller.bannerImages.length,
-              (index) => Container(
-                margin: EdgeInsets.symmetric(horizontal: 4.w),
-                width: controller.currentIndex == index ? 20.w : 6.w,
-                height: 6.w,
-                decoration: BoxDecoration(
-                  color: controller.currentIndex == index
-                      ? Colors.white
-                      : Colors.white.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(3.w),
+        if (controller.bannerImages.length > 1)
+          Positioned(
+            bottom: 100.h,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                controller.bannerImages.length,
+                (index) => Container(
+                  margin: EdgeInsets.symmetric(horizontal: 4.w),
+                  width: controller.currentIndex == index ? 20.w : 6.w,
+                  height: 6.w,
+                  decoration: BoxDecoration(
+                    color: controller.currentIndex == index
+                        ? Colors.white
+                        : Colors.white.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(3.w),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
       ],
     );
   }
@@ -112,20 +113,21 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
       clipBehavior: Clip.antiAlias,
       child: ListTileWidget(
         leading: ImageWidget.img(
-          AssetsImages.imgMsgAvaterPng,
+          "http://${controller.user?.portrait}",
           width: 68.w,
           height: 68.w,
-          fit: BoxFit.contain,
+          radius: 50,
+          fit: BoxFit.cover,
         ),
         titleSubtitleSpace: 12.h,
         title: <Widget>[
-          TextWidget.body("星星点灯", weight: FontWeight.bold),
+          TextWidget.body(controller.user?.name ?? "", weight: FontWeight.bold),
 
           TextWidget.label("● 在线", color: Color(0xFF92D21A), size: 10),
 
           IconWidget.svg(
                 AssetsSvgs.icMyGirlSvg,
-                text: "22岁",
+                text: "${controller.user?.age ?? ""}",
                 size: 10.r,
                 fontSize: 10,
                 space: 2.w,
@@ -187,42 +189,63 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
           ColumTextWidget(
             spacing: 4.h,
             keyText: TextWidget.muted("身高", size: 10),
-            valueText: TextWidget.label("165cm", weight: FontWeight.bold),
+            valueText: TextWidget.label(
+              "${controller.user?.height ?? "- -"}",
+              weight: FontWeight.bold,
+            ),
           ),
           ColumTextWidget(
             spacing: 4.h,
             keyText: TextWidget.muted("体重", size: 10),
-            valueText: TextWidget.label("50kg", weight: FontWeight.bold),
+            valueText: TextWidget.label(
+              "${controller.user?.weight ?? "- -"}",
+              weight: FontWeight.bold,
+            ),
           ),
           ColumTextWidget(
             spacing: 4.h,
             keyText: TextWidget.muted("年龄", size: 10),
-            valueText: TextWidget.label("22岁", weight: FontWeight.bold),
+            valueText: TextWidget.label(
+              "${controller.user?.age ?? "- -"}",
+              weight: FontWeight.bold,
+            ),
           ),
           ColumTextWidget(
             spacing: 4.h,
             keyText: TextWidget.muted("职业", size: 10),
-            valueText: TextWidget.label("软件工程师", weight: FontWeight.bold),
+            valueText: TextWidget.label(
+              controller.user?.job ?? "- -",
+              weight: FontWeight.bold,
+            ),
           ),
           ColumTextWidget(
             spacing: 4.h,
             keyText: TextWidget.muted("学历", size: 10),
-            valueText: TextWidget.label("本科", weight: FontWeight.bold),
+            valueText: TextWidget.label(
+              controller.user?.education ?? "- -",
+              weight: FontWeight.bold,
+            ),
           ),
           ColumTextWidget(
             spacing: 4.h,
             keyText: TextWidget.muted("收入", size: 10),
-            valueText: TextWidget.label("10万-20万", weight: FontWeight.bold),
+            valueText: TextWidget.label(
+              "${controller.user?.income ?? "- -"}",
+              weight: FontWeight.bold,
+            ),
           ),
           ColumTextWidget(
             spacing: 4.h,
             keyText: TextWidget.muted("婚姻状况", size: 10),
-            valueText: TextWidget.label("未婚", weight: FontWeight.bold),
+            valueText: TextWidget.label(
+              "${controller.user?.emotionalExperience ?? "- -"}",
+              weight: FontWeight.bold,
+            ),
           ),
           ColumTextWidget(
             spacing: 4.h,
             keyText: TextWidget.muted("有无子女", size: 10),
-            valueText: TextWidget.label("无", weight: FontWeight.bold),
+            valueText: TextWidget.label("- -", weight: FontWeight.bold),
           ),
         ],
       ),

@@ -21,3 +21,6 @@ export 'comment_model/comment_model.dart';
 export 'comment_model/feed_comment.dart';
 export 'comment_model/order.dart';
 export 'safe_report_model.dart';
+export 'request/send_message_req.dart';
+export 'message_model/message_model.dart';
+export 'message_model/message.dart';

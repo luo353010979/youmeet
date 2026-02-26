@@ -1,7 +1,10 @@
 import 'package:ducafe_ui_core/ducafe_ui_core.dart';
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wukongimfluttersdk/entity/conversation.dart';
 import 'package:youmeet/common/index.dart';
+import 'package:badges/badges.dart' as badges;
 
 import 'index.dart';
 
@@ -22,31 +25,101 @@ class MsgIndexPage extends GetView<MsgIndexController> {
   }
 
   Widget _buildMsgList() {
-    return ListView.separated(
-      padding: EdgeInsets.symmetric(horizontal: AppSpace.page.w),
-      itemCount: 5,
-      shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
-      itemBuilder: (context, index) {
-        return ListTileWidget(
-          padding: EdgeInsets.zero,
-          leading: ImageWidget.img(AssetsImages.imgMsgAvaterPng),
-          title: TextWidget.label('昵称 $index'),
-          subtitle: TextWidget.muted('这是消息的简要内容预览。'),
-          backgroundColor: Colors.transparent,
-          trailing: [
-            <Widget>[
-              TextWidget.muted("12:34"),
-              Badge.count(count: 1),
-            ].toColumn(mainAxisAlignment: MainAxisAlignment.center),
-          ],
-          onTap: () {
-            // 点击消息项的处理逻辑
-          },
-        ).tight(height: 60.h);
-      },
-      separatorBuilder: (context, index) => Divider(height: 1.h),
+    return controller.isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : controller.conversations.isEmpty
+        ? const Center(child: Text('暂无消息'))
+        : EasyRefresh(
+            controller: controller.refreshController,
+            // onRefresh: controller.onRefresh,
+            child: ListView.separated(
+              padding: EdgeInsets.symmetric(horizontal: AppSpace.page.w),
+              itemCount: controller.conversations.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final conversation = controller.conversations[index];
+                controller.parseConversation(conversation);
+                final item = controller.getParsedConversation(conversation);
+                return _buildConversationItem(conversation, item);
+              },
+              separatorBuilder: (context, index) => Divider(height: 1.h),
+            ),
+          );
+  }
+
+  /// 构建会话列表项
+  Widget _buildConversationItem(
+    WKUIConversationMsg conversation,
+    MsgConversationItem? item,
+  ) {
+    String title = item?.title ?? '未知';
+    String avatar = 'http://${item?.avatar}';
+    String lastMessage = item?.lastMessage ?? '';
+    int unreadCount = conversation.unreadCount;
+
+    // 格式化时间
+    String timeStr = formatTimestamp(conversation.lastMsgTimestamp);
+
+    return ListTileWidget(
+      backgroundColor: Colors.transparent,
+      leading: CircleAvatar(
+        backgroundImage: avatar.isNotEmpty ? NetworkImage(avatar) : null,
+        child: avatar.isEmpty ? Text(title[0]) : null,
+      ),
+      title: TextWidget.label(
+        title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: TextWidget.muted(
+        lastMessage,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      trailing: [
+        <Widget>[
+          TextWidget.muted(timeStr),
+          const SizedBox(height: 4),
+          if (unreadCount > 0)
+            Badge(
+              backgroundColor: Colors.red,
+              label: Text(unreadCount > 99 ? '99+' : '$unreadCount'),
+              textStyle: TextStyle(fontSize: 8, color: Colors.white),
+              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.w),
+            ),
+        ].toColumn(),
+      ],
+      onTap: () => Get.toNamed(RouteNames.msgChat, arguments: conversation),
     );
+  }
+
+  /// 格式化时间戳
+  String formatTimestamp(int timestamp) {
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    DateTime now = DateTime.now();
+
+    // 今天
+    if (dateTime.year == now.year &&
+        dateTime.month == now.month &&
+        dateTime.day == now.day) {
+      return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+    }
+
+    // 昨天
+    DateTime yesterday = now.subtract(const Duration(days: 1));
+    if (dateTime.year == yesterday.year &&
+        dateTime.month == yesterday.month &&
+        dateTime.day == yesterday.day) {
+      return '昨天';
+    }
+
+    // 本周
+    if (now.difference(dateTime).inDays < 7) {
+      return '周${dateTime.weekday}';
+    }
+
+    // 其他：显示日期
+    return '${dateTime.month}/${dateTime.day}';
   }
 
   @override
@@ -63,9 +136,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
             actions: [
               IconWidget.svg(
                 AssetsSvgs.icMsgSettingSvg,
-                onTap: () {
-                  controller.connectIM();
-                },
+                onTap: () {},
               ).paddingOnly(right: 16),
             ],
           ),
@@ -75,3 +146,6 @@ class MsgIndexPage extends GetView<MsgIndexController> {
     );
   }
 }
+
+
+// Sorry, the upstream model provider is currently experiencing high demand. Please try again later or consider switching to GPT-4.1.

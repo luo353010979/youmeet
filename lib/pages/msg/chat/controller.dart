@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/entity/channel.dart';
 import 'package:wukongimfluttersdk/model/wk_text_content.dart';
@@ -17,9 +17,7 @@ class TypeModel {
 class ChatController extends GetxController {
   ChatController();
 
-  final msgController = TextEditingController();
-
-  final idController = TextEditingController(text: "774138775482798080");
+  UserMessage? user;
 
   // 安全报告数据
   SafeReportModel? report;
@@ -79,6 +77,11 @@ class ChatController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    final data = Get.arguments;
+    if (data != null && data is UserMessage) {
+      user = data;
+      update(["chat"]);
+    }
     getSafeReport();
   }
 
@@ -137,7 +140,7 @@ class ChatController extends GetxController {
     WKTextContent textContent = WKTextContent(text);
 
     // 创建频道对象（个人频道）
-    String targetUID = idController.text.trim(); // 目标用户ID
+    String targetUID = user?.id ?? ""; // 目标用户ID
     if (targetUID.isEmpty) {
       print('消息发送失败: 目标用户ID为空');
       return;
@@ -148,8 +151,7 @@ class ChatController extends GetxController {
     // 发送消息
     try {
       await WKIM.shared.messageManager.sendMessage(textContent, channel);
-      print('消息已提交发送: $text');
-      msgController.clear();
+      print('消息发送成功: $text');
     } catch (error) {
       print('消息发送失败: $error');
     }
@@ -157,11 +159,6 @@ class ChatController extends GetxController {
 
   /// 获取安全报告
   Future<void> getSafeReport() async {
-    if (idController.text.trim().isEmpty) {
-      Loading.error("请输入报告 ID");
-      return;
-    }
-
     final response = await UserApi.getSafeReport(
       id: UserService.to.profile.id!,
     );

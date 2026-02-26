@@ -1,9 +1,6 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:wukongimfluttersdk/common/options.dart';
-import 'package:wukongimfluttersdk/entity/msg.dart';
-import 'package:wukongimfluttersdk/type/const.dart';
 import 'package:wukongimfluttersdk/wkim.dart';
 
 import '../index.dart';
@@ -35,12 +32,6 @@ class UserService extends GetxService {
     if (profileOffline.isNotEmpty) {
       _profile(UserMessage.fromJson(jsonDecode(profileOffline)));
     }
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    initWuKongIM();
   }
 
   @override
@@ -104,11 +95,11 @@ class UserService extends GetxService {
         Storage().setString(Constants.storageToken, token);
 
         UserMessage userMessage = user?.userMessage ?? UserMessage();
-        Storage().setJson(
+        Storage().setString(
           Constants.storageProfile,
           jsonEncode(userMessage.toJson()),
         );
-
+        _profile(userMessage);
         print("注册成功，用户 token: $token");
         return true;
       } else {
@@ -142,8 +133,6 @@ class UserService extends GetxService {
 
         _profile(userMessage);
         print("登录成功，用户 token: $token");
-
-        initWuKongIM();
         return true;
       } else {
         Loading.error(response.message);
@@ -155,76 +144,5 @@ class UserService extends GetxService {
     } finally {
       Loading.dismiss();
     }
-  }
-
-  void initWuKongIM() {
-    if (token.isEmpty) {
-      print("没有 token，无法连接 IM");
-      return;
-    }
-
-    Options options = Options.newDefault(profile.id ?? '', token);
-
-    options.addr = Constants.wkImAddr;
-
-    // 可选：开启调试模式
-    options.debug = true;
-
-    // 初始化 SDK
-    WKIM.shared.setup(options);
-
-    print('WuKongIM SDK 初始化完成');
-
-    // 监听连接状态
-    WKIM.shared.connectionManager.addOnConnectionStatus(
-      'connectionStatusListener',
-      (status, reason, connectInfo) {
-        switch (status) {
-          case WKConnectStatus.connecting:
-            print('IM 连接中...');
-            break;
-          case WKConnectStatus.success:
-            print('IM 连接成功，节点ID: ${connectInfo?.nodeId}');
-            break;
-          case WKConnectStatus.fail:
-            print('IM 连接失败，原因: $reason');
-            break;
-          case WKConnectStatus.noNetwork:
-            print('网络异常，无法连接');
-            break;
-          case WKConnectStatus.kicked:
-            print('被踢下线（其他设备登录）');
-            break;
-          case WKConnectStatus.syncMsg:
-            print('正在同步消息...');
-            break;
-          case WKConnectStatus.syncCompleted:
-            print('消息同步完成');
-            break;
-        }
-      },
-    );
-
-    setupMessageListeners();
-
-    WKIM.shared.connectionManager.connect();
-  }
-
-  void setupMessageListeners() {
-    // 监听新消息（消息刚收到，尚未保存到数据库）
-    WKIM.shared.messageManager.addOnNewMsgListener('newMsgListener', (
-      List<WKMsg> msg,
-    ) {
-      for (var m in msg) {
-        print('收到新消息: ${m.messageID}, 内容: ${m.content}');
-      }
-    });
-
-    // 监听消息插入数据库（消息已保存，可以刷新 UI）
-    WKIM.shared.messageManager.addOnMsgInsertedListener((WKMsg msg) {
-      print('消息已保存到数据库: ${msg.messageID}');
-
-      // 此时可以刷新聊天列表 UI
-    });
   }
 }

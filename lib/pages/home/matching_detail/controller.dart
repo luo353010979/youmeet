@@ -19,11 +19,9 @@ class MatchingDetailController extends GetxController
   int currentIndex = 0;
 
   // 图片列表
-  final List<String> bannerImages = [
-    AssetsImages.imgHomeBgMatchingJpg,
-    AssetsImages.imgHomeBgMatchingJpg,
-    AssetsImages.imgHomeBgMatchingJpg,
-  ];
+  List<String> bannerImages = [AssetsImages.imgHomeBgMatchingJpg];
+
+  UserMessage? user;
 
   // 判断AppBar是否展开
   bool get isAppBarExpanded {
@@ -41,6 +39,11 @@ class MatchingDetailController extends GetxController
   @override
   void onInit() {
     super.onInit();
+    user = Get.arguments;
+    if (user?.pic?.isNotEmpty == true) {
+      bannerImages = user?.pic?.split(",") ?? [];
+    }
+
     scrollController.addListener(() {
       // 监听滚动事件
       final oldPosition = _scrollPosition;

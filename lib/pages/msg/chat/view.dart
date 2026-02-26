@@ -11,11 +11,6 @@ class ChatPage extends GetView<ChatController> {
   // 主视图
   Widget _buildView(BuildContext context) {
     return <Widget>[
-      InputWidget(
-        controller: controller.idController,
-        placeholder: LocaleKeys.content.tr,
-        borderRadius: BorderRadius.circular(8.r),
-      ),
       _buildMessageList().expanded(),
       _buildInputBar(),
     ].toColumn();
@@ -32,11 +27,29 @@ class ChatPage extends GetView<ChatController> {
         if (index == 0) {
           return _buildCard();
         } else {
-          return TextWidget.label(controller.messages[index]);
+          return leftMsgWidget(controller.messages[index - 1], index - 1);
         }
       },
-
       separatorBuilder: (context, index) => SizedBox(height: 10.h),
+    );
+  }
+
+  Widget leftMsgWidget(String message, int index) {
+    return <Widget>[
+      ImageWidget.img(
+        AssetsImages.imgAvatarPng,
+        width: 40.r,
+        height: 40.r,
+        fit: BoxFit.cover,
+        radius: 20,
+      ),
+      8.horizontalSpace,
+      TextWidget.label(message, weight: FontWeight.bold)
+          .padding(horizontal: 12.w, vertical: 8.h)
+          .backgroundColor(Colors.white)
+          .clipRRect(all: 8),
+    ].toRow(
+      textDirection: index % 2 == 0 ? TextDirection.ltr : TextDirection.rtl,
     );
   }
 
@@ -49,7 +62,6 @@ class ChatPage extends GetView<ChatController> {
       ),
 
       InputWidget(
-        controller: controller.msgController,
         placeholder: LocaleKeys.content.tr,
         borderRadius: BorderRadius.circular(8.r),
         onSubmitted: (value) => controller.sendMessage(value),
@@ -78,11 +90,17 @@ class ChatPage extends GetView<ChatController> {
       child: <Widget>[
         ListTileWidget(
           padding: EdgeInsets.zero,
-          leading: CircleAvatar(
-            radius: 22.r,
-            child: ImageWidget.img(AssetsImages.imgMsgAvaterPng),
+          leading: ImageWidget.img(
+            "http://${controller.user?.portrait}",
+            width: 40.r,
+            height: 40.r,
+            fit: BoxFit.cover,
+            radius: 20,
           ),
-          title: TextWidget.body('张思雨', weight: FontWeight.bold),
+          title: TextWidget.body(
+            controller.user?.name ?? "",
+            weight: FontWeight.bold,
+          ),
           trailing: [
             TextWidget.label(
                   LocaleKeys.report.tr,

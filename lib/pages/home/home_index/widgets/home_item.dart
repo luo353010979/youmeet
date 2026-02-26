@@ -106,7 +106,7 @@ class HomeItem extends StatelessWidget {
                   width: 53.w,
                   height: 23.h,
                   fontSize: 11,
-                  onTap: () => Get.toNamed(RouteNames.msgChat),
+                  onTap: () => Get.toNamed(RouteNames.msgChat, arguments: data),
                   textWeight: FontWeight.bold,
                   backgroundColor: Color(0xFFFF64C8),
                 ),
@@ -116,6 +116,6 @@ class HomeItem extends StatelessWidget {
             .paddingSymmetric(horizontal: 16.w)
             .expanded(),
       ].toRow(),
-    );
+    ).onTap(() => Get.toNamed(RouteNames.homeMatchingDetail, arguments: data));
   }
 }
