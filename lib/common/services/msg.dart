@@ -197,8 +197,6 @@ class MsgService extends GetxService {
     );
 
     // todo 文档6151
-
-    // 这里可以调用接口获取频道消息列表，获取完成后调用 back 回调传入 WKSyncChannelMsg 对象
   }
 
   /// 附件上传监听回调
@@ -213,30 +211,14 @@ class MsgService extends GetxService {
     int channelType,
     Function(WKChannel p1) back,
   ) async {
-    print('请求获取频道信息:');
-    print('  频道ID: $channelId');
-    print('  频道类型: $channelType');
-
     if (channelType == WKChannelType.personal) {
-      // 获取个人频道信息
-
       UserApi.profile(id: channelId).then((info) {
         if (info.success) {
           final userInfo = info.result;
-          print('获取频道信息成功: ${userInfo?.name}');
-
           WKChannel channel = WKChannel(channelId, channelType);
           channel.channelName = userInfo?.name ?? '';
           channel.avatar = userInfo?.portrait ?? '';
-
-          // 保存到本地
-          // WKIM.shared.channelManager.addOrUpdateChannel(channel);
-
-          print('用户信息更新成功: ${channel.channelName}');
-
           back(channel);
-        } else {
-          print('获取频道信息失败: ${info.message}');
         }
       });
       String uid = UserService.to.profile.id ?? '';

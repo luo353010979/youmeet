@@ -62,9 +62,12 @@ class MsgIndexPage extends GetView<MsgIndexController> {
 
     return ListTileWidget(
       backgroundColor: Colors.transparent,
-      leading: CircleAvatar(
-        backgroundImage: avatar.isNotEmpty ? NetworkImage(avatar) : null,
-        child: avatar.isEmpty ? Text(title[0]) : null,
+      leading: ImageWidget.img(
+        avatar,
+        width: 40.w,
+        height: 40.w,
+        radius: 50,
+        fit: BoxFit.cover,
       ),
       title: TextWidget.label(
         title,
@@ -146,6 +149,3 @@ class MsgIndexPage extends GetView<MsgIndexController> {
     );
   }
 }
-
-
-// Sorry, the upstream model provider is currently experiencing high demand. Please try again later or consider switching to GPT-4.1.
