@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:wukongimfluttersdk/wkim.dart';
-
-import '../index.dart';
+import 'package:youmeet/common/index.dart';
 
 /// 用户服务
 class UserService extends GetxService {
@@ -32,16 +30,6 @@ class UserService extends GetxService {
     if (profileOffline.isNotEmpty) {
       _profile(UserMessage.fromJson(jsonDecode(profileOffline)));
     }
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-    WKIM.shared.connectionManager.disconnect(true);
-    WKIM.shared.connectionManager.removeOnConnectionStatus(
-      'connectionStatusListener',
-    );
-    WKIM.shared.messageManager.removeNewMsgListener('newMsgListener');
   }
 
   /// 设置令牌

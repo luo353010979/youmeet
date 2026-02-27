@@ -12,11 +12,17 @@ class MsgService extends GetxService {
   static MsgService get to => Get.find();
 
   @override
-  void onInit() {
-    super.onInit();
-    initWuKongIM();
-    initListeners();
-    connectIM();
+  void onClose() {
+    super.onClose();
+    WKIM.shared.connectionManager.disconnect(true);
+    WKIM.shared.connectionManager.removeOnConnectionStatus(
+      'connectionStatusListener',
+    );
+    WKIM.shared.messageManager.removeNewMsgListener('newMsgListener');
+    WKIM.shared.conversationManager.removeOnRefreshMsgListListener(
+      'conversationListener',
+    );
+    WKIM.shared.messageManager.removeOnRefreshMsgListener('refreshMsgListener');
   }
 
   void connectIM() {

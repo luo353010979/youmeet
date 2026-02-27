@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/entity/conversation.dart';
 import 'package:youmeet/common/index.dart';
-import 'package:badges/badges.dart' as badges;
 
 import 'index.dart';
 
@@ -92,7 +91,10 @@ class MsgIndexPage extends GetView<MsgIndexController> {
             ),
         ].toColumn(),
       ],
-      onTap: () => Get.toNamed(RouteNames.msgChat, arguments: conversation),
+      onTap: () => Get.toNamed(
+        RouteNames.msgChat,
+        arguments: {"conversation": conversation, "item": item},
+      ),
     );
   }
 

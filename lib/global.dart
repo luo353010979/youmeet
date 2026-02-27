@@ -14,10 +14,13 @@ class Global {
     Get.put<ConfigService>(ConfigService());
     Get.put<WPHttpService>(WPHttpService());
     Get.put<UploadService>(UploadService());
-    Get.put<UserService>(UserService());
     Get.put<MsgService>(MsgService());
+    Get.put<UserService>(UserService());
 
     // 初始化配置
     await ConfigService.to.init();
+
+    MsgService.to.initWuKongIM();
+    MsgService.to.initListeners();
   }
 }
