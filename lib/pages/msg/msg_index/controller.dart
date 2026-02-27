@@ -13,7 +13,7 @@ class MsgIndexController extends GetxController {
   );
 
   List<WKUIConversationMsg> conversations = [];
-  final Map<String, MsgConversationItem> parsedConversations = {};
+  final Map<String, MsgConversation> parsedConversations = {};
   final Set<String> parsingConversationKeys = <String>{};
 
   bool isLoading = false;
@@ -45,18 +45,21 @@ class MsgIndexController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    WKIM.shared.conversationManager.removeOnRefreshMsg('conv_list');
+    WKIM.shared.conversationManager.removeOnRefreshMsgListListener(
+      'conversationListener',
+    );
   }
 
   /// 初始化监听器
   void _initListeners() {
     // 监听会话列表刷新
-    WKIM.shared.conversationManager.addOnRefreshMsgListListener('conv_list', (
-      List<WKUIConversationMsg> uiMsgs,
-    ) {
-      print('会话列表刷新: ${uiMsgs.length} 条');
-      _loadConversations();
-    });
+    WKIM.shared.conversationManager.addOnRefreshMsgListListener(
+      'conversationListener',
+      (List<WKUIConversationMsg> uiMsgs) {
+        print('会话列表刷新: ${uiMsgs.length} 条');
+        _loadConversations();
+      },
+    );
   }
 
   /// 加载会话列表
@@ -92,7 +95,7 @@ class MsgIndexController extends GetxController {
     final channel = await conversation.getWkChannel();
     final lastMsg = await conversation.getWkMsg();
 
-    parsedConversations[key] = MsgConversationItem(
+    parsedConversations[key] = MsgConversation(
       avatar: channel?.avatar ?? '',
       title: channel?.channelName ?? '未知',
       lastMessage: lastMsg?.messageContent?.displayText() ?? '',
@@ -101,23 +104,11 @@ class MsgIndexController extends GetxController {
     update(["msg_index"]);
   }
 
-  MsgConversationItem? getParsedConversation(WKUIConversationMsg conversation) {
+  MsgConversation? getParsedConversation(WKUIConversationMsg conversation) {
     return parsedConversations[_conversationKey(conversation)];
   }
 
   String _conversationKey(WKUIConversationMsg conversation) {
     return '${conversation.channelID}_${conversation.channelType}';
   }
-}
-
-class MsgConversationItem {
-  final String avatar;
-  final String title;
-  final String lastMessage;
-
-  const MsgConversationItem({
-    required this.avatar,
-    required this.title,
-    required this.lastMessage,
-  });
 }

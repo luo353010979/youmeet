@@ -49,12 +49,18 @@ class MsgIndexPage extends GetView<MsgIndexController> {
   /// 构建会话列表项
   Widget _buildConversationItem(
     WKUIConversationMsg conversation,
-    MsgConversationItem? item,
+    MsgConversation? item,
   ) {
     String title = item?.title ?? '未知';
-    String avatar = 'http://${item?.avatar}';
+    String avatar = item?.avatar.isNotEmpty == true
+        ? 'http://${item?.avatar}'
+        : '';
     String lastMessage = item?.lastMessage ?? '';
     int unreadCount = conversation.unreadCount;
+
+    print(
+      "title: $title, avatar: $avatar, lastMessage: $lastMessage, unreadCount: $unreadCount",
+    );
 
     // 格式化时间
     String timeStr = formatTimestamp(conversation.lastMsgTimestamp);
@@ -62,7 +68,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
     return ListTileWidget(
       backgroundColor: Colors.transparent,
       leading: ImageWidget.img(
-        avatar,
+        avatar.isNotEmpty ? avatar : AssetsImages.imgMsgAvaterPng,
         width: 40.w,
         height: 40.w,
         radius: 50,

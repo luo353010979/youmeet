@@ -24,3 +24,4 @@ export 'safe_report_model.dart';
 export 'request/send_message_req.dart';
 export 'message_model/message_model.dart';
 export 'message_model/message.dart';
+export 'msg_conversation.dart';

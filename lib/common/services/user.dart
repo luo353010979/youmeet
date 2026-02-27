@@ -88,6 +88,7 @@ class UserService extends GetxService {
           jsonEncode(userMessage.toJson()),
         );
         _profile(userMessage);
+        MsgService.to.init();
         print("注册成功，用户 token: $token");
         return true;
       } else {
@@ -118,8 +119,8 @@ class UserService extends GetxService {
           Constants.storageProfile,
           jsonEncode(userMessage.toJson()),
         );
-
         _profile(userMessage);
+        MsgService.to.init();
         print("登录成功，用户 token: $token");
         return true;
       } else {

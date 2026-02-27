@@ -11,6 +11,8 @@ import 'package:youmeet/common/index.dart';
 class MsgService extends GetxService {
   static MsgService get to => Get.find();
 
+  List<WKUIConversationMsg> conversations = [];
+
   @override
   void onClose() {
     super.onClose();
@@ -23,6 +25,12 @@ class MsgService extends GetxService {
       'conversationListener',
     );
     WKIM.shared.messageManager.removeOnRefreshMsgListener('refreshMsgListener');
+  }
+
+  void init() {
+    initWuKongIM();
+    initListeners();
+    connectIM();
   }
 
   void connectIM() {
@@ -43,7 +51,7 @@ class MsgService extends GetxService {
     options.addr = Constants.wkImAddr;
 
     // 可选：开启调试模式
-    options.debug = true;
+    // options.debug = true;
 
     // 初始化 SDK
     WKIM.shared.setup(options);
@@ -129,6 +137,8 @@ class MsgService extends GetxService {
   _onRefreshConversationListener(List<WKUIConversationMsg> p1) {
     // 会话列表有更新，刷新 UI
     print('_onRefreshConversationListener   会话列表刷新，当前会话数量: ${p1.length}');
+    conversations.clear();
+    conversations.addAll(p1);
   }
 
   /// 会话同步监听回调  ===>初始化时
@@ -224,20 +234,10 @@ class MsgService extends GetxService {
           WKChannel channel = WKChannel(channelId, channelType);
           channel.channelName = userInfo?.name ?? '';
           channel.avatar = userInfo?.portrait ?? '';
+          print('用户信息更新成功: ${channel.channelName}');
           back(channel);
         }
       });
-      String uid = UserService.to.profile.id ?? '';
-      WKChannel channel = WKChannel(uid, WKChannelType.personal);
-      channel.channelName = UserService.to.profile.name ?? '';
-      channel.avatar = UserService.to.profile.portrait ?? '';
-
-      // 保存到本地
-      await WKIM.shared.channelManager.addOrUpdateChannel(channel);
-
-      print('用户信息更新成功: ${channel.channelName}');
-
-      back(channel);
     }
   }
 }

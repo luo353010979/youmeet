@@ -20,7 +20,6 @@ class Global {
     // 初始化配置
     await ConfigService.to.init();
 
-    MsgService.to.initWuKongIM();
-    MsgService.to.initListeners();
+    MsgService.to.init();
   }
 }
