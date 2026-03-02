@@ -1,4 +1,5 @@
 import 'package:wukongimfluttersdk/entity/conversation.dart';
+import 'package:wukongimfluttersdk/entity/msg.dart';
 import 'package:youmeet/common/index.dart';
 
 class MsgApi {
@@ -25,7 +26,7 @@ class MsgApi {
     );
   }
 
-  /// 同步会话
+  /// 同步会话列表
   static Future<BaseResponse> syncConversations({
     String? lastSsgSeqs,
     int? msgCount,
@@ -38,6 +39,28 @@ class MsgApi {
         "lastSsgSeqs": lastSsgSeqs,
         "msgCount": msgCount,
         "version": version,
+      },
+    );
+
+    return BaseResponse.fromJson(response.data, (data) => data);
+  }
+
+  /// 同步频道消息
+  static Future<BaseResponse> syncHistoryMessages({
+    required String channelID,
+    required int channelType,
+    required int startMessageSeq,
+    required int endMessageSeq,
+    required int limit,
+  }) async {
+    final response = await WPHttpService.to.post(
+      "/jeecg-boot/api/txs/syncHistoryMessages",
+      data: {
+        "channelID": channelID,
+        "pullMode": channelType,
+        "startMessageSeq": startMessageSeq,
+        "endMessageSeq": endMessageSeq,
+        "limit": limit,
       },
     );
 

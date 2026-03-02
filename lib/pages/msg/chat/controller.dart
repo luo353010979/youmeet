@@ -1,6 +1,8 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/entity/channel.dart';
+import 'package:wukongimfluttersdk/entity/conversation.dart';
+import 'package:wukongimfluttersdk/entity/msg.dart';
 import 'package:wukongimfluttersdk/model/wk_text_content.dart';
 import 'package:wukongimfluttersdk/type/const.dart';
 import 'package:wukongimfluttersdk/wkim.dart';
@@ -24,6 +26,10 @@ class ChatController extends GetxController {
 
   // 编辑报告请求参数
   EditReportReq req = EditReportReq(id: UserService.to.profile.id!);
+
+  WKUIConversationMsg? conversation;
+
+  List<WKMsg> _messages = [];
 
   String? get displayRealPic {
     if (req.healthPic?.isNotEmpty == true) {
@@ -72,8 +78,6 @@ class ChatController extends GetxController {
     "See you later!",
   ];
 
-  void onTap() {}
-
   @override
   void onInit() {
     super.onInit();
@@ -82,7 +86,14 @@ class ChatController extends GetxController {
       user = data;
       update(["chat"]);
     }
+    conversation = data['conversation'];
+
     getSafeReport();
+
+    /// 同步频道消息监听
+    WKIM.shared.messageManager.addOnSyncChannelMsgListener(
+      _onSyncChannelMsgListener,
+    );
   }
 
   /// 更多按钮点击事件
@@ -167,5 +178,87 @@ class ChatController extends GetxController {
       report = response.result;
       update(["chat"]);
     }
+  }
+
+  /// 获取用户消息
+  void getUserMessages(String channelId) {
+    // 这里可以调用接口获取用户消息列表，并更新 UI
+    UserApi.profile(id: channelId).then((info) {
+      if (info.success) {
+        final userInfo = info.result;
+        WKChannel channel = WKChannel(channelId, WKChannelType.personal);
+        channel.channelName = userInfo?.name ?? '';
+        channel.avatar = userInfo?.portrait ?? '';
+        print('用户信息更新成功: ${channel.channelName}');
+      }
+    });
+  }
+
+  // 加载历史消息（从后端）
+  // Future<void> loadHistoryMessages() async {
+  //   if (_isLoading || !_hasMore) {
+  //     return;
+  //   }
+  //
+  //   _isLoading = true;
+  //
+  //   try {
+  //     // 获取最早的消息序号
+  //     int oldestSeq = 0;
+  //     if (_messages.isNotEmpty) {
+  //       oldestSeq = _messages.last.messageSeq;
+  //     }
+  //
+  //     print('加载历史消息，起始序号: $oldestSeq');
+  //
+  //     // 调用 SDK 方法触发同步
+  //     List<WKMsg> messages = await WKIM.shared.messageManager.getOrSyncHistoryMessages(channelId, channelType, oldestOrderSeq, contain, pullMode, limit, aroundMsgOrderSeq, iGetOrSyncHistoryMsgBack, syncBack)
+  //
+  //     if (messages.isEmpty) {
+  //       _hasMore = false;
+  //       print('没有更多历史消息');
+  //     } else {
+  //       _messages.addAll(messages.reversed); // SDK 返回的是倒序，需要反转
+  //       print('加载了 ${messages.length} 条历史消息');
+  //     }
+  //   } catch (e) {
+  //     print('加载历史消息失败: $e');
+  //   } finally {
+  //     _isLoading = false;
+  //   }
+  // }
+
+  /// 同步历史消息记录
+  _onSyncChannelMsgListener(
+    String channelID,
+    int channelType,
+    int startMessageSeq,
+    int endMessageSeq,
+    int limit,
+    int pullMode,
+    Function(WKSyncChannelMsg? p1) back,
+  ) async {
+    // 只处理当前频道的同步请求
+    // if (channelID != this.channelID || channelType != this.channelType) {
+    //   return;
+    // }
+
+    print('同步历史消息: $startMessageSeq - $endMessageSeq (limit: $limit)');
+
+    // 调用后端 API
+
+    final messages = await MsgApi.syncHistoryMessages(
+      channelID: channelID,
+      channelType: channelType,
+      startMessageSeq: startMessageSeq,
+      endMessageSeq: endMessageSeq,
+      limit: limit,
+    );
+
+    List<WKMsg> wkMessages = [];
+
+    
+    // 返回消息
+    // back(messages);
   }
 }

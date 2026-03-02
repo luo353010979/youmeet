@@ -37,7 +37,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 final conversation = controller.conversations[index];
-                controller.parseConversation(conversation);
+                // Only get parsed data, do not trigger parsing here
                 final item = controller.getParsedConversation(conversation);
                 return _buildConversationItem(conversation, item);
               },
@@ -47,20 +47,11 @@ class MsgIndexPage extends GetView<MsgIndexController> {
   }
 
   /// 构建会话列表项
-  Widget _buildConversationItem(
-    WKUIConversationMsg conversation,
-    MsgConversation? item,
-  ) {
+  Widget _buildConversationItem(WKUIConversationMsg conversation, MsgConversation? item) {
     String title = item?.title ?? '未知';
-    String avatar = item?.avatar.isNotEmpty == true
-        ? 'http://${item?.avatar}'
-        : '';
+    String avatar = item?.avatar.isNotEmpty == true ? 'http://${item?.avatar}' : '';
     String lastMessage = item?.lastMessage ?? '';
     int unreadCount = conversation.unreadCount;
-
-    print(
-      "title: $title, avatar: $avatar, lastMessage: $lastMessage, unreadCount: $unreadCount",
-    );
 
     // 格式化时间
     String timeStr = formatTimestamp(conversation.lastMsgTimestamp);
@@ -74,16 +65,8 @@ class MsgIndexPage extends GetView<MsgIndexController> {
         radius: 50,
         fit: BoxFit.cover,
       ),
-      title: TextWidget.label(
-        title,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-      subtitle: TextWidget.muted(
-        lastMessage,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
+      title: TextWidget.label(title, maxLines: 1, overflow: TextOverflow.ellipsis),
+      subtitle: TextWidget.muted(lastMessage, maxLines: 1, overflow: TextOverflow.ellipsis),
       trailing: [
         <Widget>[
           TextWidget.muted(timeStr),
@@ -97,10 +80,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
             ),
         ].toColumn(),
       ],
-      onTap: () => Get.toNamed(
-        RouteNames.msgChat,
-        arguments: {"conversation": conversation, "item": item},
-      ),
+      onTap: () => Get.toNamed(RouteNames.msgChat, arguments: {"conversation": conversation, "item": item}),
     );
   }
 
@@ -110,17 +90,13 @@ class MsgIndexPage extends GetView<MsgIndexController> {
     DateTime now = DateTime.now();
 
     // 今天
-    if (dateTime.year == now.year &&
-        dateTime.month == now.month &&
-        dateTime.day == now.day) {
+    if (dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day) {
       return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
     }
 
     // 昨天
     DateTime yesterday = now.subtract(const Duration(days: 1));
-    if (dateTime.year == yesterday.year &&
-        dateTime.month == yesterday.month &&
-        dateTime.day == yesterday.day) {
+    if (dateTime.year == yesterday.year && dateTime.month == yesterday.month && dateTime.day == yesterday.day) {
       return '昨天';
     }
 
@@ -147,7 +123,9 @@ class MsgIndexPage extends GetView<MsgIndexController> {
             actions: [
               IconWidget.svg(
                 AssetsSvgs.icMsgSettingSvg,
-                onTap: () {},
+                onTap: () {
+                  controller.getChannel();
+                },
               ).paddingOnly(right: 16),
             ],
           ),

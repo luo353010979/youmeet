@@ -11,19 +11,13 @@ import 'package:youmeet/common/index.dart';
 class MsgService extends GetxService {
   static MsgService get to => Get.find();
 
-  List<WKUIConversationMsg> conversations = [];
-
   @override
   void onClose() {
     super.onClose();
     WKIM.shared.connectionManager.disconnect(true);
-    WKIM.shared.connectionManager.removeOnConnectionStatus(
-      'connectionStatusListener',
-    );
+    WKIM.shared.connectionManager.removeOnConnectionStatus('connectionStatusListener');
     WKIM.shared.messageManager.removeNewMsgListener('newMsgListener');
-    WKIM.shared.conversationManager.removeOnRefreshMsgListListener(
-      'conversationListener',
-    );
+    WKIM.shared.conversationManager.removeOnRefreshMsgListListener('conversationListener');
     WKIM.shared.messageManager.removeOnRefreshMsgListener('refreshMsgListener');
   }
 
@@ -61,49 +55,31 @@ class MsgService extends GetxService {
 
   void initListeners() {
     /// 连接状态监听
-    WKIM.shared.connectionManager.addOnConnectionStatus(
-      "connectionStatusListener",
-      _onConnectionStatus,
-    );
+    WKIM.shared.connectionManager.addOnConnectionStatus("connectionStatusListener", _onConnectionStatus);
 
     /// 会话列表刷新监听
-    WKIM.shared.conversationManager.addOnRefreshMsgListListener(
-      "conversationListener",
-      _onRefreshConversationListener,
-    );
+    WKIM.shared.conversationManager.addOnRefreshMsgListListener("conversationListener", _onRefreshConversationListener);
 
     /// 会话同步监听
-    WKIM.shared.conversationManager.addOnSyncConversationListener(
-      _onSyncConversationListener,
-    );
+    WKIM.shared.conversationManager.addOnSyncConversationListener(_onSyncConversationListener);
 
     /// 新消息监听
-    WKIM.shared.messageManager.addOnNewMsgListener(
-      "newMsgListener",
-      _onNewMsgListener,
-    );
+    WKIM.shared.messageManager.addOnNewMsgListener("newMsgListener", _onNewMsgListener);
 
     /// 消息插入数据库监听 - 作为消息的主要来源
     WKIM.shared.messageManager.addOnMsgInsertedListener(_onMsgInserted);
 
     /// 消息状态监听
-    WKIM.shared.messageManager.addOnRefreshMsgListener(
-      "refreshMsgListener",
-      _onRefreshMsgListener,
-    );
+    WKIM.shared.messageManager.addOnRefreshMsgListener("refreshMsgListener", _onRefreshMsgListener);
 
     /// 同步频道消息监听
-    WKIM.shared.messageManager.addOnSyncChannelMsgListener(
-      _onSyncChannelMsgListener,
-    );
+    WKIM.shared.messageManager.addOnSyncChannelMsgListener(_onSyncChannelMsgListener);
 
     /// 附件上传监听
-    WKIM.shared.messageManager.addOnUploadAttachmentListener(
-      _onUploadAttachmentListener,
-    );
+    WKIM.shared.messageManager.addOnUploadAttachmentListener(_onUploadAttachmentListener);
 
     /// 获取频道信息监听
-    WKIM.shared.channelManager.addOnGetChannelListener(_onGetChannelListener);
+    // WKIM.shared.channelManager.addOnGetChannelListener(_onGetChannelListener);
   }
 
   /// 连接状态监听回调
@@ -137,64 +113,43 @@ class MsgService extends GetxService {
   _onRefreshConversationListener(List<WKUIConversationMsg> p1) {
     // 会话列表有更新，刷新 UI
     print('_onRefreshConversationListener   会话列表刷新，当前会话数量: ${p1.length}');
-    conversations.clear();
-    conversations.addAll(p1);
   }
 
-  /// 会话同步监听回调  ===>初始化时
+  /// 会话列表同步监听回调  ===>初始化时
   _onSyncConversationListener(
     String lastSsgSeqs,
     int msgCount,
     int version,
     Function(WKSyncConversation p1) back,
   ) async {
-    WKSyncConversation ret = WKSyncConversation();
-    ret.conversations = [];
     try {
-      final response = await MsgApi.syncConversations(
-        lastSsgSeqs: lastSsgSeqs,
-        msgCount: msgCount,
-        version: version,
-      );
+      WKSyncConversation ret = WKSyncConversation();
+      final response = await MsgApi.syncConversations(lastSsgSeqs: lastSsgSeqs, msgCount: msgCount, version: version);
       if (response.success) {
         ret = WKSyncConversationMapper.fromDynamic(response.result);
-        print(
-          '_onSyncConversationListener   会话同步成功: ${ret.conversations?.length ?? 0}',
-        );
-
-        ret.conversations?.forEach((conv) {
-          WKIM.shared.channelManager.fetchChannelInfo(
-            conv.channelID,
-            conv.channelType,
-          );
-        });
+        print('_onSyncConversationListener   会话同步成功: 当前 ${ret.conversations?.length ?? 0} 条会话');
+        back(ret);
       } else {
         print('_onSyncConversationListener   会话同步失败: ${response.message}');
       }
     } catch (e) {
       print('_onSyncConversationListener   会话同步异常: $e');
     }
-    back(ret);
   }
 
   /// 新消息监听回调  ====> 接收方
   _onNewMsgListener(List<WKMsg> p1) {
-    print(
-      '_onNewMsgListener   收到新消息: ${p1.map((msg) => msg.content).join(", ")}',
-    );
+    print('_onNewMsgListener   收到新消息: ${p1.map((msg) => msg.content).join(", ")}');
   }
 
   /// 消息状态刷新监听回调
   _onRefreshMsgListener(WKMsg p1) {
-    print(
-      '_onRefreshMsgListener   消息状态更新: ${p1.content}, 消息ID: ${p1.messageID}',
-    );
+    print('_onRefreshMsgListener   消息状态更新: ${p1.content}, 消息ID: ${p1.messageID}');
   }
 
   /// 消息插入数据库监听回调   ===> 发送方
   _onMsgInserted(WKMsg msg) {
     print('_onMsgInserted   消息插入数据库: ${msg.content}, 消息ID: ${msg.messageID}');
-
     // 此时可以刷新聊天列表 UI
   }
 
@@ -222,16 +177,14 @@ class MsgService extends GetxService {
     // 这里可以调用接口上传附件，上传完成后调用 p2 回调传入上传结果和消息对象
   }
 
-  _onGetChannelListener(
-    String channelId,
-    int channelType,
-    Function(WKChannel p1) back,
-  ) async {
+  /// 获取频道信息监听回调
+  _onGetChannelListener(String channelId, int channelType, Function(WKChannel p1) back) async {
     if (channelType == WKChannelType.personal) {
       UserApi.profile(id: channelId).then((info) {
         if (info.success) {
           final userInfo = info.result;
           WKChannel channel = WKChannel(channelId, channelType);
+
           channel.channelName = userInfo?.name ?? '';
           channel.avatar = userInfo?.portrait ?? '';
           print('用户信息更新成功: ${channel.channelName}');
