@@ -48,16 +48,16 @@ class MsgApi {
   /// 同步频道消息
   static Future<BaseResponse> syncHistoryMessages({
     required String channelID,
-    required int channelType,
+    required int pullMode,
     required int startMessageSeq,
     required int endMessageSeq,
     required int limit,
   }) async {
     final response = await WPHttpService.to.post(
-      "/jeecg-boot/api/txs/syncHistoryMessages",
+      "/jeecg-boot/api/txs/messagesync",
       data: {
         "channelID": channelID,
-        "pullMode": channelType,
+        "pullMode": pullMode,
         "startMessageSeq": startMessageSeq,
         "endMessageSeq": endMessageSeq,
         "limit": limit,

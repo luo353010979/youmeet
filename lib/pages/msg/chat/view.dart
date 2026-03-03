@@ -91,14 +91,14 @@ class ChatPage extends GetView<ChatController> {
         ListTileWidget(
           padding: EdgeInsets.zero,
           leading: ImageWidget.img(
-            "http://${controller.user?.portrait}",
+            "http://${controller.msgConversation?.avatar}",
             width: 40.r,
             height: 40.r,
             fit: BoxFit.cover,
             radius: 20,
           ),
           title: TextWidget.body(
-            controller.user?.name ?? "",
+            controller.msgConversation?.title ?? "",
             weight: FontWeight.bold,
           ),
           trailing: [

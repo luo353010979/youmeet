@@ -120,14 +120,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
             title: LocaleKeys.message.tr,
             centerTitle: false,
             backgroundColor: Colors.transparent,
-            actions: [
-              IconWidget.svg(
-                AssetsSvgs.icMsgSettingSvg,
-                onTap: () {
-                  controller.getChannel();
-                },
-              ).paddingOnly(right: 16),
-            ],
+            actions: [IconWidget.svg(AssetsSvgs.icMsgSettingSvg, onTap: () {}).paddingOnly(right: 16)],
           ),
           child: _buildView(context),
         );

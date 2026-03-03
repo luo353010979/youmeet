@@ -45,7 +45,7 @@ class MsgService extends GetxService {
     options.addr = Constants.wkImAddr;
 
     // 可选：开启调试模式
-    // options.debug = true;
+    options.debug = true;
 
     // 初始化 SDK
     WKIM.shared.setup(options);
@@ -140,6 +140,8 @@ class MsgService extends GetxService {
   /// 新消息监听回调  ====> 接收方
   _onNewMsgListener(List<WKMsg> p1) {
     print('_onNewMsgListener   收到新消息: ${p1.map((msg) => msg.content).join(", ")}');
+
+
   }
 
   /// 消息状态刷新监听回调

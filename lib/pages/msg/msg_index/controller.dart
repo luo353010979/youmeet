@@ -19,11 +19,9 @@ class MsgIndexController extends GetxController {
 
   _initData() {
     _loadConversations();
-    // _initListeners();
-
     WKIM.shared.channelManager.addOnRefreshListener("onRefreshChannelListener", _onRefreshChannelListener);
-    update(["msg_index"]);
   }
+
 
   void onTap() {}
 
@@ -43,21 +41,9 @@ class MsgIndexController extends GetxController {
     super.dispose();
   }
 
-  /// 初始化监听器
-  // void _initListeners() {
-  //   // 监听会话列表刷新
-  //   WKIM.shared.conversationManager.addOnRefreshMsgListListener(
-  //     'conversationListener',
-  //     (List<WKUIConversationMsg> uiMsgs) {
-  //       print('会话列表刷新: ${uiMsgs.length} 条');
-  //       _loadConversations();
-  //     },
-  //   );
-  // }
 
   /// 获取用户消息并更新至频道信息
   Future<void> getUserMessages(String channelId) async {
-    // 这里可以调用接口获取用户消息列表，并更新 UI
     final response = await UserApi.profile(id: channelId);
     if (response.success) {
       final userMessage = response.result;
@@ -85,14 +71,8 @@ class MsgIndexController extends GetxController {
       parsingConversationKeys.clear();
       print('加载了 ${data.length} 个会话');
 
-      // Parse all conversations once after loading
       for (final conversation in conversations) {
-        final channel = await WKIM.shared.channelManager.getChannel(conversation.channelID, conversation.channelType);
-        String nickName = channel?.channelName ?? "";
-        if (nickName.isEmpty) {
-          await getUserMessages(conversation.channelID);
-        }
-
+        getUserMessages(conversation.channelID);
         await parseConversation(conversation);
       }
     } catch (e) {
@@ -132,17 +112,12 @@ class MsgIndexController extends GetxController {
     return '${conversation.channelID}_${conversation.channelType}';
   }
 
+  /// 更新频道信息回调
   _onRefreshChannelListener(WKChannel channel) {
     print("${channel.channelName}---${channel.avatar}");
     conversations.forEach((item) {
       item.setWkChannel(channel);
     });
-    update();
-  }
-
-  void getChannel() async {
-    WKChannel? channel = await WKIM.shared.channelManager.getChannel("774606303233445888", WKChannelType.personal);
-    print("Nick Name: ${channel?.channelName}");
-    print("Avatar: ${channel?.avatar}");
+    update(["msg_index"]);
   }
 }
