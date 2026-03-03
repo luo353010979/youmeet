@@ -218,7 +218,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
                 borderRadius: 50,
                 reverse: true,
                 onTap: () {
-                  print("点击了关注");
+                  logger.d("点击了关注");
                 },
               ).tight(width: 76.w, height: 24.h),
             ],
@@ -242,7 +242,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
                 fit: BoxFit.cover,
                 radius: 10,
               ).onTap(() {
-                print("点击了图片 ${index + 1}");
+                logger.d("点击了图片 ${index + 1}");
               });
             }),
           ),

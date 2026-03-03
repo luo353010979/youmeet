@@ -51,7 +51,7 @@ class PostDetalController extends GetxController {
       update(["post_detal"]);
     } else {
       // 处理错误的响应
-      print('评论失败: ${response.message}');
+      logger.d('评论失败: ${response.message}');
     }
   }
 
@@ -66,7 +66,7 @@ class PostDetalController extends GetxController {
       update(["post_detal"]);
     } else {
       // 处理错误的响应
-      print('回复失败: ${response.message}');
+      logger.d('回复失败: ${response.message}');
     }
   }
 }

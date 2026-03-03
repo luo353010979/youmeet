@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:youmeet/common/index.dart';
 
 class RegisterBasicInformationController extends GetxController {
   RegisterBasicInformationController();
@@ -21,7 +22,7 @@ class RegisterBasicInformationController extends GetxController {
   }
 
   void chooseAvatar() {
-    print("选择头像");
+    logger.d("选择头像");
   }
 
   // @override

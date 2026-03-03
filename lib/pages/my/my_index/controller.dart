@@ -35,7 +35,7 @@ class MyIndexController extends GetxController {
 
   void toProfileView() {
     Get.toNamed(RouteNames.myEditProfile);
-    // print(userMessage.toJson());
+    // logger.d(userMessage.toJson());
   }
 
   @override
@@ -49,7 +49,7 @@ class MyIndexController extends GetxController {
     try {
       final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
-        print('选中图片: ${pickedFile.path}');
+        logger.d('选中图片: ${pickedFile.path}');
 
         await UploadService.to.requestQiniuToken();
 
@@ -57,10 +57,10 @@ class MyIndexController extends GetxController {
           pickedFile.path,
           onProgress: (progress) {},
           onStatus: (state) {
-            print(state);
+            logger.d(state);
           },
           onDone: (done) {
-            print('上传完成: ${done.key}');
+            logger.d('上传完成: ${done.key}');
             userMessage.portrait = "t.pic.mooneyu.com/${done.key}";
             UserService.to.setProfile(userMessage);
             update(["edit_profile"]);
@@ -68,7 +68,7 @@ class MyIndexController extends GetxController {
         );
       }
     } catch (e) {
-      print('选择图片失败: $e');
+      logger.d('选择图片失败: $e');
       Get.snackbar('错误', '选择图片失败，请检查权限设置');
     }
   }
@@ -80,7 +80,7 @@ class MyIndexController extends GetxController {
 
   /// 我的形象
   void onMyImageSelected(List<String> images) {
-    print('选中图片路径: $images');
+    logger.d('选中图片路径: $images');
     // 这里可以处理选中的图片路径，例如上传到服务器或更新UI
   }
 
@@ -92,7 +92,7 @@ class MyIndexController extends GetxController {
       myFeedList = myFeed?.records ?? [];
       update(["my_index"]);
     } else {
-      print('获取动态列表失败: ${response.message}');
+      logger.d('获取动态列表失败: ${response.message}');
     }
   }
 

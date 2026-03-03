@@ -133,7 +133,7 @@ class ConfigService extends GetxService {
       ),
     );
 
-    print(
+    logger.d(
       '获取到位置: latitude: ${location.latitude}, longitude: ${location.longitude}',
     );
 

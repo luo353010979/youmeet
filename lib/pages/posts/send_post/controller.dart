@@ -46,11 +46,11 @@ class SendPostController extends GetxController {
         img,
         onProgress: (progress) {},
         onStatus: (state) {
-          print('上传状态: $state');
+          logger.d('上传状态: $state');
         },
         onDone: (done) {
           streamController.add(done.key ?? "");
-          print('上传完成: ${done.key}');
+          logger.d('上传完成: ${done.key}');
           finished++;
           if (finished == imagePaths.length) {
             streamController.close();
@@ -83,13 +83,13 @@ class SendPostController extends GetxController {
         Get.back();
       });
     } else {
-      print('发布动态失败: ${response.message}');
+      logger.d('发布动态失败: ${response.message}');
     }
   }
 
   /// 构建图片选择网格
   void setImagePaths(List<String> paths) {
     imagePaths = paths;
-    print(paths);
+    logger.d(paths);
   }
 }

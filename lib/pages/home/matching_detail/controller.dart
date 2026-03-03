@@ -55,7 +55,7 @@ class MatchingDetailController extends GetxController
       final isNowExpanded = _scrollPosition < threshold;
 
       if (wasExpanded != isNowExpanded) {
-        print(
+        logger.d(
           'AppBar状态改变: ${isNowExpanded ? "展开" : "收起"}, 滚动位置: $_scrollPosition, 阈值: $threshold',
         );
         update(["matching_appbar"]); // 更新UI

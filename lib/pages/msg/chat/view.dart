@@ -38,6 +38,7 @@ class ChatPage extends GetView<ChatController> {
 
   Widget msgWidget(WKMsg message) {
     final channeId = message.channelID;
+    logger.d("消息频道ID: $channeId, 当前用户ID: ${UserService.to.profile.id}");
     final avatar = message.getChannelInfo()?.avatar ?? "";
     return <Widget>[
       ImageWidget.img(
@@ -70,7 +71,6 @@ class ChatPage extends GetView<ChatController> {
       //   onPressed: () {},
       //   icon: ImageWidget.img(AssetsImages.imgMsgMicophonePng, width: 28.r),
       // ),
-
       InputWidget(
         placeholder: LocaleKeys.content.tr,
         borderRadius: BorderRadius.circular(8.r),
@@ -151,7 +151,7 @@ class ChatPage extends GetView<ChatController> {
                       textColor: Color(0xFF666666),
                       backgroundColor: Color(0xFFE1E1E1),
                       onTap: () {
-                        print("申请查看 ${type.title}");
+                        logger.d("申请查看 ${type.title}");
                       },
                     ),
                   ]

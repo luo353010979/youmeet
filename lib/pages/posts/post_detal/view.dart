@@ -35,7 +35,7 @@ class PostDetalPage extends GetView<PostDetalController> {
             elevation: 0,
             reverse: true,
             onTap: () {
-              print("点击了关注");
+              logger.d("点击了关注");
             },
           ).tight(width: 76.w, height: 24.h),
         ],
@@ -59,7 +59,7 @@ class PostDetalPage extends GetView<PostDetalController> {
             fit: BoxFit.cover,
             radius: 10,
           ).onTap(() {
-            print("点击了图片 ${index + 1}");
+            logger.d("点击了图片 ${index + 1}");
           });
         }),
       ),
@@ -92,7 +92,7 @@ class PostDetalPage extends GetView<PostDetalController> {
         // return CommentWidget(
         //   comment: comment,
         //   onReply: (comment, str) {
-        //     print(comment.toJson());
+        //     logger.d(comment.toJson());
         //     controller.onReplayComment(comment, str);
         //   },
         //   onLike: () {},

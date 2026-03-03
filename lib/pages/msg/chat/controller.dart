@@ -137,7 +137,7 @@ class ChatController extends GetxController {
           break;
       }
 
-      print("选择图片成功: $imageUrl");
+      logger.d("选择图片成功: $imageUrl");
       update(["chat"]);
     }
   }
@@ -155,7 +155,7 @@ class ChatController extends GetxController {
     // 创建频道对象（个人频道）
     String targetUID = conversation?.channelID ?? ""; // 目标用户ID
     if (targetUID.isEmpty) {
-      print('消息发送失败: 目标用户ID为空');
+      logger.d('消息发送失败: 目标用户ID为空');
       return;
     }
     int channelType = WKChannelType.personal; // 频道类型：个人
@@ -164,9 +164,9 @@ class ChatController extends GetxController {
     // 发送消息
     try {
       await WKIM.shared.messageManager.sendMessage(textContent, channel);
-      print('消息发送成功: $text');
+      logger.d('消息发送成功: $text');
     } catch (error) {
-      print('消息发送失败: $error');
+      logger.d('消息发送失败: $error');
     }
   }
 
@@ -197,7 +197,7 @@ class ChatController extends GetxController {
       limit,
       0,
       (List<WKMsg> list) {
-        print("iGetOrSyncHistoryMsgBack: ${list.length}");
+        logger.d("iGetOrSyncHistoryMsgBack: ${list.length}");
         onComplete(list);
       },
       () {
@@ -244,11 +244,11 @@ class ChatController extends GetxController {
 
         back(wkSyncChannelMsg);
       } else {
-        print('同步历史消息失败: ${response.message}');
+        logger.d('同步历史消息失败: ${response.message}');
         // back();
       }
     } catch (e) {
-      print('同步历史消息异常: $e');
+      logger.d('同步历史消息异常: $e');
       // back();
     }
   }
@@ -274,15 +274,15 @@ class ChatController extends GetxController {
   }
 
   iGetOrSyncHistoryMsgBack(List<WKMsg> p1) {
-    print("iGetOrSyncHistoryMsgBack: ${p1.length}");
+    logger.d("iGetOrSyncHistoryMsgBack: ${p1.length}");
   }
 
   syncBack() {
-    print("syncBack：加载中");
+    logger.d("syncBack：加载中");
   }
 
   _back(List<WKMsg> msgs) {
-    print("getHistoryMessages: 获取到历史消息 ${msgs.length} 条");
+    logger.d("getHistoryMessages: 获取到历史消息 ${msgs.length} 条");
 
     messages = msgs;
     update(["chat"]);

@@ -2,6 +2,7 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/entity/channel.dart';
 import 'package:wukongimfluttersdk/entity/conversation.dart';
+import 'package:wukongimfluttersdk/entity/msg.dart';
 import 'package:wukongimfluttersdk/type/const.dart';
 import 'package:wukongimfluttersdk/wkim.dart';
 import 'package:youmeet/common/index.dart';
@@ -9,7 +10,10 @@ import 'package:youmeet/common/index.dart';
 class MsgIndexController extends GetxController {
   MsgIndexController();
 
-  final refreshController = EasyRefreshController(controlFinishRefresh: true, controlFinishLoad: true);
+  final refreshController = EasyRefreshController(
+    controlFinishRefresh: true,
+    controlFinishLoad: true,
+  );
 
   List<WKUIConversationMsg> conversations = [];
   final Map<String, MsgConversation> parsedConversations = {};
@@ -19,9 +23,25 @@ class MsgIndexController extends GetxController {
 
   _initData() {
     _loadConversations();
-    WKIM.shared.channelManager.addOnRefreshListener("onRefreshChannelListener", _onRefreshChannelListener);
-  }
 
+    /// 监听会频道信息刷新
+    WKIM.shared.channelManager.addOnRefreshListener(
+      "onRefreshChannelListener",
+      _onRefreshChannelListener,
+    );
+
+    /// 会话列表刷新监听
+    WKIM.shared.conversationManager.addOnRefreshMsgListListener(
+      "conversationListener2",
+      _onRefreshConversationListener,
+    );
+
+    /// 消息状态刷新监听
+    WKIM.shared.messageManager.addOnNewMsgListener(
+      "newMsgListener2",
+      _onNewMsgListener,
+    );
+  }
 
   void onTap() {}
 
@@ -41,7 +61,6 @@ class MsgIndexController extends GetxController {
     super.dispose();
   }
 
-
   /// 获取用户消息并更新至频道信息
   Future<void> getUserMessages(String channelId) async {
     final response = await UserApi.profile(id: channelId);
@@ -50,7 +69,7 @@ class MsgIndexController extends GetxController {
       WKChannel channel = WKChannel(channelId, WKChannelType.personal);
       channel.channelName = userMessage?.name ?? '';
       channel.avatar = userMessage?.portrait ?? '';
-      print('用户信息更新成功: ${channel.channelName}');
+      logger.d('用户信息更新成功: ${channel.channelName}');
 
       //更新频道信息
       WKIM.shared.channelManager.addOrUpdateChannel(channel);
@@ -69,14 +88,14 @@ class MsgIndexController extends GetxController {
       conversations.addAll(data);
       parsedConversations.clear();
       parsingConversationKeys.clear();
-      print('加载了 ${data.length} 个会话');
+      logger.d('加载了 ${data.length} 个会话');
 
       for (final conversation in conversations) {
         await getUserMessages(conversation.channelID);
         await parseConversation(conversation);
       }
     } catch (e) {
-      print('加载会话列表失败: $e');
+      logger.d('加载会话列表失败: $e');
     } finally {
       isLoading = false;
     }
@@ -84,10 +103,10 @@ class MsgIndexController extends GetxController {
     update(["msg_index"]);
   }
 
-  // Remove async from parseConversation, make it return Future<void>
   Future<void> parseConversation(WKUIConversationMsg conversation) async {
     final key = _conversationKey(conversation);
-    if (parsedConversations.containsKey(key) || parsingConversationKeys.contains(key)) {
+    if (parsedConversations.containsKey(key) ||
+        parsingConversationKeys.contains(key)) {
       return;
     }
 
@@ -101,7 +120,6 @@ class MsgIndexController extends GetxController {
       lastMessage: lastMsg?.messageContent?.displayText() ?? '',
     );
     parsingConversationKeys.remove(key);
-    // Do not call update here to avoid unnecessary rebuilds
   }
 
   MsgConversation? getParsedConversation(WKUIConversationMsg conversation) {
@@ -114,10 +132,40 @@ class MsgIndexController extends GetxController {
 
   /// 更新频道信息回调
   _onRefreshChannelListener(WKChannel channel) {
-    print("${channel.channelName}---${channel.avatar}");
-    conversations.forEach((item) {
+    for (var item in conversations) {
       item.setWkChannel(channel);
-    });
+    }
+    update(["msg_index"]);
+  }
+
+  /// 新消息监听回调  ====> 接收方
+  _onNewMsgListener(List<WKMsg> p1) {
+    logger.d(
+      '_onNewMsgListener   收到新消息: ${p1.map((msg) => msg.content).join(", ")}',
+    );
+
+    for (var msg in p1) {
+      int index = conversations.indexWhere(
+        (conv) =>
+            conv.channelID == msg.channelID &&
+            conv.channelType == msg.channelType,
+      );
+      if (index != -1) {
+        conversations[index].setWkMsg(msg);
+        conversations[index].lastMsgTimestamp = msg.timestamp;
+        conversations[index].unreadCount++;
+        update(["msg_index"]);
+      } else {
+        _loadConversations();
+      }
+    }
+  }
+
+  /// 会话列表刷新监听回调  ====> 接收方
+  _onRefreshConversationListener(List<WKUIConversationMsg> p1) {
+    // 会话列表有更新，刷新 UI
+    logger.d('_onRefreshConversationListener   会话列表刷新，当前会话数量: ${p1.length}');
+    _loadConversations();
     update(["msg_index"]);
   }
 }

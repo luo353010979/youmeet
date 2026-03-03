@@ -148,7 +148,7 @@ class MyIndexPage extends GetView<MyIndexController> {
         //           var token = Storage().getString(
         //             Constants.storageToken,
         //           );
-        //           print(token);
+        //           logger.d(token);
         //         }),
         //       ]
         //       .toColumn(
@@ -204,7 +204,7 @@ class MyIndexPage extends GetView<MyIndexController> {
         //     borderRadius: 50,
         //     reverse: true,
         //     onTap: () {
-        //       print("点击了分享");
+        //       logger.d("点击了分享");
         //     },
         //   ).tight(width: 76.w, height: 24.h),
         // ],

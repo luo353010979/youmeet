@@ -52,7 +52,7 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
         widget.onImagesSelected?.call(selectedImages);
       }
     } catch (e) {
-      print('选择图片失败: $e');
+      logger.d('选择图片失败: $e');
     }
   }
 

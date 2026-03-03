@@ -54,7 +54,7 @@ class RegisterIndexController extends GetxController {
 
   /// 获取验证码
   void gerVerifyCode() {
-    print("获取验证码");
+    logger.d("获取验证码");
   }
 
   /// 下一步
@@ -71,7 +71,7 @@ class RegisterIndexController extends GetxController {
   }
 
   void onCountryCodeChanged(String value) {
-    print("选择国家区号: $value");
+    logger.d("选择国家区号: $value");
   }
 
   /// 更新下一步按钮状态
@@ -152,7 +152,7 @@ class RegisterIndexController extends GetxController {
           onProgress: (progress) {},
           onStatus: (state) {},
           onDone: (done) {
-            print('上传完成: ${done.key}');
+            logger.d('上传完成: ${done.key}');
             switch (type) {
               case Constants.avatar:
                 req.portrait = "t.pic.mooneyu.com/${done.key}";
@@ -168,7 +168,7 @@ class RegisterIndexController extends GetxController {
         );
       }
     } catch (e) {
-      print('选择图片失败: $e');
+      logger.d('选择图片失败: $e');
       Get.snackbar('错误', '选择图片失败，请检查权限设置');
     }
   }

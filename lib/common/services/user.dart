@@ -89,7 +89,7 @@ class UserService extends GetxService {
         );
         _profile(userMessage);
         MsgService.to.init();
-        print("注册成功，用户 token: $token");
+        logger.d("注册成功，用户 token: $token");
         return true;
       } else {
         Loading.error(response.message);
@@ -97,7 +97,7 @@ class UserService extends GetxService {
         return false;
       }
     } catch (e) {
-      print(e);
+      logger.d(e);
       return false;
     } finally {
       Loading.dismiss();
@@ -121,14 +121,14 @@ class UserService extends GetxService {
         );
         _profile(userMessage);
         MsgService.to.init();
-        print("登录成功，用户 token: $token");
+        logger.d("登录成功，用户 token: $token");
         return true;
       } else {
         Loading.error(response.message);
         return false;
       }
     } catch (e) {
-      print(e);
+      logger.d(e);
       return false;
     } finally {
       Loading.dismiss();

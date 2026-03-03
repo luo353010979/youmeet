@@ -21,7 +21,7 @@ class UploadService extends GetxService {
   Future<String> requestQiniuToken() async {
     BaseResponse<QiNiuTokenModel> model = await SystemApi.requestQiniuToken();
     token = model.result;
-    print('七牛云上传 token: ${token?.token}');
+    logger.d('七牛云上传 token: ${token?.token}');
     return token?.token ?? '';
   }
 

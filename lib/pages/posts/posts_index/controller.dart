@@ -68,7 +68,7 @@ class PostsIndexController extends GetxController {
       update(["posts_index"]);
     } else {
       // 处理错误的响应
-      print('请求推荐动态失败: ${response.message}');
+      logger.d('请求推荐动态失败: ${response.message}');
     }
   }
 
@@ -84,7 +84,7 @@ class PostsIndexController extends GetxController {
       update(["posts_index"]);
     } else {
       // 处理错误的响应
-      print('点赞失败: ${response.message}');
+      logger.d('点赞失败: ${response.message}');
     }
   }
 
@@ -99,7 +99,7 @@ class PostsIndexController extends GetxController {
       update(["posts_index"]);
     } else {
       // 处理错误的响应
-      print('评论失败: ${response.message}');
+      logger.d('评论失败: ${response.message}');
     }
   }
 
