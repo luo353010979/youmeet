@@ -24,9 +24,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
   }
 
   Widget _buildMsgList() {
-    return controller.isLoading
-        ? const Center(child: CircularProgressIndicator())
-        : controller.conversations.isEmpty
+    return controller.conversations.isEmpty
         ? const Center(child: Text('暂无消息'))
         : EasyRefresh(
             controller: controller.refreshController,
@@ -37,7 +35,6 @@ class MsgIndexPage extends GetView<MsgIndexController> {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 final conversation = controller.conversations[index];
-                // Only get parsed data, do not trigger parsing here
                 final item = controller.getParsedConversation(conversation);
                 return _buildConversationItem(conversation, item);
               },
@@ -47,9 +44,14 @@ class MsgIndexPage extends GetView<MsgIndexController> {
   }
 
   /// 构建会话列表项
-  Widget _buildConversationItem(WKUIConversationMsg conversation, MsgConversation? item) {
+  Widget _buildConversationItem(
+    WKUIConversationMsg conversation,
+    MsgConversation? item,
+  ) {
     String title = item?.title ?? '未知';
-    String avatar = item?.avatar.isNotEmpty == true ? 'http://${item?.avatar}' : '';
+    String avatar = item?.avatar.isNotEmpty == true
+        ? 'http://${item?.avatar}'
+        : '';
     String lastMessage = item?.lastMessage ?? '';
     int unreadCount = conversation.unreadCount;
 
@@ -65,8 +67,16 @@ class MsgIndexPage extends GetView<MsgIndexController> {
         radius: 50,
         fit: BoxFit.cover,
       ),
-      title: TextWidget.label(title, maxLines: 1, overflow: TextOverflow.ellipsis),
-      subtitle: TextWidget.muted(lastMessage, maxLines: 1, overflow: TextOverflow.ellipsis),
+      title: TextWidget.label(
+        title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: TextWidget.muted(
+        lastMessage,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
       trailing: [
         <Widget>[
           TextWidget.muted(timeStr),
@@ -80,7 +90,10 @@ class MsgIndexPage extends GetView<MsgIndexController> {
             ),
         ].toColumn(),
       ],
-      onTap: () => Get.toNamed(RouteNames.msgChat, arguments: {"conversation": conversation, "item": item}),
+      onTap: () => Get.toNamed(
+        RouteNames.msgChat,
+        arguments: {"conversation": conversation, "item": item},
+      ),
     );
   }
 
@@ -90,13 +103,17 @@ class MsgIndexPage extends GetView<MsgIndexController> {
     DateTime now = DateTime.now();
 
     // 今天
-    if (dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day) {
+    if (dateTime.year == now.year &&
+        dateTime.month == now.month &&
+        dateTime.day == now.day) {
       return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
     }
 
     // 昨天
     DateTime yesterday = now.subtract(const Duration(days: 1));
-    if (dateTime.year == yesterday.year && dateTime.month == yesterday.month && dateTime.day == yesterday.day) {
+    if (dateTime.year == yesterday.year &&
+        dateTime.month == yesterday.month &&
+        dateTime.day == yesterday.day) {
       return '昨天';
     }
 
@@ -120,7 +137,12 @@ class MsgIndexPage extends GetView<MsgIndexController> {
             title: LocaleKeys.message.tr,
             centerTitle: false,
             backgroundColor: Colors.transparent,
-            actions: [IconWidget.svg(AssetsSvgs.icMsgSettingSvg, onTap: () {}).paddingOnly(right: 16)],
+            actions: [
+              IconWidget.svg(
+                AssetsSvgs.icMsgSettingSvg,
+                onTap: () {},
+              ).paddingOnly(right: 16),
+            ],
           ),
           child: _buildView(context),
         );
