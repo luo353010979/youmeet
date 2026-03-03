@@ -1,6 +1,7 @@
 import 'package:ducafe_ui_core/ducafe_ui_core.dart' hide SizedBoxExtensions;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wukongimfluttersdk/entity/msg.dart';
 import 'package:youmeet/common/index.dart';
 
 import 'index.dart';
@@ -22,44 +23,53 @@ class ChatPage extends GetView<ChatController> {
       padding: EdgeInsets.all(16.w),
       physics: BouncingScrollPhysics(),
       shrinkWrap: true,
-      itemCount: controller.messages.length,
+      itemCount: controller.messages.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
           return _buildCard();
         } else {
-          return leftMsgWidget(controller.messages[index - 1], index - 1);
+          final message = controller.messages[index - 1];
+          return msgWidget(message);
         }
       },
       separatorBuilder: (context, index) => SizedBox(height: 10.h),
     );
   }
 
-  Widget leftMsgWidget(String message, int index) {
+  Widget msgWidget(WKMsg message) {
+    final channeId = message.channelID;
+    final avatar = message.getChannelInfo()?.avatar ?? "";
     return <Widget>[
       ImageWidget.img(
-        AssetsImages.imgAvatarPng,
+        "http://${avatar}",
         width: 40.r,
         height: 40.r,
         fit: BoxFit.cover,
         radius: 20,
       ),
       8.horizontalSpace,
-      TextWidget.label(message, weight: FontWeight.bold)
+      TextWidget.label(
+            message.messageContent?.content ?? "",
+            weight: FontWeight.bold,
+          )
           .padding(horizontal: 12.w, vertical: 8.h)
           .backgroundColor(Colors.white)
-          .clipRRect(all: 8),
+          .clipRRect(all: 8)
+          .constrained(maxWidth: 200.w),
     ].toRow(
-      textDirection: index % 2 == 0 ? TextDirection.ltr : TextDirection.rtl,
+      textDirection: channeId != UserService.to.profile.id
+          ? TextDirection.ltr
+          : TextDirection.rtl,
     );
   }
 
   /// 输入栏
   Widget _buildInputBar() {
     return <Widget>[
-      IconButton(
-        onPressed: () {},
-        icon: ImageWidget.img(AssetsImages.imgMsgMicophonePng, width: 28.r),
-      ),
+      // IconButton(
+      //   onPressed: () {},
+      //   icon: ImageWidget.img(AssetsImages.imgMsgMicophonePng, width: 28.r),
+      // ),
 
       InputWidget(
         placeholder: LocaleKeys.content.tr,

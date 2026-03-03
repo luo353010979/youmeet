@@ -72,7 +72,7 @@ class MsgIndexController extends GetxController {
       print('加载了 ${data.length} 个会话');
 
       for (final conversation in conversations) {
-        getUserMessages(conversation.channelID);
+        await getUserMessages(conversation.channelID);
         await parseConversation(conversation);
       }
     } catch (e) {

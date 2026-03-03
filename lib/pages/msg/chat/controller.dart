@@ -32,7 +32,7 @@ class ChatController extends GetxController {
   WKUIConversationMsg? conversation;
   MsgConversation? msgConversation;
 
-  List<WKMsg> _messages = [];
+  List<WKMsg> messages = [];
 
   String? get displayRealPic {
     if (req.healthPic?.isNotEmpty == true) {
@@ -56,12 +56,24 @@ class ChatController extends GetxController {
   }
 
   List<TypeModel> types = [
-    TypeModel(id: 1, title: LocaleKeys.loveFourTitle1.tr, icon: AssetsSvgs.icMsg_01Svg),
-    TypeModel(id: 2, title: LocaleKeys.loveFourTitle2.tr, icon: AssetsSvgs.icMsg_02Svg),
-    TypeModel(id: 3, title: LocaleKeys.loveFourTitle3.tr, icon: AssetsSvgs.icMsg_03Svg),
+    TypeModel(
+      id: 1,
+      title: LocaleKeys.loveFourTitle1.tr,
+      icon: AssetsSvgs.icMsg_01Svg,
+    ),
+    TypeModel(
+      id: 2,
+      title: LocaleKeys.loveFourTitle2.tr,
+      icon: AssetsSvgs.icMsg_02Svg,
+    ),
+    TypeModel(
+      id: 3,
+      title: LocaleKeys.loveFourTitle3.tr,
+      icon: AssetsSvgs.icMsg_03Svg,
+    ),
   ];
 
-  final List<String> messages = ["Hello!", "How are you?", "What's up?", "Let's meet up.", "See you later!"];
+  
 
   @override
   void onInit() {
@@ -79,9 +91,11 @@ class ChatController extends GetxController {
 
     getSafeReport();
 
-    WKIM.shared.messageManager.addOnSyncChannelMsgListener(_onSyncChannelMsgListener);
+    WKIM.shared.messageManager.addOnSyncChannelMsgListener(
+      _onSyncChannelMsgListener,
+    );
 
-    getChannelMsg();
+    getHistoryMessages(conversation?.channelID ?? "", onComplete: _back);
   }
 
   /// 更多按钮点击事件
@@ -89,7 +103,9 @@ class ChatController extends GetxController {
 
   /// 上传报告点击事件
   Future<void> onComplete() async {
-    if (req.creditPic == null && req.healthPic == null && req.payTaxesPic == null) {
+    if (req.creditPic == null &&
+        req.healthPic == null &&
+        req.payTaxesPic == null) {
       Loading.error("请上传完整的报告图片");
       return;
     }
@@ -156,85 +172,37 @@ class ChatController extends GetxController {
 
   /// 获取安全报告
   Future<void> getSafeReport() async {
-    final response = await UserApi.getSafeReport(id: UserService.to.profile.id!);
+    final response = await UserApi.getSafeReport(
+      id: UserService.to.profile.id!,
+    );
     if (response.success) {
       report = response.result;
       update(["chat"]);
     }
   }
 
-  /// 获取用户消息
-  void getUserMessages(String channelId) {
-    // 这里可以调用接口获取用户消息列表，并更新 UI
-    UserApi.profile(id: channelId).then((info) {
-      if (info.success) {
-        final userInfo = info.result;
-        WKChannel channel = WKChannel(channelId, WKChannelType.personal);
-        channel.channelName = userInfo?.name ?? '';
-        channel.avatar = userInfo?.portrait ?? '';
-        print('用户信息更新成功: ${channel.channelName}');
-      }
-    });
-  }
-
-  // 加载历史消息（从后端）
-  // Future<void> loadHistoryMessages() async {
-  //   // if (_isLoading || !_hasMore) {
-  //   //   return;
-  //   // }
-  //   //
-  //   // _isLoading = true;
-  //
-  //   try {
-  //     // 获取最早的消息序号
-  //     int oldestSeq = 0;
-  //     if (_messages.isNotEmpty) {
-  //       oldestSeq = _messages.last.messageSeq;
-  //     }
-  //
-  //     print('加载历史消息，起始序号: $oldestSeq');
-  //
-  //     // 调用 SDK 方法触发同步
-  //     List<WKMsg> messages = await WKIM.shared.messageManager.getOrSyncHistoryMessages(channelId, channelType, oldestOrderSeq, contain, pullMode, limit, aroundMsgOrderSeq, iGetOrSyncHistoryMsgBack, syncBack)
-  //
-  //     if (messages.isEmpty) {
-  //       _hasMore = false;
-  //       print('没有更多历史消息');
-  //     } else {
-  //       _messages.addAll(messages.reversed); // SDK 返回的是倒序，需要反转
-  //       print('加载了 ${messages.length} 条历史消息');
-  //     }
-  //   } catch (e) {
-  //     print('加载历史消息失败: $e');
-  //   } finally {
-  //     _isLoading = false;
-  //   }
-  // }
-
-  /// 同步频道消息监听回调
-  // _onSyncChannelMsgListener(
-  //     String channelID,
-  //     int channelType,
-  //     int startMessageSeq,
-  //     int endMessageSeq,
-  //     int limit,
-  //     int pullMode,
-  //     Function(WKSyncChannelMsg? p1) back,
-  //     ) {
-  //   print(
-  //     '同步频道消息: channelID=$channelID, channelType=$channelType, startMessageSeq=$startMessageSeq, endMessageSeq=$endMessageSeq, limit=$limit, pullMode=$pullMode',
-  //   );
-  //
-  //   // todo 文档6151
-  // }
-
-  void getChannelMsg() async {
-    await MsgApi.syncHistoryMessages(
-      channelID: conversation?.channelID ?? "",
-      pullMode: 1,
-      startMessageSeq: 0,
-      endMessageSeq: conversation?.lastMsgSeq ?? 0,
-      limit: 20,
+  void getHistoryMessages(
+    String channelId, {
+    int oldestOrderSeq = 0,
+    int limit = 20,
+    required Function(List<WKMsg> msgs) onComplete,
+    void Function()? onLoding,
+  }) async {
+    WKIM.shared.messageManager.getOrSyncHistoryMessages(
+      channelId,
+      WKChannelType.personal,
+      oldestOrderSeq,
+      oldestOrderSeq == 0,
+      0,
+      limit,
+      0,
+      (List<WKMsg> list) {
+        print("iGetOrSyncHistoryMsgBack: ${list.length}");
+        onComplete(list);
+      },
+      () {
+        onLoding?.call();
+      },
     );
   }
 
@@ -311,5 +279,12 @@ class ChatController extends GetxController {
 
   syncBack() {
     print("syncBack：加载中");
+  }
+
+  _back(List<WKMsg> msgs) {
+    print("getHistoryMessages: 获取到历史消息 ${msgs.length} 条");
+
+    messages = msgs;
+    update(["chat"]);
   }
 }
