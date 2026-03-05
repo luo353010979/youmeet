@@ -23,7 +23,7 @@ class MsgIndexController extends GetxController {
 
     /// 监听会频道信息刷新
     WKIM.shared.channelManager.addOnRefreshListener(
-      "onRefreshChannelListener",
+      "onRefreshChannelListener2",
       _onRefreshChannelListener,
     );
 
@@ -52,7 +52,7 @@ class MsgIndexController extends GetxController {
     super.dispose();
     refreshController.dispose();
     WKIM.shared.channelManager.removeOnRefreshListener(
-      "onRefreshChannelListener",
+      "onRefreshChannelListener2",
     );
     WKIM.shared.conversationManager.removeOnRefreshMsgListListener(
       "conversationListener2",
@@ -124,8 +124,9 @@ class MsgIndexController extends GetxController {
     return '${conversation.channelID}_${conversation.channelType}';
   }
 
-  /// 更新频道信息回调
+  /// 频道信息更新
   _onRefreshChannelListener(WKChannel channel) {
+    logger.d("更新频道信息");
     for (var item in conversations) {
       item.setWkChannel(channel);
     }

@@ -56,7 +56,7 @@ class MsgApi {
     final response = await WPHttpService.to.post(
       "/jeecg-boot/api/txs/messagesync",
       data: {
-        "channelID": channelID,
+        "channelId": channelID,
         "pullMode": pullMode,
         "startMessageSeq": startMessageSeq,
         "endMessageSeq": endMessageSeq,

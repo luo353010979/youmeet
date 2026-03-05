@@ -45,6 +45,7 @@ static const icMsgSettingSvg = 'assets/svgs/ic_msg_setting.svg';
 static const icMyActiveSvg = 'assets/svgs/ic_my_active.svg';
 static const icMyBoySvg = 'assets/svgs/ic_my_boy.svg';
 static const icMyDefautSvg = 'assets/svgs/ic_my_defaut.svg';
+static const icMyGenderBoySvg = 'assets/svgs/ic_my_gender_boy.svg';
 static const icMyGirlSvg = 'assets/svgs/ic_my_girl.svg';
 static const icMyShareSvg = 'assets/svgs/ic_my_share.svg';
 static const icPassSvg = 'assets/svgs/ic_pass.svg';

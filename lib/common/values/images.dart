@@ -49,4 +49,7 @@ class AssetsImages {
   static const imgPostsSendPng = 'assets/images/img_posts_send.png';
 
   static const imgMyEditPng = 'assets/images/img_my_edit.png';
+
+  static const imgPost_1Png = 'assets/images/img_post_1.png';
+  static const imgPost_2Png = 'assets/images/img_post_2.png';
 }

@@ -20,6 +20,7 @@ class ChatPage extends GetView<ChatController> {
   /// 消息列表
   Widget _buildMessageList() {
     return ListView.separated(
+      controller: controller.scrollController,
       padding: EdgeInsets.all(16.w),
       physics: BouncingScrollPhysics(),
       shrinkWrap: true,
@@ -37,9 +38,9 @@ class ChatPage extends GetView<ChatController> {
   }
 
   Widget msgWidget(WKMsg message) {
-    final channeId = message.channelID;
-    logger.d("消息频道ID: $channeId, 当前用户ID: ${UserService.to.profile.id}");
-    final avatar = message.getChannelInfo()?.avatar ?? "";
+    final channelId = message.getFrom()?.channelID;
+    final avatar = message.getFrom()?.avatar ?? "";
+    final seq = message.messageSeq;
     return <Widget>[
       ImageWidget.img(
         "http://${avatar}",
@@ -48,7 +49,7 @@ class ChatPage extends GetView<ChatController> {
         fit: BoxFit.cover,
         radius: 20,
       ),
-      8.horizontalSpace,
+      TextWidget.muted("$seq").marginSymmetric(horizontal: 10.w),
       TextWidget.label(
             message.messageContent?.content ?? "",
             weight: FontWeight.bold,
@@ -58,7 +59,7 @@ class ChatPage extends GetView<ChatController> {
           .clipRRect(all: 8)
           .constrained(maxWidth: 200.w),
     ].toRow(
-      textDirection: channeId != UserService.to.profile.id
+      textDirection: channelId != UserService.to.profile.id
           ? TextDirection.ltr
           : TextDirection.rtl,
     );
@@ -249,10 +250,10 @@ class ChatPage extends GetView<ChatController> {
         return ScaffoldWidget(
           useSafeArea: true,
           appBar: AppBarWidget(
-            title: "昵称",
+            title: controller.msgConversation?.title ?? "",
             actions: [
               IconButton(
-                onPressed: controller.onMorePressed,
+                onPressed: controller.getOldestSeq,
                 icon: Icon(Icons.more_vert),
               ),
             ],

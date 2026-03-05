@@ -38,12 +38,9 @@ class MyIndexPage extends GetView<MyIndexController> {
         radius: 50,
       ),
       title: <Widget>[
-        TextWidget.h4(
-          controller.userMessage.name ?? "",
-          weight: FontWeight.bold,
-        ).paddingRight(12.w),
+        TextWidget.h4(controller.userMessage.name ?? "", weight: FontWeight.bold).paddingRight(12.w),
         IconWidget.svg(
-              AssetsSvgs.icMyGirlSvg,
+              controller.userMessage.sex == 1 ? AssetsSvgs.icMyGenderBoySvg : AssetsSvgs.icMyGirlSvg,
               text: "${controller.userMessage.age}",
               // fontColor: Get.theme.colorScheme.primary,
               size: 10.r,
@@ -53,15 +50,13 @@ class MyIndexPage extends GetView<MyIndexController> {
             .alignCenter()
             .tight(width: 49.w, height: 21.h)
             .decorated(
-              color: Color(0x26F2A3D6),
+              color: Color(controller.userMessage.sex == 1 ? 0x2616C4FF : 0x26F2A3D6),
               borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: Color(0xFFFFA2DE)),
+              border: Border.all(color: Color(controller.userMessage.sex == 1 ? 0xFF16C4FF : 0xFFFFA2DE)),
             ),
       ].toRow(),
       subtitle: <Widget>[
-        TextWidget.muted(
-          "${controller.userMessage.concernedNum}粉丝",
-        ).paddingRight(12.w),
+        TextWidget.muted("${controller.userMessage.concernedNum}粉丝").paddingRight(12.w),
         TextWidget.muted("${controller.userMessage.concernNum}关注"),
       ].toRow(),
       onTap: () => controller.toProfileView(),
@@ -70,28 +65,26 @@ class MyIndexPage extends GetView<MyIndexController> {
 
   Widget _buildCounter() {
     return <Widget>[
-          ColumTextWidget(
-            keyText: TextWidget.h4("${controller.userMessage.viewedNum}"),
-            valueText: TextWidget.muted("看过我", size: 10),
-          ),
-          SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
-          ColumTextWidget(
-            keyText: TextWidget.h4("${controller.userMessage.viewNum}"),
-            valueText: TextWidget.muted("我看过", size: 10),
-          ),
-          SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
-          ColumTextWidget(
-            keyText: TextWidget.h4("${controller.userMessage.likeNum}"),
-            valueText: TextWidget.muted("我喜欢", size: 10),
-          ),
-          SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
-          ColumTextWidget(
-            keyText: TextWidget.h4("${controller.userMessage.likedNum}"),
-            valueText: TextWidget.muted("喜欢我", size: 10),
-          ),
-        ]
-        .toRow(mainAxisAlignment: MainAxisAlignment.spaceEvenly)
-        .paddingBottom(20.h);
+      ColumTextWidget(
+        keyText: TextWidget.h4("${controller.userMessage.viewedNum}"),
+        valueText: TextWidget.muted("看过我", size: 10),
+      ),
+      SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
+      ColumTextWidget(
+        keyText: TextWidget.h4("${controller.userMessage.viewNum}"),
+        valueText: TextWidget.muted("我看过", size: 10),
+      ),
+      SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
+      ColumTextWidget(
+        keyText: TextWidget.h4("${controller.userMessage.likeNum}"),
+        valueText: TextWidget.muted("我喜欢", size: 10),
+      ),
+      SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
+      ColumTextWidget(
+        keyText: TextWidget.h4("${controller.userMessage.likedNum}"),
+        valueText: TextWidget.muted("喜欢我", size: 10),
+      ),
+    ].toRow(mainAxisAlignment: MainAxisAlignment.spaceEvenly).paddingBottom(20.h);
   }
 
   /// 我的形象
@@ -183,13 +176,7 @@ class MyIndexPage extends GetView<MyIndexController> {
       ListTileWidget(
         backgroundColor: Colors.transparent,
         padding: EdgeInsets.zero,
-        leading: ImageWidget.img(
-          "http://${feed.portrait}",
-          width: 36.r,
-          height: 36.r,
-          fit: BoxFit.cover,
-          radius: 50,
-        ),
+        leading: ImageWidget.img("http://${feed.portrait}", width: 36.r, height: 36.r, fit: BoxFit.cover, radius: 50),
         title: TextWidget.body("${feed.name}"),
         subtitle: TextWidget.muted("${feed.createTime}"),
         // trailing: [
@@ -210,10 +197,7 @@ class MyIndexPage extends GetView<MyIndexController> {
         // ],
       ),
 
-      TextWidget.label(
-        "${feed.content}",
-        weight: FontWeight.bold,
-      ).paddingVertical(8.h),
+      TextWidget.label("${feed.content}", weight: FontWeight.bold).paddingVertical(8.h),
 
       GridView.count(
         crossAxisCount: 3,
@@ -228,10 +212,7 @@ class MyIndexPage extends GetView<MyIndexController> {
             width: 110.w,
             height: 110.h,
             fit: BoxFit.cover,
-          ).decorated(
-            borderRadius: BorderRadius.circular(8.r),
-            color: Color(0x26F2A3D6),
-          );
+          ).decorated(borderRadius: BorderRadius.circular(8.r), color: Color(0x26F2A3D6));
         }),
       ),
 
@@ -239,16 +220,8 @@ class MyIndexPage extends GetView<MyIndexController> {
         // LikeWidget(),
         // TextWidget.muted("等${feed.likeNum}个人赞过"),
         Spacer(),
-        IconWidget.svg(
-          AssetsSvgs.icPostsLikeDefautSvg,
-          size: 16.r,
-          text: "${feed.likeNum}",
-        ).paddingRight(16.w),
-        IconWidget.svg(
-          AssetsSvgs.icPostsCommentSvg,
-          size: 16.r,
-          text: "${feed.commentNum}",
-        ),
+        IconWidget.svg(AssetsSvgs.icPostsLikeDefautSvg, size: 16.r, text: "${feed.likeNum}").paddingRight(16.w),
+        IconWidget.svg(AssetsSvgs.icPostsCommentSvg, size: 16.r, text: "${feed.commentNum}"),
       ].toRow().paddingTop(12.h),
     ].toColumn(crossAxisAlignment: CrossAxisAlignment.start).paddingAll(16.w);
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youmeet/common/index.dart';
 
 import 'index.dart';
@@ -9,7 +10,10 @@ class PrivacyAgreementPage extends GetView<PrivacyAgreementController> {
 
   // 主视图
   Widget _buildView() {
-    return const Center(child: Text("PrivacyAgreementPage"));
+    if (controller.isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+    return WebViewWidget(controller: controller.controller);
   }
 
   @override

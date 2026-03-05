@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/common/options.dart';
+import 'package:wukongimfluttersdk/entity/channel.dart';
 import 'package:wukongimfluttersdk/entity/conversation.dart';
 import 'package:wukongimfluttersdk/entity/msg.dart';
 import 'package:wukongimfluttersdk/manager/connect_manager.dart';
@@ -13,11 +14,7 @@ class MsgService extends GetxService {
   @override
   void onClose() {
     super.onClose();
-    WKIM.shared.connectionManager.disconnect(true);
-    WKIM.shared.connectionManager.removeOnConnectionStatus('connectionStatusListener');
-    WKIM.shared.messageManager.removeNewMsgListener('newMsgListener');
-    WKIM.shared.conversationManager.removeOnRefreshMsgListListener('conversationListener');
-    WKIM.shared.messageManager.removeOnRefreshMsgListener('refreshMsgListener');
+    disconnectIM();
   }
 
   void init() {
@@ -28,6 +25,14 @@ class MsgService extends GetxService {
 
   void connectIM() {
     WKIM.shared.connectionManager.connect();
+  }
+
+  void disconnectIM() {
+    WKIM.shared.connectionManager.disconnect(false);
+    WKIM.shared.connectionManager.removeOnConnectionStatus('connectionStatusListener');
+    WKIM.shared.messageManager.removeNewMsgListener('newMsgListener');
+    WKIM.shared.conversationManager.removeOnRefreshMsgListListener('conversationListener');
+    WKIM.shared.messageManager.removeOnRefreshMsgListener('refreshMsgListener');
   }
 
   void initWuKongIM() {
@@ -65,9 +70,6 @@ class MsgService extends GetxService {
     /// 新消息监听
     WKIM.shared.messageManager.addOnNewMsgListener("newMsgListener", _onNewMsgListener);
 
-    /// 消息插入数据库监听 - 作为消息的主要来源
-    WKIM.shared.messageManager.addOnMsgInsertedListener(_onMsgInserted);
-
     /// 消息状态监听
     WKIM.shared.messageManager.addOnRefreshMsgListener("refreshMsgListener", _onRefreshMsgListener);
 
@@ -77,6 +79,7 @@ class MsgService extends GetxService {
     /// 附件上传监听
     WKIM.shared.messageManager.addOnUploadAttachmentListener(_onUploadAttachmentListener);
 
+    WKIM.shared.channelManager.addOnGetChannelListener(_onGetChannelListener);
   }
 
   /// 连接状态监听回调
@@ -137,17 +140,15 @@ class MsgService extends GetxService {
   /// 新消息监听回调  ====> 接收方
   _onNewMsgListener(List<WKMsg> p1) {
     logger.d('_onNewMsgListener   收到新消息: ${p1.map((msg) => msg.content).join(", ")}');
+    p1.forEach((msg) {
+      // 这里可以根据需要刷新聊天列表 UI 或者显示通知等
+      logger.d('新消息内容: ${msg.content}, 消息ID: ${msg.messageID}, 来自：${msg.getFrom()?.channelName}');
+    });
   }
 
   /// 消息状态刷新监听回调
   _onRefreshMsgListener(WKMsg p1) {
     logger.d('_onRefreshMsgListener   消息状态更新: ${p1.content}, 消息ID: ${p1.messageID}');
-  }
-
-  /// 消息插入数据库监听回调   ===> 发送方
-  _onMsgInserted(WKMsg msg) {
-    logger.d('_onMsgInserted   消息插入数据库: ${msg.content}, 消息ID: ${msg.messageID}');
-    // 此时可以刷新聊天列表 UI
   }
 
   /// 同步频道消息监听回调
@@ -159,12 +160,25 @@ class MsgService extends GetxService {
     int limit,
     int pullMode,
     Function(WKSyncChannelMsg? p1) back,
-  ) {
+  ) async {
     logger.d(
       '同步频道消息: channelID=$channelID, channelType=$channelType, startMessageSeq=$startMessageSeq, endMessageSeq=$endMessageSeq, limit=$limit, pullMode=$pullMode',
     );
 
-    // todo 文档6151
+    final response = await MsgApi.syncHistoryMessages(
+      channelID: channelID,
+      pullMode: pullMode,
+      startMessageSeq: startMessageSeq,
+      endMessageSeq: endMessageSeq,
+      limit: limit,
+    );
+
+    if (response.success) {
+      final wkSyncChannelMsg = WKSyncChannelMsgMapper.fromDynamic(response.result);
+      back(wkSyncChannelMsg);
+    } else {
+      logger.d('同步频道消息失败: ${response.message}');
+    }
   }
 
   /// 附件上传监听回调
@@ -174,4 +188,49 @@ class MsgService extends GetxService {
     // 这里可以调用接口上传附件，上传完成后调用 p2 回调传入上传结果和消息对象
   }
 
+  /// 获取频道历史消息
+  /// [channelId] 频道ID
+  /// [channelType] 频道类型，默认为个人频道
+  /// [oldestOrderSeq] 最后一次消息大orderSeq 第一次进入聊天传入0
+  /// [limit] 每次拉取的消息数量，默认为20
+  /// [pullModel] 拉取模式 0:向下拉取 1:向上拉取
+  /// [aroundMsgOrderSeq] 查询此消息附近消息
+  /// [onComplete] 拉取完成后的回调，返回拉取到的消息列表
+  /// [onLoading] 拉取过程中加载状态的回调
+  Future<void> getHistoryMessages(
+    String channelId, {
+    int channelType = WKChannelType.personal,
+    int oldestOrderSeq = 0,
+    int pullModel = 0,
+    bool container = false,
+    int limit = 100,
+    int aroundMsgOrderSeq = 0,
+    required Function(List<WKMsg>) onComplete,
+    Function()? onLoading,
+  }) async {
+    WKIM.shared.messageManager.getOrSyncHistoryMessages(
+      channelId,
+      channelType,
+      oldestOrderSeq,
+      container,
+      pullModel,
+      limit,
+      0,
+      (List<WKMsg> p1) {
+        onComplete(p1);
+      },
+      () {
+        onLoading?.call();
+      },
+    );
+  }
+
+  _onGetChannelListener(String channelId, int channelType, Function(WKChannel wkChannel) back) {
+    WKChannel channel = WKChannel(channelId, channelType);
+    channel.channelName = UserService.to.profile.name ?? "";
+    channel.avatar = UserService.to.profile.portrait ?? "";
+
+    logger.d("更新成功：${channel.channelName}");
+    back(channel);
+  }
 }

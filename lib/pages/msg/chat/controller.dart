@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:easy_refresh/easy_refresh.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/entity/channel.dart';
 import 'package:wukongimfluttersdk/entity/conversation.dart';
@@ -34,6 +35,10 @@ class ChatController extends GetxController {
 
   List<WKMsg> messages = [];
 
+  int _oldestOrderSeq = 0;
+
+  final ScrollController scrollController = ScrollController();
+
   String? get displayRealPic {
     if (req.healthPic?.isNotEmpty == true) {
       return req.healthPic;
@@ -56,56 +61,85 @@ class ChatController extends GetxController {
   }
 
   List<TypeModel> types = [
-    TypeModel(
-      id: 1,
-      title: LocaleKeys.loveFourTitle1.tr,
-      icon: AssetsSvgs.icMsg_01Svg,
-    ),
-    TypeModel(
-      id: 2,
-      title: LocaleKeys.loveFourTitle2.tr,
-      icon: AssetsSvgs.icMsg_02Svg,
-    ),
-    TypeModel(
-      id: 3,
-      title: LocaleKeys.loveFourTitle3.tr,
-      icon: AssetsSvgs.icMsg_03Svg,
-    ),
+    TypeModel(id: 1, title: LocaleKeys.loveFourTitle1.tr, icon: AssetsSvgs.icMsg_01Svg),
+    TypeModel(id: 2, title: LocaleKeys.loveFourTitle2.tr, icon: AssetsSvgs.icMsg_02Svg),
+    TypeModel(id: 3, title: LocaleKeys.loveFourTitle3.tr, icon: AssetsSvgs.icMsg_03Svg),
   ];
 
-  
-
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     final data = Get.arguments;
-    // if (data != null && data is UserMessage) {
-    //   user = data;
-    //   update(["chat"]);
-    // }
+
     conversation = data['conversation'];
     msgConversation = data['item'];
 
-    final channelID = conversation?.channelID ?? "";
-    final channelType = conversation?.channelType ?? 0;
+    scrollController.addListener(_scrollListener);
+
+    await getOldestSeq();
 
     getSafeReport();
 
-    WKIM.shared.messageManager.addOnSyncChannelMsgListener(
-      _onSyncChannelMsgListener,
-    );
+    await _loadHistoryMessages();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
 
-    getHistoryMessages(conversation?.channelID ?? "", onComplete: _back);
+    /// 发送消息插入数据库监听 - 作为消息的主要来源
+    WKIM.shared.messageManager.addOnMsgInsertedListener(_onMsgInserted);
+  }
+
+  void _scrollListener() {
+    if (scrollController.position.pixels == 0) {
+      _loadHistoryMessages(); // 滚动到顶部时加载更多数据
+    }
+  }
+
+  void _scrollToBottom() {
+    // 判断是否可以滚动
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 100),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  Future<void> _loadHistoryMessages() async {
+    await MsgService.to.getHistoryMessages(
+      conversation?.channelID ?? "",
+      oldestOrderSeq: _oldestOrderSeq,
+      limit: 20,
+      onComplete: (List<WKMsg> msg) {
+        if (msg.isEmpty) return;
+        //更新最老消息的 orderSeq(简化处理，使用消息数量递减)
+        _oldestOrderSeq = msg[0].orderSeq;
+
+        logger.d('加载历史消息完成: oldestOrderSeq 更新为 $_oldestOrderSeq');
+
+        // final exitingMessages = messages;
+        //
+        // final allMessages = [...msg, ...exitingMessages];
+
+        // messages = allMessages;
+
+        messages.insertAll(0, msg);
+
+
+
+        update(["chat"]);
+
+      },
+    );
   }
 
   /// 更多按钮点击事件
-  void onMorePressed() {}
+  void onMorePressed() {
+    getChannelInfo();
+  }
 
   /// 上传报告点击事件
   Future<void> onComplete() async {
-    if (req.creditPic == null &&
-        req.healthPic == null &&
-        req.payTaxesPic == null) {
+    if (req.creditPic == null && req.healthPic == null && req.payTaxesPic == null) {
       Loading.error("请上传完整的报告图片");
       return;
     }
@@ -172,119 +206,38 @@ class ChatController extends GetxController {
 
   /// 获取安全报告
   Future<void> getSafeReport() async {
-    final response = await UserApi.getSafeReport(
-      id: UserService.to.profile.id!,
-    );
+    final response = await UserApi.getSafeReport(id: UserService.to.profile.id!);
     if (response.success) {
       report = response.result;
       update(["chat"]);
     }
   }
 
-  void getHistoryMessages(
-    String channelId, {
-    int oldestOrderSeq = 0,
-    int limit = 20,
-    required Function(List<WKMsg> msgs) onComplete,
-    void Function()? onLoding,
-  }) async {
-    WKIM.shared.messageManager.getOrSyncHistoryMessages(
-      channelId,
-      WKChannelType.personal,
-      oldestOrderSeq,
-      oldestOrderSeq == 0,
-      0,
-      limit,
-      0,
-      (List<WKMsg> list) {
-        logger.d("iGetOrSyncHistoryMsgBack: ${list.length}");
-        onComplete(list);
-      },
-      () {
-        onLoding?.call();
-      },
-    );
-  }
-
-  /// 同步历史消息
-  void _onSyncChannelMsgListener(
-    String channelID,
-    int channelType,
-    int startMessageSeq,
-    int endMessageSeq,
-    int limit,
-    int pullMode,
-    Function(WKSyncChannelMsg? p1) back,
-  ) async {
-    try {
-      final response = await MsgApi.syncHistoryMessages(
-        channelID: conversation?.channelID ?? "",
-        pullMode: 1,
-        startMessageSeq: 0,
-        endMessageSeq: conversation?.lastMsgSeq ?? 0,
-        limit: 20,
-      );
-      if (response.success) {
-        var data = jsonDecode(response.result);
-        WKSyncChannelMsg wkSyncChannelMsg = WKSyncChannelMsg();
-        final startMessageSeq = data["start_message_seq"];
-        final endMessageSeq = data["end_message_seq"];
-        final more = data["more"];
-        List<dynamic> messages = data['messages'] ?? [];
-
-        // 解析消息列表
-        List<WKSyncMsg> wkMsgs = messages.map((msgJson) {
-          return parseMessage(msgJson);
-        }).toList();
-
-        wkSyncChannelMsg.startMessageSeq = startMessageSeq;
-        wkSyncChannelMsg.endMessageSeq = endMessageSeq;
-        wkSyncChannelMsg.more = more;
-        wkSyncChannelMsg.messages = wkMsgs;
-
-        back(wkSyncChannelMsg);
-      } else {
-        logger.d('同步历史消息失败: ${response.message}');
-        // back();
-      }
-    } catch (e) {
-      logger.d('同步历史消息异常: $e');
-      // back();
-    }
-  }
-
-  /// 解析后端返回的消息
-  WKSyncMsg parseMessage(Map<String, dynamic> msgJson) {
-    WKSyncMsg msg = WKSyncMsg();
-    msg.messageID = msgJson['message_id'] ?? '';
-    msg.messageSeq = msgJson['message_seq'] ?? 0;
-    msg.clientMsgNO = msgJson['client_msg_no'] ?? '';
-    msg.fromUID = msgJson['from_uid'] ?? '';
-    msg.channelID = msgJson['channel_id'] ?? '';
-    msg.channelType = msgJson['channel_type'] ?? 0;
-    // msg.contentType = msgJson['content_type'] ?? 0;
-    // msg.content = msgJson['content'] ?? '';
-    msg.timestamp = msgJson['timestamp'] ?? 0;
-
-    // 解析消息内容
-    // var contentJson = jsonDecode(msg.content);
-    // msg.messageContent = WKIM.shared.messageManager.getMessageModel(msg.contentType, contentJson);
-
-    return msg;
-  }
-
   iGetOrSyncHistoryMsgBack(List<WKMsg> p1) {
     logger.d("iGetOrSyncHistoryMsgBack: ${p1.length}");
   }
 
-  syncBack() {
-    logger.d("syncBack：加载中");
+  /// 消息插入数据库监听回调   ===> 发送方
+  _onMsgInserted(WKMsg msg) {
+    logger.d('_onMsgInserted   消息插入数据库: ${msg.content}, 消息ID: ${msg.messageID}');
+    // 此时可以刷新聊天列表 UI
   }
 
-  _back(List<WKMsg> msgs) {
-    logger.d("getHistoryMessages: 获取到历史消息 ${msgs.length} 条");
+  getOldestSeq() async {
+    final msg = await conversation?.getWkMsg();
+    _oldestOrderSeq = msg?.orderSeq ?? 0;
+    print(_oldestOrderSeq);
+  }
 
-    messages = msgs;
-    update(["chat"]);
+  void getChannelInfo() async {
+    final channelID = conversation?.channelID ?? "";
+
+    await MsgApi.syncHistoryMessages(
+      channelID: channelID,
+      pullMode: 0,
+      startMessageSeq: 0,
+      endMessageSeq: 0,
+      limit: 10,
+    );
   }
 }

@@ -83,6 +83,8 @@ dependencies:
   badges: ^3.1.2
   # 日志打印
   logger: ^2.6.2
+  # webview
+  webview_flutter: ^4.13.1
 
 dev_dependencies:
   flutter_test:
@@ -139,6 +141,7 @@ flutter:
     - assets/images/
     - assets/svgs/
     - assets/launcher/
+    - assets/html/
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

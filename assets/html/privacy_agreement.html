@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>YouMeet Privacy Policy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .policy-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            padding: 24px 20px;
+            overflow: hidden;
+        }
+
+        @media (min-width: 640px) {
+            .policy-container {
+                padding: 32px 40px;
+            }
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            color: #0f1825;
+            border-bottom: 2px solid #eaeef3;
+            padding-bottom: 16px;
+        }
+
+        .policy-note {
+            background-color: #f0f4fe;
+            border-left: 4px solid #2469F5;
+            padding: 18px 22px;
+            border-radius: 12px;
+            margin: 28px 0;
+            font-size: 0.98rem;
+            color: #1e3a8a;
+        }
+
+        .policy-note strong {
+            font-weight: 600;
+            color: #1e4f8a;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 650;
+            margin-top: 36px;
+            margin-bottom: 18px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dde3e9;
+            color: #163a5f;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 14px;
+            color: #244e7a;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 26px;
+            margin-bottom: 10px;
+            color: #2d3f5e;
+        }
+
+        p {
+            margin-bottom: 16px;
+            font-size: 1rem;
+            word-wrap: break-word;
+        }
+
+        ul, ol {
+            margin: 12px 0 22px 0;
+            padding-left: 28px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 0.98rem;
+        }
+
+        li::marker {
+            color: #2469F5;
+            font-weight: 500;
+        }
+
+        strong, b {
+            color: #0b2c4b;
+            font-weight: 600;
+        }
+
+        .sensitive-marker {
+            font-weight: 600;
+            background-color: #ffefef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            border-bottom: 1px solid #f5a3a3;
+        }
+
+        .card-block {
+            background: #f9fbfd;
+            border-radius: 18px;
+            padding: 20px 24px;
+            margin: 24px 0;
+            border: 1px solid #e6edf4;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e1ecfe;
+            color: #1d4ed8;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+            margin-right: 6px;
+            text-transform: uppercase;
+        }
+
+        .contact-info {
+            background: #eef2f7;
+            border-radius: 20px;
+            padding: 22px;
+            margin-top: 30px;
+            font-size: 0.96rem;
+            word-break: break-word;
+        }
+
+        .contact-info p {
+            margin-bottom: 10px;
+        }
+
+        .contact-info a {
+            color: #1d4ed8;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted #7b9fe0;
+        }
+
+        hr {
+            margin: 40px 0 24px;
+            border: none;
+            border-top: 1.5px solid #dce5ed;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin: 26px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+            background: white;
+            border-radius: 16px;
+            border-style: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+
+        th {
+            background-color: #f0f4fa;
+            font-weight: 600;
+            padding: 12px 10px;
+            text-align: left;
+            border: 1px solid #d7e0e8;
+        }
+
+        td {
+            padding: 12px 10px;
+            border: 1px solid #e2e9f2;
+            vertical-align: top;
+        }
+
+        .footnote {
+            font-size: 0.875rem;
+            color: #5f6c80;
+            background: #f9fafc;
+            padding: 18px;
+            border-radius: 16px;
+            margin-top: 20px;
+        }
+
+        .company-footer {
+            background: #0f1825;
+            color: #d2dfed;
+            padding: 24px 20px;
+            border-radius: 24px;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .company-footer a {
+            color: #9ab9f0;
+            text-decoration: underline dotted;
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.9rem; }
+            h2 { font-size: 1.6rem; }
+            h3 { font-size: 1.3rem; }
+            .policy-container { padding: 18px 14px; }
+        }
+    </style>
+</head>
+<body>
+<div class="policy-container">
+    <h1>Privacy Policy</h1>
+
+    <div class="policy-note">
+        <strong>Prompt Clause</strong><br>
+        LED PROS LTD. (hereinafter referred to as "we") fully understands the importance of your personal information and will make every effort to protect the security and reliability of your personal information. We are committed to maintaining your trust in us, abiding by the following principles to protect your personal information: the principle of consistency of rights and responsibilities, the principle of clear purpose, the principle of informed consent, the principle of data minimization, the principle of security assurance, the principle of subject participation, the principle of openness and transparency, etc. At the same time, we promise that we will take corresponding security protection measures in accordance with mature industry security solutions to protect your personal information. In view of this, we have formulated this <strong>YouMeet Privacy Policy</strong> (hereinafter referred to as "this Policy") and remind you:<br><br>
+        This Policy applies to the products or services of YouMeet and YouMeet Express Edition (collectively referred to as "YouMeet").<br>
+        It should be specially noted that this Policy does not apply to services provided to you by other third parties, nor to products or services for which an independent privacy policy has been separately formulated.<br>
+        Before using various products or services of YouMeet, you must carefully read and fully understand this Policy, especially the clauses marked in <strong>bold/bold and underlined</strong>, which you should focus on reading. Please use the relevant products or services after confirming that you fully understand and agree. If you refuse this Policy, you can only browse in guest mode. To ensure the safe operation of the software and services, YouMeet will collect relevant device information and permissions when the corresponding function points are triggered. If you have any questions, comments or suggestions about the content of this Policy, you may contact us through various contact methods provided by YouMeet.
+    </div>
+
+    <p>This Privacy Policy will help you understand the following contents:</p>
+    <ul>
+        <li>1. How we collect and use your personal information</li>
+        <li>2. How we use Cookies and similar technologies</li>
+        <li>3. How we share, transfer and publicly disclose your personal information</li>
+        <li>4. How we protect your personal information</li>
+        <li>5. How you can manage your personal information</li>
+        <li>6. How we process the personal information of minors</li>
+        <li>7. How we store your personal information</li>
+        <li>8. How this Privacy Policy is updated</li>
+        <li>9. How to contact us</li>
+    </ul>
+
+    <!-- Section 1 -->
+    <h2>1. How We Collect and Use Your Personal Information</h2>
+    <p>Personal information refers to various types of information recorded by electronic or other means that can identify the identity of a specific natural person alone or in combination with other information, or reflect the activities of a specific natural person, including name, date of birth, identity document number, personal biometric information, address, communication contact information, communication records and content, account password, property information, credit information, travel trajectory, accommodation information, health and physical information, transaction information, etc.</p>
+    <p><span class="badge">Sensitive</span> Personal sensitive information refers to personal information that may endanger personal and property safety, easily lead to damage to personal reputation, physical and mental health or discriminatory treatment once disclosed, illegally provided or abused, including identity document number, personal biometric information, bank account number, communication records and content, property information, credit information, travel trajectory, accommodation information, health and physical information, transaction information, personal information of children under the age of 14 (inclusive), etc. (We will mark specific personal sensitive information in <strong>bold</strong> in this Privacy Policy for prominent identification).</p>
+    <p>The contents of personal information and personal sensitive information are all derived from GB/T35273 <em>Information Security Technology - Personal Information Security Specification</em>.</p>
+
+    <div class="card-block">
+        <p><strong>You understand and agree that:</strong><br>
+        1. We are committed to creating a variety of products and services to meet your needs. Since we provide you with a wide range of products and services, and the specific scope of products/services selected and used by different users varies, the types and scope of personal information collected and used will be different accordingly, subject to the specific product/service functions.<br>
+        2. We may use the information collected through certain functions for our other services. For example, we may use the information we collect when you use one of our functions or services in another function or service to provide you with specific content, including displaying advertisements, giving information security prompts for the content you have read, generating indirect crowd portraits based on feature tags and providing more accurate and personalized services and content, etc. If we use your personal information beyond the scope claimed at the time of collection and with direct or reasonable relevance, we will inform you again and obtain your express consent before using your personal information.<br>
+        3. To bring you a better product and service experience, we are constantly striving to improve our technology. As a result, we may launch new or optimized functions from time to time, which may require collecting and using new personal information or changing the purpose or method of using personal information. In this regard, we will separately inform you of the collection purpose, scope and usage method of the corresponding information by updating this Policy, pop-up windows, page prompts and other methods, and provide you with a way to independently choose to agree, and collect and use it with your express consent. In this process, if you have any questions, comments or suggestions, you may contact us through various contact methods we provide, and we will reply to you as soon as possible.</p>
+    </div>
+
+    <h3>1.1 When you register for YouMeet services</h3>
+    <p>We will collect your nickname, avatar, gender, date of birth, mobile phone number, intended username and password to create a YouMeet account and use social functions. If you agree and authorize us to authorize your account information (avatar, nickname and other information prompted on the page) to a third party so that you can conveniently register or log in to a third-party account, we will share the account information you agree and authorize with the third party. In addition, we may obtain the relevant information of your registered account on the third-party platform (avatar, nickname and other information you authorize) from the third party according to your authorization, and bind it with your YouMeet account, so that you can directly log in and use our products and/or services through the third-party account. We will use your relevant information within the scope of your authorization and consent. During the registration and use of the service, if you provide the following information to complete your personal profile: extended information such as birthday, hometown, constellation, occupation, school, income, height, your real avatar, personal signature, location footprint, housing and car purchase status, dating purpose, work area, etc., it will help us provide you with better services and experience, and we can provide you with personalized services related to the above information. However, if you do not provide such information, you will only be unable to use or participate in the personalized services related thereto, and it will not affect the use of the basic functions of YouMeet products or services. The above information you provide will be authorized to us for use for the duration of your use of this service. When you take the initiative to cancel your account, we will anonymize or delete your personal information as soon as possible in accordance with the requirements of applicable laws and regulations.</p>
+
+    <h3>1.2 When you register and start using various YouMeet services, or when YouMeet runs in the background</h3>
+    <p>To ensure your normal use of our services, maintain the normal operation of our services, and ensure the safe operation, operation quality and efficiency of the software and services, we will collect information about the services you use and how you use them and correlate such information. Such information includes:</p>
+    <ul>
+        <li><strong>Device information</strong>: According to the specific permissions you grant during software installation and use, we will receive and record the relevant information of the device you use (including device model, operating system version, setting parameters, device configuration, device identifier (IMEI/Android ID/OAID/IDFA/IDFV/UDID/MEID/ICCID/SIM card IMSI information, etc.), device serial number, MAC address, device network information (operator information/WiFi information/SIM card status/WiFi status/WiFi list/SSID/BSSID), device environment, software list, running process information, SDCard information, sensor list and other software and hardware feature information), device location-related information (including GPS location authorized by you and sensor information such as WLAN access points, Bluetooth and base stations).</li>
+        <li><strong>Service log information</strong>: When you use the products or services provided by our website or client, we will automatically collect the detailed usage of our services by you and save them as relevant service logs, including your browsing, click view and search query content, follow and share information, published information, as well as IP address, browser type, operator information, language used, access date and time.</li>
+    </ul>
+    <p>Please note that separate device information, log information, etc. are information that cannot identify the identity of a specific natural person. If we combine such information with other information to identify the identity of a specific natural person, or use it in combination with personal information, such information will be regarded as personal information during the combined use. Unless we obtain your authorization or there are other provisions in laws and regulations, we will anonymize and de-identify such personal information.</p>
+    <p>To provide you with more convenient information display and push services that meet your personalized needs, we will extract your preference features according to your device information and service log information, and generate indirect crowd portraits based on feature tags for displaying and pushing information and possible commercial advertisements. If you do not want to use the personalized display and relevant recommendation services we provide to you, you can turn off the personalized recommendation service in YouMeet App "More - Settings - Privacy". You can also learn about the relevant personalized recommendation services according to the introduction of "(5) Restrict the automatic decision-making of information systems" in Chapter V of this Privacy Policy. In guest mode, we will provide you with high-quality non-personalized content. If you do not want to receive commercial advertisements sent by us, you can cancel them at any time by activating the "SVIP Ad-free" function.</p>
+
+    <h3>1.3 When you use dynamic updates, live streaming, chat rooms and other information publishing functions</h3>
+    <p>When you use these functions to publish information publicly, including publishing picture/text/video/live streaming content, making comments and answering questions, you need to enable the photo album, camera and microphone permissions accordingly to take photos, shoot videos or conduct voice interaction. When you publish live streaming content, you also need to provide us with the corresponding identity information (real name and ID card number) and biometric features (static or dynamic facial features) to complete real-name authentication in accordance with legal requirements. Please note that the information you publish publicly may involve your personal information or that of others, even personal sensitive information, such as when you choose to upload pictures containing personal information when publishing dynamic updates. Please be more cautious when considering whether to share or even publicly share relevant information when using our services. The dynamic photos, short videos, comments, likes and other information you upload will be stored on our servers, as storage is necessary to realize this function. We will store them in an encrypted manner, and you can also delete such information at any time. Unless you choose to do so autonomously or in accordance with the requirements of relevant laws and regulations, we will not provide the above dynamic information to the outside world or use it for other purposes beyond this function. If you log in to the "MOMOYouMeet" Express Edition, since this version does not provide the service of publishing live streaming content, we will not collect your identity information (real name and ID card number) and biometric features (static or dynamic facial features) for the purpose of providing the service of publishing live streaming content.</p>
+
+    <h3>1.4 When you browse and view nearby people, nearby groups, nearby dynamics and nearby live streams</h3>
+    <p>We will enable the location permission with your independent consent to match you with nearby users or content, display your geographic location when you publish dynamics, or match and recommend to nearby users. Such information is sensitive information; refusing to provide such information will prevent you from using the above functions, but will not affect your normal use of other functions of YouMeet. In addition, you can turn off the relevant functions at any time. If you are not a registered user of ours but have enabled the location permission and confirmed the authorization for us to extract, disclose and use your geographic location information, you can browse nearby people and nearby dynamics.</p>
+
+    <h3>1.5 When you choose to establish a follow relationship with people you are interested in</h3>
+    <p>When you choose to establish a follow relationship with people you are interested in and share information with other third parties through the functional components we provide, we will collect service log information including your follow relationship and sharing history to realize the above functions and other purposes we clearly inform you of.</p>
+
+    <h3>1.6 When you use entertainment and leisure services</h3>
+    <p>To ensure your normal use of relevant services including casual puzzle games, improve the service experience, maintain the normal operation of relevant functions, optimize product performance and ensure the security of your account, we will collect and use your account information, device information, log information and transaction record information. If you interact with nearby players through text, pictures, voice, video and other means during use, with your authorization and consent, we will access your microphone, photo album, camera and geographic location information to provide you with voice chat, live streaming interaction and find nearby players. We may collect and save the above information content you send to filter inappropriate content such as pornography, violence, politics, insult and malicious advertisements, so as to purify the content ecology and maintain a healthy online environment. To ensure that you can still display the content through a small window when you exit pages such as live streaming rooms, chat rooms, video and voice calls, and can quickly jump back to the page through the floating quick entry, you need to enable the floating window permission. If you log in to the "MOMOYouMeet" Express Edition, since this version does not provide this service, we will not collect and use your personal information for the purpose of this service.</p>
+
+    <h3>1.7 When you purchase YouMeet Coins</h3>
+    <p>We may collect the payment information you provide. If your live streaming wealth level reaches a specific level and you can use the large-amount recharge function, we will collect the bank card number you provide and the account name information corresponding to the bank card. When you withdraw your earnings, we will collect the Alipay account information you provide and identity authentication information (real name, ID card number, biometric features).</p>
+
+    <h3>1.8 When you contact us or file an application for dispute resolution</h3>
+    <p>To ensure the security of your account and the system, we need you to provide necessary personal information to verify your user identity. We may save your communication/call records and content (including account information, other information you provide to prove relevant facts, or contact information you leave) to contact you or help you solve problems, or record the solutions and results of relevant problems. For the reasonable need of providing services and improving service quality, we may also use your other information, including relevant information you provide when contacting customer service, and questionnaire responses you send to us when participating in questionnaires. In addition, when you query the bound YouMeet number through real-name information, to ensure account security, we need you to fill in your real name and ID card number and verify through face recognition to confirm that it is your own operation. We only verify such information and will not retain it unless YouMeet obtains your separate consent in accordance with the provisions of laws and regulations. The above information contains sensitive personal information; you can refuse to provide it. If you refuse to provide it, you may not be able to obtain relevant services, but it will not affect the normal use of other functions.</p>
+
+    <h3>1.9 When you use the function of blocking your mobile phone contacts and address book friends</h3>
+    <p>You need to enable the address book permission. We will perform irreversible encryption on your address book information and only collect the encrypted information. Such information is sensitive information; refusing to provide such information will only prevent you from using the above function.</p>
+
+    <h3>1.10 To improve the security of your use of services</h3>
+    <p>To improve the security of your use of services provided by us, our affiliated companies and partners, protect your personal and property safety or that of other users or the public from infringement, better prevent security risks such as phishing websites, fraud, network vulnerabilities, computer viruses, network attacks and network intrusions, and more accurately identify violations of laws and regulations or the relevant agreement rules of YouMeet, we may use or integrate your user information, transaction information, device information, relevant network logs and information shared to us by our affiliated companies and partners with your authorization or in accordance with the law to comprehensively judge the risks of your account and transactions, conduct identity verification, detect and prevent security incidents, and take necessary recording, auditing, analysis and disposal measures in accordance with the law.</p>
+
+    <h3>1.11 Use your YouMeet account to use products or services provided by our affiliated companies</h3>
+    <p>You can use your YouMeet account to use the products or services provided by our affiliated companies through the link entrances we provide. To facilitate us to provide you with one-stop services based on associated accounts and facilitate your unified management, we centrally display your information or recommend information you may be interested in on YouMeet, including information from live streaming and games. You can discover and use the above services through functions such as the YouMeet homepage and "More". If you log in to the "MOMOYouMeet" Express Edition, this part of functions and information is not involved. To help you receive relevant benefits from partners, we may also provide link entrances to third-party services. We will not share your personal information with such third-party service providers, nor will we collect your personal information on their behalf. However, third-party service providers may collect the personal information necessary to provide services for you in accordance with their own privacy policies. Please fill in your personal information carefully on the third-party landing page and read the privacy policies of third-party service providers carefully. They are not bound by this Privacy Policy, but we will make every effort to require third-party service providers to comply with relevant laws and regulations when processing your personal information and require them to take relevant confidentiality and security measures.</p>
+
+    <h3>1.12 Access permissions</h3>
+    <p>You understand and agree that the services we provide may require you to enable the access permissions of location information (geographic location), camera, photo album (picture library), microphone (voice) and address book on your device to realize the collection and use of information involved in these permissions. You can read the YouMeet Device Permission List to learn about the application and use of system permissions by YouMeet. We will pop up a window to prompt you whether to enable the corresponding permissions when you use the relevant services. You can view the status of the above permissions one by one in your device settings or the client's "More - Settings - Privacy --- System Permission Management", and can independently decide to enable or close these permissions at any time. Please note that your enabling of any permission means that you authorize us to collect and use relevant personal information to provide you with corresponding services; once you close any permission, it means that you cancel the authorization, and we will no longer collect and use relevant personal information based on the corresponding permission, nor can we provide you with the services corresponding to the permission. However, your decision to close the permission will not affect the information collection and use carried out based on your authorization before.</p>
+
+    <h3>1.13 Contact information usage</h3>
+    <p>You are aware and agree that for the contact information (e.g., contact phone number) you provide in the process of using the products and/or services, we may send various types of notifications to one or more of them during operation for the purposes of user message notification, identity verification, security verification, user experience research, etc.; in addition, we may also provide you with commercial information about services, functions or activities you may be interested in by short message or phone call. However, please rest assured that if you do not want to receive such information, you can unsubscribe through the unsubscribe method provided in the mobile short message.</p>
+
+    <h3>1.14 Message push service</h3>
+    <p>When you use the message push service, we need you to enable auto-start to ensure that the app can normally receive client push messages when it is closed or running in the background to avoid you missing messages. Therefore, there may be an auto-start behavior of waking up YouMeet through the system, which is necessary to ensure the timely delivery of messages. You can manage app startup in the device settings, but closing it may cause delays in receiving your messages.</p>
+
+    <h3>1.15 Clipboard usage</h3>
+    <p>When you use YouMeet services, it may be necessary to call the clipboard and use the minimum necessary information related to the function (password, link, statistical parameters, etc.) for the purpose of information sharing and participating in relevant activities. We will only upload the clipboard content to our server when we identify that it belongs to a YouMeet sharing instruction, and we will not upload other information in your clipboard.</p>
+
+    <h3>1.16 Sensor information</h3>
+    <p>We will collect your sensor information (gyroscope, pedometer, light, acceleration, magnetic field, distance, rotation vector, direction and other sensor information), and obtain the device status (direction, angle, acceleration, etc.) through the sensor for the shake function, or adjust the screen angle during shooting and gaming to help you experience the product at the correct angle, or adjust the sound playback mode (earpiece and speaker conversion) during voice interaction to provide you with a better adaptation effect and ensure account security, so as to provide you with a safe and reliable product and use environment.</p>
+
+    <h3>1.17 Information containing other users</h3>
+    <p>If the information you provide contains the personal information of other users, you must ensure that you have obtained legal authorization before providing such personal information to YouMeet.</p>
+
+    <h3>1.18 Use for other purposes</h3>
+    <p>If we use the information for other purposes not stated in this Policy, or use the information collected for specific purposes for other purposes, or we take the initiative to obtain your personal information from third parties, we will obtain your consent in advance.</p>
+
+    <h3>1.19 Indirectly obtained information from third parties</h3>
+    <p>If we indirectly obtain your information from third parties, we will clearly require the third party in writing to collect personal information after having legally obtained your consent before collection, inform you of the content of the shared information, and obtain your explicit confirmation for sensitive information before providing it to us for use, and require the third party to make a commitment on the legality and compliance of the source of personal information. If the third party has any violations, we will clearly require the other party to bear corresponding legal liabilities; at the same time, our professional security team will conduct security protection on personal information (including classification and grading of sensitive information, access control for the use of sensitive information, encrypted storage of sensitive information, etc.). We will protect the indirectly obtained personal information with protection measures no less than those we use for our own users' personal information.</p>
+
+    <h4>Exceptions to Obtaining Authorized Consent</h4>
+    <p>You fully understand and agree that we do not need your authorized consent to collect and use your personal information in the following circumstances, and we may not agree to your requests for correction/modification, deletion, cancellation, withdrawal of consent and information request:</p>
+    <ul>
+        <li>It is necessary to conclude or perform a contract according to your request;</li>
+        <li>It is necessary to perform statutory duties or obligations;</li>
+        <li>It is necessary to respond to sudden public health events, or to protect the life, health and property safety of natural persons in emergency situations;</li>
+        <li>It is necessary to carry out news reporting, public opinion supervision and other acts for the public interest and process personal information within a reasonable scope;</li>
+        <li>Processing your voluntarily disclosed personal information or other legally disclosed personal information within a reasonable scope;</li>
+        <li>Other circumstances stipulated by laws and administrative regulations;</li>
+    </ul>
+    <p>Please be aware that in accordance with applicable laws, if we process personal information by taking technical and other necessary measures so that the data recipient cannot re-identify a specific individual and cannot restore it, or we may de-identify the collected information for research, statistical analysis and prediction to improve the content and layout of YouMeet, provide product or service support for business decisions, and improve our products and services (including using anonymous data for machine learning or model algorithm training), the use of such processed data does not need to notify you and obtain your consent separately.</p>
+    <p>If we cease the operation of YouMeet products or services, we will immediately stop collecting your personal information, notify you of the cessation of operation by individual delivery or announcement, and delete or anonymize the personal information we hold.</p>
+
+    <!-- Section 2 -->
+    <h2>2. How We Use Cookies and Similar Technologies</h2>
+    <h3>(1) Cookies</h3>
+    <p>To ensure the normal operation of the website, provide you with a more convenient access experience and recommend content you may be interested in, we will store small data files called Cookies on your computer or mobile device. Cookies usually contain identifiers, site names and some numbers and characters. With the help of Cookies, the website can store data such as your preferences. You can perform corresponding data clearing operations in the browser. If you perform the clearing, you may not be able to use the services or corresponding functions provided by us that rely on Cookies.</p>
+    <h3>(2) Cookie-like Technologies</h3>
+    <p>In addition to Cookies, we also use other similar technologies on the website. For example, the in-site notifications we send to you may contain address links to the content of our website. If you click on the link, we will track the click to help us understand your product or service preferences so that we can proactively improve the customer service experience. If you do not want your activities to be tracked in this way, you can unsubscribe from our mailing list at any time.</p>
+
+    <!-- Section 3 -->
+    <h2>3. How We Share, Transfer and Publicly Disclose Your Personal Information</h2>
+    <p>We are aware of the corresponding legal liabilities for sharing, transferring and publicly disclosing personal information to the outside world, and we will only share, transfer and publicly disclose your personal information within the scope agreed in this Privacy Policy:</p>
+    <h3>(1) Sharing</h3>
+    <p>We will not share your personal information with companies, organizations and individuals other than YouMeet service providers, except in the following cases:</p>
+    <ul>
+        <li><strong>Sharing with explicit consent:</strong> We will share your personal information with other parties after obtaining your explicit consent.</li>
+        <li><strong>Sharing under statutory circumstances:</strong> We may share your personal information with the outside world in accordance with the provisions of laws and regulations, the needs of litigation dispute resolution, or the requirements of administrative and judicial organs in accordance with the law.</li>
+        <li><strong>Sharing within the YouMeet Group:</strong> To facilitate the YouMeet Group to jointly provide you with services, recommend information you may be interested in, identify account abnormalities or protect the personal and property safety of YouMeet Group companies or other users or the public from infringement, your personal information may be shared within the YouMeet Group. We will only share necessary personal information (e.g., to facilitate your use of YouMeet account to use the products or services within the YouMeet Group, we will share your necessary account information within the YouMeet Group) and it will be bound by the purposes stated in this Privacy Policy. If we share your personal sensitive information or the affiliated companies change the purpose of using and processing personal information, we will seek your authorized consent again.</li>
+        <li><strong>Sharing with authorized partners:</strong> We may entrust authorized partners to provide you with certain services or perform functions on our behalf. We will only share your information for the legal, legitimate, necessary, specific and clear purposes stated in this Privacy Policy. Authorized partners can only access the information necessary for the performance of their duties and shall not use such information for any other purposes. At present, our authorized partners include the following types:
+            <ul>
+                <li>Authorized partners for advertising and analysis services: Unless we obtain your permission, we will not share your personal identity information with partners that provide advertising and analysis services. We will entrust these partners to process information related to the coverage and effectiveness of advertisements, but will not provide your personal identity information, or we will de-identify such information so that it cannot identify you personally. Such partners may combine the above information with other data they legally obtain to perform the advertising services or decision-making suggestions entrusted by us.</li>
+                <li>Suppliers, service providers and other partners: We send information to suppliers, service providers and other partners that support our business. Such support includes providing technical infrastructure services, analyzing the use of our services, measuring the effectiveness of advertisements and services, providing customer service, facilitating payments, or conducting academic research and investigations.</li>
+            </ul>
+        </li>
+        <li>We will conduct strict security testing on the application programming interfaces (APIs) and software development kits (SDKs) through which authorized partners obtain relevant information, and agree on strict data protection measures with authorized partners, requiring them to process personal information in accordance with the entrusted purposes, service descriptions, this Privacy Policy and any other relevant confidentiality and security measures.</li>
+    </ul>
+
+    <h3>(2) Transfer</h3>
+    <p>We will not transfer your personal information to any company, organization or individual, except in the following cases:</p>
+    <ul>
+        <li><strong>Transfer with explicit consent:</strong> We will

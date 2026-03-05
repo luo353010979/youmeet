@@ -3,6 +3,7 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/entity/conversation.dart';
+import 'package:wukongimfluttersdk/wkim.dart';
 import 'package:youmeet/common/index.dart';
 
 import 'index.dart';
@@ -90,10 +91,13 @@ class MsgIndexPage extends GetView<MsgIndexController> {
             ),
         ].toColumn(),
       ],
-      onTap: () => Get.toNamed(
-        RouteNames.msgChat,
-        arguments: {"conversation": conversation, "item": item},
-      ),
+      onTap: () {
+        WKIM.shared.conversationManager.updateRedDot(conversation.channelID, conversation.channelType, 0);
+        Get.toNamed(
+          RouteNames.msgChat,
+          arguments: {"conversation": conversation, "item": item},
+        );
+      },
     );
   }
 

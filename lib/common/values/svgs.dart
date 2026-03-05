@@ -62,6 +62,7 @@ class AssetsSvgs {
   static const icMsg_03Svg = 'assets/svgs/ic_msg_03.svg';
   static const icMsgAddSvg = 'assets/svgs/ic_msg_add.svg';
   static const icMsgCameraSvg = 'assets/svgs/ic_msg_camera.svg';
+  static const icMyGenderBoySvg = 'assets/svgs/ic_my_gender_boy.svg';
 
   static const icPostsMoreSvg = 'assets/svgs/ic_posts_more.svg';
   static const icPostsSearchSvg = 'assets/svgs/ic_posts_search.svg';
@@ -82,4 +83,5 @@ class AssetsSvgs {
   static const icProfileAddSvg = 'assets/svgs/ic_profile_add.svg';
   static const icProfileAdd2Svg = 'assets/svgs/ic_profile_add2.svg';
   static const icProfileAddVideoSvg = 'assets/svgs/ic_profile_add_video.svg';
+  
 }

@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:wukongimfluttersdk/type/const.dart';
+import 'package:wukongimfluttersdk/wkim.dart';
 import 'package:youmeet/common/index.dart';
 
 /// 用户服务
@@ -44,10 +46,7 @@ class UserService extends GetxService {
     BaseResponse<UserMessage> response = await UserApi.profile();
     var userMessage = response.result;
     _profile(userMessage);
-    Storage().setString(
-      Constants.storageProfile,
-      jsonEncode(userMessage?.toJson()),
-    );
+    Storage().setString(Constants.storageProfile, jsonEncode(userMessage?.toJson()));
   }
 
   /// 编辑用户 profile
@@ -64,6 +63,7 @@ class UserService extends GetxService {
     await Storage().remove(Constants.storageToken);
     _profile(UserMessage());
     token = '';
+    MsgService.to.disconnectIM();
     Get.offAllNamed(RouteNames.systemLogin);
   }
 
@@ -83,12 +83,10 @@ class UserService extends GetxService {
         Storage().setString(Constants.storageToken, token);
 
         UserMessage userMessage = user?.userMessage ?? UserMessage();
-        Storage().setString(
-          Constants.storageProfile,
-          jsonEncode(userMessage.toJson()),
-        );
+        Storage().setString(Constants.storageProfile, jsonEncode(userMessage.toJson()));
         _profile(userMessage);
         MsgService.to.init();
+        WKIM.shared.channelManager.fetchChannelInfo(userMessage.id ?? "", WKChannelType.personal);
         logger.d("注册成功，用户 token: $token");
         return true;
       } else {
@@ -115,12 +113,10 @@ class UserService extends GetxService {
         Storage().setString(Constants.storageToken, token);
 
         UserMessage userMessage = user?.userMessage ?? UserMessage();
-        Storage().setString(
-          Constants.storageProfile,
-          jsonEncode(userMessage.toJson()),
-        );
+        Storage().setString(Constants.storageProfile, jsonEncode(userMessage.toJson()));
         _profile(userMessage);
         MsgService.to.init();
+        WKIM.shared.channelManager.fetchChannelInfo(userMessage.id ?? "", WKChannelType.personal);
         logger.d("登录成功，用户 token: $token");
         return true;
       } else {
