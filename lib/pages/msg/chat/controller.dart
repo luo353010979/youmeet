@@ -33,11 +33,15 @@ class ChatController extends GetxController {
   WKUIConversationMsg? conversation;
   MsgConversation? msgConversation;
 
-  List<WKMsg> messages = [];
+  final messages = <WKMsg>[].obs;
 
   int _oldestOrderSeq = 0;
 
+  final isComplete = false.obs;
+
   final ScrollController scrollController = ScrollController();
+
+  late final Worker _worker;
 
   String? get displayRealPic {
     if (req.healthPic?.isNotEmpty == true) {
@@ -66,6 +70,7 @@ class ChatController extends GetxController {
     TypeModel(id: 3, title: LocaleKeys.loveFourTitle3.tr, icon: AssetsSvgs.icMsg_03Svg),
   ];
 
+  final _loadTrigger = 0.obs;
   @override
   void onInit() async {
     super.onInit();
@@ -74,22 +79,29 @@ class ChatController extends GetxController {
     conversation = data['conversation'];
     msgConversation = data['item'];
 
-    scrollController.addListener(_scrollListener);
+    getSafeReport();
 
     await getOldestSeq();
 
-    getSafeReport();
+    _loadHistoryMessages();
 
-    await _loadHistoryMessages();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
-
-    /// 发送消息插入数据库监听 - 作为消息的主要来源
     WKIM.shared.messageManager.addOnMsgInsertedListener(_onMsgInserted);
+    WKIM.shared.messageManager.addOnNewMsgListener("newMsgListener2", _onNewMsgListener);
+
+    scrollController.addListener(_scrollListener);
+
+    // 节流触发顶部加载，避免短时间重复请求
+    _worker = interval<int>(
+      _loadTrigger,
+      (_) => _loadHistoryMessages(),
+      time: const Duration(milliseconds: 5000),
+    );
   }
 
   void _scrollListener() {
-    if (scrollController.position.pixels == 0) {
-      _loadHistoryMessages(); // 滚动到顶部时加载更多数据
+    if (!scrollController.hasClients) return;
+    if (scrollController.position.pixels < 500) {
+      _loadTrigger.value++;
     }
   }
 
@@ -98,11 +110,13 @@ class ChatController extends GetxController {
     if (scrollController.hasClients) {
       scrollController.animateTo(
         scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 100),
-        curve: Curves.easeInOut,
+        duration: Duration(milliseconds: 0),
+        curve: Curves.linear,
       );
     }
   }
+
+  bool isFirst = true;
 
   Future<void> _loadHistoryMessages() async {
     await MsgService.to.getHistoryMessages(
@@ -111,23 +125,20 @@ class ChatController extends GetxController {
       limit: 20,
       onComplete: (List<WKMsg> msg) {
         if (msg.isEmpty) return;
-        //更新最老消息的 orderSeq(简化处理，使用消息数量递减)
         _oldestOrderSeq = msg[0].orderSeq;
 
         logger.d('加载历史消息完成: oldestOrderSeq 更新为 $_oldestOrderSeq');
 
-        // final exitingMessages = messages;
-        //
-        // final allMessages = [...msg, ...exitingMessages];
+        messages.addAll(msg.reversed);
 
-        // messages = allMessages;
+        isComplete.value = true;
 
-        messages.insertAll(0, msg);
-
-
-
-        update(["chat"]);
-
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (isFirst) {
+            scrollController.jumpTo(scrollController.position.maxScrollExtent);
+            isFirst = false;
+          }
+        });
       },
     );
   }
@@ -220,13 +231,30 @@ class ChatController extends GetxController {
   /// 消息插入数据库监听回调   ===> 发送方
   _onMsgInserted(WKMsg msg) {
     logger.d('_onMsgInserted   消息插入数据库: ${msg.content}, 消息ID: ${msg.messageID}');
+
+    messages.insert(0, msg);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+    });
+
     // 此时可以刷新聊天列表 UI
+  }
+
+  /// 新消息监听回调  ====> 接收方
+  _onNewMsgListener(List<WKMsg> p1) {
+    logger.d('_onNewMsgListener   收到新消息: ${p1.map((msg) => msg.content).join(", ")}');
+    messages.insertAll(0, p1);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+    });
   }
 
   getOldestSeq() async {
     final msg = await conversation?.getWkMsg();
     _oldestOrderSeq = msg?.orderSeq ?? 0;
-    print(_oldestOrderSeq);
+    logger.d("getOldestSeq: $_oldestOrderSeq");
   }
 
   void getChannelInfo() async {

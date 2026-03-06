@@ -202,7 +202,7 @@ class MsgService extends GetxService {
     int channelType = WKChannelType.personal,
     int oldestOrderSeq = 0,
     int pullModel = 0,
-    bool container = false,
+    bool container = true,
     int limit = 100,
     int aroundMsgOrderSeq = 0,
     required Function(List<WKMsg>) onComplete,
@@ -217,6 +217,7 @@ class MsgService extends GetxService {
       limit,
       0,
       (List<WKMsg> p1) {
+        logger.d(p1.length);
         onComplete(p1);
       },
       () {

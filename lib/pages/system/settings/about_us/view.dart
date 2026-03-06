@@ -1,3 +1,4 @@
+import 'package:ducafe_ui_core/ducafe_ui_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
@@ -9,7 +10,16 @@ class AboutUsPage extends GetView<AboutUsController> {
 
   // 主视图
   Widget _buildView() {
-    return const Center(child: Text("AboutUsPage"));
+    return Obx(() {
+      return ListView.separated(
+        reverse: true,
+        itemCount: controller.list.length,
+        itemBuilder: (context, index) {
+          return ListTileWidget(title: TextWidget.label(controller.list[index])).tight(height: 50);
+        },
+        separatorBuilder: (context, index) => SizedBox(height: 10),
+      );
+    });
   }
 
   @override
@@ -20,7 +30,16 @@ class AboutUsPage extends GetView<AboutUsController> {
       builder: (_) {
         return Scaffold(
           backgroundColor: Color(0xFFF7F7F7),
-          appBar: AppBarWidget(title: "关于我们", backgroundColor: Colors.white),
+          appBar: AppBarWidget(
+            title: "关于我们",
+            backgroundColor: Colors.white,
+            actions: [
+              Padding(
+                padding: EdgeInsets.all(5),
+                child: IconWidget.icon(Icons.add, onTap: controller.add),
+              ),
+            ],
+          ),
           body: SafeArea(child: _buildView()),
         );
       },

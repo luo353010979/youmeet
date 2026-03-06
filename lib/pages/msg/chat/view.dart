@@ -11,30 +11,34 @@ class ChatPage extends GetView<ChatController> {
 
   // 主视图
   Widget _buildView(BuildContext context) {
-    return <Widget>[
-      _buildMessageList().expanded(),
-      _buildInputBar(),
-    ].toColumn();
+    return Obx(() {
+      return CustomScrollView(
+        controller: controller.scrollController,
+        slivers: [
+          if (controller.isComplete.value) _buildUserInfoCard(),
+          if (controller.isComplete.value) _buildUploadCard(),
+          _buildMessageList(),
+        ],
+      );
+    });
   }
 
   /// 消息列表
   Widget _buildMessageList() {
-    return ListView.separated(
-      controller: controller.scrollController,
-      padding: EdgeInsets.all(16.w),
-      physics: BouncingScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: controller.messages.length + 1,
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return _buildCard();
-        } else {
-          final message = controller.messages[index - 1];
+    return Obx(() {
+      return ListView.separated(
+        padding: EdgeInsets.all(16.w),
+        shrinkWrap: true,
+        reverse: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: controller.messages.length,
+        itemBuilder: (context, index) {
+          final message = controller.messages[index];
           return msgWidget(message);
-        }
-      },
-      separatorBuilder: (context, index) => SizedBox(height: 10.h),
-    );
+        },
+        separatorBuilder: (context, index) => SizedBox(height: 24.h),
+      );
+    }).sliverToBoxAdapter();
   }
 
   Widget msgWidget(WKMsg message) {
@@ -42,57 +46,40 @@ class ChatPage extends GetView<ChatController> {
     final avatar = message.getFrom()?.avatar ?? "";
     final seq = message.messageSeq;
     return <Widget>[
-      ImageWidget.img(
-        "http://${avatar}",
-        width: 40.r,
-        height: 40.r,
-        fit: BoxFit.cover,
-        radius: 20,
-      ),
+      ImageWidget.img("http://${avatar}", width: 40.r, height: 40.r, fit: BoxFit.cover, radius: 20),
       TextWidget.muted("$seq").marginSymmetric(horizontal: 10.w),
-      TextWidget.label(
-            message.messageContent?.content ?? "",
-            weight: FontWeight.bold,
-          )
+      TextWidget.label(message.messageContent?.content ?? "", weight: FontWeight.bold)
           .padding(horizontal: 12.w, vertical: 8.h)
           .backgroundColor(Colors.white)
           .clipRRect(all: 8)
           .constrained(maxWidth: 200.w),
-    ].toRow(
-      textDirection: channelId != UserService.to.profile.id
-          ? TextDirection.ltr
-          : TextDirection.rtl,
-    );
+    ].toRow(textDirection: channelId != UserService.to.profile.id ? TextDirection.ltr : TextDirection.rtl);
   }
 
   /// 输入栏
   Widget _buildInputBar() {
     return <Widget>[
-      // IconButton(
-      //   onPressed: () {},
-      //   icon: ImageWidget.img(AssetsImages.imgMsgMicophonePng, width: 28.r),
-      // ),
-      InputWidget(
-        placeholder: LocaleKeys.content.tr,
-        borderRadius: BorderRadius.circular(8.r),
-        onSubmitted: (value) => controller.sendMessage(value),
-      ).expanded(),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: ImageWidget.img(AssetsImages.imgMsgMicophonePng, width: 28.r),
+          // ),
+          InputWidget(
+            placeholder: LocaleKeys.content.tr,
+            borderRadius: BorderRadius.circular(8.r),
+            border: Border.all(color: Color(0xFFF1F1F1), width: 1),
+            onSubmitted: (value) => controller.sendMessage(value),
+          ).tight(width: 300.w, height: 44.h),
 
-      IconButton(
-        onPressed: () {},
-        icon: IconWidget.svg(AssetsSvgs.icMsgCameraSvg, size: 24.r),
-      ),
-
-      IconButton(
-        onPressed: () {},
-        icon: IconWidget.svg(AssetsSvgs.icMsgAddSvg, size: 24.r),
-      ),
-    ].toRow().tight(height: 60.h);
-  }
-
-  /// 恋爱四项报告
-  Widget _buildCard() {
-    return <Widget>[_buildUserInfoCard(), _buildUploadCard()].toColumnSpace();
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: IconWidget.svg(AssetsSvgs.icMsgCameraSvg, size: 24.r),
+          // ),
+          IconWidget.svg(AssetsSvgs.icMsgAddSvg, size: 24.r, fit: BoxFit.cover),
+        ]
+        .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
+        .paddingHorizontal(16.w)
+        .constrained(height: 60.h)
+        .backgroundColor(Colors.white);
   }
 
   Widget _buildUserInfoCard() {
@@ -108,23 +95,13 @@ class ChatPage extends GetView<ChatController> {
             fit: BoxFit.cover,
             radius: 20,
           ),
-          title: TextWidget.body(
-            controller.msgConversation?.title ?? "",
-            weight: FontWeight.bold,
-          ),
+          title: TextWidget.body(controller.msgConversation?.title ?? "", weight: FontWeight.bold),
           trailing: [
-            TextWidget.label(
-                  LocaleKeys.report.tr,
-                  weight: FontWeight.bold,
-                  color: Colors.white,
-                )
+            TextWidget.label(LocaleKeys.report.tr, weight: FontWeight.bold, color: Colors.white)
                 .alignCenter()
                 .tight(width: 77.w, height: 26.h)
                 .decorated(
-                  image: DecorationImage(
-                    image: AssetImage(AssetsImages.imgMsgBgPng),
-                    fit: BoxFit.cover,
-                  ),
+                  image: DecorationImage(image: AssetImage(AssetsImages.imgMsgBgPng), fit: BoxFit.cover),
                 ),
           ],
         ).tight(height: 44.h),
@@ -158,16 +135,13 @@ class ChatPage extends GetView<ChatController> {
                   ]
                   .toColumn(mainAxisAlignment: MainAxisAlignment.center)
                   .tight(width: 95.w, height: 97.h)
-                  .decorated(
-                    color: Color(0xFFF4F3F3),
-                    borderRadius: BorderRadius.circular(8),
-                  );
+                  .decorated(color: Color(0xFFF4F3F3), borderRadius: BorderRadius.circular(8));
             })
             .toList()
             .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
             .expanded(),
       ].toColumn().paddingSymmetric(horizontal: 14.w, vertical: 10.h),
-    ).tight(width: 343.w, height: 169.h);
+    ).tight(height: 169.h).sliverToBoxAdapter().sliverPaddingHorizontal(14.w);
   }
 
   Widget _buildUploadCard() {
@@ -177,42 +151,23 @@ class ChatPage extends GetView<ChatController> {
 
     return Card(
       elevation: 4,
-      child:
-          <Widget>[
-                TextWidget.body(
-                  LocaleKeys.uploadReport.tr,
-                  weight: FontWeight.bold,
-                ),
+      child: <Widget>[
+        TextWidget.body(LocaleKeys.uploadReport.tr, weight: FontWeight.bold),
 
-                <Widget>[
-                  _buildUploadCell(LocaleKeys.loveFourTitle1.tr, 1, realPic),
-                  _buildUploadCell(
-                    LocaleKeys.loveFourTitle2.tr,
-                    2,
-                    payTaxesPic,
-                  ),
-                  _buildUploadCell(LocaleKeys.loveFourTitle3.tr, 3, creditPic),
-                ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
+        <Widget>[
+          _buildUploadCell(LocaleKeys.loveFourTitle1.tr, 1, realPic),
+          _buildUploadCell(LocaleKeys.loveFourTitle2.tr, 2, payTaxesPic),
+          _buildUploadCell(LocaleKeys.loveFourTitle3.tr, 3, creditPic),
+        ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
-                ButtonWidget.primary(
-                  LocaleKeys.complete.tr,
-                  height: 32.h,
-                  onTap: controller.onComplete,
-                ),
-              ]
-              .toColumn(mainAxisAlignment: MainAxisAlignment.spaceBetween)
-              .paddingSymmetric(horizontal: 14.w, vertical: 10.h),
-    ).tight(width: 343.w, height: 165.h);
+        ButtonWidget.primary(LocaleKeys.complete.tr, height: 32.h, onTap: controller.onComplete),
+      ].toColumn(mainAxisAlignment: MainAxisAlignment.spaceBetween).paddingSymmetric(horizontal: 14.w, vertical: 10.h),
+    ).tight(width: 343.w, height: 165.h).sliverToBoxAdapter().sliverPaddingHorizontal(14.w);
   }
 
   Widget _buildUploadCell(String title, int id, String? imageUrl) {
     if (imageUrl != null && imageUrl.isNotEmpty) {
-      return ImageWidget.img(
-        imageUrl,
-        width: 95.w,
-        height: 71.h,
-        fit: BoxFit.cover,
-      ).onTap(() {
+      return ImageWidget.img(imageUrl, width: 95.w, height: 71.h, fit: BoxFit.cover).onTap(() {
         controller.pickImage(id);
       });
     }
@@ -222,20 +177,13 @@ class ChatPage extends GetView<ChatController> {
 
   Widget _buildUploadItem(String title, int id) {
     return <Widget>[
-          ImageWidget.img(
-            AssetsImages.imgMsgUploadPng,
-            width: 32.r,
-            height: 30.r,
-          ),
+          ImageWidget.img(AssetsImages.imgMsgUploadPng, width: 32.r, height: 30.r),
 
           TextWidget.label(title, weight: FontWeight.bold),
         ]
         .toColumnSpace(mainAxisAlignment: MainAxisAlignment.center, space: 5.h)
         .tight(width: 95.w, height: 71.h)
-        .decorated(
-          color: Color(0xFFF4F3F3),
-          borderRadius: BorderRadius.circular(8),
-        )
+        .decorated(color: Color(0xFFF4F3F3), borderRadius: BorderRadius.circular(8))
         .onTap(() {
           controller.pickImage(id);
         });
@@ -251,12 +199,12 @@ class ChatPage extends GetView<ChatController> {
           useSafeArea: true,
           appBar: AppBarWidget(
             title: controller.msgConversation?.title ?? "",
-            actions: [
-              IconButton(
-                onPressed: controller.getOldestSeq,
-                icon: Icon(Icons.more_vert),
-              ),
-            ],
+            actions: [IconButton(onPressed: controller.getOldestSeq, icon: Icon(Icons.more_vert))],
+          ),
+          bottomNavigationBar: AnimatedPadding(
+            duration: const Duration(milliseconds: 200),
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: SafeArea(child: _buildInputBar()),
           ),
           child: _buildView(context),
         );
