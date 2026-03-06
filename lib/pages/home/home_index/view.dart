@@ -98,11 +98,14 @@ class HomeIndexPage extends GetView<HomeIndexController> {
       controller: controller.tabController,
       children: controller.tabs.asMap().entries.map((entry) {
         final index = entry.key;
-        return EasyRefresh(
-          controller: controller.refreshController,
-          onRefresh: () => controller.onRefresh(index),
-          onLoad: () => controller.onLoadMore(index),
-          child: _buildListView(index),
+        return KeepAliveWrapper(
+          child: EasyRefresh(
+            refreshOnStart: true,
+            controller: controller.refreshController,
+            onRefresh: () => controller.onRefresh(index),
+            onLoad: () => controller.onLoadMore(index),
+            child: _buildListView(index),
+          ),
         );
       }).toList(),
     ).expanded();

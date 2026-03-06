@@ -86,7 +86,6 @@ class HomeIndexController extends GetxController
           break;
         default:
       }
-
       update(["home_index"]);
     } else {
       // 处理错误

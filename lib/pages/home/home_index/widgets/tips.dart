@@ -9,9 +9,12 @@ class TipsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return <Widget>[
-          CircleAvatar(
-            radius: 30.r,
-            backgroundColor: Color(0xFFF5F5F5),
+          ImageWidget.img(
+            "http://${UserService.to.profile.portrait}",  
+            radius: 50.r,
+            width: 60.w,
+            height: 60.w,
+            fit: BoxFit.cover,
           ).paddingHorizontal(14.w),
 
           <Widget>[
