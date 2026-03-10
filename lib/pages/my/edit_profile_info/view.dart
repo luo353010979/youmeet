@@ -14,7 +14,7 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
         padding: EdgeInsets.only(left: 16),
         leading: TextWidget.label(LocaleKeys.nickname.tr).tight(width: 80.w),
         title: TextWidget.label(
-          controller.userMessage.name ?? "",
+          UserService.to.profile.name ?? "",
           color: Color(0xFF666666),
         ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
@@ -27,7 +27,7 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
         padding: EdgeInsets.only(left: 16),
         leading: TextWidget.label(LocaleKeys.profile.tr).tight(width: 80.w),
         title: TextWidget.label(
-          controller.userMessage.profile ?? "",
+          UserService.to.profile.profile ?? "",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           color: Color(0xFF666666),
@@ -44,7 +44,7 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
         padding: EdgeInsets.only(left: 16),
         leading: TextWidget.label(LocaleKeys.gender.tr).tight(width: 80.w),
         title: TextWidget.label(
-          controller.userMessage.sex == 1
+          UserService.to.profile.sex == 1
               ? LocaleKeys.man.tr
               : LocaleKeys.woman.tr,
           color: Color(0xFF666666),
@@ -58,7 +58,7 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
         padding: EdgeInsets.only(left: 16),
         leading: TextWidget.label(LocaleKeys.birth.tr).tight(width: 80.w),
         title: TextWidget.label(
-          "${controller.userMessage.birthday}",
+          "${UserService.to.profile.birthday}",
           color: Color(0xFF666666),
         ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
@@ -71,7 +71,7 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
         padding: EdgeInsets.only(left: 16),
         leading: TextWidget.label(LocaleKeys.height.tr).tight(width: 80.w),
         title: TextWidget.label(
-          "${controller.userMessage.height ?? "0"} cm",
+          "${UserService.to.profile.height ?? "0"} cm",
           color: Color(0xFF666666),
         ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
@@ -84,7 +84,7 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
         padding: EdgeInsets.only(left: 16),
         leading: TextWidget.label(LocaleKeys.weight.tr).tight(width: 80.w),
         title: TextWidget.label(
-          "${controller.userMessage.weight ?? "0"} kg",
+          "${UserService.to.profile.weight ?? "0"} kg",
           color: Color(0xFF666666),
         ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],

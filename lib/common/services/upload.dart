@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:get/get.dart';
@@ -33,21 +34,12 @@ class UploadService extends GetxService {
     required void Function(PutResponse) onDone,
   }) async {
     final removeStatusListener = putController.addStatusListener(onStatus);
-    final removeProgressListener = putController.addProgressListener(
-      onProgress,
-    );
+    final removeProgressListener = putController.addProgressListener(onProgress);
 
     File file = File(filePath);
-    final putOptions = PutOptions(
-      key: generateSimpleId("${file.hashCode.abs()}"),
-      controller: putController,
-    );
+    final putOptions = PutOptions(key: generateSimpleId("${file.hashCode.abs()}"), controller: putController);
     try {
-      final response = await storage.putFile(
-        file,
-        token?.token ?? '',
-        options: putOptions,
-      );
+      final response = await storage.putFile(file, token?.token ?? '', options: putOptions);
       onDone(response);
       return response;
     } catch (e) {
@@ -65,22 +57,13 @@ class UploadService extends GetxService {
 
   /// 选择图片并上传，返回图片 URL
   Future<String?> pickImage() async {
-    final pickedFile = await _picker.pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 100,
-      maxHeight: 100,
-    );
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery, maxWidth: 100, maxHeight: 100);
     if (pickedFile == null) {
       return null;
     }
 
     await requestQiniuToken();
-    final response = await upload(
-      pickedFile.path,
-      onProgress: (progress) {},
-      onStatus: (state) {},
-      onDone: (done) {},
-    );
+    final response = await upload(pickedFile.path, onProgress: (progress) {}, onStatus: (state) {}, onDone: (done) {});
 
     final key = response?.key;
     if (key == null || key.isEmpty) {
@@ -88,5 +71,28 @@ class UploadService extends GetxService {
     }
 
     return "${Constants.imgDomain}$key";
+  }
+
+  static Stream<String> uploadImagesStream(List<String> imagePaths, String token) {
+    final streamController = StreamController<String>();
+    int finished = 0;
+    for (final img in imagePaths) {
+      UploadService.to.upload(
+        img,
+        onProgress: (progress) {},
+        onStatus: (state) {
+          logger.d('上传状态: $state');
+        },
+        onDone: (done) {
+          streamController.add(done.key ?? "");
+          logger.d('上传完成: ${done.key}');
+          finished++;
+          if (finished == imagePaths.length) {
+            streamController.close();
+          }
+        },
+      );
+    }
+    return streamController.stream;
   }
 }

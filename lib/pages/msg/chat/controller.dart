@@ -22,8 +22,6 @@ class TypeModel {
 class ChatController extends GetxController {
   ChatController();
 
-  // UserMessage? user;
-
   // 安全报告数据
   SafeReportModel? report;
 
@@ -122,6 +120,7 @@ class ChatController extends GetxController {
     await MsgService.to.getHistoryMessages(
       conversation?.channelID ?? "",
       oldestOrderSeq: _oldestOrderSeq,
+      // pullModel: 1,
       limit: 20,
       onComplete: (List<WKMsg> msg) {
         if (msg.isEmpty) return;
@@ -220,6 +219,9 @@ class ChatController extends GetxController {
     final response = await UserApi.getSafeReport(id: UserService.to.profile.id!);
     if (response.success) {
       report = response.result;
+      if(report?.creditPic?.isEmpty ==true){
+
+      }
       update(["chat"]);
     }
   }

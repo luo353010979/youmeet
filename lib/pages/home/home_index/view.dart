@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import 'package:youmeet/common/index.dart';
 import 'package:youmeet/pages/home/home_index/widgets/home_item.dart';
+import 'package:youmeet/pages/home/home_index/widgets/home_slider.dart';
 import 'package:youmeet/pages/home/home_index/widgets/tips.dart';
 
 import 'index.dart';
@@ -14,55 +15,24 @@ class HomeIndexPage extends GetView<HomeIndexController> {
 
   // 主视图
   Widget _buildView(BuildContext context) {
+    final avatars = controller.recommendList
+        .map((e) => e.portrait ?? '')
+        .where((e) => e.isNotEmpty)
+        .toSet()
+        .toList();
+
+    if (avatars.isEmpty &&
+        (UserService.to.profile.portrait?.isNotEmpty ?? false)) {
+      avatars.add(UserService.to.profile.portrait!);
+    }
+
     return Column(
-      children: [_buildSlider(), _buildTabBar(context), _buildPageView()],
+      children: [
+        HomeSliderWidget(avatars: avatars),
+        _buildTabBar(context),
+        _buildPageView(),
+      ],
     );
-  }
-
-  /// 顶部推荐滑动栏
-  Widget _buildSlider() {
-    return <Widget>[
-      TextWidget.label(
-        LocaleKeys.safeDating.tr,
-        size: 16,
-        weight: FontWeight.w900,
-      ).positioned(left: 16.w, top: 24.h),
-
-      TextWidget.label(
-        LocaleKeys.reliable.tr,
-        size: 26,
-        weight: FontWeight.bold,
-      ).positioned(left: 16.w, top: 52.h),
-
-      TextWidget.label(
-        "张思雨",
-        size: 18,
-        weight: FontWeight.w900,
-      ).positioned(left: 245.w, top: 52.h),
-
-      TextWidget.muted(
-        LocaleKeys.commonNext.tr,
-      ).positioned(left: 20.w, top: 107.h),
-
-      ImageWidget.img(
-        AssetsImages.imgHomeAvaterPng,
-        width: 264.w,
-        height: 148.h,
-        fit: BoxFit.contain,
-      ).positioned(right: 17.w, bottom: 12.h),
-      ImageWidget.img(
-        AssetsImages.imgHomeYoumeetPng,
-        width: 111.w,
-        height: 24.h,
-        fit: BoxFit.contain,
-      ).positioned(top: 76.h, left: 246.w),
-
-      TextWidget.label(
-        LocaleKeys.viewNow.tr,
-        color: Color(0xFFDA597F),
-        weight: FontWeight.w900,
-      ).positioned(left: 247.w, top: 108.5.h),
-    ].toStack().tight(height: 164.h);
   }
 
   /// TabBar

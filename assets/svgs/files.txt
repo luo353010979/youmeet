@@ -29,6 +29,7 @@ static const icAppbarBackSvg = 'assets/svgs/ic_appbar_back.svg';
 static const icArrowDownSvg = 'assets/svgs/ic_arrow_down.svg';
 static const icArrowRightSvg = 'assets/svgs/ic_arrow_right.svg';
 static const icArrowRight2Svg = 'assets/svgs/ic_arrow_right2.svg';
+static const icChatSvg = 'assets/svgs/ic_chat.svg';
 static const icHomeActiveSvg = 'assets/svgs/ic_home_active.svg';
 static const icHomeDefautSvg = 'assets/svgs/ic_home_defaut.svg';
 static const icLikeActiveSvg = 'assets/svgs/ic_like_active.svg';

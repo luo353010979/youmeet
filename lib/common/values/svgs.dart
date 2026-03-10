@@ -83,5 +83,6 @@ class AssetsSvgs {
   static const icProfileAddSvg = 'assets/svgs/ic_profile_add.svg';
   static const icProfileAdd2Svg = 'assets/svgs/ic_profile_add2.svg';
   static const icProfileAddVideoSvg = 'assets/svgs/ic_profile_add_video.svg';
+  static const icChatSvg = 'assets/svgs/ic_chat.svg';
   
 }

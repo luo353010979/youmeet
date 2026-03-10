@@ -31,17 +31,17 @@ class MyIndexPage extends GetView<MyIndexController> {
       backgroundColor: Colors.transparent,
       isRipple: false,
       leading: ImageWidget.img(
-        "http://${controller.userMessage.portrait}",
+        "http://${UserService.to.profile.portrait}",
         width: 54.r,
         height: 54.r,
         fit: BoxFit.cover,
         radius: 50,
       ),
       title: <Widget>[
-        TextWidget.h4(controller.userMessage.name ?? "", weight: FontWeight.bold).paddingRight(12.w),
+        TextWidget.h4(UserService.to.profile.name ?? "", weight: FontWeight.bold).paddingRight(12.w),
         IconWidget.svg(
-              controller.userMessage.sex == 1 ? AssetsSvgs.icMyGenderBoySvg : AssetsSvgs.icMyGirlSvg,
-              text: "${controller.userMessage.age}",
+          UserService.to.profile.sex == 1 ? AssetsSvgs.icMyGenderBoySvg : AssetsSvgs.icMyGirlSvg,
+              text: "${UserService.to.profile.age}",
               // fontColor: Get.theme.colorScheme.primary,
               size: 10.r,
               fontSize: 10,
@@ -50,14 +50,14 @@ class MyIndexPage extends GetView<MyIndexController> {
             .alignCenter()
             .tight(width: 49.w, height: 21.h)
             .decorated(
-              color: Color(controller.userMessage.sex == 1 ? 0x2616C4FF : 0x26F2A3D6),
+              color: Color(UserService.to.profile.sex == 1 ? 0x2616C4FF : 0x26F2A3D6),
               borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: Color(controller.userMessage.sex == 1 ? 0xFF16C4FF : 0xFFFFA2DE)),
+              border: Border.all(color: Color(UserService.to.profile.sex == 1 ? 0xFF16C4FF : 0xFFFFA2DE)),
             ),
       ].toRow(),
       subtitle: <Widget>[
-        TextWidget.muted("${controller.userMessage.concernedNum}粉丝").paddingRight(12.w),
-        TextWidget.muted("${controller.userMessage.concernNum}关注"),
+        TextWidget.muted("${UserService.to.profile.concernedNum}粉丝").paddingRight(12.w),
+        TextWidget.muted("${UserService.to.profile.concernNum}关注"),
       ].toRow(),
       onTap: () => controller.toProfileView(),
     ).paddingVertical(16.h);
@@ -66,22 +66,22 @@ class MyIndexPage extends GetView<MyIndexController> {
   Widget _buildCounter() {
     return <Widget>[
       ColumTextWidget(
-        keyText: TextWidget.h4("${controller.userMessage.viewedNum}"),
+        keyText: TextWidget.h4("${UserService.to.profile.viewedNum}"),
         valueText: TextWidget.muted("看过我", size: 10),
       ),
       SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
       ColumTextWidget(
-        keyText: TextWidget.h4("${controller.userMessage.viewNum}"),
+        keyText: TextWidget.h4("${UserService.to.profile.viewNum}"),
         valueText: TextWidget.muted("我看过", size: 10),
       ),
       SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
       ColumTextWidget(
-        keyText: TextWidget.h4("${controller.userMessage.likeNum}"),
+        keyText: TextWidget.h4("${UserService.to.profile.likeNum}"),
         valueText: TextWidget.muted("我喜欢", size: 10),
       ),
       SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
       ColumTextWidget(
-        keyText: TextWidget.h4("${controller.userMessage.likedNum}"),
+        keyText: TextWidget.h4("${UserService.to.profile.likedNum}"),
         valueText: TextWidget.muted("喜欢我", size: 10),
       ),
     ].toRow(mainAxisAlignment: MainAxisAlignment.spaceEvenly).paddingBottom(20.h);
@@ -89,6 +89,7 @@ class MyIndexPage extends GetView<MyIndexController> {
 
   /// 我的形象
   Widget _buildMyImage() {
+    List<String> images = UserService.to.profile.pic?.split(",") ?? [];
     return Card(
       child: <Widget>[
         TextWidget.body("我的形象", weight: FontWeight.bold),
@@ -96,9 +97,10 @@ class MyIndexPage extends GetView<MyIndexController> {
         12.verticalSpace,
 
         ImageSelectorWidget(
+          images: images,
           maxImages: 3,
-          onImagesSelected: (images) {
-            controller.onMyImageSelected(images);
+          onImagesSelected: (imagesPath) {
+            controller.setImagePaths(imagesPath);
           },
         ),
 

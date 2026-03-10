@@ -17,7 +17,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
       slivers: [
         // 沉浸式头部图片
         SliverAppBar(
-          expandedHeight: 385.h,
+          expandedHeight: 385.w,
           pinned: true,
           backgroundColor: Colors.white,
           elevation: 0,
@@ -54,6 +54,8 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
         _buildAvatar(),
         _buildBasicInfo(),
         _buildHobbies(),
+        _buildMatePreference(),
+        _buildButton(),
       ],
     );
   }
@@ -73,7 +75,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
             return ImageWidget.img(
               controller.bannerImages[index],
               width: double.infinity,
-              height: 385.h,
+              height: 385.w,
               fit: BoxFit.cover,
             );
           },
@@ -81,7 +83,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
         // 指示器
         if (controller.bannerImages.length > 1)
           Positioned(
-            bottom: 100.h,
+            bottom: 100.w,
             left: 0,
             right: 0,
             child: Row(
@@ -119,7 +121,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
           radius: 50,
           fit: BoxFit.cover,
         ),
-        titleSubtitleSpace: 12.h,
+        titleSubtitleSpace: 12.w,
         title: <Widget>[
           TextWidget.body(controller.user?.name ?? "", weight: FontWeight.bold),
 
@@ -134,7 +136,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
                 fit: BoxFit.cover,
               )
               .alignCenter()
-              .tight(width: 49.w, height: 18.h)
+              .tight(width: 49.w, height: 18.w)
               .decorated(
                 color: Color(0x26F2A3D6),
                 borderRadius: BorderRadius.circular(50),
@@ -144,35 +146,35 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
         subtitle: <Widget>[
           TextWidget.label("唱歌", size: 12, color: Colors.white)
               .center()
-              .tight(width: 40.w, height: 20.h)
+              .tight(width: 40.w, height: 20.w)
               .decorated(
                 color: Color(0xFFFE86D8),
                 borderRadius: BorderRadius.circular(30),
               ),
           TextWidget.label("跳", size: 12, color: Colors.white)
               .center()
-              .tight(width: 40.w, height: 20.h)
+              .tight(width: 40.w, height: 20.w)
               .decorated(
                 color: Color(0xFF948DFF),
                 borderRadius: BorderRadius.circular(30),
               ),
           TextWidget.label("rap", size: 12, color: Colors.white)
               .center()
-              .tight(width: 40.w, height: 20.h)
+              .tight(width: 40.w, height: 20.w)
               .decorated(
                 color: Color(0xFFFFC42E),
                 borderRadius: BorderRadius.circular(30),
               ),
           TextWidget.label("篮球", size: 12, color: Colors.white)
               .center()
-              .tight(width: 40.w, height: 20.h)
+              .tight(width: 40.w, height: 20.w)
               .decorated(
                 color: Color(0xFF04C947),
                 borderRadius: BorderRadius.circular(30),
               ),
         ].toWrap(spacing: 8.w),
       ),
-    ).tight(height: 84.h).sliverToBoxAdapter().sliverPaddingHorizontal(16.w);
+    ).tight(height: 84.w).sliverToBoxAdapter().sliverPaddingHorizontal(16.w);
   }
 
   /// 基本信息
@@ -187,15 +189,15 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
         shrinkWrap: true,
         children: [
           ColumTextWidget(
-            spacing: 4.h,
+            spacing: 4.w,
             keyText: TextWidget.muted("身高", size: 10),
             valueText: TextWidget.label(
-              "${controller.user?.height ?? "- -"}",
+              "${controller.user?.weight ?? "- -"}",
               weight: FontWeight.bold,
             ),
           ),
           ColumTextWidget(
-            spacing: 4.h,
+            spacing: 4.w,
             keyText: TextWidget.muted("体重", size: 10),
             valueText: TextWidget.label(
               "${controller.user?.weight ?? "- -"}",
@@ -203,23 +205,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
             ),
           ),
           ColumTextWidget(
-            spacing: 4.h,
-            keyText: TextWidget.muted("年龄", size: 10),
-            valueText: TextWidget.label(
-              "${controller.user?.age ?? "- -"}",
-              weight: FontWeight.bold,
-            ),
-          ),
-          ColumTextWidget(
-            spacing: 4.h,
-            keyText: TextWidget.muted("职业", size: 10),
-            valueText: TextWidget.label(
-              controller.user?.job ?? "- -",
-              weight: FontWeight.bold,
-            ),
-          ),
-          ColumTextWidget(
-            spacing: 4.h,
+            spacing: 4.w,
             keyText: TextWidget.muted("学历", size: 10),
             valueText: TextWidget.label(
               controller.user?.education ?? "- -",
@@ -227,29 +213,59 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
             ),
           ),
           ColumTextWidget(
-            spacing: 4.h,
+            spacing: 4.w,
+            keyText: TextWidget.muted("职业", size: 10),
+            valueText: TextWidget.label(
+              controller.user?.job ?? "- -",
+              weight: FontWeight.bold,
+            ),
+          ),
+
+          ColumTextWidget(
+            spacing: 4.w,
             keyText: TextWidget.muted("收入", size: 10),
             valueText: TextWidget.label(
               "${controller.user?.income ?? "- -"}",
               weight: FontWeight.bold,
             ),
           ),
+
           ColumTextWidget(
-            spacing: 4.h,
-            keyText: TextWidget.muted("婚姻状况", size: 10),
+            spacing: 4.w,
+            keyText: TextWidget.muted("家乡", size: 10),
+            valueText: TextWidget.label("没有字段", weight: FontWeight.bold),
+          ),
+          ColumTextWidget(
+            spacing: 4.w,
+            keyText: TextWidget.muted("购车", size: 10),
             valueText: TextWidget.label(
-              "${controller.user?.emotionalExperience ?? "- -"}",
+              parseBuy(controller.user?.buyCar),
               weight: FontWeight.bold,
             ),
           ),
           ColumTextWidget(
-            spacing: 4.h,
-            keyText: TextWidget.muted("有无子女", size: 10),
-            valueText: TextWidget.label("- -", weight: FontWeight.bold),
+            spacing: 4.w,
+            keyText: TextWidget.muted("购房", size: 10),
+            valueText: TextWidget.label(
+              parseBuy(controller.user?.buyHouse),
+              weight: FontWeight.bold,
+            ),
           ),
         ],
       ),
     ).sliverToBoxAdapter().sliverPaddingHorizontal(16.w);
+  }
+
+  String parseBuy(int? buy) {
+    if (buy == null) return "- -";
+    switch (buy) {
+      case 0:
+        return "未购";
+      case 1:
+        return "已购";
+      default:
+        return "- -";
+    }
   }
 
   /// 兴趣爱好
@@ -258,38 +274,136 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       clipBehavior: Clip.antiAlias,
       child: <Widget>[
+        TextWidget.muted(
+          "爱情誓言",
+          weight: FontWeight.bold,
+        ).paddingOnly(bottom: 8.w),
+
+        TextWidget.label(
+          "全世界都是你的影子",
+          weight: FontWeight.bold,
+        ).paddingOnly(bottom: 12.w),
+
+        TextWidget.muted(
+          "兴趣爱好",
+          weight: FontWeight.bold,
+        ).paddingOnly(bottom: 8.w),
+
         <Widget>[
           TextWidget.label("唱歌", size: 12, color: Colors.white)
               .center()
-              .tight(width: 40.w, height: 20.h)
+              .tight(width: 40.w, height: 20.w)
               .decorated(
                 color: Color(0xFFFE86D8),
                 borderRadius: BorderRadius.circular(30),
               ),
           TextWidget.label("跳", size: 12, color: Colors.white)
               .center()
-              .tight(width: 40.w, height: 20.h)
+              .tight(width: 40.w, height: 20.w)
               .decorated(
                 color: Color(0xFF948DFF),
                 borderRadius: BorderRadius.circular(30),
               ),
           TextWidget.label("rap", size: 12, color: Colors.white)
               .center()
-              .tight(width: 40.w, height: 20.h)
+              .tight(width: 40.w, height: 20.w)
               .decorated(
                 color: Color(0xFFFFC42E),
                 borderRadius: BorderRadius.circular(30),
               ),
           TextWidget.label("篮球", size: 12, color: Colors.white)
               .center()
-              .tight(width: 40.w, height: 20.h)
+              .tight(width: 40.w, height: 20.w)
               .decorated(
                 color: Color(0xFF04C947),
                 borderRadius: BorderRadius.circular(30),
               ),
-        ].toWrap(spacing: 8.w),
-      ].toColumn(),
-    ).tight(height: 500.h).sliverToBoxAdapter().sliverPaddingHorizontal(16.w);
+          TextWidget.label("唱歌", size: 12, color: Colors.white)
+              .center()
+              .tight(width: 40.w, height: 20.w)
+              .decorated(
+                color: Color(0xFFFE86D8),
+                borderRadius: BorderRadius.circular(30),
+              ),
+          TextWidget.label("跳", size: 12, color: Colors.white)
+              .center()
+              .tight(width: 40.w, height: 20.w)
+              .decorated(
+                color: Color(0xFF948DFF),
+                borderRadius: BorderRadius.circular(30),
+              ),
+          TextWidget.label("rap", size: 12, color: Colors.white)
+              .center()
+              .tight(width: 40.w, height: 20.w)
+              .decorated(
+                color: Color(0xFFFFC42E),
+                borderRadius: BorderRadius.circular(30),
+              ),
+          TextWidget.label("篮球", size: 12, color: Colors.white)
+              .center()
+              .tight(width: 40.w, height: 20.w)
+              .decorated(
+                color: Color(0xFF04C947),
+                borderRadius: BorderRadius.circular(30),
+              ),
+        ].toWrap(spacing: 8.w, runSpacing: 8.w),
+      ].toColumn(crossAxisAlignment: CrossAxisAlignment.start).paddingAll(16.w),
+    ).sliverToBoxAdapter().sliverPaddingHorizontal(16.w);
+  }
+
+  /// 择偶意向
+  Widget _buildMatePreference() {
+    final matePreferences = controller.user?.friendNeedType?.split(",") ?? [];
+
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      clipBehavior: Clip.antiAlias,
+      child: <Widget>[
+        TextWidget.muted(
+          "择偶意向",
+          weight: FontWeight.bold,
+        ).paddingOnly(bottom: 8.w),
+
+        matePreferences
+            .map(
+              (e) => TextWidget.label(e, size: 12, color: Colors.white)
+                  .padding(horizontal: 12.w, vertical: 4.w)
+                  .decorated(
+                    color: Color(0xFF948DFF),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+            )
+            .toList()
+            .toWrap(spacing: 8.w, runSpacing: 8.w)
+            .paddingOnly(bottom: 12.w),
+
+        TextWidget.muted(
+          "情感史",
+          weight: FontWeight.bold,
+        ).paddingOnly(bottom: 8.w),
+
+        TextWidget.label(
+          "${controller.user?.emotionalExperience} 段",
+          weight: FontWeight.bold,
+        ),
+      ].toColumn(crossAxisAlignment: CrossAxisAlignment.start).paddingAll(16.w),
+    ).sliverToBoxAdapter().sliverPaddingHorizontal(16.w);
+  }
+
+  Widget _buildButton() {
+    return ButtonWidget.primary(
+      "打招呼",
+      icon: IconWidget.svg(AssetsSvgs.icChatSvg, size: 16.w),
+      reverse: true,
+      backgroundColor: Color(0xFFFF64C8),
+      borderRadius: 50,
+      elevation: 0,
+      onTap: () {},
+    ).sliverToBoxAdapter().sliverPadding(
+      top: 12.w,
+      bottom: 30.w,
+      horizontal: 16.w,
+    );
   }
 
   @override

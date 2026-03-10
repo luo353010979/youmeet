@@ -37,30 +37,6 @@ class SendPostController extends GetxController {
     contentFocusNode.dispose();
   }
 
-  /// 并发上传所有图片，通过 Stream 实时返回每个上传完成的 key
-  Stream<String> uploadImagesStream(List<String> imagePaths, String token) {
-    final streamController = StreamController<String>();
-    int finished = 0;
-    for (final img in imagePaths) {
-      UploadService.to.upload(
-        img,
-        onProgress: (progress) {},
-        onStatus: (state) {
-          logger.d('上传状态: $state');
-        },
-        onDone: (done) {
-          streamController.add(done.key ?? "");
-          logger.d('上传完成: ${done.key}');
-          finished++;
-          if (finished == imagePaths.length) {
-            streamController.close();
-          }
-        },
-      );
-    }
-    return streamController.stream;
-  }
-
   /// 发布动态
   void sendFeed() async {
     String content = contentController.text;
@@ -70,7 +46,7 @@ class SendPostController extends GetxController {
 
     await UploadService.to.requestQiniuToken();
 
-    await for (final key in uploadImagesStream(imagePaths, token)) {
+    await for (final key in UploadService.uploadImagesStream(imagePaths, token)) {
       keys.add("$baseUrl$key");
     }
 

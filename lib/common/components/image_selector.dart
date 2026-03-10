@@ -4,15 +4,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:youmeet/common/index.dart';
 
 class ImageSelectorWidget extends StatefulWidget {
-  const ImageSelectorWidget({
-    super.key,
-    this.maxImages = 1,
-    this.onImagesSelected,
-  });
+  const ImageSelectorWidget({super.key, this.maxImages = 1, this.onImagesSelected, this.images});
 
   final int? maxImages; // 最大图片数量
-
   final Function(List<String>)? onImagesSelected; // 图片选择回调
+  final List<String>? images; // 外部传入图片
 
   @override
   State<ImageSelectorWidget> createState() => _ImageSelectorWidgetState();
@@ -21,7 +17,13 @@ class ImageSelectorWidget extends StatefulWidget {
 class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
   List<String> selectedImages = []; // 存储多张图片路径
 
-  int get imageCount => selectedImages.length;
+  List<String> get allImages {
+    // 合并外部图片和内部选择图片
+    final extImages = widget.images ?? [];
+    return [...extImages, ...selectedImages];
+  }
+
+  int get imageCount => allImages.length;
 
   int get totalItems {
     final showPlaceholder = imageCount < widget.maxImages!;
@@ -33,23 +35,25 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
   /// 选择图片
   void pickMultipleImages({int? maxImages}) async {
     try {
-      final pickedFiles = await _picker.pickMultiImage(limit: maxImages);
-
-      if (pickedFiles.isNotEmpty) {
-        // 如果设置了最大数量限制
-        if (maxImages != null && pickedFiles.length > maxImages) {
+      final remain = maxImages ?? (widget.maxImages ?? 1) - imageCount;
+      if (remain <= 1) {
+        // 只剩1张，调用单选
+        final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+        if (pickedFile != null) {
           setState(() {
-            selectedImages = pickedFiles
-                .take(maxImages)
-                .map((e) => e.path)
-                .toList();
+            selectedImages.add(pickedFile.path);
           });
-        } else {
-          setState(() {
-            selectedImages = pickedFiles.map((e) => e.path).toList();
-          });
+          widget.onImagesSelected?.call(allImages);
         }
-        widget.onImagesSelected?.call(selectedImages);
+      } else {
+        // 多选
+        final pickedFiles = await _picker.pickMultiImage(limit: remain);
+        if (pickedFiles.isNotEmpty) {
+          setState(() {
+            selectedImages.addAll(pickedFiles.map((e) => e.path));
+          });
+          widget.onImagesSelected?.call(allImages);
+        }
       }
     } catch (e) {
       logger.d('选择图片失败: $e');
@@ -70,20 +74,14 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
       itemCount: totalItems,
       itemBuilder: (context, index) {
         if (index < imageCount) {
-          // 显示已选择的图片
-          return ImageWidget.file(
-            selectedImages[index],
-            width: 108.w,
-            height: 108.w,
-            fit: BoxFit.cover,
-          ).clipRRect(all: 12.r);
+          // 显示已选择的图片（包括外部传入和内部选择）
+          final isHttpImg = allImages[index].contains("http");
+          return isHttpImg
+              ? ImageWidget.img(allImages[index], width: 108.w, height: 108.w, fit: BoxFit.cover, radius: 12)
+              : ImageWidget.file(allImages[index], width: 108.w, height: 108.w, fit: BoxFit.cover, radius: 12);
         } else {
           // 显示上传占位符（只在未满时显示一个）
-          return IconWidget.svg(
-                AssetsSvgs.icProfileAdd2Svg,
-                width: 16.w,
-                height: 16.w,
-              )
+          return IconWidget.svg(AssetsSvgs.icProfileAdd2Svg, width: 16.w, height: 16.w)
               .center()
               .decorated(
                 border: Border.all(color: Color(0xFFF1F1F1), width: 1.w),

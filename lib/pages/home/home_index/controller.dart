@@ -1,18 +1,14 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wukongimfluttersdk/wkim.dart';
 import 'package:youmeet/common/index.dart';
 
-class HomeIndexController extends GetxController
-    with GetTickerProviderStateMixin {
+class HomeIndexController extends GetxController with GetTickerProviderStateMixin {
   HomeIndexController();
 
   int tabIndex = 0;
-  final List<String> tabs = [
-    LocaleKeys.tab_1.tr,
-    LocaleKeys.tab_2.tr,
-    LocaleKeys.tab_3.tr,
-  ];
+  final List<String> tabs = [LocaleKeys.tab_1.tr, LocaleKeys.tab_2.tr, LocaleKeys.tab_3.tr];
   late TabController tabController;
   final refreshController = EasyRefreshController(
     // controlFinishRefresh: true,
@@ -35,6 +31,8 @@ class HomeIndexController extends GetxController
         return recommendList;
     }
   }
+
+  final matchList = <UserMessage>[];
 
   _initData() {
     update(["home_index"]);
@@ -68,10 +66,7 @@ class HomeIndexController extends GetxController
 
   /// 获取推荐列表
   void getRecommendList(String path) async {
-    final req = PostsReq(
-      latitude: "104.04153466504094",
-      longitude: "30.49953949825128",
-    );
+    final req = PostsReq(latitude: "104.04153466504094", longitude: "30.49953949825128");
     final response = await HomeApi.getRecommendList(req, path: path);
     if (response.success) {
       switch (path) {
@@ -89,6 +84,16 @@ class HomeIndexController extends GetxController
       update(["home_index"]);
     } else {
       // 处理错误
+    }
+  }
+
+  void getMatch() async {
+    final response = await HomeApi.getMatch();
+    if (response.success) {
+      final userMessage = response.result;
+      if (userMessage != null) {
+        matchList.add(userMessage);
+      }
     }
   }
 

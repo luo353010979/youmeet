@@ -147,8 +147,13 @@ class _ImageWidgetState extends State<ImageWidget> {
       ws = CachedNetworkImage(
         imageUrl: widget.path,
         fit: widget.fit,
-        cacheKey: widget.path.hashCode.toString(),
+        // Use URL itself as stable cache key to avoid hash collisions.
+        cacheKey: widget.path,
         color: widget.color,
+        fadeInDuration: Duration.zero,
+        fadeOutDuration: Duration.zero,
+        placeholderFadeInDuration: Duration.zero,
+        useOldImageOnUrlChange: true,
         // imageBuilder: (context, imageProvider) => Container(
         //   decoration: BoxDecoration(
         //     image: DecorationImage(
@@ -159,10 +164,7 @@ class _ImageWidgetState extends State<ImageWidget> {
         //   ),
         // ),
         placeholder: (context, url) =>
-            widget.placeholder ??
-            const CircularProgressIndicator()
-                .tightSize(AppSize.indicator)
-                .center(),
+            widget.placeholder ?? const SizedBox.shrink(),
         errorWidget: (context, url, error) =>
             widget.errorWidget ?? const Icon(Icons.error),
       );

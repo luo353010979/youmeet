@@ -7,9 +7,8 @@ import 'package:youmeet/common/services/upload.dart';
 class MyIndexController extends GetxController {
   MyIndexController();
 
-  late UserMessage userMessage;
+  // late UserMessage userMessage;
   String userAvatar = "t.pic.mooneyu.com/FiHJJ2nmON_UOfP5D8cJf3h9pUrU"; // 用户头像
-  List<String> imagePaths = []; // 存储多张图片路径
   final ImagePicker _picker = ImagePicker();
 
   /// 刷新控制器
@@ -24,7 +23,7 @@ class MyIndexController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    userMessage = UserService.to.profile;
+    // userMessage = UserService.to.profile;
     fetchMyFeedList();
   }
 
@@ -61,8 +60,8 @@ class MyIndexController extends GetxController {
           },
           onDone: (done) {
             logger.d('上传完成: ${done.key}');
-            userMessage.portrait = "t.pic.mooneyu.com/${done.key}";
-            UserService.to.setProfile(userMessage);
+            UserService.to.profile.portrait = "t.pic.mooneyu.com/${done.key}";
+            UserService.to.setProfile(UserService.to.profile);
             update(["edit_profile"]);
           },
         );
@@ -75,13 +74,30 @@ class MyIndexController extends GetxController {
 
   /// 个人信息-展示墙照片
   void setImagePaths(List<String> paths) {
-    imagePaths = paths;
+    uploadImage(paths);
   }
 
   /// 我的形象
   void onMyImageSelected(List<String> images) {
     logger.d('选中图片路径: $images');
-    // 这里可以处理选中的图片路径，例如上传到服务器或更新UI
+    uploadImage(images);
+  }
+
+
+  void uploadImage(List<String> imgPaths) async {
+    List<String> keys = [];
+    final token = UserService.to.token;
+    String baseUrl = "http://t.pic.mooneyu.com/";
+
+    await UploadService.to.requestQiniuToken();
+
+    await for (final key in UploadService.uploadImagesStream(imgPaths, token)) {
+      keys.add("$baseUrl$key");
+    }
+
+    UserService.to.profile.pic = keys.join(",");
+
+    UserService.to.setProfile(UserService.to.profile);
   }
 
   /// 获取我的动态列表
@@ -108,16 +124,16 @@ class MyIndexController extends GetxController {
     if (result != null) {
       switch (type) {
         case Constants.editNickname:
-          userMessage.name = result;
+          UserService.to.profile.name = result;
           break;
         case Constants.editProfile:
-          userMessage.profile = result;
+          UserService.to.profile.profile = result;
           break;
         case Constants.editHeight:
-          userMessage.height = int.tryParse(result) ?? userMessage.height;
+          UserService.to.profile.height = int.tryParse(result) ?? UserService.to.profile.height;
           break;
         case Constants.editWeight:
-          userMessage.weight = int.tryParse(result) ?? userMessage.weight;
+          UserService.to.profile.weight = int.tryParse(result) ?? UserService.to.profile.weight;
       }
       update(["edit_profile_info"]);
     }
@@ -125,7 +141,8 @@ class MyIndexController extends GetxController {
 
   /// 保存资料
   void saveProfile() async {
-    await UserService.to.setProfile(userMessage);
+    logger.d(UserService.to.profile.pic);
+    await UserService.to.setProfile(UserService.to.profile);
     Get.back();
   }
 }

@@ -16,7 +16,7 @@ class PostApi {
     );
   }
 
-  /// 推荐动态
+  /// 点赞、取消点赞
   static Future<BaseResponse<String>> like(String pid) async {
     final response = await WPHttpService.to.get(
       "/jeecg-boot/api/trendsComment/addLike",
