@@ -47,7 +47,8 @@ class ChatPage extends GetView<ChatController> {
     final seq = message.messageSeq;
     return <Widget>[
       ImageWidget.img("http://${avatar}", width: 40.r, height: 40.r, fit: BoxFit.cover, radius: 20),
-      TextWidget.muted("$seq").marginSymmetric(horizontal: 10.w),
+      // TextWidget.muted("$seq").marginSymmetric(horizontal: 10.w),
+      10.horizontalSpace,
       TextWidget.label(message.messageContent?.content ?? "", weight: FontWeight.bold)
           .padding(horizontal: 12.w, vertical: 8.h)
           .backgroundColor(Colors.white)
@@ -199,7 +200,7 @@ class ChatPage extends GetView<ChatController> {
           useSafeArea: true,
           appBar: AppBarWidget(
             title: controller.msgConversation?.title ?? "",
-            actions: [IconButton(onPressed: controller.getOldestSeq, icon: Icon(Icons.more_vert))],
+            actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))],
           ),
           bottomNavigationBar: AnimatedPadding(
             duration: const Duration(milliseconds: 200),

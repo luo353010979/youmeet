@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/entity/channel.dart';
@@ -39,8 +36,6 @@ class ChatController extends GetxController {
 
   final ScrollController scrollController = ScrollController();
 
-  late final Worker _worker;
-
   String? get displayRealPic {
     if (req.healthPic?.isNotEmpty == true) {
       return req.healthPic;
@@ -63,12 +58,23 @@ class ChatController extends GetxController {
   }
 
   List<TypeModel> types = [
-    TypeModel(id: 1, title: LocaleKeys.loveFourTitle1.tr, icon: AssetsSvgs.icMsg_01Svg),
-    TypeModel(id: 2, title: LocaleKeys.loveFourTitle2.tr, icon: AssetsSvgs.icMsg_02Svg),
-    TypeModel(id: 3, title: LocaleKeys.loveFourTitle3.tr, icon: AssetsSvgs.icMsg_03Svg),
+    TypeModel(
+      id: 1,
+      title: LocaleKeys.loveFourTitle1.tr,
+      icon: AssetsSvgs.icMsg_01Svg,
+    ),
+    TypeModel(
+      id: 2,
+      title: LocaleKeys.loveFourTitle2.tr,
+      icon: AssetsSvgs.icMsg_02Svg,
+    ),
+    TypeModel(
+      id: 3,
+      title: LocaleKeys.loveFourTitle3.tr,
+      icon: AssetsSvgs.icMsg_03Svg,
+    ),
   ];
 
-  final _loadTrigger = 0.obs;
   @override
   void onInit() async {
     super.onInit();
@@ -79,43 +85,35 @@ class ChatController extends GetxController {
 
     getSafeReport();
 
-    await getOldestSeq();
-
     _loadHistoryMessages();
 
     WKIM.shared.messageManager.addOnMsgInsertedListener(_onMsgInserted);
-    WKIM.shared.messageManager.addOnNewMsgListener("newMsgListener2", _onNewMsgListener);
+    WKIM.shared.messageManager.addOnNewMsgListener(
+      "newMsgListener2",
+      _onNewMsgListener,
+    );
 
     scrollController.addListener(_scrollListener);
-
-    // 节流触发顶部加载，避免短时间重复请求
-    _worker = interval<int>(
-      _loadTrigger,
-      (_) => _loadHistoryMessages(),
-      time: const Duration(milliseconds: 5000),
-    );
   }
 
   void _scrollListener() {
     if (!scrollController.hasClients) return;
-    if (scrollController.position.pixels < 500) {
-      _loadTrigger.value++;
+    if (scrollController.position.pixels == 0) {
+      _loadHistoryMessages();
     }
   }
 
   void _scrollToBottom() {
     // 判断是否可以滚动
     if (scrollController.hasClients) {
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 0),
-        curve: Curves.linear,
-      );
+      scrollController.jumpTo(scrollController.position.maxScrollExtent);
     }
   }
 
   bool isFirst = true;
 
+
+  /// 获取历史消息
   Future<void> _loadHistoryMessages() async {
     await MsgService.to.getHistoryMessages(
       conversation?.channelID ?? "",
@@ -126,15 +124,13 @@ class ChatController extends GetxController {
         if (msg.isEmpty) return;
         _oldestOrderSeq = msg[0].orderSeq;
 
-        logger.d('加载历史消息完成: oldestOrderSeq 更新为 $_oldestOrderSeq');
-
         messages.addAll(msg.reversed);
 
         isComplete.value = true;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (isFirst) {
-            scrollController.jumpTo(scrollController.position.maxScrollExtent);
+            _scrollToBottom();
             isFirst = false;
           }
         });
@@ -149,7 +145,9 @@ class ChatController extends GetxController {
 
   /// 上传报告点击事件
   Future<void> onComplete() async {
-    if (req.creditPic == null && req.healthPic == null && req.payTaxesPic == null) {
+    if (req.creditPic == null &&
+        req.healthPic == null &&
+        req.payTaxesPic == null) {
       Loading.error("请上传完整的报告图片");
       return;
     }
@@ -214,30 +212,31 @@ class ChatController extends GetxController {
     }
   }
 
+
+
   /// 获取安全报告
   Future<void> getSafeReport() async {
-    final response = await UserApi.getSafeReport(id: UserService.to.profile.id!);
+    final response = await UserApi.getSafeReport(
+      id: UserService.to.profile.id!,
+    );
     if (response.success) {
       report = response.result;
-      if(report?.creditPic?.isEmpty ==true){
-
-      }
+      if (report?.creditPic?.isEmpty == true) {}
       update(["chat"]);
     }
   }
 
-  iGetOrSyncHistoryMsgBack(List<WKMsg> p1) {
-    logger.d("iGetOrSyncHistoryMsgBack: ${p1.length}");
-  }
 
   /// 消息插入数据库监听回调   ===> 发送方
   _onMsgInserted(WKMsg msg) {
-    logger.d('_onMsgInserted   消息插入数据库: ${msg.content}, 消息ID: ${msg.messageID}');
+    logger.d(
+      '_onMsgInserted   消息插入数据库: ${msg.content}, 消息ID: ${msg.messageID}',
+    );
 
     messages.insert(0, msg);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      _scrollToBottom();
     });
 
     // 此时可以刷新聊天列表 UI
@@ -245,21 +244,18 @@ class ChatController extends GetxController {
 
   /// 新消息监听回调  ====> 接收方
   _onNewMsgListener(List<WKMsg> p1) {
-    logger.d('_onNewMsgListener   收到新消息: ${p1.map((msg) => msg.content).join(", ")}');
+    logger.d(
+      '_onNewMsgListener   收到新消息: ${p1.map((msg) => msg.content).join(", ")}',
+    );
     messages.insertAll(0, p1);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      _scrollToBottom();
     });
   }
 
-  getOldestSeq() async {
-    final msg = await conversation?.getWkMsg();
-    _oldestOrderSeq = msg?.orderSeq ?? 0;
-    logger.d("getOldestSeq: $_oldestOrderSeq");
-  }
 
-  void getChannelInfo() async {
+  Future getChannelInfo() async {
     final channelID = conversation?.channelID ?? "";
 
     await MsgApi.syncHistoryMessages(

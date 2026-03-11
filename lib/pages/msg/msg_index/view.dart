@@ -25,23 +25,21 @@ class MsgIndexPage extends GetView<MsgIndexController> {
   }
 
   Widget _buildMsgList() {
-    return controller.conversations.isEmpty
-        ? const Center(child: Text('暂无消息'))
-        : EasyRefresh(
-            controller: controller.refreshController,
-            // onRefresh: controller.onRefresh,
-            child: ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: AppSpace.page.w),
-              itemCount: controller.conversations.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                final conversation = controller.conversations[index];
-                final item = controller.getParsedConversation(conversation);
-                return _buildConversationItem(conversation, item);
-              },
-              separatorBuilder: (context, index) => Divider(height: 1.h),
-            ),
-          );
+    return EasyRefresh(
+      controller: controller.refreshController,
+      // onRefresh: controller.onRefresh,
+      child: ListView.separated(
+        padding: EdgeInsets.symmetric(horizontal: AppSpace.page.w),
+        itemCount: controller.conversations.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          final conversation = controller.conversations[index];
+          final item = controller.getParsedConversation(conversation);
+          return _buildConversationItem(conversation, item);
+        },
+        separatorBuilder: (context, index) => Divider(height: 1.h),
+      ),
+    );
   }
 
   /// 构建会话列表项
@@ -92,7 +90,11 @@ class MsgIndexPage extends GetView<MsgIndexController> {
         ].toColumn(),
       ],
       onTap: () {
-        WKIM.shared.conversationManager.updateRedDot(conversation.channelID, conversation.channelType, 0);
+        WKIM.shared.conversationManager.updateRedDot(
+          conversation.channelID,
+          conversation.channelType,
+          0,
+        );
         Get.toNamed(
           RouteNames.msgChat,
           arguments: {"conversation": conversation, "item": item},

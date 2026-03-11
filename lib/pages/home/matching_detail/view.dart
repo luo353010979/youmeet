@@ -128,7 +128,9 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
           TextWidget.label("● 在线", color: Color(0xFF92D21A), size: 10),
 
           IconWidget.svg(
-                AssetsSvgs.icMyGirlSvg,
+                controller.user?.sex == 1
+                    ? AssetsSvgs.icMyGenderBoySvg
+                    : AssetsSvgs.icMyGirlSvg,
                 text: "${controller.user?.age ?? ""}",
                 size: 10.r,
                 fontSize: 10,
@@ -138,9 +140,15 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
               .alignCenter()
               .tight(width: 49.w, height: 18.w)
               .decorated(
-                color: Color(0x26F2A3D6),
+                color: Color(
+                  controller.user?.sex == 1 ? 0x2616C4FF : 0x26F2A3D6,
+                ),
                 borderRadius: BorderRadius.circular(50),
-                border: Border.all(color: Color(0xFFFFA2DE)),
+                border: Border.all(
+                  color: Color(
+                    controller.user?.sex == 1 ? 0x2616C4FF : 0x26F2A3D6,
+                  ),
+                ),
               ),
         ].toRowSpace(space: 12.w),
         subtitle: <Widget>[
@@ -365,7 +373,10 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
         ).paddingOnly(bottom: 8.w),
 
         matePreferences.isEmpty
-            ? TextWidget.label("- -", weight: FontWeight.bold).paddingOnly(bottom: 12.w)
+            ? TextWidget.label(
+                "- -",
+                weight: FontWeight.bold,
+              ).paddingOnly(bottom: 12.w)
             : matePreferences
                   .map(
                     (e) => TextWidget.label(e, size: 12, color: Colors.white)

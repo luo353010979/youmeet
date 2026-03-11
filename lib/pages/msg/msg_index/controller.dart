@@ -21,7 +21,7 @@ class MsgIndexController extends GetxController {
   _initData() {
     _loadConversations();
 
-    /// 监听会频道信息刷新
+    /// 监听频道信息刷新
     WKIM.shared.channelManager.addOnRefreshListener(
       "onRefreshChannelListener2",
       _onRefreshChannelListener,
@@ -126,7 +126,7 @@ class MsgIndexController extends GetxController {
 
   /// 频道信息更新
   _onRefreshChannelListener(WKChannel channel) {
-    logger.d("更新频道信息");
+    logger.d('频道信息刷新: ${channel.channelID}, 新名称: ${channel.channelName}');
     for (var item in conversations) {
       item.setWkChannel(channel);
     }
@@ -135,7 +135,9 @@ class MsgIndexController extends GetxController {
 
   /// 会话列表刷新监听回调  ====> 接收方
   _onRefreshConversationListener(List<WKUIConversationMsg> p1) {
+    logger.d('_onRefreshConversationListener   会话列表刷新，当前会话数量: ${p1.length}');
     // 会话列表有更新，刷新 UI
     _loadConversations();
+
   }
 }

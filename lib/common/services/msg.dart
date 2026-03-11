@@ -29,9 +29,13 @@ class MsgService extends GetxService {
 
   void disconnectIM() {
     WKIM.shared.connectionManager.disconnect(false);
-    WKIM.shared.connectionManager.removeOnConnectionStatus('connectionStatusListener');
+    WKIM.shared.connectionManager.removeOnConnectionStatus(
+      'connectionStatusListener',
+    );
     WKIM.shared.messageManager.removeNewMsgListener('newMsgListener');
-    WKIM.shared.conversationManager.removeOnRefreshMsgListListener('conversationListener');
+    WKIM.shared.conversationManager.removeOnRefreshMsgListListener(
+      'conversationListener',
+    );
     WKIM.shared.messageManager.removeOnRefreshMsgListener('refreshMsgListener');
   }
 
@@ -59,25 +63,43 @@ class MsgService extends GetxService {
 
   void initListeners() {
     /// 连接状态监听
-    WKIM.shared.connectionManager.addOnConnectionStatus("connectionStatusListener", _onConnectionStatus);
+    WKIM.shared.connectionManager.addOnConnectionStatus(
+      "connectionStatusListener",
+      _onConnectionStatus,
+    );
 
     /// 会话列表刷新监听
-    WKIM.shared.conversationManager.addOnRefreshMsgListListener("conversationListener", _onRefreshConversationListener);
+    WKIM.shared.conversationManager.addOnRefreshMsgListListener(
+      "conversationListener",
+      _onRefreshConversationListener,
+    );
 
     /// 会话同步监听
-    WKIM.shared.conversationManager.addOnSyncConversationListener(_onSyncConversationListener);
+    WKIM.shared.conversationManager.addOnSyncConversationListener(
+      _onSyncConversationListener,
+    );
 
     /// 新消息监听
-    WKIM.shared.messageManager.addOnNewMsgListener("newMsgListener", _onNewMsgListener);
+    WKIM.shared.messageManager.addOnNewMsgListener(
+      "newMsgListener",
+      _onNewMsgListener,
+    );
 
     /// 消息状态监听
-    WKIM.shared.messageManager.addOnRefreshMsgListener("refreshMsgListener", _onRefreshMsgListener);
+    WKIM.shared.messageManager.addOnRefreshMsgListener(
+      "refreshMsgListener",
+      _onRefreshMsgListener,
+    );
 
     /// 同步频道消息监听
-    WKIM.shared.messageManager.addOnSyncChannelMsgListener(_onSyncChannelMsgListener);
+    WKIM.shared.messageManager.addOnSyncChannelMsgListener(
+      _onSyncChannelMsgListener,
+    );
 
     /// 附件上传监听
-    WKIM.shared.messageManager.addOnUploadAttachmentListener(_onUploadAttachmentListener);
+    WKIM.shared.messageManager.addOnUploadAttachmentListener(
+      _onUploadAttachmentListener,
+    );
 
     WKIM.shared.channelManager.addOnGetChannelListener(_onGetChannelListener);
   }
@@ -124,10 +146,16 @@ class MsgService extends GetxService {
   ) async {
     try {
       WKSyncConversation ret = WKSyncConversation();
-      final response = await MsgApi.syncConversations(lastSsgSeqs: lastSsgSeqs, msgCount: msgCount, version: version);
+      final response = await MsgApi.syncConversations(
+        lastSsgSeqs: lastSsgSeqs,
+        msgCount: msgCount,
+        version: version,
+      );
       if (response.success) {
         ret = WKSyncConversationMapper.fromDynamic(response.result);
-        logger.d('_onSyncConversationListener   会话同步成功: 当前 ${ret.conversations?.length ?? 0} 条会话');
+        logger.d(
+          '_onSyncConversationListener   会话同步成功: 当前 ${ret.conversations?.length ?? 0} 条会话',
+        );
         back(ret);
       } else {
         logger.d('_onSyncConversationListener   会话同步失败: ${response.message}');
@@ -139,16 +167,20 @@ class MsgService extends GetxService {
 
   /// 新消息监听回调  ====> 接收方
   _onNewMsgListener(List<WKMsg> p1) {
-    logger.d('_onNewMsgListener   收到新消息: ${p1.map((msg) => msg.content).join(", ")}');
+
     p1.forEach((msg) {
       // 这里可以根据需要刷新聊天列表 UI 或者显示通知等
-      logger.d('新消息内容: ${msg.content}, 消息ID: ${msg.messageID}, 来自：${msg.getFrom()?.channelName}');
+      logger.d(
+        '新消息内容: ${msg.content}, 消息ID: ${msg.messageID}, 来自：${msg.getFrom()?.channelName}',
+      );
     });
   }
 
   /// 消息状态刷新监听回调
   _onRefreshMsgListener(WKMsg p1) {
-    logger.d('_onRefreshMsgListener   消息状态更新: ${p1.content}, 消息ID: ${p1.messageID}');
+    logger.d(
+      '_onRefreshMsgListener   消息状态更新: ${p1.content}, 消息ID: ${p1.messageID}',
+    );
   }
 
   /// 同步频道消息监听回调
@@ -162,7 +194,7 @@ class MsgService extends GetxService {
     Function(WKSyncChannelMsg? p1) back,
   ) async {
     logger.d(
-      '同步频道消息: channelID=$channelID, channelType=$channelType, startMessageSeq=$startMessageSeq, endMessageSeq=$endMessageSeq, limit=$limit, pullMode=$pullMode',
+      '_onSyncChannelMsgListener 同步频道消息: channelID=$channelID, channelType=$channelType, startMessageSeq=$startMessageSeq, endMessageSeq=$endMessageSeq, limit=$limit, pullMode=$pullMode',
     );
 
     final response = await MsgApi.syncHistoryMessages(
@@ -174,10 +206,12 @@ class MsgService extends GetxService {
     );
 
     if (response.success) {
-      final wkSyncChannelMsg = WKSyncChannelMsgMapper.fromDynamic(response.result);
+      final wkSyncChannelMsg = WKSyncChannelMsgMapper.fromDynamic(
+        response.result,
+      );
       back(wkSyncChannelMsg);
     } else {
-      logger.d('同步频道消息失败: ${response.message}');
+      logger.d('_onSyncChannelMsgListener 同步频道消息失败: ${response.message}');
     }
   }
 
@@ -202,7 +236,6 @@ class MsgService extends GetxService {
     int channelType = WKChannelType.personal,
     int oldestOrderSeq = 0,
     int pullModel = 0,
-    bool container = true,
     int limit = 100,
     int aroundMsgOrderSeq = 0,
     required Function(List<WKMsg>) onComplete,
@@ -212,7 +245,7 @@ class MsgService extends GetxService {
       channelId,
       channelType,
       oldestOrderSeq,
-      container,
+      oldestOrderSeq == 0,
       pullModel,
       limit,
       0,
@@ -226,7 +259,11 @@ class MsgService extends GetxService {
     );
   }
 
-  _onGetChannelListener(String channelId, int channelType, Function(WKChannel wkChannel) back) {
+  _onGetChannelListener(
+    String channelId,
+    int channelType,
+    Function(WKChannel wkChannel) back,
+  ) {
     WKChannel channel = WKChannel(channelId, channelType);
     channel.channelName = UserService.to.profile.name ?? "";
     channel.avatar = UserService.to.profile.portrait ?? "";

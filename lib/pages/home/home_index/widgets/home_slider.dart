@@ -24,9 +24,8 @@ class HomeSliderWidget extends StatelessWidget {
     return <Widget>[
       TextWidget.label(
         LocaleKeys.safeDating.tr,
-        size: 16,
         weight: FontWeight.w900,
-      ).positioned(left: 16.w, top: 24.w),
+      ).positioned(left: 16.w, top: 10.w),
       TextWidget.label(
         '张思雨',
         size: 18,
@@ -74,11 +73,12 @@ class HomeSliderWidget extends StatelessWidget {
         color: Color(0xFFDA597F),
         weight: FontWeight.w900,
       ).positioned(left: 247.w, top: 108.5.w),
+
       TextWidget.label(
         LocaleKeys.reliable.tr,
-        size: 26,
+        size: 18,
         weight: FontWeight.bold,
-      ).positioned(left: 16.w, top: 52.w),
+      ).positioned(left: 16.w, top: 30.w),
     ].toStack().tight(height: 164.w);
   }
 }
