@@ -280,7 +280,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
         ).paddingOnly(bottom: 8.w),
 
         TextWidget.label(
-          "全世界都是你的影子",
+          "全世界都是你的影子(假数据没有字段)",
           weight: FontWeight.bold,
         ).paddingOnly(bottom: 12.w),
 
@@ -364,18 +364,20 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
           weight: FontWeight.bold,
         ).paddingOnly(bottom: 8.w),
 
-        matePreferences
-            .map(
-              (e) => TextWidget.label(e, size: 12, color: Colors.white)
-                  .padding(horizontal: 12.w, vertical: 4.w)
-                  .decorated(
-                    color: Color(0xFF948DFF),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-            )
-            .toList()
-            .toWrap(spacing: 8.w, runSpacing: 8.w)
-            .paddingOnly(bottom: 12.w),
+        matePreferences.isEmpty
+            ? TextWidget.label("- -", weight: FontWeight.bold).paddingOnly(bottom: 12.w)
+            : matePreferences
+                  .map(
+                    (e) => TextWidget.label(e, size: 12, color: Colors.white)
+                        .padding(horizontal: 12.w, vertical: 4.w)
+                        .decorated(
+                          color: Color(0xFF948DFF),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                  )
+                  .toList()
+                  .toWrap(spacing: 8.w, runSpacing: 8.w)
+                  .paddingOnly(bottom: 12.w),
 
         TextWidget.muted(
           "情感史",
@@ -383,7 +385,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
         ).paddingOnly(bottom: 8.w),
 
         TextWidget.label(
-          "${controller.user?.emotionalExperience} 段",
+          "${controller.user?.emotionalExperience ?? "- -"}",
           weight: FontWeight.bold,
         ),
       ].toColumn(crossAxisAlignment: CrossAxisAlignment.start).paddingAll(16.w),

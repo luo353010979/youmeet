@@ -67,7 +67,7 @@ class HomeItem extends StatelessWidget {
               ].toRowSpace(space: 6.w),
 
               <Widget>[
-                TextWidget.muted("离异/2孩", weight: FontWeight.bold),
+                TextWidget.muted("${data.profile}", weight: FontWeight.bold),
                 SizedBox(
                   height: 8.h,
                   child: VerticalDivider(color: Color(0xFFCCCCCC), width: 1.w),
@@ -84,10 +84,10 @@ class HomeItem extends StatelessWidget {
               ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
               <Widget>[
-                _buildChip(LocaleKeys.tag1.tr),
-                _buildChip(LocaleKeys.tag2.tr),
-                _buildChip(LocaleKeys.tag3.tr),
-                _buildChip(LocaleKeys.tag4.tr),
+               if(data.isRealName == 1) _buildChip(LocaleKeys.tag1.tr),
+               if(data.isHealth == 1) _buildChip(LocaleKeys.tag2.tr),
+               if(data.isPayTaxes == 1) _buildChip(LocaleKeys.tag3.tr),
+               if(data.isCredit == 1) _buildChip(LocaleKeys.tag4.tr),
               ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
               <Widget>[
