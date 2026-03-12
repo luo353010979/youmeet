@@ -304,6 +304,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
           appBar: AppBarWidget(
             title: "圈子",
             centerTitle: false,
+            automaticallyImplyLeading: false,
             actions: [
               IconButton(
                 onPressed: () {

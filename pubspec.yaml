@@ -85,6 +85,8 @@ dependencies:
   logger: ^2.6.2
   # webview
   webview_flutter: ^4.13.1
+  # 日期时间选择器
+  flutter_datetime_picker_plus: ^2.2.0
 
 dev_dependencies:
   flutter_test:

@@ -142,6 +142,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
           appBar: AppBarWidget(
             title: LocaleKeys.message.tr,
             centerTitle: false,
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
             actions: [
               IconWidget.svg(

@@ -83,7 +83,6 @@ class MyIndexController extends GetxController {
     uploadImage(images);
   }
 
-
   void uploadImage(List<String> imgPaths) async {
     List<String> keys = [];
     final token = UserService.to.token;
@@ -130,10 +129,12 @@ class MyIndexController extends GetxController {
           UserService.to.profile.profile = result;
           break;
         case Constants.editHeight:
-          UserService.to.profile.height = int.tryParse(result) ?? UserService.to.profile.height;
+          UserService.to.profile.height =
+              int.tryParse(result) ?? UserService.to.profile.height;
           break;
         case Constants.editWeight:
-          UserService.to.profile.weight = int.tryParse(result) ?? UserService.to.profile.weight;
+          UserService.to.profile.weight =
+              int.tryParse(result) ?? UserService.to.profile.weight;
       }
       update(["edit_profile_info"]);
     }
@@ -144,5 +145,17 @@ class MyIndexController extends GetxController {
     logger.d(UserService.to.profile.pic);
     await UserService.to.setProfile(UserService.to.profile);
     Get.back();
+  }
+
+  String formatBirthday(DateTime date) {
+    final y = date.year.toString();
+    final m = date.month.toString().padLeft(2, '0');
+    final d = date.day.toString().padLeft(2, '0');
+    return '$y-$m-$d';
+  }
+
+  void setDateOfBirth(DateTime date) {
+    UserService.to.profile.birthday = formatBirthday(date);
+    update(["edit_profile_info"]);
   }
 }

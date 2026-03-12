@@ -114,6 +114,7 @@ class HomeIndexPage extends GetView<HomeIndexController> {
           appBar: AppBarWidget(
             title: LocaleKeys.certification.tr,
             centerTitle: false,
+            automaticallyImplyLeading: false,
           ),
           child: _buildView(context),
         );

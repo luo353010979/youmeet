@@ -239,6 +239,7 @@ class MyIndexPage extends GetView<MyIndexController> {
           appBar: AppBarWidget(
             title: "个人中心",
             centerTitle: false,
+            automaticallyImplyLeading: false,
             actions: [
               IconButton(
                 icon: IconWidget.svg(AssetsSvgs.icMsgSettingSvg),

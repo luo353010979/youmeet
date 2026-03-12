@@ -35,7 +35,7 @@ Map<String, String> localeEn = {
   LocaleKeys.tabBarMessage: 'Messages',
   LocaleKeys.tabBarProfile: 'Me',
   // Home
-  LocaleKeys.certification: 'Nearby Verification',
+  LocaleKeys.certification: 'Verification',
   LocaleKeys.safeDating: 'Safe Dating',
   LocaleKeys.reliable: 'Genuine & Reliable',
   LocaleKeys.viewNow: 'View Now',
@@ -45,8 +45,8 @@ Map<String, String> localeEn = {
   LocaleKeys.highlyTrustedMatch: 'Highly Trusted Matches',
   LocaleKeys.qualification: '@size of your safety credentials verified',
   LocaleKeys.apply: 'Verify Request',
-  LocaleKeys.improve: 'Improve Credentials',
-  LocaleKeys.viewApplication: 'View Application Report',
+  LocaleKeys.improve: 'Profile',
+  LocaleKeys.viewApplication: 'Safety Info',
   LocaleKeys.sayHi: 'Say Hi',
   LocaleKeys.tag1: 'Real Name',
   LocaleKeys.tag2: 'Health',
@@ -91,7 +91,7 @@ Map<String, String> localeEn = {
   // Edit Profile
   LocaleKeys.editProfile: 'Edit Profile',
   LocaleKeys.showcaseWall: 'Showcase',
-  LocaleKeys.profile: 'Personal Info',
+  LocaleKeys.profile: 'Description',
   LocaleKeys.datingProfile: 'Dating Profile',
   // Personal Info
   LocaleKeys.nickname: 'Nickname',
@@ -100,8 +100,8 @@ Map<String, String> localeEn = {
   LocaleKeys.birth: 'Birthday',
   LocaleKeys.height: 'Height',
   LocaleKeys.weight: 'Weight',
-  LocaleKeys.personalityTags: 'Personality Tags',
-  LocaleKeys.identityVerification: 'Identity Verification',
+  LocaleKeys.personalityTags: 'Tags',
+  LocaleKeys.identityVerification: 'Verification',
   // Settings
   LocaleKeys.messageNotification: 'Message Notifications',
   LocaleKeys.locationService: 'Location Services',

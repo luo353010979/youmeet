@@ -22,12 +22,12 @@ class HomeSliderWidget extends StatelessWidget {
         : avatars;
 
     return <Widget>[
+      // TextWidget.label(
+      //   LocaleKeys.safeDating.tr,
+      //   weight: FontWeight.w900,
+      // ).positioned(left: 16.w, top: 10.w),
       TextWidget.label(
-        LocaleKeys.safeDating.tr,
-        weight: FontWeight.w900,
-      ).positioned(left: 16.w, top: 10.w),
-      TextWidget.label(
-        '张思雨',
+        '夜猫',
         size: 18,
         weight: FontWeight.w900,
       ).positioned(left: 245.w, top: 52.w),
@@ -74,11 +74,16 @@ class HomeSliderWidget extends StatelessWidget {
         weight: FontWeight.w900,
       ).positioned(left: 247.w, top: 108.5.w),
 
-      TextWidget.label(
-        LocaleKeys.reliable.tr,
-        size: 18,
-        weight: FontWeight.bold,
-      ).positioned(left: 16.w, top: 30.w),
+      // TextWidget.label(
+      //   LocaleKeys.reliable.tr,
+      //   size: 18,
+      //   weight: FontWeight.bold,
+      // ).positioned(left: 16.w, top: 30.w),
+      <Widget>[
+        TextWidget.label("Genuine", size: 18, weight: FontWeight.bold),
+        TextWidget.label("&", size: 18, weight: FontWeight.bold),
+        TextWidget.label("Reliable", size: 18, weight: FontWeight.bold),
+      ].toColumn().positioned(left: 20.w, top: 10.w),
     ].toStack().tight(height: 164.w);
   }
 }

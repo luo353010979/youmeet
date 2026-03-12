@@ -116,8 +116,8 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
       child: ListTileWidget(
         leading: ImageWidget.img(
           "http://${controller.user?.portrait}",
-          width: 68.w,
-          height: 68.w,
+          width: 60.w,
+          height: 60.w,
           radius: 50,
           fit: BoxFit.cover,
         ),
@@ -151,36 +151,36 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
                 ),
               ),
         ].toRowSpace(space: 12.w),
-        subtitle: <Widget>[
-          TextWidget.label("唱歌", size: 12, color: Colors.white)
-              .center()
-              .tight(width: 40.w, height: 20.w)
-              .decorated(
-                color: Color(0xFFFE86D8),
-                borderRadius: BorderRadius.circular(30),
-              ),
-          TextWidget.label("跳", size: 12, color: Colors.white)
-              .center()
-              .tight(width: 40.w, height: 20.w)
-              .decorated(
-                color: Color(0xFF948DFF),
-                borderRadius: BorderRadius.circular(30),
-              ),
-          TextWidget.label("rap", size: 12, color: Colors.white)
-              .center()
-              .tight(width: 40.w, height: 20.w)
-              .decorated(
-                color: Color(0xFFFFC42E),
-                borderRadius: BorderRadius.circular(30),
-              ),
-          TextWidget.label("篮球", size: 12, color: Colors.white)
-              .center()
-              .tight(width: 40.w, height: 20.w)
-              .decorated(
-                color: Color(0xFF04C947),
-                borderRadius: BorderRadius.circular(30),
-              ),
-        ].toWrap(spacing: 8.w),
+        // subtitle: <Widget>[
+        //   TextWidget.label("唱歌", size: 12, color: Colors.white)
+        //       .center()
+        //       .tight(width: 40.w, height: 20.w)
+        //       .decorated(
+        //         color: Color(0xFFFE86D8),
+        //         borderRadius: BorderRadius.circular(30),
+        //       ),
+        //   TextWidget.label("跳", size: 12, color: Colors.white)
+        //       .center()
+        //       .tight(width: 40.w, height: 20.w)
+        //       .decorated(
+        //         color: Color(0xFF948DFF),
+        //         borderRadius: BorderRadius.circular(30),
+        //       ),
+        //   TextWidget.label("rap", size: 12, color: Colors.white)
+        //       .center()
+        //       .tight(width: 40.w, height: 20.w)
+        //       .decorated(
+        //         color: Color(0xFFFFC42E),
+        //         borderRadius: BorderRadius.circular(30),
+        //       ),
+        //   TextWidget.label("篮球", size: 12, color: Colors.white)
+        //       .center()
+        //       .tight(width: 40.w, height: 20.w)
+        //       .decorated(
+        //         color: Color(0xFF04C947),
+        //         borderRadius: BorderRadius.circular(30),
+        //       ),
+        // ].toWrap(spacing: 8.w),
       ),
     ).tight(height: 84.w).sliverToBoxAdapter().sliverPaddingHorizontal(16.w);
   }
@@ -241,7 +241,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
           ColumTextWidget(
             spacing: 4.w,
             keyText: TextWidget.muted("家乡", size: 10),
-            valueText: TextWidget.label("没有字段", weight: FontWeight.bold),
+            valueText: TextWidget.label(controller.user?.country ?? "- -", weight: FontWeight.bold),
           ),
           ColumTextWidget(
             spacing: 4.w,
@@ -288,7 +288,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
         ).paddingOnly(bottom: 8.w),
 
         TextWidget.label(
-          "全世界都是你的影子(假数据没有字段)",
+          controller.user?.profile ?? "- -",
           weight: FontWeight.bold,
         ).paddingOnly(bottom: 12.w),
 
@@ -297,64 +297,69 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
           weight: FontWeight.bold,
         ).paddingOnly(bottom: 8.w),
 
-        <Widget>[
-          TextWidget.label("唱歌", size: 12, color: Colors.white)
-              .center()
-              .tight(width: 40.w, height: 20.w)
-              .decorated(
-                color: Color(0xFFFE86D8),
-                borderRadius: BorderRadius.circular(30),
-              ),
-          TextWidget.label("跳", size: 12, color: Colors.white)
-              .center()
-              .tight(width: 40.w, height: 20.w)
-              .decorated(
-                color: Color(0xFF948DFF),
-                borderRadius: BorderRadius.circular(30),
-              ),
-          TextWidget.label("rap", size: 12, color: Colors.white)
-              .center()
-              .tight(width: 40.w, height: 20.w)
-              .decorated(
-                color: Color(0xFFFFC42E),
-                borderRadius: BorderRadius.circular(30),
-              ),
-          TextWidget.label("篮球", size: 12, color: Colors.white)
-              .center()
-              .tight(width: 40.w, height: 20.w)
-              .decorated(
-                color: Color(0xFF04C947),
-                borderRadius: BorderRadius.circular(30),
-              ),
-          TextWidget.label("唱歌", size: 12, color: Colors.white)
-              .center()
-              .tight(width: 40.w, height: 20.w)
-              .decorated(
-                color: Color(0xFFFE86D8),
-                borderRadius: BorderRadius.circular(30),
-              ),
-          TextWidget.label("跳", size: 12, color: Colors.white)
-              .center()
-              .tight(width: 40.w, height: 20.w)
-              .decorated(
-                color: Color(0xFF948DFF),
-                borderRadius: BorderRadius.circular(30),
-              ),
-          TextWidget.label("rap", size: 12, color: Colors.white)
-              .center()
-              .tight(width: 40.w, height: 20.w)
-              .decorated(
-                color: Color(0xFFFFC42E),
-                borderRadius: BorderRadius.circular(30),
-              ),
-          TextWidget.label("篮球", size: 12, color: Colors.white)
-              .center()
-              .tight(width: 40.w, height: 20.w)
-              .decorated(
-                color: Color(0xFF04C947),
-                borderRadius: BorderRadius.circular(30),
-              ),
-        ].toWrap(spacing: 8.w, runSpacing: 8.w),
+        TextWidget.muted(
+          "- -",
+          weight: FontWeight.bold,
+        ),
+
+        // <Widget>[
+        //   TextWidget.label("唱歌", size: 12, color: Colors.white)
+        //       .center()
+        //       .tight(width: 40.w, height: 20.w)
+        //       .decorated(
+        //         color: Color(0xFFFE86D8),
+        //         borderRadius: BorderRadius.circular(30),
+        //       ),
+        //   TextWidget.label("跳", size: 12, color: Colors.white)
+        //       .center()
+        //       .tight(width: 40.w, height: 20.w)
+        //       .decorated(
+        //         color: Color(0xFF948DFF),
+        //         borderRadius: BorderRadius.circular(30),
+        //       ),
+        //   TextWidget.label("rap", size: 12, color: Colors.white)
+        //       .center()
+        //       .tight(width: 40.w, height: 20.w)
+        //       .decorated(
+        //         color: Color(0xFFFFC42E),
+        //         borderRadius: BorderRadius.circular(30),
+        //       ),
+        //   TextWidget.label("篮球", size: 12, color: Colors.white)
+        //       .center()
+        //       .tight(width: 40.w, height: 20.w)
+        //       .decorated(
+        //         color: Color(0xFF04C947),
+        //         borderRadius: BorderRadius.circular(30),
+        //       ),
+        //   TextWidget.label("唱歌", size: 12, color: Colors.white)
+        //       .center()
+        //       .tight(width: 40.w, height: 20.w)
+        //       .decorated(
+        //         color: Color(0xFFFE86D8),
+        //         borderRadius: BorderRadius.circular(30),
+        //       ),
+        //   TextWidget.label("跳", size: 12, color: Colors.white)
+        //       .center()
+        //       .tight(width: 40.w, height: 20.w)
+        //       .decorated(
+        //         color: Color(0xFF948DFF),
+        //         borderRadius: BorderRadius.circular(30),
+        //       ),
+        //   TextWidget.label("rap", size: 12, color: Colors.white)
+        //       .center()
+        //       .tight(width: 40.w, height: 20.w)
+        //       .decorated(
+        //         color: Color(0xFFFFC42E),
+        //         borderRadius: BorderRadius.circular(30),
+        //       ),
+        //   TextWidget.label("篮球", size: 12, color: Colors.white)
+        //       .center()
+        //       .tight(width: 40.w, height: 20.w)
+        //       .decorated(
+        //         color: Color(0xFF04C947),
+        //         borderRadius: BorderRadius.circular(30),
+        //       ),
+        // ].toWrap(spacing: 8.w, runSpacing: 8.w),
       ].toColumn(crossAxisAlignment: CrossAxisAlignment.start).paddingAll(16.w),
     ).sliverToBoxAdapter().sliverPaddingHorizontal(16.w);
   }

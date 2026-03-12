@@ -1,14 +1,16 @@
 import 'package:ducafe_ui_core/ducafe_ui_core.dart' hide SizedBoxExtensions;
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
 import 'package:youmeet/pages/index.dart';
+import 'package:youmeet/pages/my/edit_profile_info/widget/gender_selector.dart';
 
 class EditProfileInfoPage extends GetView<MyIndexController> {
   const EditProfileInfoPage({super.key});
 
   // 主视图
-  Widget _buildView() {
+  Widget _buildView(BuildContext context) {
     return <Widget>[
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
@@ -25,7 +27,9 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
 
       ListTileWidget(
         padding: EdgeInsets.only(left: 16),
-        leading: TextWidget.label(LocaleKeys.profile.tr).tight(width: 80.w),
+        leading: TextWidget.label(
+          LocaleKeys.introduction.tr,
+        ).tight(width: 80.w),
         title: TextWidget.label(
           UserService.to.profile.profile ?? "",
           maxLines: 1,
@@ -50,7 +54,18 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
           color: Color(0xFF666666),
         ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
-        onTap: () {},
+        onTap: () async {
+          final result = await Get.bottomSheet(
+            GenderPickerWidget(currentGender: UserService.to.profile.sex),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+            ),
+          );
+          if (result is int && (result == 1 || result == 2)) {
+            UserService.to.profile.sex = result;
+            controller.update(["edit_profile_info"]);
+          }
+        },
       ).tight(height: 50.h),
       Divider(height: 1.h, color: Color(0x1A333333)),
 
@@ -58,11 +73,32 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
         padding: EdgeInsets.only(left: 16),
         leading: TextWidget.label(LocaleKeys.birth.tr).tight(width: 80.w),
         title: TextWidget.label(
-          "${UserService.to.profile.birthday}",
+          UserService.to.profile.birthday ?? "",
           color: Color(0xFF666666),
         ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
-        onTap: () {},
+        onTap: () async {
+          final now = DateTime.now();
+          final minimumDate = DateTime(1950, 1, 1);
+          final maximumDate = DateTime(now.year, now.month, now.day);
+
+          final en = Translation.supportedLocales[0];
+          DatePicker.showDatePicker(
+            context,
+            showTitleActions: true,
+            minTime: minimumDate,
+            maxTime: maximumDate,
+            onChanged: (date) {},
+            onConfirm: (date) {
+              controller.setDateOfBirth(date);
+            },
+            currentTime: DateTime(1990, 1, 1),
+            locale:
+                ConfigService.to.locale.toLanguageTag() == en.toLanguageTag()
+                ? LocaleType.en
+                : LocaleType.zh,
+          );
+        },
       ).tight(height: 50.h),
 
       Divider(height: 1.h, color: Color(0x1A333333)),
@@ -156,7 +192,7 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
               ),
             ],
           ),
-          body: SafeArea(child: _buildView()),
+          body: SafeArea(child: _buildView(context)),
         );
       },
     );

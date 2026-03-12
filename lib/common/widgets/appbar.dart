@@ -8,6 +8,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final List<Widget>? actions;
   final Color? backgroundColor;
+  final bool automaticallyImplyLeading;
   final bool centerTitle;
   final double height;
 
@@ -17,6 +18,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     this.leading,
     this.actions,
     this.backgroundColor,
+    this.automaticallyImplyLeading = true,
     this.centerTitle = true,
     this.height = 44,
   });
@@ -25,7 +27,8 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: title != null ? Text(title!) : null,
-      leading: leading ?? _buildDefaultLeading(context),
+      leading: leading ?? (automaticallyImplyLeading ? _buildDefaultLeading(context) : null),
+      automaticallyImplyLeading: automaticallyImplyLeading,
       actions: actions,
       backgroundColor: backgroundColor,
       centerTitle: centerTitle,

@@ -8,7 +8,7 @@ class HomeIndexController extends GetxController with GetTickerProviderStateMixi
   HomeIndexController();
 
   int tabIndex = 0;
-  final List<String> tabs = [LocaleKeys.tab_1.tr, LocaleKeys.tab_2.tr, LocaleKeys.tab_3.tr];
+  final List<String> tabs = [LocaleKeys.tab_1.tr, /*LocaleKeys.tab_2.tr,*/ LocaleKeys.tab_3.tr];
   late TabController tabController;
   final refreshController = EasyRefreshController(
     // controlFinishRefresh: true,
