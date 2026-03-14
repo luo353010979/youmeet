@@ -1,14 +1,20 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wukongimfluttersdk/entity/channel.dart';
+import 'package:wukongimfluttersdk/type/const.dart';
 import 'package:wukongimfluttersdk/wkim.dart';
 import 'package:youmeet/common/index.dart';
 
-class HomeIndexController extends GetxController with GetTickerProviderStateMixin {
+class HomeIndexController extends GetxController
+    with GetTickerProviderStateMixin {
   HomeIndexController();
 
   int tabIndex = 0;
-  final List<String> tabs = [LocaleKeys.tab_1.tr, /*LocaleKeys.tab_2.tr,*/ LocaleKeys.tab_3.tr];
+  final List<String> tabs = [
+    LocaleKeys.tab_1.tr,
+    /*LocaleKeys.tab_2.tr,*/ LocaleKeys.tab_3.tr,
+  ];
   late TabController tabController;
   final refreshController = EasyRefreshController(
     // controlFinishRefresh: true,
@@ -66,8 +72,19 @@ class HomeIndexController extends GetxController with GetTickerProviderStateMixi
 
   /// 获取推荐列表
   void getRecommendList(String path) async {
-    final req = PostsReq(latitude: "104.04153466504094", longitude: "30.49953949825128");
+    final req = PostsReq(
+      latitude: "104.04153466504094",
+      longitude: "30.49953949825128",
+    );
     final response = await HomeApi.getRecommendList(req, path: path);
+    
+    for (UserMessage item in response.result?.records ?? []) {
+      WKChannel channel = WKChannel(item.id ?? "", WKChannelType.personal);
+      channel.channelName = item.name ?? '';
+      channel.avatar = item.portrait ?? '';
+      //更新频道信息
+      WKIM.shared.channelManager.addOrUpdateChannel(channel);
+    }
     if (response.success) {
       switch (path) {
         case "recommendList":

@@ -62,27 +62,28 @@ class MyIndexPage extends GetView<MyIndexController> {
       onTap: () => controller.toProfileView(),
     ).paddingVertical(16.h);
   }
+  
 
   Widget _buildCounter() {
     return <Widget>[
       ColumTextWidget(
         keyText: TextWidget.h4("${UserService.to.profile.viewedNum}"),
-        valueText: TextWidget.muted("看过我", size: 10),
+        valueText: TextWidget.muted(LocaleKeys.lookMe.tr, size: 10),
       ),
       SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
       ColumTextWidget(
         keyText: TextWidget.h4("${UserService.to.profile.viewNum}"),
-        valueText: TextWidget.muted("我看过", size: 10),
+        valueText: TextWidget.muted(LocaleKeys.lookedMe.tr, size: 10),
       ),
       SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
       ColumTextWidget(
         keyText: TextWidget.h4("${UserService.to.profile.likeNum}"),
-        valueText: TextWidget.muted("我喜欢", size: 10),
+        valueText: TextWidget.muted(LocaleKeys.likedMe.tr, size: 10),
       ),
       SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
       ColumTextWidget(
         keyText: TextWidget.h4("${UserService.to.profile.likedNum}"),
-        valueText: TextWidget.muted("喜欢我", size: 10),
+        valueText: TextWidget.muted(LocaleKeys.likeMe.tr, size: 10),
       ),
     ].toRow(mainAxisAlignment: MainAxisAlignment.spaceEvenly).paddingBottom(20.h);
   }
@@ -237,7 +238,7 @@ class MyIndexPage extends GetView<MyIndexController> {
         return ScaffoldWidget(
           useSafeArea: true,
           appBar: AppBarWidget(
-            title: "个人中心",
+            title: LocaleKeys.userCenter.tr,
             centerTitle: false,
             automaticallyImplyLeading: false,
             actions: [

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/entity/channel.dart';
-import 'package:wukongimfluttersdk/entity/conversation.dart';
 import 'package:wukongimfluttersdk/entity/msg.dart';
 import 'package:wukongimfluttersdk/model/wk_text_content.dart';
 import 'package:wukongimfluttersdk/type/const.dart';
@@ -19,43 +18,34 @@ class TypeModel {
 class ChatController extends GetxController {
   ChatController();
 
-  // 安全报告数据
-  SafeReportModel? report;
-
   // 编辑报告请求参数
   EditReportReq req = EditReportReq(id: UserService.to.profile.id!);
 
-  WKUIConversationMsg? conversation;
-  MsgConversation? msgConversation;
+  // 频道ID（个人频道即为对方用户ID）
+  String channelId = "";
 
+  // 频道信息(用户信息)
+  final userMessage = UserMessage().obs;
+
+  final report = SafeReportModel().obs;
+
+  // 消息列表
   final messages = <WKMsg>[].obs;
 
   int _oldestOrderSeq = 0;
 
   final isComplete = false.obs;
 
+  bool isFirst = true;
+
   final ScrollController scrollController = ScrollController();
 
-  String? get displayRealPic {
-    if (req.healthPic?.isNotEmpty == true) {
-      return req.healthPic;
-    }
-    return report?.healthPic;
-  }
+  String? get displayRealPic => req.healthPic ?? report.value.healthPic ?? "";
 
-  String? get displayPayTaxesPic {
-    if (req.payTaxesPic?.isNotEmpty == true) {
-      return req.payTaxesPic;
-    }
-    return report?.payTaxesPic;
-  }
+  String? get displayPayTaxesPic =>
+      req.payTaxesPic ?? report.value.payTaxesPic ?? "";
 
-  String? get displayCreditPic {
-    if (req.creditPic?.isNotEmpty == true) {
-      return req.creditPic;
-    }
-    return report?.creditPic;
-  }
+  String? get displayCreditPic => req.creditPic ?? report.value.creditPic ?? "";
 
   List<TypeModel> types = [
     TypeModel(
@@ -78,14 +68,14 @@ class ChatController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    final data = Get.arguments;
 
-    conversation = data['conversation'];
-    msgConversation = data['item'];
+    final params = Get.arguments;
+    if (params != null) {
+      channelId = params["channelId"] ?? "";
+      userMessage.value = params["userMessage"]?? UserMessage();
+    }
 
-    getSafeReport();
-
-    _loadHistoryMessages();
+    loadData();
 
     WKIM.shared.messageManager.addOnMsgInsertedListener(_onMsgInserted);
     WKIM.shared.messageManager.addOnNewMsgListener(
@@ -110,13 +100,31 @@ class ChatController extends GetxController {
     }
   }
 
-  bool isFirst = true;
-
+  /// 加载数据
+  void loadData() async {
+    Future.wait([
+          if (userMessage.value.id?.isEmpty == true)
+            _getUserMessages(channelId),
+          _getSafeReport(),
+          _loadHistoryMessages(),
+        ])
+        .then((v) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (isFirst) {
+              _scrollToBottom();
+              isFirst = false;
+            }
+          });
+        })
+        .onError((e, s) {
+          logger.d("加载数据失败: $e");
+        });
+  }
 
   /// 获取历史消息
   Future<void> _loadHistoryMessages() async {
     await MsgService.to.getHistoryMessages(
-      conversation?.channelID ?? "",
+      channelId,
       oldestOrderSeq: _oldestOrderSeq,
       // pullModel: 1,
       limit: 20,
@@ -127,21 +135,31 @@ class ChatController extends GetxController {
         messages.addAll(msg.reversed);
 
         isComplete.value = true;
-
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (isFirst) {
-            _scrollToBottom();
-            isFirst = false;
-          }
-        });
       },
     );
   }
 
-  /// 更多按钮点击事件
-  void onMorePressed() {
-    getChannelInfo();
+  /// 获取安全报告
+  Future<void> _getSafeReport() async {
+    final response = await UserApi.getSafeReport(
+      id: UserService.to.profile.id!,
+    );
+    if (response.success) {
+      report.value = response.result ?? SafeReportModel();
+      if (report.value.creditPic?.isEmpty == true) {}
+    }
   }
+
+  /// 获取用户消息并更新至频道信息
+  Future<void> _getUserMessages(String channelId) async {
+    final response = await UserApi.profile(id: channelId);
+    if (response.success) {
+      userMessage.value = response.result ?? UserMessage();
+    }
+  }
+
+  /// 更多按钮点击事件
+  void onMorePressed() {}
 
   /// 上传报告点击事件
   Future<void> onComplete() async {
@@ -195,7 +213,7 @@ class ChatController extends GetxController {
     WKTextContent textContent = WKTextContent(text);
 
     // 创建频道对象（个人频道）
-    String targetUID = conversation?.channelID ?? ""; // 目标用户ID
+    String targetUID = channelId; // 目标用户ID
     if (targetUID.isEmpty) {
       logger.d('消息发送失败: 目标用户ID为空');
       return;
@@ -211,21 +229,6 @@ class ChatController extends GetxController {
       logger.d('消息发送失败: $error');
     }
   }
-
-
-
-  /// 获取安全报告
-  Future<void> getSafeReport() async {
-    final response = await UserApi.getSafeReport(
-      id: UserService.to.profile.id!,
-    );
-    if (response.success) {
-      report = response.result;
-      if (report?.creditPic?.isEmpty == true) {}
-      update(["chat"]);
-    }
-  }
-
 
   /// 消息插入数据库监听回调   ===> 发送方
   _onMsgInserted(WKMsg msg) {
@@ -254,16 +257,15 @@ class ChatController extends GetxController {
     });
   }
 
-
-  Future getChannelInfo() async {
-    final channelID = conversation?.channelID ?? "";
-
-    await MsgApi.syncHistoryMessages(
-      channelID: channelID,
-      pullMode: 0,
-      startMessageSeq: 0,
-      endMessageSeq: 0,
-      limit: 10,
-    );
+  void getChannelInfo(String id) async {
+    try {
+      final data = await WKIM.shared.conversationManager.getWithChannel(
+        channelId,
+        WKChannelType.personal,
+      );
+      final channel = await data?.getWkChannel();
+    } catch (e) {
+      logger.d('获取会话列表失败: $e');
+    }
   }
 }

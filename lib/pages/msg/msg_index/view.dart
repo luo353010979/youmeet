@@ -89,17 +89,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
             ),
         ].toColumn(),
       ],
-      onTap: () {
-        WKIM.shared.conversationManager.updateRedDot(
-          conversation.channelID,
-          conversation.channelType,
-          0,
-        );
-        Get.toNamed(
-          RouteNames.msgChat,
-          arguments: {"conversation": conversation, "item": item},
-        );
-      },
+      onTap: () => controller.toChatPage(conversation.channelID),
     );
   }
 

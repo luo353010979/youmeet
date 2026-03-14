@@ -174,14 +174,14 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
         return Scaffold(
           backgroundColor: Color(0xFFF7F7F7),
           appBar: AppBarWidget(
-            title: "个人资料",
+            title: LocaleKeys.editProfile.tr,
             backgroundColor: Colors.white,
             actions: [
               Padding(
                 padding: EdgeInsets.only(right: 16.w),
                 child: Center(
                   child: ButtonWidget.primary(
-                    "保存",
+                    LocaleKeys.commonBottomSave.tr,
                     width: 50.w,
                     height: 25.h,
                     onTap: () {

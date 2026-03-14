@@ -10,49 +10,54 @@ class EditProfilePage extends GetView<MyIndexController> {
   // 主视图
   Widget _buildView() {
     return SingleChildScrollView(
-      child: <Widget>[
-        32.verticalSpace,
-        _buildAvatar(),
+      child:
+          <Widget>[
+                32.verticalSpace,
+                _buildAvatar(),
 
-        40.verticalSpace,
+                40.verticalSpace,
 
-        TextWidget.muted("展示墙"),
+                TextWidget.muted(LocaleKeys.showcaseWall.tr),
 
-        8.verticalSpace,
+                8.verticalSpace,
 
-        ImageSelectorWidget(
-          images: UserService.to.profile.pic?.split(","),
-          maxImages: 3,
-          onImagesSelected: (imagePaths) {
-            controller.setImagePaths(imagePaths);
-          },
-        ),
+                ImageSelectorWidget(
+                  images: UserService.to.profile.pic?.split(","),
+                  maxImages: 3,
+                  onImagesSelected: (imagePaths) {
+                    controller.setImagePaths(imagePaths);
+                  },
+                ),
 
-        12.verticalSpace,
+                12.verticalSpace,
 
-        _buildVideo(),
+                _buildVideo(),
 
-        16.verticalSpace,
+                16.verticalSpace,
 
-        ListTileWidget(
-          padding: EdgeInsets.zero,
-          title: TextWidget.body("个人资料", weight: FontWeight.w500),
-          trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
-          onTap: () {
-            Get.toNamed(RouteNames.myEditProfileInfo);
-          },
-        ).tight(height: 56.h),
-        Divider(height: 1.h, color: Color(0x1A333333)),
+                ListTileWidget(
+                  padding: EdgeInsets.zero,
+                  title: TextWidget.body(
+                    LocaleKeys.profile.tr,
+                    weight: FontWeight.w500,
+                  ),
+                  trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
+                  onTap: () {
+                    Get.toNamed(RouteNames.myEditProfileInfo);
+                  },
+                ).tight(height: 56.h),
+                Divider(height: 1.h, color: Color(0x1A333333)),
 
-        ListTileWidget(
-          padding: EdgeInsets.zero,
-          title: TextWidget.body("交友资料", weight: FontWeight.w500),
-          trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
-          onTap: () {},
-        ).tight(height: 56.h),
-
-        Divider(height: 1.h, color: Color(0x1A333333)),
-      ].toColumn(crossAxisAlignment: CrossAxisAlignment.start).paddingHorizontal(AppSpace.page.w),
+                // ListTileWidget(
+                //   padding: EdgeInsets.zero,
+                //   title: TextWidget.body("交友资料", weight: FontWeight.w500),
+                //   trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
+                //   onTap: () {},
+                // ).tight(height: 56.h),
+                Divider(height: 1.h, color: Color(0x1A333333)),
+              ]
+              .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
+              .paddingHorizontal(AppSpace.page.w),
     );
   }
 
@@ -82,7 +87,11 @@ class EditProfilePage extends GetView<MyIndexController> {
 
   /// 视频展示墙
   Widget _buildVideo() {
-    return IconWidget.svg(AssetsSvgs.icProfileAddVideoSvg, width: 80.w, height: 80.w)
+    return IconWidget.svg(
+          AssetsSvgs.icProfileAddVideoSvg,
+          width: 80.w,
+          height: 80.w,
+        )
         .center()
         .tight(width: 343.w, height: 180.h)
         .decorated(
@@ -102,14 +111,14 @@ class EditProfilePage extends GetView<MyIndexController> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBarWidget(
-            title: "编辑个人信息",
+            title: LocaleKeys.editProfile.tr,
             backgroundColor: Colors.white,
             actions: [
               Padding(
                 padding: EdgeInsets.only(right: 16.w),
                 child: Center(
                   child: ButtonWidget.primary(
-                    "保存",
+                    LocaleKeys.commonBottomSave.tr,
                     width: 50.w,
                     height: 25.h,
                     onTap: () {

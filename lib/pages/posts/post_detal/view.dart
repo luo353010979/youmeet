@@ -27,7 +27,7 @@ class PostDetalPage extends GetView<PostDetalController> {
         subtitle: TextWidget.muted(feed?.createTime ?? ""),
         trailing: [
           ButtonWidget.primary(
-            "关注",
+            LocaleKeys.follow.tr,
             fontSize: 12.sp,
             textWeight: FontWeight.bold,
             icon: IconWidget.svg(AssetsSvgs.icPostsAddSvg),
@@ -239,7 +239,7 @@ class PostDetalPage extends GetView<PostDetalController> {
 
   Widget _buildButton() {
     return ButtonWidget.outline(
-      "发表评论",
+      LocaleKeys.comment.tr,
       fontSize: 14.sp,
       textWeight: FontWeight.bold,
       borderRadius: 50,
@@ -287,7 +287,7 @@ class PostDetalPage extends GetView<PostDetalController> {
       id: "post_detal",
       builder: (_) {
         return Scaffold(
-          appBar: AppBarWidget(title: "详情", backgroundColor: Colors.white),
+          appBar: AppBarWidget(title: LocaleKeys.detail.tr, backgroundColor: Colors.white),
           body: SafeArea(child: _buildView()),
         );
       },

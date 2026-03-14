@@ -18,6 +18,8 @@ class MsgIndexController extends GetxController {
   final Map<String, MsgConversation> parsedConversations = {};
   final Set<String> parsingConversationKeys = <String>{};
 
+  final Map<String, UserMessage?> userMap = {};
+
   _initData() {
     _loadConversations();
 
@@ -68,7 +70,7 @@ class MsgIndexController extends GetxController {
       channel.channelName = userMessage?.name ?? '';
       channel.avatar = userMessage?.portrait ?? '';
       logger.d('用户信息更新成功: ${channel.channelName}');
-
+      userMap[channelId] = userMessage;
       //更新频道信息
       WKIM.shared.channelManager.addOrUpdateChannel(channel);
     }
@@ -138,6 +140,21 @@ class MsgIndexController extends GetxController {
     logger.d('_onRefreshConversationListener   会话列表刷新，当前会话数量: ${p1.length}');
     // 会话列表有更新，刷新 UI
     _loadConversations();
+  }
 
+  void toChatPage(String channelId) {
+    final userMessage = userMap[channelId];
+    Get.toNamed(
+      RouteNames.msgChat,
+      arguments: {"channelId": channelId, "userMessage": userMessage},
+    );
+  }
+
+  void getConversation(String channelID) async {
+    final conversation = await WKIM.shared.conversationManager.getWithChannel(
+      channelID,
+      WKChannelType.personal,
+    );
+    conversation?.lastMsgSeq;
   }
 }

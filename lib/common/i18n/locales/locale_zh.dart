@@ -87,6 +87,7 @@ Map<String, String> localeZh = {
   LocaleKeys.follow: '关注',
   LocaleKeys.unfollow: '取消关注',
   LocaleKeys.sendFeed: '发布动态',
+  LocaleKeys.comment: '评论',
 
   // 圈子详情
   LocaleKeys.detail: '详情',

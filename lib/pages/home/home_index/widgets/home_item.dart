@@ -2,6 +2,7 @@ import 'package:ducafe_ui_core/ducafe_ui_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
+import 'package:youmeet/pages/index.dart';
 
 class HomeItem extends StatelessWidget {
   const HomeItem({super.key, required this.data});
@@ -10,24 +11,6 @@ class HomeItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget _buildChip(String text) {
-      return IconWidget.svg(
-            AssetsSvgs.icPassSvg,
-            text: text,
-            fontColor: Color(0xFF999999),
-            size: 14.r,
-            fontSize: 10,
-            fontWeight: FontWeight.w500,
-            space: 2.w,
-          )
-          .alignCenter()
-          .tight(width: 44.w, height: 18.h)
-          .decorated(
-            color: Color(0xFFE8E8E8),
-            borderRadius: BorderRadius.circular(2),
-          );
-    }
-
     return Container(
       width: 343.w,
       height: 134.h,
@@ -84,10 +67,10 @@ class HomeItem extends StatelessWidget {
               ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
               <Widget>[
-               if(data.isRealName == 1) _buildChip(LocaleKeys.tag1.tr),
-               if(data.isHealth == 1) _buildChip(LocaleKeys.tag2.tr),
-               if(data.isPayTaxes == 1) _buildChip(LocaleKeys.tag3.tr),
-               if(data.isCredit == 1) _buildChip(LocaleKeys.tag4.tr),
+                if (data.isRealName == 1) _buildChip(LocaleKeys.tag1.tr),
+                if (data.isHealth == 1) _buildChip(LocaleKeys.tag2.tr),
+                if (data.isPayTaxes == 1) _buildChip(LocaleKeys.tag3.tr),
+                if (data.isCredit == 1) _buildChip(LocaleKeys.tag4.tr),
               ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
               <Widget>[
@@ -103,10 +86,13 @@ class HomeItem extends StatelessWidget {
                 ),
                 ButtonWidget.primary(
                   LocaleKeys.sayHi.tr,
-                  width: 53.w,
+                  width: 60.w,
                   height: 23.h,
                   fontSize: 11,
-                  onTap: () => Get.toNamed(RouteNames.msgChat, arguments: data),
+                  onTap: () => Get.toNamed(
+                    RouteNames.msgChat,
+                    arguments: {"channelId": data.id ?? "", "userMessage": data},
+                  ),
                   textWeight: FontWeight.bold,
                   backgroundColor: Color(0xFFFF64C8),
                 ),
@@ -117,5 +103,23 @@ class HomeItem extends StatelessWidget {
             .expanded(),
       ].toRow(),
     ).onTap(() => Get.toNamed(RouteNames.homeMatchingDetail, arguments: data));
+  }
+
+  Widget _buildChip(String text) {
+    return IconWidget.svg(
+          AssetsSvgs.icPassSvg,
+          text: text,
+          fontColor: Color(0xFF999999),
+          size: 14.r,
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+          space: 2.w,
+        )
+        .alignCenter()
+        .tight(width: 44.w, height: 18.h)
+        .decorated(
+          color: Color(0xFFE8E8E8),
+          borderRadius: BorderRadius.circular(2),
+        );
   }
 }

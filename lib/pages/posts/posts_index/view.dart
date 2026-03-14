@@ -35,7 +35,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
   /// 发帖
   Widget _buildPostCard() {
     List<KeyValueModel<String>> list = [
-      KeyValueModel(key: "发帖", value: "分享美好倾吐焦虑"),
+      KeyValueModel(key: LocaleKeys.post.tr, value: LocaleKeys.share.tr),
       // KeyValueModel(key: "开播", value: "分享美好倾吐焦虑"),
     ];
 
@@ -172,10 +172,12 @@ class PostsIndexPage extends GetView<PostsIndexController> {
     );
   }
 
+  //看看大家
+
   Widget _buildPostList() {
     return <Widget>[
           TextWidget.body(
-            "看看大家",
+            LocaleKeys.look.tr,
             weight: FontWeight.bold,
           ).alignment(Alignment.centerLeft).tight(height: 42.h),
 
@@ -213,7 +215,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
             subtitle: TextWidget.muted(feed.createTime ?? ""),
             trailing: [
               ButtonWidget.outline(
-                "关注",
+                LocaleKeys.follow.tr,
                 fontSize: 12.sp,
                 textWeight: FontWeight.bold,
                 icon: IconWidget.svg(AssetsSvgs.icPostsAddSvg),
@@ -302,7 +304,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
         return ScaffoldWidget(
           useSafeArea: true,
           appBar: AppBarWidget(
-            title: "圈子",
+            title: LocaleKeys.message.tr,
             centerTitle: false,
             automaticallyImplyLeading: false,
             actions: [
