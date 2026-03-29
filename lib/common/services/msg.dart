@@ -279,12 +279,14 @@ class MsgService extends GetxService {
     back(channel);
   }
 
+  Map<String,UserMessage?> userMap = {};
 
   /// 获取用户消息并更新至频道信息
   Future getUserMessages(String channelId) async {
     final response = await UserApi.profile(id: channelId);
     if (response.success) {
       final userMessage = response.result;
+      userMap[channelId] = userMessage;
       WKChannel channel = WKChannel(channelId, WKChannelType.personal);
       channel.channelName = userMessage?.name ?? '';
       channel.avatar = userMessage?.portrait ?? '';

@@ -1,5 +1,6 @@
 import 'package:ducafe_ui_core/ducafe_ui_core.dart';
 import 'package:easy_refresh/easy_refresh.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/entity/conversation.dart';
@@ -57,7 +58,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
     int unreadCount = conversation.unreadCount;
 
     // 格式化时间
-    String timeStr = formatTimestamp(conversation.lastMsgTimestamp);
+    String timeStr = DateUtil.formatDateMs(conversation.lastMsgTimestamp * 1000);
 
     return ListTileWidget(
       backgroundColor: Colors.transparent,
@@ -93,35 +94,6 @@ class MsgIndexPage extends GetView<MsgIndexController> {
       ],
       onTap: () => controller.toChatPage(conversation.channelID),
     );
-  }
-
-  /// 格式化时间戳
-  String formatTimestamp(int timestamp) {
-    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
-    DateTime now = DateTime.now();
-
-    // 今天
-    if (dateTime.year == now.year &&
-        dateTime.month == now.month &&
-        dateTime.day == now.day) {
-      return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
-    }
-
-    // 昨天
-    DateTime yesterday = now.subtract(const Duration(days: 1));
-    if (dateTime.year == yesterday.year &&
-        dateTime.month == yesterday.month &&
-        dateTime.day == yesterday.day) {
-      return '昨天';
-    }
-
-    // 本周
-    if (now.difference(dateTime).inDays < 7) {
-      return '周${dateTime.weekday}';
-    }
-
-    // 其他：显示日期
-    return '${dateTime.month}/${dateTime.day}';
   }
 
   @override

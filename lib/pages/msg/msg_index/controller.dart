@@ -1,6 +1,7 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/entity/channel.dart';
+import 'package:wukongimfluttersdk/entity/cmd.dart';
 import 'package:wukongimfluttersdk/entity/conversation.dart';
 import 'package:wukongimfluttersdk/type/const.dart';
 import 'package:wukongimfluttersdk/wkim.dart';
@@ -15,7 +16,6 @@ class MsgIndexController extends GetxController {
   final Map<String, MsgConversation> parsedConversations = {};
   final Set<String> parsingConversationKeys = <String>{};
 
-  final Map<String, UserMessage?> userMap = {};
 
   List<MsgConversation> msgConversation = [];
 
@@ -26,6 +26,8 @@ class MsgIndexController extends GetxController {
       "conversationListener2",
       _onRefreshConversationListener,
     );
+
+    WKIM.shared.cmdManager.addOnCmdListener("cmdListener", _onCmdListener);
   }
 
   void onTap() {}
@@ -99,12 +101,48 @@ class MsgIndexController extends GetxController {
   }
 
   void toChatPage(String channelId) {
-    final userMessage = userMap[channelId];
+    WKIM.shared.conversationManager.updateRedDot(
+      channelId,
+      WKChannelType.personal,
+      0,
+    );
+
+    final userMessage = MsgService.to.userMap[channelId];
     Get.toNamed(RouteNames.msgChat, arguments: {"channelId": channelId, "userMessage": userMessage});
   }
 
-  void getConversation(String channelID) async {
-    final conversation = await WKIM.shared.conversationManager.getWithChannel(channelID, WKChannelType.personal);
-    conversation?.lastMsgSeq;
+
+  _onCmdListener(WKCMD cmd) {
+    print('收到 CMD 消息: ${cmd.cmd}');
+    print('参数: ${cmd.param}');
+
+    switch (cmd.cmd) {
+      case 'messageRevoke':
+        // await handleMessageRevoke(cmd);
+        break;
+      case 'channelUpdate':
+        // await handleChannelUpdate(cmd);
+        break;
+      case 'unreadClear':
+        handleUnreadClear(cmd);
+        break;
+      default:
+        print('未知的 CMD 消息: ${cmd.cmd}');
+    }
+  }
+
+  /// 处理未读数清除
+  void handleUnreadClear(WKCMD cmd) {
+    String channelID = cmd.param['channel_id'] ?? '';
+    int channelType = cmd.param['channel_type'] ?? 0;
+    int unread = cmd.param['unread'] ?? 0;
+
+    if (channelID.isEmpty) return;
+
+    WKIM.shared.conversationManager.updateRedDot(
+      channelID,
+      channelType,
+      unread,
+    );
   }
 }

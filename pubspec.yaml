@@ -87,6 +87,8 @@ dependencies:
   webview_flutter: ^4.13.1
   # 日期时间选择器
   flutter_datetime_picker_plus: ^2.2.0
+  # 工具库
+  flustars: ^2.0.1
 
 dev_dependencies:
   flutter_test:
