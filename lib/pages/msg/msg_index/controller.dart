@@ -9,10 +9,7 @@ import 'package:youmeet/common/index.dart';
 class MsgIndexController extends GetxController {
   MsgIndexController();
 
-  final refreshController = EasyRefreshController(
-    controlFinishRefresh: true,
-    controlFinishLoad: true,
-  );
+  final refreshController = EasyRefreshController(controlFinishRefresh: true, controlFinishLoad: true);
 
   List<WKUIConversationMsg> conversations = [];
   final Map<String, MsgConversation> parsedConversations = {};
@@ -20,14 +17,13 @@ class MsgIndexController extends GetxController {
 
   final Map<String, UserMessage?> userMap = {};
 
+  List<MsgConversation> msgConversation = [];
+
   _initData() {
     _loadConversations();
 
     /// 监听频道信息刷新
-    WKIM.shared.channelManager.addOnRefreshListener(
-      "onRefreshChannelListener2",
-      _onRefreshChannelListener,
-    );
+    WKIM.shared.channelManager.addOnRefreshListener("onRefreshChannelListener2", _onRefreshChannelListener);
 
     /// 会话列表刷新监听
     WKIM.shared.conversationManager.addOnRefreshMsgListListener(
@@ -53,12 +49,8 @@ class MsgIndexController extends GetxController {
   void dispose() {
     super.dispose();
     refreshController.dispose();
-    WKIM.shared.channelManager.removeOnRefreshListener(
-      "onRefreshChannelListener2",
-    );
-    WKIM.shared.conversationManager.removeOnRefreshMsgListListener(
-      "conversationListener2",
-    );
+    WKIM.shared.channelManager.removeOnRefreshListener("onRefreshChannelListener2");
+    WKIM.shared.conversationManager.removeOnRefreshMsgListListener("conversationListener2");
   }
 
   /// 获取用户消息并更新至频道信息
@@ -80,50 +72,28 @@ class MsgIndexController extends GetxController {
   Future<void> _loadConversations() async {
     try {
       final data = await WKIM.shared.conversationManager.getAll();
-      conversations = data;
-      parsedConversations.clear();
-      parsingConversationKeys.clear();
+
+      for (var conversation in data) {
+        final wkChannel = await conversation.getWkChannel();
+        final lastMsg = await conversation.getWkMsg();
+        var cov = MsgConversation.fromUIConversation(conversation: conversation, channel: wkChannel, lastMsg: lastMsg);
+        msgConversation.add(cov);
+      }
+
       logger.d('加载了 ${data.length} 个会话');
 
-      for (final conversation in conversations) {
-        final channel = await conversation.getWkChannel();
-        if (channel?.channelName.isEmpty == true) {
-          await getUserMessages(conversation.channelID);
-        }
-        await parseConversation(conversation);
-      }
+      // for (final conversation in conversations) {
+      //   final channel = await conversation.getWkChannel();
+      //   if (channel?.channelName.isEmpty == true) {
+      //     await getUserMessages(conversation.channelID);
+      //   }
+      //   await parseConversation(conversation);
+      // }
     } catch (e) {
       logger.d('加载会话列表失败: $e');
     } finally {
       update(["msg_index"]);
     }
-  }
-
-  Future<void> parseConversation(WKUIConversationMsg conversation) async {
-    final key = _conversationKey(conversation);
-    if (parsedConversations.containsKey(key) ||
-        parsingConversationKeys.contains(key)) {
-      return;
-    }
-
-    parsingConversationKeys.add(key);
-    final channel = await conversation.getWkChannel();
-    final lastMsg = await conversation.getWkMsg();
-
-    parsedConversations[key] = MsgConversation(
-      avatar: channel?.avatar ?? '',
-      title: channel?.channelName ?? '未知',
-      lastMessage: lastMsg?.messageContent?.displayText() ?? '',
-    );
-    parsingConversationKeys.remove(key);
-  }
-
-  MsgConversation? getParsedConversation(WKUIConversationMsg conversation) {
-    return parsedConversations[_conversationKey(conversation)];
-  }
-
-  String _conversationKey(WKUIConversationMsg conversation) {
-    return '${conversation.channelID}_${conversation.channelType}';
   }
 
   /// 频道信息更新
@@ -136,25 +106,32 @@ class MsgIndexController extends GetxController {
   }
 
   /// 会话列表刷新监听回调  ====> 接收方
-  _onRefreshConversationListener(List<WKUIConversationMsg> p1) {
+  _onRefreshConversationListener(List<WKUIConversationMsg> p1) async{
     logger.d('_onRefreshConversationListener   会话列表刷新，当前会话数量: ${p1.length}');
     // 会话列表有更新，刷新 UI
-    _loadConversations();
+    for (var conversation in p1) {
+      final wkChannel = await conversation.getWkChannel();
+      final lastMsg = await conversation.getWkMsg();
+      var cov = MsgConversation.fromUIConversation(conversation: conversation, channel: wkChannel, lastMsg: lastMsg);
+
+      var item = msgConversation.firstWhere((cov){
+        return cov.channelID == conversation.channelID;
+      });
+
+      msgConversation[msgConversation.indexOf(item)] = cov;
+
+      update(["msg_index"]);
+    }
+
   }
 
   void toChatPage(String channelId) {
     final userMessage = userMap[channelId];
-    Get.toNamed(
-      RouteNames.msgChat,
-      arguments: {"channelId": channelId, "userMessage": userMessage},
-    );
+    Get.toNamed(RouteNames.msgChat, arguments: {"channelId": channelId, "userMessage": userMessage});
   }
 
   void getConversation(String channelID) async {
-    final conversation = await WKIM.shared.conversationManager.getWithChannel(
-      channelID,
-      WKChannelType.personal,
-    );
+    final conversation = await WKIM.shared.conversationManager.getWithChannel(channelID, WKChannelType.personal);
     conversation?.lastMsgSeq;
   }
 }

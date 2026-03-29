@@ -134,7 +134,7 @@ class MsgService extends GetxService {
   /// 会话列表刷新监听回调  ====> 接收方
   _onRefreshConversationListener(List<WKUIConversationMsg> p1) {
     // 会话列表有更新，刷新 UI
-    logger.d('_onRefreshConversationListener   会话列表刷新，当前会话数量: ${p1.length}');
+    // logger.d('_onRefreshConversationListener   会话列表刷新，当前会话数量: ${p1.length}');
   }
 
   /// 会话列表同步监听回调  ===>初始化时

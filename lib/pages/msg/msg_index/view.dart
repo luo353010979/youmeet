@@ -30,12 +30,11 @@ class MsgIndexPage extends GetView<MsgIndexController> {
       // onRefresh: controller.onRefresh,
       child: ListView.separated(
         padding: EdgeInsets.symmetric(horizontal: AppSpace.page.w),
-        itemCount: controller.conversations.length,
+        itemCount: controller.msgConversation.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          final conversation = controller.conversations[index];
-          final item = controller.getParsedConversation(conversation);
-          return _buildConversationItem(conversation, item);
+          final conversation = controller.msgConversation[index];
+          return _buildConversationItem(conversation);
         },
         separatorBuilder: (context, index) => Divider(height: 1.h),
       ),
@@ -44,14 +43,17 @@ class MsgIndexPage extends GetView<MsgIndexController> {
 
   /// 构建会话列表项
   Widget _buildConversationItem(
-    WKUIConversationMsg conversation,
-    MsgConversation? item,
+    MsgConversation conversation,
   ) {
-    String title = item?.title ?? '未知';
-    String avatar = item?.avatar.isNotEmpty == true
-        ? 'http://${item?.avatar}'
+    final channel = conversation.wkChannel;
+    final msg = conversation.wkMsg;
+
+    String title = channel?.channelName ?? '未知';
+    String avatar = channel?.avatar.isNotEmpty == true
+        ? 'http://${channel?.avatar}'
         : '';
-    String lastMessage = item?.lastMessage ?? '';
+    String lastMessage = msg?.messageContent?.displayText() ?? "";
+
     int unreadCount = conversation.unreadCount;
 
     // 格式化时间
