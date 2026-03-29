@@ -84,14 +84,12 @@ class HomeIndexPage extends GetView<HomeIndexController> {
   /// 列表视图
   Widget _buildListView(int tabIndex) {
     final currentList = controller.listByTabIndex(tabIndex);
-    const fixedHeaderCount = 2;
+    const fixedHeaderCount = 1;
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: AppSpace.page),
       itemCount: currentList.length + fixedHeaderCount,
       itemBuilder: (context, index) {
-        if (index == 0) {
-          return TipsWidget();
-        } else if (index == 1) {
+      if (index == 0) {
           return TextWidget.body(
             LocaleKeys.highlyTrustedMatch.tr,
             weight: FontWeight.bold,
@@ -100,6 +98,17 @@ class HomeIndexPage extends GetView<HomeIndexController> {
           UserMessage user = currentList[index - fixedHeaderCount];
           return HomeItem(data: user);
         }
+        // if (index == 0) {
+        //   return TipsWidget();
+        // } else if (index == 1) {
+        //   return TextWidget.body(
+        //     LocaleKeys.highlyTrustedMatch.tr,
+        //     weight: FontWeight.bold,
+        //   ).paddingBottom(10.h);
+        // } else {
+        //   UserMessage user = currentList[index - fixedHeaderCount];
+        //   return HomeItem(data: user);
+        // }
       },
     );
   }

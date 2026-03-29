@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/entity/channel.dart';
@@ -18,6 +21,8 @@ class TypeModel {
 class ChatController extends GetxController {
   ChatController();
 
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishLoad: true);
+  
   // 编辑报告请求参数
   EditReportReq req = EditReportReq(id: UserService.to.profile.id!);
 
@@ -137,6 +142,12 @@ class ChatController extends GetxController {
         messages.addAll(msg.reversed);
 
         isComplete.value = true;
+
+        if(msg.length < 20){
+          refreshController.finishLoad(IndicatorResult.noMore);
+        }else{
+          refreshController.finishLoad();
+        }
       },
     );
   }
@@ -270,4 +281,9 @@ class ChatController extends GetxController {
       logger.d('获取会话列表失败: $e');
   }
 }
+
+  void onLoad() async{
+    await Future.delayed(Duration(seconds: 1));
+    _loadHistoryMessages();
+  }
 }

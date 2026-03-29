@@ -1,4 +1,5 @@
 import 'package:ducafe_ui_core/ducafe_ui_core.dart' hide SizedBoxExtensions;
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/entity/msg.dart';
@@ -11,34 +12,39 @@ class ChatPage extends GetView<ChatController> {
 
   // 主视图
   Widget _buildView(BuildContext context) {
-    return Obx(() {
-      return CustomScrollView(
-        controller: controller.scrollController,
-        slivers: [
-          if (controller.isComplete.value) _buildUserInfoCard(),
-          if (controller.isComplete.value) _buildUploadCard(),
-          _buildMessageList(),
-        ],
-      );
-    });
+    return _buildMessageList();
+    // return Obx(() {
+    //   return CustomScrollView(
+    //     // controller: controller.scrollController,
+    //     slivers: [
+    //       // if (controller.isComplete.value) _buildUserInfoCard(),
+    //       // if (controller.isComplete.value) _buildUploadCard(),
+    //       _buildMessageList(),
+    //     ],
+    //   );
+    // });
   }
 
   /// 消息列表
   Widget _buildMessageList() {
     return Obx(() {
-      return ListView.separated(
-        padding: EdgeInsets.all(16.w),
-        shrinkWrap: true,
-        reverse: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: controller.messages.length,
-        itemBuilder: (context, index) {
-          final message = controller.messages[index];
-          return msgWidget(message);
-        },
-        separatorBuilder: (context, index) => SizedBox(height: 24.w),
+      return EasyRefresh(
+        controller: controller.refreshController,
+        onLoad: controller.onLoad,
+        child: ListView.separated(
+          padding: EdgeInsets.all(16.w),
+          shrinkWrap: true,
+          reverse: true,
+          // physics: NeverScrollableScrollPhysics(),
+          itemCount: controller.messages.length,
+          itemBuilder: (context, index) {
+            final message = controller.messages[index];
+            return msgWidget(message);
+          },
+          separatorBuilder: (context, index) => SizedBox(height: 24.w),
+        ),
       );
-    }).sliverToBoxAdapter();
+    });
   }
 
   Widget msgWidget(WKMsg message) {
@@ -52,7 +58,9 @@ class ChatPage extends GetView<ChatController> {
         height: 40.r,
         fit: BoxFit.cover,
         radius: 20,
-      ),
+      ).onTap(() {
+        Get.toNamed(RouteNames.homeMatchingDetail, arguments: MsgService.to.userMap[channelId]);
+      }),
       // TextWidget.muted("$seq").marginSymmetric(horizontal: 10.w),
       10.horizontalSpace,
       TextWidget.label(

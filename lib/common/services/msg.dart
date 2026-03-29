@@ -257,7 +257,6 @@ class MsgService extends GetxService {
       limit,
       0,
       (List<WKMsg> p1) {
-        logger.d(p1.length);
         onComplete(p1);
       },
       () {
