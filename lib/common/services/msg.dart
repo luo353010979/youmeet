@@ -153,6 +153,13 @@ class MsgService extends GetxService {
       );
       if (response.success) {
         ret = WKSyncConversationMapper.fromDynamic(response.result);
+        final conversations = ret.conversations ?? [];
+
+        // 获取用户消息并更新至频道信息
+        for(var cov in conversations){
+          getUserMessages(cov.channelID);
+        }
+
         logger.d(
           '_onSyncConversationListener   会话同步成功: 当前 ${ret.conversations?.length ?? 0} 条会话',
         );
@@ -270,5 +277,22 @@ class MsgService extends GetxService {
 
     logger.d("更新成功：${channel.channelName}");
     back(channel);
+  }
+
+
+  /// 获取用户消息并更新至频道信息
+  Future getUserMessages(String channelId) async {
+    final response = await UserApi.profile(id: channelId);
+    if (response.success) {
+      final userMessage = response.result;
+      WKChannel channel = WKChannel(channelId, WKChannelType.personal);
+      channel.channelName = userMessage?.name ?? '';
+      channel.avatar = userMessage?.portrait ?? '';
+      //更新频道信息
+      WKIM.shared.channelManager.addOrUpdateChannel(channel);
+      logger.d('用户信息更新成功: ${channel.channelName}');
+    }else{
+      logger.d('用户信息更新失败: ${response.message}');
+    }
   }
 }

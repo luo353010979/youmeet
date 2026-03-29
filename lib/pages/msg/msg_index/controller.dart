@@ -21,10 +21,6 @@ class MsgIndexController extends GetxController {
 
   _initData() {
     _loadConversations();
-
-    /// 监听频道信息刷新
-    WKIM.shared.channelManager.addOnRefreshListener("onRefreshChannelListener2", _onRefreshChannelListener);
-
     /// 会话列表刷新监听
     WKIM.shared.conversationManager.addOnRefreshMsgListListener(
       "conversationListener2",
@@ -33,11 +29,6 @@ class MsgIndexController extends GetxController {
   }
 
   void onTap() {}
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
 
   @override
   void onReady() {
@@ -49,24 +40,10 @@ class MsgIndexController extends GetxController {
   void dispose() {
     super.dispose();
     refreshController.dispose();
-    WKIM.shared.channelManager.removeOnRefreshListener("onRefreshChannelListener2");
     WKIM.shared.conversationManager.removeOnRefreshMsgListListener("conversationListener2");
   }
 
-  /// 获取用户消息并更新至频道信息
-  Future<void> getUserMessages(String channelId) async {
-    final response = await UserApi.profile(id: channelId);
-    if (response.success) {
-      final userMessage = response.result;
-      WKChannel channel = WKChannel(channelId, WKChannelType.personal);
-      channel.channelName = userMessage?.name ?? '';
-      channel.avatar = userMessage?.portrait ?? '';
-      logger.d('用户信息更新成功: ${channel.channelName}');
-      userMap[channelId] = userMessage;
-      //更新频道信息
-      WKIM.shared.channelManager.addOrUpdateChannel(channel);
-    }
-  }
+
 
   /// 加载会话列表
   Future<void> _loadConversations() async {
@@ -82,13 +59,6 @@ class MsgIndexController extends GetxController {
 
       logger.d('加载了 ${data.length} 个会话');
 
-      // for (final conversation in conversations) {
-      //   final channel = await conversation.getWkChannel();
-      //   if (channel?.channelName.isEmpty == true) {
-      //     await getUserMessages(conversation.channelID);
-      //   }
-      //   await parseConversation(conversation);
-      // }
     } catch (e) {
       logger.d('加载会话列表失败: $e');
     } finally {
@@ -114,11 +84,14 @@ class MsgIndexController extends GetxController {
       final lastMsg = await conversation.getWkMsg();
       var cov = MsgConversation.fromUIConversation(conversation: conversation, channel: wkChannel, lastMsg: lastMsg);
 
-      var item = msgConversation.firstWhere((cov){
-        return cov.channelID == conversation.channelID;
-      });
-
-      msgConversation[msgConversation.indexOf(item)] = cov;
+      if (msgConversation.isEmpty) {
+        msgConversation.add(cov);
+      } else {
+        var item = msgConversation.firstWhere((cov) {
+          return cov.channelID == conversation.channelID;
+        });
+        msgConversation[msgConversation.indexOf(item)] = cov;
+      }
 
       update(["msg_index"]);
     }
