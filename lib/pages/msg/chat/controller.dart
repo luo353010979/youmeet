@@ -27,11 +27,13 @@ class ChatController extends GetxController {
   // 频道信息(用户信息)
   final userMessage = UserMessage().obs;
 
+  // 安全报告信息
   final report = SafeReportModel().obs;
 
   // 消息列表
   final messages = <WKMsg>[].obs;
 
+  // 历史消息分页参数
   int _oldestOrderSeq = 0;
 
   final isComplete = false.obs;
@@ -72,7 +74,7 @@ class ChatController extends GetxController {
     final params = Get.arguments;
     if (params != null) {
       channelId = params["channelId"] ?? "";
-      userMessage.value = params["userMessage"]?? UserMessage();
+      userMessage.value = params["userMessage"] ?? UserMessage();
     }
 
     loadData();
@@ -105,8 +107,8 @@ class ChatController extends GetxController {
     Future.wait([
           if (userMessage.value.id?.isEmpty == true)
             _getUserMessages(channelId),
-          _getSafeReport(),
-          _loadHistoryMessages(),
+      _getSafeReport(),
+      _loadHistoryMessages(),
         ])
         .then((v) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -266,6 +268,6 @@ class ChatController extends GetxController {
       final channel = await data?.getWkChannel();
     } catch (e) {
       logger.d('获取会话列表失败: $e');
-    }
   }
+}
 }

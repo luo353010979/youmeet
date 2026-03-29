@@ -36,6 +36,7 @@ class UserMessage {
   int? height;
   String? id;
   int? income;
+  String? hobby;
   String? insomniaDuration;
   String? ip;
   int? isAccount;
@@ -144,6 +145,7 @@ class UserMessage {
     this.isRenew,
     this.isSend,
     this.job,
+    this.hobby,
     this.language,
     this.latitude,
     this.likeNum,
@@ -217,6 +219,7 @@ class UserMessage {
     giftNum: json['giftNum'] as int?,
     header: json['header'] as String?,
     height: json['height'] as int?,
+    hobby: json['hobby'] as String?,
     id: json['id'] as String?,
     income: json['income'] as int?,
     insomniaDuration: json['insomniaDuration'] as String?,
@@ -315,6 +318,7 @@ class UserMessage {
     'ip': ip,
     'isAccount': isAccount,
     'isBelieve': isBelieve,
+    'hobby':hobby,
     'isConcern': isConcern,
     'isCredit': isCredit,
     'isFreeze': isFreeze,

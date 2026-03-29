@@ -4,6 +4,7 @@ import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
 import 'package:youmeet/pages/index.dart';
+import 'package:youmeet/pages/my/edit_profile_info/widget/Hobby.dart';
 import 'package:youmeet/pages/my/edit_profile_info/widget/gender_selector.dart';
 
 class EditProfileInfoPage extends GetView<MyIndexController> {
@@ -134,9 +135,17 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
         leading: TextWidget.label(
           LocaleKeys.personalityTags.tr,
         ).tight(width: 80.w),
-        title: TextWidget.label("二次元、夜猫子、社交达人、开心的吃货", color: Color(0xFF666666)),
+        title: TextWidget.label(UserService.to.profile.hobby ?? "", color: Color(0xFF666666)),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
-        onTap: () {},
+        onTap: () {
+          Get.bottomSheet(
+            HobbyWidget(onComplet: controller.setHobby),
+            isScrollControlled: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+            ),
+          );
+        },
       ).tight(height: 50.h),
 
       8.verticalSpace,

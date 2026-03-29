@@ -158,4 +158,9 @@ class MyIndexController extends GetxController {
     UserService.to.profile.birthday = formatBirthday(date);
     update(["edit_profile_info"]);
   }
+
+  void setHobby(List<String> value) {
+    UserService.to.profile.hobby = value.join(",");
+    update(["edit_profile_info"]);
+  }
 }

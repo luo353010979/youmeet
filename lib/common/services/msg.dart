@@ -170,9 +170,9 @@ class MsgService extends GetxService {
 
     p1.forEach((msg) {
       // 这里可以根据需要刷新聊天列表 UI 或者显示通知等
-      logger.d(
+    logger.d(
         '新消息内容: ${msg.content}, 消息ID: ${msg.messageID}, 来自：${msg.getFrom()?.channelName}',
-      );
+    );
     });
   }
 
