@@ -34,6 +34,8 @@
 		<string>Used to capture audio for image picker plugin</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>Used to demonstrate image picker plugin</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>用于获取您的位置信息以提供附近的活动和服务</string>
 		<key>UISupportedInterfaceOrientations</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>

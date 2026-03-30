@@ -10,7 +10,7 @@ class LoginPage extends GetView<LoginController> {
 
   Widget _buildAppLogo() {
     return ImageWidget.img(
-      "assets/launcher/ios.png",
+      "assets/icons/ic_logo.png",
       width: 100.w,
       height: 100.h,
       fit: BoxFit.contain,

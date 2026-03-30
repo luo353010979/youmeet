@@ -61,7 +61,7 @@ class ChatPage extends GetView<ChatController> {
       ).onTap(() {
         Get.toNamed(RouteNames.homeMatchingDetail, arguments: MsgService.to.userMap[channelId]);
       }),
-      // TextWidget.muted("$seq").marginSymmetric(horizontal: 10.w),
+      TextWidget.muted("$seq").marginSymmetric(horizontal: 10.w),
       10.horizontalSpace,
       TextWidget.label(
             message.messageContent?.content ?? "",
@@ -179,7 +179,7 @@ class ChatPage extends GetView<ChatController> {
               .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
               .expanded(),
         ].toColumn().paddingSymmetric(horizontal: 14.w, vertical: 10.w),
-      ).tight(height: 169.w).sliverToBoxAdapter().sliverPaddingHorizontal(14.w);
+      ).tight(height: 169.w).paddingHorizontal(14.w);
     });
   }
 
@@ -225,8 +225,7 @@ class ChatPage extends GetView<ChatController> {
                   .paddingSymmetric(horizontal: 14.w, vertical: 10.w),
         )
         .tight(width: 343.w, height: 165.w)
-        .sliverToBoxAdapter()
-        .sliverPaddingHorizontal(14.w);
+        .paddingHorizontal(14.w);
   }
 
   Widget _buildUploadCell(String title, int id, String? imageUrl) {
