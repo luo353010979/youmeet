@@ -112,10 +112,10 @@ icons_launcher:
   platforms:
     android:
       enable: true
-      notification_image: "assets/icons/ic_foreground.png"
+#      notification_image: "assets/icons/ic_foreground.png"
       # adaptive_background_color: '#ffffff'
-      adaptive_background_image: "assets/icons/ic_background.png"
-      adaptive_foreground_image: "assets/icons/ic_foreground.png"
+#      adaptive_background_image: "assets/icons/ic_background.png"
+#      adaptive_foreground_image: "assets/icons/ic_foreground.png"
     ios:
       enable: true
 
@@ -123,7 +123,7 @@ icons_launcher:
 flutter_native_splash:
   web: false
   color_android: "#ffffff"
-  # background_image_android: "assets/launcher/background.png"
+  background_image_android: "assets/launcher/background.png"
   background_image_ios: "assets/launcher/background.png"
   # image_ios: "assets/launcher/android.png"
   android_12:
