@@ -15,20 +15,11 @@ class HomeIndexPage extends GetView<HomeIndexController> {
 
   // 主视图
   Widget _buildView(BuildContext context) {
-    final avatars = controller.recommendList
-        .map((e) => e.portrait ?? '')
-        .where((e) => e.isNotEmpty)
-        .toSet()
-        .toList();
 
-    if (avatars.isEmpty &&
-        (UserService.to.profile.portrait?.isNotEmpty ?? false)) {
-      avatars.add(UserService.to.profile.portrait!);
-    }
 
     return Column(
       children: [
-        HomeSliderWidget(avatars: avatars),
+        HomeSliderWidget(),
         _buildTabBar(context),
         _buildPageView(),
       ],

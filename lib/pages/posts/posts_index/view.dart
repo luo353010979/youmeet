@@ -304,7 +304,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
         return ScaffoldWidget(
           useSafeArea: true,
           appBar: AppBarWidget(
-            title: LocaleKeys.message.tr,
+            title: LocaleKeys.post.tr,
             centerTitle: false,
             automaticallyImplyLeading: false,
             actions: [

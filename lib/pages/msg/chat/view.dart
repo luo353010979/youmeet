@@ -12,17 +12,16 @@ class ChatPage extends GetView<ChatController> {
 
   // 主视图
   Widget _buildView(BuildContext context) {
-    return _buildMessageList();
-    // return Obx(() {
-    //   return CustomScrollView(
-    //     // controller: controller.scrollController,
-    //     slivers: [
-    //       // if (controller.isComplete.value) _buildUserInfoCard(),
-    //       // if (controller.isComplete.value) _buildUploadCard(),
-    //       _buildMessageList(),
-    //     ],
-    //   );
-    // });
+    return Obx(() {
+      return CustomScrollView(
+        // controller: controller.scrollController,
+        slivers: [
+          if (controller.isComplete.value) _buildUserInfoCard(),
+          if (controller.isComplete.value) _buildUploadCard(),
+          _buildMessageList(),
+        ],
+      );
+    });
   }
 
   /// 消息列表
@@ -35,7 +34,7 @@ class ChatPage extends GetView<ChatController> {
           padding: EdgeInsets.all(16.w),
           shrinkWrap: true,
           reverse: true,
-          // physics: NeverScrollableScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           itemCount: controller.messages.length,
           itemBuilder: (context, index) {
             final message = controller.messages[index];
@@ -43,7 +42,7 @@ class ChatPage extends GetView<ChatController> {
           },
           separatorBuilder: (context, index) => SizedBox(height: 24.w),
         ),
-      );
+      ).sliverToBoxAdapter();
     });
   }
 
@@ -179,7 +178,7 @@ class ChatPage extends GetView<ChatController> {
               .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
               .expanded(),
         ].toColumn().paddingSymmetric(horizontal: 14.w, vertical: 10.w),
-      ).tight(height: 169.w).paddingHorizontal(14.w);
+      ).tight(height: 169.w).paddingHorizontal(14.w).sliverToBoxAdapter();
     });
   }
 
@@ -225,7 +224,8 @@ class ChatPage extends GetView<ChatController> {
                   .paddingSymmetric(horizontal: 14.w, vertical: 10.w),
         )
         .tight(width: 343.w, height: 165.w)
-        .paddingHorizontal(14.w);
+        .paddingHorizontal(14.w)
+        .sliverToBoxAdapter();
   }
 
   Widget _buildUploadCell(String title, int id, String? imageUrl) {

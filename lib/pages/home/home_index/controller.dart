@@ -38,16 +38,29 @@ class HomeIndexController extends GetxController
     }
   }
 
-  final matchList = <UserMessage>[];
+  List<UserMessage> matchList = [UserService.to.profile];
+  PageController pageController = PageController();
+  bool _isLoadingMatch = false;
+  final int _matchPreloadThreshold = 1; // 距离末尾1项时触发（即倒数第2项开始预加载）
+  int _lastPreloadTriggerListLength = -1;
 
-  _initData() {
-    update(["home_index"]);
-  }
-
+  
   @override
   void onInit() {
     super.onInit();
     tabController = TabController(length: tabs.length, vsync: this);
+    pageController.addListener(() {
+      final pageIndex = pageController.page?.round() ?? 0;
+      if (matchList.isEmpty) return;
+
+      final remaining = (matchList.length - 1) - pageIndex;
+      final shouldPreload = remaining <= _matchPreloadThreshold;
+      final isNewTrigger = _lastPreloadTriggerListLength != matchList.length;
+      if (shouldPreload && isNewTrigger) {
+        _lastPreloadTriggerListLength = matchList.length;
+        getMatch();
+      }
+    });
   }
 
   void onTap() {}
@@ -55,7 +68,7 @@ class HomeIndexController extends GetxController
   @override
   void onReady() {
     super.onReady();
-    _initData();
+    getMatch();
   }
 
   @override
@@ -68,6 +81,24 @@ class HomeIndexController extends GetxController
   /// 打招呼
   toChatPage() {
     Get.toNamed(RouteNames.msgChat);
+  }
+
+
+  /// 单人匹配下一个
+  void onNextOne() {
+    if (!pageController.hasClients) return;
+
+    final currentPage = pageController.page?.round() ?? 0;
+    final hasNextPage = currentPage < matchList.length - 1;
+
+    if (hasNextPage) {
+      pageController.nextPage(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    } else{
+      Loading.toast("没有下一页了");
+    }
   }
 
   /// 获取推荐列表
@@ -104,13 +135,24 @@ class HomeIndexController extends GetxController
     }
   }
 
+  var count =0;
   void getMatch() async {
+    if (_isLoadingMatch) return;
+    _isLoadingMatch = true;
+
     final response = await HomeApi.getMatch();
-    if (response.success) {
-      final userMessage = response.result;
-      if (userMessage != null) {
-        matchList.add(userMessage);
+    try {
+      count++;
+      if (response.success) {
+        final userMessage = response.result;
+        if (userMessage != null) {
+          matchList.add(userMessage);
+          update(["home_index"]);
+        }
       }
+    } finally {
+      _isLoadingMatch = false;
+      print("getMatch called $count times");
     }
   }
 

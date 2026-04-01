@@ -31,6 +31,7 @@ class UserService extends GetxService {
     var profileOffline = Storage().getString(Constants.storageProfile);
     if (profileOffline.isNotEmpty) {
       _profile(UserMessage.fromJson(jsonDecode(profileOffline)));
+      WKIM.shared.channelManager.fetchChannelInfo(_profile.value.id ?? "", WKChannelType.personal);
     }
   }
 
