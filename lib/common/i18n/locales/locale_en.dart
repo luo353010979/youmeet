@@ -18,11 +18,13 @@ Map<String, String> localeEn = {
   // Register
   LocaleKeys.commonLanguage: 'Language',
   LocaleKeys.phonePlaceholder: 'Enter Phone Number',
-  LocaleKeys.verifyCode: 'Verification Code',
+  LocaleKeys.verifyCode: 'Verification',
   LocaleKeys.verifyPlaceHolder: 'Enter Verification Code',
   LocaleKeys.getVerifyCode: 'Get Code',
-  LocaleKeys.loginPassword: 'Login Password',
-  LocaleKeys.confirmPassword: 'Confirm Password',
+  LocaleKeys.loginPassword: 'Password',
+  LocaleKeys.confirmPassword: 'Confirm',
+  LocaleKeys.welcome: 'Welcome!',
+  LocaleKeys.welcomeDesc: 'Please fill in your information',
   // Login
   LocaleKeys.usernamePlaceholder: 'Enter Account',
   LocaleKeys.passwordPlaceholder: 'Enter Password',

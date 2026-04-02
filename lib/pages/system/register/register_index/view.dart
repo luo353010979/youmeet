@@ -181,29 +181,42 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
     return GetBuilder<RegisterIndexController>(
       id: "privacy",
       builder: (_) {
-        return <Widget>[
+        return Container(
+          color: Colors.white,
+          padding: EdgeInsets.only(bottom: 10.w),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Checkbox(
                 value: controller.isAgreePrivacy,
                 onChanged: controller.updateAgreePrivacy,
                 activeColor: Get.theme.colorScheme.primary,
               ),
-              TextWidget.muted(LocaleKeys.agreeTerms.tr),
-
-              TextWidget.muted(
-                "《${LocaleKeys.userAgreement.tr}》",
-                color: Color(0xffFF37A8),
-              ).onTap(() {
-                Get.toNamed(RouteNames.systemSettingsUserAgreement);
-              }),
-              TextWidget.muted(
-                "《${LocaleKeys.privacyPolicy.tr}》",
-                color: Color(0xffFF37A8),
-              ).onTap(() {
-                Get.toNamed(RouteNames.systemSettingsPrivacyAgreement);
-              }),
-            ]
-            .toRow(mainAxisAlignment: MainAxisAlignment.start)
-            .backgroundColor(Colors.white);
+              Expanded(
+                child: Wrap(
+                  spacing: 2.w,
+                  runSpacing: 2.h,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    TextWidget.muted(LocaleKeys.agreeTerms.tr),
+                    TextWidget.muted(
+                      "《${LocaleKeys.userAgreement.tr}》",
+                      color: const Color(0xffFF37A8),
+                    ).onTap(() {
+                      Get.toNamed(RouteNames.systemSettingsUserAgreement);
+                    }),
+                    TextWidget.muted(
+                      "《${LocaleKeys.privacyPolicy.tr}》",
+                      color: const Color(0xffFF37A8),
+                    ).onTap(() {
+                      Get.toNamed(RouteNames.systemSettingsPrivacyAgreement);
+                    }),
+                  ],
+                ).paddingOnly(top: 13.h, right: AppSpace.page.w),
+              ),
+            ],
+          ),
+        );
       },
     );
   }

@@ -4,7 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 /// 提示框
 class Loading {
   static const int _milliseconds = 500; // 提示 延迟毫秒, 提示体验 秒关太快
-  static const int _dismissMilliseconds = 2000; // dismiss 延迟毫秒
+  static const int _dismissMilliseconds = 500; // dismiss 延迟毫秒
 
   Loading() {
     EasyLoading.instance

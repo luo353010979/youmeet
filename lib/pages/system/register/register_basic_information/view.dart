@@ -12,7 +12,10 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
     return <Widget>[
           32.verticalSpace,
 
-          TextWidget.h3("欢迎您！\n来填写您的资料吧！", weight: FontWeight.bold),
+          TextWidget.h3(
+            "${LocaleKeys.welcome.tr}\n${LocaleKeys.welcomeDesc.tr}",
+            weight: FontWeight.bold,
+          ),
 
           40.verticalSpace,
 
@@ -75,7 +78,7 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
 
   Widget _buildNickNameWidget() {
     return <Widget>[
-      TextWidget.muted("昵称"),
+      TextWidget.muted(LocaleKeys.nickname.tr),
       <Widget>[
         ImageWidget.img(
           AssetsImages.imgEditLeftPng,
@@ -95,7 +98,7 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
           style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           decoration: InputDecoration(
             alignLabelWithHint: true,
-            hintText: "昵称",
+            hintText: LocaleKeys.nickname.tr,
             hintStyle: TextStyle(
               fontSize: 14,
               color: Get.theme.colorScheme.onSurface.withOpacity(0.5),
@@ -117,7 +120,7 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
 
   Widget _buildBirthWidget() {
     return <Widget>[
-      TextWidget.muted("生日"),
+      TextWidget.muted(LocaleKeys.birth.tr),
       <Widget>[
         ImageWidget.img(
           AssetsImages.imgEditLeftPng,
@@ -162,36 +165,57 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
       id: "gender",
       builder: (_) {
         return <Widget>[
-          TextWidget.muted("性别"),
+          TextWidget.muted(LocaleKeys.gender.tr),
           <Widget>[
-            ButtonWidget.primary(
-              "男",
+            Container(
               width: 50.w,
               height: 24.h,
-              borderRadius: 50,
-              elevation: 0,
-              textColor: controller.req.sex == 1 ? Colors.white : Colors.black,
-              backgroundColor: controller.req.sex == 1
-                  ? Get.theme.colorScheme.primary
-                  : Colors.white,
-              onTap: () {
-                controller.updateGender(1);
-              },
-            ),
-            ButtonWidget.primary(
-              "女",
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: controller.req.sex == 1
+                      ? Get.theme.colorScheme.primary
+                      : Colors.white,
+                ),
+
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: Center(
+                child: IconWidget.svg(
+                  AssetsSvgs.icMyGenderBoySvg,
+                  width: 16.w,
+                  height: 16.w,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ).onTap(() {
+              controller.updateGender(1);
+            }),
+
+            Container(
               width: 50.w,
               height: 24.h,
-              borderRadius: 50,
-              elevation: 0,
-              textColor: controller.req.sex == 2 ? Colors.white : Colors.black,
-              backgroundColor: controller.req.sex == 2
-                  ? Get.theme.colorScheme.primary
-                  : Colors.white,
-              onTap: () {
-                controller.updateGender(2);
-              },
-            ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: controller.req.sex == 2
+                      ? Get.theme.colorScheme.primary
+                      : Colors.white,
+                ),
+
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: Center(
+                child: IconWidget.svg(
+                  AssetsSvgs.icMyGirlSvg,
+                  width: 16.w,
+                  height: 16.w,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ).onTap(() {
+              controller.updateGender(2);
+            }),
           ].toRowSpace(),
         ].toColumnSpace(crossAxisAlignment: CrossAxisAlignment.start);
       },

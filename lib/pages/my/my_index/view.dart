@@ -219,13 +219,13 @@ class MyIndexPage extends GetView<MyIndexController> {
         }),
       ),
 
-      <Widget>[
-        // LikeWidget(),
-        // TextWidget.muted("等${feed.likeNum}个人赞过"),
-        Spacer(),
-        IconWidget.svg(AssetsSvgs.icPostsLikeDefautSvg, size: 16.r, text: "${feed.likeNum}").paddingRight(16.w),
-        IconWidget.svg(AssetsSvgs.icPostsCommentSvg, size: 16.r, text: "${feed.commentNum}"),
-      ].toRow().paddingTop(12.h),
+      // <Widget>[
+      //   LikeWidget(),
+      //   TextWidget.muted("等${feed.likeNum}个人赞过"),
+      //   Spacer(),
+      //   IconWidget.svg(AssetsSvgs.icPostsLikeDefautSvg, size: 16.r, text: "${feed.likeNum}").paddingRight(16.w),
+      //   IconWidget.svg(AssetsSvgs.icPostsCommentSvg, size: 16.r, text: "${feed.commentNum}"),
+      // ].toRow().paddingTop(12.h),
     ].toColumn(crossAxisAlignment: CrossAxisAlignment.start).paddingAll(16.w);
   }
 

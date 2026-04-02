@@ -41,6 +41,9 @@ class LocaleKeys {
   static const getVerifyCode = 'get_verify_code';
   static const loginPassword = 'login_password';
   static const confirmPassword = 'confirm_password';
+  static const welcome = 'Welcome';
+  static const welcomeDesc = 'welcomeDesc';
+
 
   // 登录 - back login
   static const usernamePlaceholder = 'username_placeholder';

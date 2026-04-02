@@ -106,6 +106,7 @@ class RegisterIndexController extends GetxController {
     update(["gender"]);
   }
 
+  // 注册
   void onRegister() async {
     req.account = phoneController.text;
     req.password = passwordController.text;
@@ -115,6 +116,18 @@ class RegisterIndexController extends GetxController {
     req.phoneAreaCode = countryModel.phone;
     req.shortEn = countryModel.shortEn;
     req.zoneId = countryModel.zoneId;
+
+    if(req.name?.isEmpty == true){
+      Loading.error("请输入昵称");
+      return;
+    }
+
+
+    if(req.realPic?.isEmpty == true) {
+      Loading.error("请上传实名认证照片");
+      return;
+    }
+
     final isRegister = await UserService.to.register(req);
     if (isRegister) {
       Get.offAllNamed(RouteNames.systemMain);

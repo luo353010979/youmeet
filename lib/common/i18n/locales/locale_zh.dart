@@ -31,6 +31,8 @@ Map<String, String> localeZh = {
   LocaleKeys.getVerifyCode: '获取验证码',
   LocaleKeys.loginPassword: '登录密码',
   LocaleKeys.confirmPassword: '确认密码',
+  LocaleKeys.welcome: '欢迎您!',
+  LocaleKeys.welcomeDesc: '来填写您的资料吧!',
 
   // 登录
   LocaleKeys.usernamePlaceholder: '请输入账号',
@@ -79,7 +81,7 @@ Map<String, String> localeZh = {
   //圈子
   LocaleKeys.circle: '圈子',
   LocaleKeys.hotTopic: '热门话题',
-  LocaleKeys.post: '发帖',
+  LocaleKeys.post: '圈子',
   LocaleKeys.share: '分享美好倾吐焦虑',
   LocaleKeys.expand: '展开',
   LocaleKeys.collapse: '收起',
