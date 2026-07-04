@@ -47,6 +47,42 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
               );
             },
           ),
+          actions: [
+            GetBuilder<MatchingDetailController>(
+              id: "matching_appbar",
+              builder: (_) {
+                return PopupMenuButton<String>(
+                  icon: IconWidget.svg(
+                    AssetsSvgs.icPostsMoreSvg,
+                    color: controller.isAppBarExpanded
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.w),
+                  ),
+                  onSelected: (value) {
+                    if (value == 'report') {
+                      Loading.toast("举报成功");
+                    } else if (value == 'block') {
+                      Loading.toast("已拉黑");
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: 'report',
+                      child: TextWidget.body("举报"),
+                    ),
+                    PopupMenuItem(
+                      value: 'block',
+                      child: TextWidget.body("拉黑"),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
           flexibleSpace: FlexibleSpaceBar(background: _buildBannerCarousel()),
         ),
 
@@ -283,7 +319,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
       clipBehavior: Clip.antiAlias,
       child: <Widget>[
         TextWidget.muted(
-          "爱情誓言",
+          "人生观念",
           weight: FontWeight.bold,
         ).paddingOnly(bottom: 8.w),
 
@@ -373,7 +409,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
       clipBehavior: Clip.antiAlias,
       child: <Widget>[
         TextWidget.muted(
-          "择偶意向",
+          "职业技能",
           weight: FontWeight.bold,
         ).paddingOnly(bottom: 8.w),
 

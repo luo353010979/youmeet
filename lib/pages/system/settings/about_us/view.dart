@@ -38,6 +38,27 @@ class AboutUsPage extends GetView<AboutUsController> {
                 padding: EdgeInsets.all(5),
                 child: IconWidget.icon(Icons.add, onTap: controller.add),
               ),
+              PopupMenuButton<String>(
+                icon: IconWidget.svg(
+                  AssetsSvgs.icPostsMoreSvg,
+                  color: Colors.black,
+                ),
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.w),
+                ),
+                onSelected: (value) {
+                  if (value == 'logout') {
+                    Loading.toast("注销成功");
+                  }
+                },
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 'logout',
+                    child: TextWidget.body("注销"),
+                  ),
+                ],
+              ),
             ],
           ),
           body: SafeArea(child: _buildView()),

@@ -215,7 +215,9 @@ class MyIndexPage extends GetView<MyIndexController> {
             width: 110.w,
             height: 110.h,
             fit: BoxFit.cover,
-          ).decorated(borderRadius: BorderRadius.circular(8.r), color: Color(0x26F2A3D6));
+          ).decorated(borderRadius: BorderRadius.circular(8.r), color: Color(0x26F2A3D6)).onTap(() {
+            PhotoPreview.show(images, initialIndex: index);
+          });
         }),
       ),
 

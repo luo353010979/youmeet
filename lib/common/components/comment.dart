@@ -33,7 +33,7 @@ class CommentWidget extends StatelessWidget {
               TextWidget.muted(comment.name ?? ""),
               TextWidget.label(
                 comment.trendsContent ?? "",
-              ).paddingVertical(4.h),
+              ).paddingVertical(4.w),
 
               // 时间和回复
               <Widget>[
@@ -55,8 +55,8 @@ class CommentWidget extends StatelessWidget {
                       onReply?.call(comment, str);
                     }
                   },
-                ).tight(width: 32.w, height: 14.h),
-              ].toRow().paddingBottom(12.h),
+                ).tight(width: 32.w, height: 14.w),
+              ].toRow().paddingBottom(12.w),
             ]
             .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
             .paddingHorizontal(8.w)
@@ -101,7 +101,7 @@ class CommentWidget extends StatelessWidget {
                   TextWidget.muted(reply.name ?? ""),
                   TextWidget.label(
                     reply.trendsContent ?? "",
-                  ).paddingVertical(4.h),
+                  ).paddingVertical(4.w),
 
                   // 时间和回复
                   <Widget>[
@@ -123,8 +123,8 @@ class CommentWidget extends StatelessWidget {
                           onReply?.call(reply, str);
                         }
                       },
-                    ).tight(width: 32.w, height: 14.h),
-                  ].toRow().paddingBottom(12.h),
+                    ).tight(width: 32.w, height: 14.w),
+                  ].toRow().paddingBottom(12.w),
                 ]
                 .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
                 .padding(left: 8.w, right: 40.w)

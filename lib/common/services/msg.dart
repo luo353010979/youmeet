@@ -32,11 +32,6 @@ class MsgService extends GetxService {
     WKIM.shared.connectionManager.removeOnConnectionStatus(
       'connectionStatusListener',
     );
-    WKIM.shared.messageManager.removeNewMsgListener('newMsgListener');
-    WKIM.shared.conversationManager.removeOnRefreshMsgListListener(
-      'conversationListener',
-    );
-    WKIM.shared.messageManager.removeOnRefreshMsgListener('refreshMsgListener');
   }
 
   void initWuKongIM() {
@@ -62,36 +57,22 @@ class MsgService extends GetxService {
   }
 
   void initListeners() {
+    // 说明：这里只注册「全局/单例、与后端同步」的监听。
+    // 具体某个聊天页的新消息/发送/分页，放在对应页面的 controller，
+    // 会话列表刷新放 MsgIndexController。
+
     /// 连接状态监听
     WKIM.shared.connectionManager.addOnConnectionStatus(
       "connectionStatusListener",
       _onConnectionStatus,
     );
 
-    /// 会话列表刷新监听
-    WKIM.shared.conversationManager.addOnRefreshMsgListListener(
-      "conversationListener",
-      _onRefreshConversationListener,
-    );
-
-    /// 会话同步监听
+    /// 会话同步监听（初始化时与后端同步会话列表）
     WKIM.shared.conversationManager.addOnSyncConversationListener(
       _onSyncConversationListener,
     );
 
-    /// 新消息监听
-    WKIM.shared.messageManager.addOnNewMsgListener(
-      "newMsgListener",
-      _onNewMsgListener,
-    );
-
-    /// 消息状态监听
-    WKIM.shared.messageManager.addOnRefreshMsgListener(
-      "refreshMsgListener",
-      _onRefreshMsgListener,
-    );
-
-    /// 同步频道消息监听
+    /// 同步频道消息监听（与后端同步历史消息）
     WKIM.shared.messageManager.addOnSyncChannelMsgListener(
       _onSyncChannelMsgListener,
     );
@@ -101,6 +82,7 @@ class MsgService extends GetxService {
       _onUploadAttachmentListener,
     );
 
+    /// 获取频道信息监听
     WKIM.shared.channelManager.addOnGetChannelListener(_onGetChannelListener);
   }
 
@@ -131,12 +113,6 @@ class MsgService extends GetxService {
     }
   }
 
-  /// 会话列表刷新监听回调  ====> 接收方
-  _onRefreshConversationListener(List<WKUIConversationMsg> p1) {
-    // 会话列表有更新，刷新 UI
-    // logger.d('_onRefreshConversationListener   会话列表刷新，当前会话数量: ${p1.length}');
-  }
-
   /// 会话列表同步监听回调  ===>初始化时
   _onSyncConversationListener(
     String lastSsgSeqs,
@@ -153,12 +129,9 @@ class MsgService extends GetxService {
       );
       if (response.success) {
         ret = WKSyncConversationMapper.fromDynamic(response.result);
-        final conversations = ret.conversations ?? [];
 
-        // 获取用户消息并更新至频道信息
-        for(var cov in conversations){
-          getUserMessages(cov.channelID);
-        }
+        // 说明：不在这里对每个会话循环拉用户资料（会造成请求风暴、职责错位）。
+        // 频道的昵称/头像改由 SDK 的按需回调 _onGetChannelListener 解析并缓存。
 
         logger.d(
           '_onSyncConversationListener   会话同步成功: 当前 ${ret.conversations?.length ?? 0} 条会话',
@@ -170,24 +143,6 @@ class MsgService extends GetxService {
     } catch (e) {
       logger.d('_onSyncConversationListener   会话同步异常: $e');
     }
-  }
-
-  /// 新消息监听回调  ====> 接收方
-  _onNewMsgListener(List<WKMsg> p1) {
-
-    p1.forEach((msg) {
-      // 这里可以根据需要刷新聊天列表 UI 或者显示通知等
-    logger.d(
-        '新消息内容: ${msg.content}, 消息ID: ${msg.messageID}, 来自：${msg.getFrom()?.channelName}',
-    );
-    });
-  }
-
-  /// 消息状态刷新监听回调
-  _onRefreshMsgListener(WKMsg p1) {
-    logger.d(
-      '_onRefreshMsgListener   消息状态更新: ${p1.content}, 消息ID: ${p1.messageID}',
-    );
   }
 
   /// 同步频道消息监听回调
@@ -265,35 +220,41 @@ class MsgService extends GetxService {
     );
   }
 
+  /// 频道信息按需获取回调
+  /// SDK 在缺少某个频道(个人频道即对方/自己用户ID)的名称、头像时会回调这里，
+  /// 我们按 channelId 拉后端资料回填并缓存；SDK 会持久化，不会重复请求同一频道。
   _onGetChannelListener(
     String channelId,
     int channelType,
     Function(WKChannel wkChannel) back,
-  ) {
-    WKChannel channel = WKChannel(channelId, channelType);
-    channel.channelName = UserService.to.profile.name ?? "";
-    channel.avatar = UserService.to.profile.portrait ?? "";
+  ) async {
+    final channel = WKChannel(channelId, channelType);
 
-    logger.d("更新成功：${channel.channelName}");
+    // 自己：直接用本地资料，省一次请求
+    if (channelId == UserService.to.profile.id) {
+      channel.channelName = UserService.to.profile.name ?? "";
+      channel.avatar = UserService.to.profile.portrait ?? "";
+      back(channel);
+      return;
+    }
+
+    // 对方：按需拉后端资料并缓存到 userMap
+    try {
+      final response = await UserApi.profile(id: channelId);
+      if (response.success && response.result != null) {
+        final user = response.result!;
+        userMap[channelId] = user;
+        channel.channelName = user.name ?? "";
+        channel.avatar = user.portrait ?? "";
+      } else {
+        logger.d('获取频道用户信息失败: ${response.message}');
+      }
+    } catch (e) {
+      logger.d('获取频道用户信息异常: $e');
+    }
     back(channel);
   }
 
-  Map<String,UserMessage?> userMap = {};
-
-  /// 获取用户消息并更新至频道信息
-  Future getUserMessages(String channelId) async {
-    final response = await UserApi.profile(id: channelId);
-    if (response.success) {
-      final userMessage = response.result;
-      userMap[channelId] = userMessage;
-      WKChannel channel = WKChannel(channelId, WKChannelType.personal);
-      channel.channelName = userMessage?.name ?? '';
-      channel.avatar = userMessage?.portrait ?? '';
-      //更新频道信息
-      WKIM.shared.channelManager.addOrUpdateChannel(channel);
-      logger.d('用户信息更新成功: ${channel.channelName}');
-    }else{
-      logger.d('用户信息更新失败: ${response.message}');
-    }
-  }
+  /// 频道ID(用户ID) -> 用户资料 的缓存，由 _onGetChannelListener 按需填充
+  Map<String, UserMessage?> userMap = {};
 }

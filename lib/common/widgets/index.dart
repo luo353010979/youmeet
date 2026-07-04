@@ -2,6 +2,7 @@ library;
 
 export 'text.dart';
 export 'image.dart';
+export 'photo_preview.dart';
 export 'icon.dart';
 export 'button.dart';
 export 'input.dart';

@@ -76,9 +76,13 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
         if (index < imageCount) {
           // 显示已选择的图片（包括外部传入和内部选择）
           final isHttpImg = allImages[index].contains("http");
-          return isHttpImg
+          final imgWidget = isHttpImg
               ? ImageWidget.img(allImages[index], width: 108.w, height: 108.w, fit: BoxFit.cover, radius: 12)
               : ImageWidget.file(allImages[index], width: 108.w, height: 108.w, fit: BoxFit.cover, radius: 12);
+          // 点击预览（放大缩小、滑动切换）
+          return imgWidget.onTap(() {
+            PhotoPreview.show(allImages, initialIndex: index);
+          });
         } else {
           // 显示上传占位符（只在未满时显示一个）
           return IconWidget.svg(AssetsSvgs.icProfileAdd2Svg, width: 16.w, height: 16.w)

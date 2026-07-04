@@ -1,0 +1,80 @@
+---
+description: youmeet 的 Flutter + GetX 代码约定
+globs: lib/**/*.dart
+alwaysApply: false
+---
+
+# Flutter + GetX 代码约定
+
+## 页面三件套
+每个页面是文件夹，含 `view.dart` / `controller.dart` / `index.dart`：
+
+```dart
+// view.dart
+class XxxPage extends GetView<XxxController> {
+  const XxxPage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<XxxController>(
+      init: XxxController(),
+      id: "xxx",
+      builder: (_) => Scaffold(/* ... */),
+    );
+  }
+}
+
+// index.dart
+library xxx;
+export './controller.dart';
+export './view.dart';
+```
+
+## 局部刷新
+用 `GetBuilder` 的 `id` 做局部刷新，state 变化后 `update(["id"])`：
+
+```dart
+// ✅ GOOD：只刷新按钮
+GetBuilder<LoginController>(id: "login_btn", builder: (c) => ...);
+controller.update(["login_btn"]);
+```
+
+## 网络与 API
+- API 放 `lib/common/api/`，静态方法，走 `WPHttpService.to`，返回 `BaseResponse<T>`
+- 业务封装放 `services/`（`XxxService extends GetxService`，用 `XxxService.to`）
+
+## 文案（禁止硬编码）
+```dart
+// ❌ BAD
+Text("登录");
+// ✅ GOOD
+TextWidget.muted(LocaleKeys.loginSignIn.tr);
+```
+新增文案要同时加到 `i18n/locale_keys.dart`、`locales/locale_zh.dart`、`locale_en.dart`。
+
+## 路由
+```dart
+Get.toNamed(RouteNames.systemLogin);      // 跳转
+Get.offAllNamed(RouteNames.systemMain);   // 清栈跳转
+```
+新页面：在 `routers/names.dart` 加常量 + `routers/pages.dart` 注册 `GetPage`。
+
+## UI / 尺寸
+用 `ducafe_ui_core` 链式 API 和 screenutil（设计稿 375x812）。
+
+**适配只用横向标准**：尺寸（宽、高、间距）统一用 `.w`，字体用 `.sp`。
+- ❌ **禁止用 `.h`**：`.w` 按宽度比例、`.h` 按高度比例，混用会让正方形在长屏设备上被拉成长方形。
+- 需要严格等比的方形/圆形/图标，可用 `.r`（取宽高最小比例，也不形变）。
+
+```dart
+// ✅ GOOD：宽高都用 .w，正方形在任何设备都还是正方形
+SizedBox(width: 100.w, height: 100.w);
+Icon(Icons.add, size: 24.w);
+Text("hi", style: TextStyle(fontSize: 14.sp));
+<Widget>[a, b].toColumn().paddingHorizontal(AppSpace.page);
+
+// ❌ BAD：混用 .w / .h，长屏上会形变
+SizedBox(width: 100.w, height: 100.h);
+```
+
+## 命令
+一律 `fvm flutter ...`（项目用 fvm，禁止裸 `flutter`）。

@@ -86,13 +86,13 @@ class MsgIndexController extends GetxController {
       final lastMsg = await conversation.getWkMsg();
       var cov = MsgConversation.fromUIConversation(conversation: conversation, channel: wkChannel, lastMsg: lastMsg);
 
-      if (msgConversation.isEmpty) {
-        msgConversation.add(cov);
+      // 已存在的会话就更新，不存在（如新的人第一次发消息）就新增；
+      // 用 indexWhere（找不到返回 -1）避免 firstWhere 无匹配时抛 Bad state: No element。
+      final index = msgConversation.indexWhere((e) => e.channelID == conversation.channelID);
+      if (index >= 0) {
+        msgConversation[index] = cov;
       } else {
-        var item = msgConversation.firstWhere((cov) {
-          return cov.channelID == conversation.channelID;
-        });
-        msgConversation[msgConversation.indexOf(item)] = cov;
+        msgConversation.add(cov);
       }
 
       update(["msg_index"]);

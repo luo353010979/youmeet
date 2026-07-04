@@ -2,7 +2,6 @@ import 'package:ducafe_ui_core/ducafe_ui_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
-import 'package:youmeet/pages/index.dart';
 
 class HomeItem extends StatelessWidget {
   const HomeItem({super.key, required this.data});
@@ -84,18 +83,18 @@ class HomeItem extends StatelessWidget {
                   backgroundColor: Color(0x33FF64C8),
                   onTap: () {},
                 ),
-                // ButtonWidget.primary(
-                //   LocaleKeys.sayHi.tr,
-                //   width: 60.w,
-                //   height: 23.h,
-                //   fontSize: 11,
-                //   onTap: () => Get.toNamed(
-                //     RouteNames.msgChat,
-                //     arguments: {"channelId": data.id ?? "", "userMessage": data},
-                //   ),
-                //   textWeight: FontWeight.bold,
-                //   backgroundColor: Color(0xFFFF64C8),
-                // ),
+                ButtonWidget.primary(
+                  LocaleKeys.sayHi.tr,
+                  width: 60.w,
+                  height: 23.h,
+                  fontSize: 11,
+                  onTap: () => Get.toNamed(
+                    RouteNames.msgChat,
+                    arguments: {"channelId": data.id ?? "", "userMessage": data},
+                  ),
+                  textWeight: FontWeight.bold,
+                  backgroundColor: Color(0xFFFF64C8),
+                ),
               ].toRowSpace(space: 8.w),
             ]
             .toColumnSpace(mainAxisAlignment: MainAxisAlignment.center)

@@ -249,7 +249,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
                 fit: BoxFit.cover,
                 radius: 10,
               ).onTap(() {
-                logger.d("点击了图片 ${index + 1}");
+                PhotoPreview.show(images, initialIndex: index);
               });
             }),
           ),

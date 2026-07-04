@@ -1,5 +1,3 @@
-import 'package:wukongimfluttersdk/entity/conversation.dart';
-import 'package:wukongimfluttersdk/entity/msg.dart';
 import 'package:youmeet/common/index.dart';
 
 class MsgApi {
@@ -33,10 +31,13 @@ class MsgApi {
     int? version,
   }) async {
     // 这里可以调用接口获取会话列表，获取完成后调用 WKIM.shared.messageManager.syncConversations 回调传入会话列表
+    // 注意：字段名必须是 lastMsgSeqs（格式 channelID:channelType:last_msg_seq），
+    // 服务器靠它计算每个会话的未读数。之前误写成 lastSsgSeqs，服务器收不到已读位置，
+    // 导致重新登录后未读红点又全部出现。
     final response = await WPHttpService.to.post(
       "/jeecg-boot/api/txs/conversation",
       data: {
-        "lastSsgSeqs": lastSsgSeqs,
+        "lastMsgSeqs": lastSsgSeqs,
         "msgCount": msgCount,
         "version": version,
       },

@@ -1,8 +1,7 @@
 /// 常量
 class Constants {
-  // wp 服务器
-  static const wpApiBaseUrl = 'http://114.66.37.86:8180';
-  static const wkImAddr = '114.66.37.86:5100';
+  static const wpApiBaseUrl = 'http://101.201.227.75:8180';
+  static const wkImAddr = '101.201.227.75:5100';
   static const imgDomain = 'http://t.pic.mooneyu.com/';
 
   // 本地存储key

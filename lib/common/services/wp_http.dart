@@ -164,7 +164,15 @@ class RequestInterceptors extends Interceptor {
       case DioExceptionType.badResponse: // 服务端自定义错误体处理
         {
           final response = err.response;
-          final errorMessage = ErrorMessageModel.fromJson(response?.data);
+          final data = response?.data;
+          // 服务端正常会返回 JSON 错误体；但 404/网关等可能返回 HTML/纯文本，
+          // 此时 data 是 String，直接 fromJson 会抛异常并导致请求 Future 永不结束（Loading 卡死）。
+          final ErrorMessageModel errorMessage = data is Map<String, dynamic>
+              ? ErrorMessageModel.fromJson(data)
+              : ErrorMessageModel(
+                  statusCode: response?.statusCode,
+                  message: '请求失败（${response?.statusCode ?? err.message}）',
+                );
           switch (errorMessage.statusCode) {
             // 401 未登录
             case 401:

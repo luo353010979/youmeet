@@ -129,7 +129,7 @@ class AppTheme {
         scrolledUnderElevation: 0, // 滚动阴影
         elevation: 0, // 阴影
         centerTitle: true, // 标题居中
-        toolbarHeight: 44.h, // 高度
+        toolbarHeight: 44.w, // 高度
         iconTheme: IconThemeData(
           color: scheme.onSurface, // 图标颜色
           size: 24, // 图标大小

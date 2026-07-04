@@ -45,6 +45,9 @@ class ChatController extends GetxController {
 
   bool isFirst = true;
 
+  // 是否显示"新消息"提示气泡（翻看历史时收到新消息且未在底部）
+  final showNewMsgTip = false.obs;
+
   final ScrollController scrollController = ScrollController();
 
   String? get displayRealPic => req.healthPic ?? report.value.healthPic ?? "";
@@ -91,26 +94,98 @@ class ChatController extends GetxController {
     );
 
     scrollController.addListener(_scrollListener);
+
+    // 进入会话即清未读（覆盖非 toChatPage 入口的情况）
+    _clearChannelUnread();
+  }
+
+  /// 清除当前会话未读数（本地红点归零）
+  void _clearChannelUnread() {
+    if (channelId.isEmpty) return;
+    WKIM.shared.conversationManager.updateRedDot(
+      channelId,
+      WKChannelType.personal,
+      0,
+    );
+  }
+
+  @override
+  void onClose() {
+    // 页面关闭时移除本页监听、释放控制器，避免重复插入与内存泄漏
+    WKIM.shared.messageManager.removeNewMsgListener("newMsgListener2");
+    scrollController.removeListener(_scrollListener);
+    scrollController.dispose();
+    refreshController.dispose();
+    super.onClose();
+  }
+
+  /// 消息是否已在列表中（按 clientMsgNO / messageID 去重）
+  bool _exists(WKMsg m) => messages.any(
+        (e) =>
+            (m.clientMsgNO.isNotEmpty && e.clientMsgNO == m.clientMsgNO) ||
+            (m.messageID.isNotEmpty && e.messageID == m.messageID),
+      );
+
+  /// 只接收属于当前会话、且未重复的消息，插到列表头部（配合 reverse:true 显示在底部）
+  void _prependMessages(List<WKMsg> list) {
+    final incoming =
+        list.where((m) => m.channelID == channelId && !_exists(m)).toList();
+    if (incoming.isEmpty) return;
+
+    // 消息在聊天页已被看到，立即清未读，避免返回列表时残留红点
+    _clearChannelUnread();
+
+    // 自己发的消息，或当前已在底部附近 → 直接滚到底；
+    // 否则说明用户正在往上翻历史，不打断，弹出"新消息"提示。
+    final hasSelf = incoming.any((m) => m.fromUID == UserService.to.profile.id);
+    final nearBottom = _isNearBottom();
+
+    messages.insertAll(0, incoming);
+
+    if (hasSelf || nearBottom) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => scrollToBottom());
+    } else {
+      showNewMsgTip.value = true;
+    }
+  }
+
+  /// 是否已滚动到底部附近（底部即最新消息，reverse 布局下为 maxScrollExtent）
+  bool _isNearBottom() {
+    if (!scrollController.hasClients) return true;
+    final pos = scrollController.position;
+    return pos.maxScrollExtent - pos.pixels <= 120;
   }
 
   void _scrollListener() {
     if (!scrollController.hasClients) return;
-    if (scrollController.position.pixels == 0) {
-      _loadHistoryMessages();
+    // 用户手动滑回底部时，收起新消息提示
+    if (_isNearBottom() && showNewMsgTip.value) {
+      showNewMsgTip.value = false;
     }
   }
 
-  void _scrollToBottom() {
-    // 判断是否可以滚动
-    if (scrollController.hasClients) {
-      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+  /// 滚动到底部（最新消息），并收起新消息提示
+  void scrollToBottom({bool animate = true}) {
+    if (!scrollController.hasClients) return;
+    final target = scrollController.position.maxScrollExtent;
+    if (animate) {
+      scrollController.animateTo(
+        target,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOut,
+      );
+    } else {
+      scrollController.jumpTo(target);
     }
+    showNewMsgTip.value = false;
   }
 
   /// 加载数据
   void loadData() async {
     Future.wait([
-          if (userMessage.value.id?.isEmpty == true)
+          // 注意：id 为 null 时 `id?.isEmpty == true` 会得到 false 而漏拉，
+          // 这里显式判断 null/空，保证没带用户信息进来时一定去拉对方资料。
+          if (userMessage.value.id == null || userMessage.value.id!.isEmpty)
             _getUserMessages(channelId),
       _getSafeReport(),
       _loadHistoryMessages(),
@@ -118,7 +193,7 @@ class ChatController extends GetxController {
         .then((v) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (isFirst) {
-              _scrollToBottom();
+              scrollToBottom(animate: false);
               isFirst = false;
             }
           });
@@ -243,46 +318,19 @@ class ChatController extends GetxController {
     }
   }
 
-  /// 消息插入数据库监听回调   ===> 发送方
+  /// 消息插入数据库监听回调   ===> 发送方（自己发的消息）
   _onMsgInserted(WKMsg msg) {
-    logger.d(
-      '_onMsgInserted   消息插入数据库: ${msg.content}, 消息ID: ${msg.messageID}',
-    );
-
-    messages.insert(0, msg);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollToBottom();
-    });
-
-    // 此时可以刷新聊天列表 UI
+    if (isClosed) return;
+    _prependMessages([msg]);
   }
 
-  /// 新消息监听回调  ====> 接收方
+  /// 新消息监听回调  ====> 接收方（收到别人的消息）
   _onNewMsgListener(List<WKMsg> p1) {
-    logger.d(
-      '_onNewMsgListener   收到新消息: ${p1.map((msg) => msg.content).join(", ")}',
-    );
-    messages.insertAll(0, p1);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollToBottom();
-    });
+    if (isClosed) return;
+    _prependMessages(p1);
   }
 
-  void getChannelInfo(String id) async {
-    try {
-      final data = await WKIM.shared.conversationManager.getWithChannel(
-        channelId,
-        WKChannelType.personal,
-      );
-      final channel = await data?.getWkChannel();
-    } catch (e) {
-      logger.d('获取会话列表失败: $e');
-  }
-}
-
-  void onLoad() async{
+  void onLoad() async {
     await Future.delayed(Duration(seconds: 1));
     _loadHistoryMessages();
   }

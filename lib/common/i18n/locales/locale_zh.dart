@@ -48,9 +48,9 @@ Map<String, String> localeZh = {
   LocaleKeys.tabBarProfile: '我的',
 
   // 首页
-  LocaleKeys.certification: '附近认证',
-  LocaleKeys.safeDating: '安全交友',
-  LocaleKeys.reliable: '真实可靠',
+  LocaleKeys.certification: '精英认证',
+  LocaleKeys.safeDating: '安全认证',
+  LocaleKeys.reliable: '真实',
   LocaleKeys.viewNow: '立即查看',
   LocaleKeys.tab_1: '推荐',
   LocaleKeys.tab_2: '同城',
