@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/common/options.dart';
 import 'package:wukongimfluttersdk/entity/channel.dart';
@@ -10,6 +11,10 @@ import 'package:youmeet/common/index.dart';
 
 class MsgService extends GetxService {
   static MsgService get to => Get.find();
+
+  /// 当前正在打开的聊天频道ID（由 ChatController 维护）。
+  /// 用于判断资质申请是否要弹全局审批框：正在该会话内则交给聊天卡片处理。
+  String? activeChannelId;
 
   @override
   void onClose() {
@@ -32,6 +37,7 @@ class MsgService extends GetxService {
     WKIM.shared.connectionManager.removeOnConnectionStatus(
       'connectionStatusListener',
     );
+    WKIM.shared.messageManager.removeNewMsgListener("qualificationGlobal");
   }
 
   void initWuKongIM() {
@@ -84,6 +90,113 @@ class MsgService extends GetxService {
 
     /// 获取频道信息监听
     WKIM.shared.channelManager.addOnGetChannelListener(_onGetChannelListener);
+
+    /// 注册资质查看自定义消息类型
+    WKIM.shared.messageManager.registerMsgContent(
+      kQualificationContentType,
+      (data) => QualificationContent().decodeJson(data),
+    );
+
+    /// 全局资质信令监听：无论在哪个页面都能收到申请并弹审批
+    WKIM.shared.messageManager.addOnNewMsgListener(
+      "qualificationGlobal",
+      _onQualificationSignal,
+    );
+  }
+
+  /// 全局资质信令处理（申请弹审批、同意/拒绝弹 toast）
+  void _onQualificationSignal(List<WKMsg> msgs) {
+    final myId = UserService.to.profile.id;
+    for (final m in msgs) {
+      if (m.contentType != kQualificationContentType) continue;
+      // 忽略自己发出的信令
+      if (m.fromUID == myId) continue;
+      final content = m.messageContent;
+      if (content is! QualificationContent) continue;
+
+      switch (content.action) {
+        case QualificationAction.apply:
+          // 正在该会话页内则交给聊天卡片处理，避免和卡片重复
+          if (activeChannelId == m.channelID) break;
+          _showApplyDialog(m, content);
+          break;
+        case QualificationAction.agree:
+          Loading.toast('对方已同意查看你的资质');
+          break;
+        case QualificationAction.reject:
+          Loading.toast('对方已拒绝');
+          break;
+      }
+    }
+  }
+
+  /// 弹出资质查看审批框
+  void _showApplyDialog(WKMsg msg, QualificationContent content) {
+    final name = content.applicantName.isNotEmpty ? content.applicantName : '对方';
+    Get.dialog(
+      AlertDialog(
+        title: const Text('资质查看申请'),
+        content: Text('$name 申请查看您的${QualificationItem.labels(content.items)}，是否同意？'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.back();
+              respondQualification(msg, content, false);
+            },
+            child: const Text('拒绝'),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.back();
+              respondQualification(msg, content, true);
+            },
+            child: const Text('同意'),
+          ),
+        ],
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+  /// 响应资质申请（同意/拒绝）：同意时先向后端登记授权，再回发信令
+  Future<void> respondQualification(
+    WKMsg msg,
+    QualificationContent content,
+    bool agree,
+  ) async {
+    if (agree) {
+      // TODO(后端对接): 调用授权接口，登记 content.applicantId 可查看当前用户的 content.items
+      // 例如：await UserApi.approveQualification(
+      //   applicantId: content.applicantId, items: content.items);
+    }
+    await sendQualificationSignal(
+      channelId: msg.channelID, // 回给申请方（个人频道ID即对方用户ID）
+      action: agree ? QualificationAction.agree : QualificationAction.reject,
+      reqId: content.reqId,
+      items: content.items,
+      applicantId: content.applicantId,
+      applicantName: content.applicantName,
+    );
+  }
+
+  /// 发送资质查看信令
+  Future<void> sendQualificationSignal({
+    required String channelId,
+    required String action,
+    required String reqId,
+    List<String> items = const [],
+    String? applicantId,
+    String? applicantName,
+  }) async {
+    final content = QualificationContent(
+      action: action,
+      reqId: reqId,
+      items: items,
+      applicantId: applicantId ?? UserService.to.profile.id ?? '',
+      applicantName: applicantName ?? UserService.to.profile.name ?? '',
+    );
+    final channel = WKChannel(channelId, WKChannelType.personal);
+    await WKIM.shared.messageManager.sendMessage(content, channel);
   }
 
   /// 连接状态监听回调
@@ -179,7 +292,7 @@ class MsgService extends GetxService {
 
   /// 附件上传监听回调
   _onUploadAttachmentListener(WKMsg p1, Function(bool p1, WKMsg p2) p2) {
-    logger.d('附件上传: 消息ID=${p1.messageID}, 状态=${p1}');
+    logger.d('附件上传: 消息ID=${p1.messageID}, 状态=$p1');
 
     // 这里可以调用接口上传附件，上传完成后调用 p2 回调传入上传结果和消息对象
   }

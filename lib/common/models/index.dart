@@ -25,3 +25,4 @@ export 'request/send_message_req.dart';
 export 'message_model/message_model.dart';
 export 'message_model/message.dart';
 export 'msg_conversation.dart';
+export 'qualification_content.dart';

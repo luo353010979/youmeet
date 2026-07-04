@@ -31,6 +31,8 @@ class ChatPage extends GetView<ChatController> {
       // itemBuilder 是延迟回调，Obx 不会追踪其中读到的可观察量，
       // 所以对方头像必须在这里读出来再传进去，加载完成后列表才会重建。
       final peerPortrait = controller.userMessage.value.portrait ?? "";
+      // 同步读取资质申请状态快照，注册依赖：状态变化时列表会重建，卡片随之更新。
+      final reqStatus = Map<String, String>.from(controller.reqStatus);
       return EasyRefresh(
         controller: controller.refreshController,
         onLoad: controller.onLoad,
@@ -42,7 +44,7 @@ class ChatPage extends GetView<ChatController> {
           itemCount: controller.messages.length,
           itemBuilder: (context, index) {
             final message = controller.messages[index];
-            return msgWidget(message, peerPortrait);
+            return msgWidget(message, peerPortrait, reqStatus);
           },
           separatorBuilder: (context, index) => SizedBox(height: 24.w),
         ),
@@ -50,7 +52,16 @@ class ChatPage extends GetView<ChatController> {
     });
   }
 
-  Widget msgWidget(WKMsg message, String peerPortrait) {
+  Widget msgWidget(
+    WKMsg message,
+    String peerPortrait,
+    Map<String, String> reqStatus,
+  ) {
+    // 资质查看申请渲染为卡片
+    if (message.contentType == kQualificationContentType) {
+      return _qualificationCard(message, reqStatus);
+    }
+
     // 用 fromUID 判断是不是自己发的（可靠，getFrom() 常为空）
     final isSelf = message.fromUID == UserService.to.profile.id;
     // 自己的消息用自己的头像，对方的用聊天对象头像
@@ -85,6 +96,160 @@ class ChatPage extends GetView<ChatController> {
       textDirection: isSelf ? TextDirection.rtl : TextDirection.ltr,
     );
   }
+
+  /// 资质查看申请卡片（居中系统卡片）
+  Widget _qualificationCard(WKMsg message, Map<String, String> reqStatus) {
+    final content = message.messageContent;
+    if (content is! QualificationContent) return const SizedBox.shrink();
+
+    // fromUID == 自己 → 我是申请方
+    final isSelf = message.fromUID == UserService.to.profile.id;
+    final status = reqStatus[content.reqId] ?? QualificationAction.apply;
+    final itemText = QualificationItem.labels(content.items);
+    final title = isSelf ? "你申请查看对方的$itemText" : "对方申请查看你的$itemText";
+
+    Widget statusArea;
+    switch (status) {
+      case QualificationAction.agree:
+        statusArea = isSelf
+            ? TextWidget.label(
+                "对方已同意，点击查看",
+                color: const Color(0xFFF2A3D6),
+                weight: FontWeight.bold,
+              ).onTap(() => _showPeerReport())
+            : _cardHint("你已同意");
+        break;
+      case QualificationAction.reject:
+        statusArea = _cardHint(isSelf ? "对方已拒绝" : "你已拒绝");
+        break;
+      default: // 待处理
+        statusArea = isSelf
+            ? _cardHint("等待对方处理…")
+            : <Widget>[
+                _pillButton(
+                  "拒绝",
+                  const Color(0xFFE1E1E1),
+                  const Color(0xFF666666),
+                  () => controller.respondQualification(message, content, false),
+                ),
+                8.horizontalSpace,
+                _pillButton(
+                  "同意",
+                  const Color(0xFFF2A3D6),
+                  Colors.white,
+                  () => controller.respondQualification(message, content, true),
+                ),
+              ].toRow(mainAxisSize: MainAxisSize.min);
+    }
+
+    return <Widget>[
+      TextWidget.label(title, weight: FontWeight.bold),
+      10.verticalSpace,
+      statusArea,
+    ].toColumn(crossAxisAlignment: CrossAxisAlignment.start)
+        .paddingSymmetric(horizontal: 14.w, vertical: 12.w)
+        .decorated(color: Colors.white, borderRadius: BorderRadius.circular(10))
+        .constrained(maxWidth: 260.w)
+        .center();
+  }
+
+  /// "申请报告"按钮文案（跟随权限状态）
+  String _reportBtnText(String permission) {
+    switch (permission) {
+      case 'pending':
+        return "等待同意";
+      case QualificationAction.agree:
+        return "已同意";
+      case QualificationAction.reject:
+        return "已拒绝";
+      default:
+        return LocaleKeys.report.tr; // 申请报告
+    }
+  }
+
+  /// 点击"查看"：不再发申请，按当前权限决定展示照片或提示
+  void _onViewTap(String item) {
+    switch (controller.permission.value) {
+      case QualificationAction.agree:
+        _showPeerReport(item);
+        break;
+      case 'pending':
+        Loading.toast('已发送申请，等待对方同意中');
+        break;
+      case QualificationAction.reject:
+        Loading.toast('对方拒绝访问');
+        break;
+      default:
+        Loading.toast('请先点击"申请报告"申请查看权限');
+    }
+  }
+
+  /// 资质卡片类型ID -> 资质项 key
+  String _itemKeyOf(int typeId) {
+    switch (typeId) {
+      case 1:
+        return QualificationItem.health;
+      case 2:
+        return QualificationItem.tax;
+      case 3:
+        return QualificationItem.credit;
+      default:
+        return QualificationItem.health;
+    }
+  }
+
+  Widget _cardHint(String text) =>
+      TextWidget.label(text, color: const Color(0xFF999999));
+
+  Widget _pillButton(String text, Color bg, Color fg, VoidCallback onTap) {
+    return TextWidget.label(text, color: fg, weight: FontWeight.w500)
+        .paddingSymmetric(horizontal: 16.w, vertical: 6.w)
+        .decorated(color: bg, borderRadius: BorderRadius.circular(14))
+        .onTap(onTap);
+  }
+
+  /// 拉取对方资质报告并直接进入全屏图片查看器。
+  /// [tappedItem] 为空时展示全部有图项；不为空时定位到该项（可左右滑动看其他项）。
+  Future<void> _showPeerReport([String? tappedItem]) async {
+    final report = await controller.fetchPeerReport();
+    if (report == null) return;
+
+    final picOf = <String, String?>{
+      QualificationItem.health: report.healthPic,
+      QualificationItem.tax: report.payTaxesPic,
+      QualificationItem.credit: report.creditPic,
+    };
+
+    // 点击具体某项但对方没传该项
+    if (tappedItem != null && (picOf[tappedItem] ?? '').trim().isEmpty) {
+      Loading.toast('对方未上传该项资质');
+      return;
+    }
+
+    const order = [
+      QualificationItem.health,
+      QualificationItem.tax,
+      QualificationItem.credit,
+    ];
+    final images = <String>[];
+    var index = 0;
+    for (final k in order) {
+      final url = (picOf[k] ?? '').trim();
+      if (url.isEmpty) continue;
+      if (tappedItem != null && k == tappedItem) index = images.length;
+      images.add(_normalizeUrl(url));
+    }
+
+    if (images.isEmpty) {
+      Loading.toast('对方未上传资质照片');
+      return;
+    }
+    PhotoPreview.show(images, initialIndex: index);
+  }
+
+  /// 补全图片地址协议头
+  String _normalizeUrl(String url) =>
+      url.startsWith('http') || url.startsWith('//') ? url : 'http://$url';
 
   /// 头像 URL 兜底：portrait 为空/null 时返回空串，避免拼出 http://null 去发起请求
   String _avatarUrl(String? portrait) {
@@ -162,11 +327,11 @@ class ChatPage extends GetView<ChatController> {
                   ),
                 ),
                 child: TextWidget.label(
-                  LocaleKeys.report.tr,
+                  _reportBtnText(controller.permission.value),
                   weight: FontWeight.bold,
                   color: Colors.white,
                 ),
-              ),
+              ).onTap(() => controller.applyReport()),
             ],
           ).tight(height: 44.w),
 
@@ -186,7 +351,7 @@ class ChatPage extends GetView<ChatController> {
                       ),
                       4.verticalSpace,
                       ButtonWidget.primary(
-                        LocaleKeys.check.tr,
+                        "查看",
                         width: 64.w,
                         height: 22.w,
                         fontSize: 11,
@@ -194,7 +359,7 @@ class ChatPage extends GetView<ChatController> {
                         textColor: Color(0xFF666666),
                         backgroundColor: Color(0xFFE1E1E1),
                         onTap: () {
-                          logger.d("申请查看 ${type.title}");
+                          _onViewTap(_itemKeyOf(type.id));
                         },
                       ),
                     ]

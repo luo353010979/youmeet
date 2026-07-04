@@ -26,3 +26,4 @@
 | #011 | 2026-07-03 | bugfix | 修复已读消息返回列表仍显示未读：进聊天页只在 toChatPage 清了一次，页内新到的消息又被 SDK+1；ChatController 新增 _clearChannelUnread，onInit 进入即清、页内每次收到本会话消息再清一次 | - | ⏸ 交用户验收 |
 | #012 | 2026-07-03 | feature | 用户详情页右上角"更多"改为 PopupMenuButton 气泡菜单，含举报/拉黑两项，点击各弹 toast(举报成功/已拉黑)；图标色跟随沉浸头部展开状态 | - | ⏸ 交用户验收 |
 | #013 | 2026-07-03 | feature | 关于我们页 appBar 新增"更多"PopupMenuButton，单项"注销"，点击弹 toast(注销成功) | - | ⏸ 交用户验收 |
+| #014 | 2026-07-04 | feature | 资质查看实时申请-审批：基于 WuKongIM 自定义消息(type=1001)实现 申请/同意/拒绝 实时信令；新增 QualificationContent 模型；MsgService 注册类型+全局审批弹窗+发送信令+授权占位；ChatController 发起申请/状态管理/拉取对方报告；聊天内渲染状态卡片(收方带同意/拒绝按钮)。后端授权接口待对接 | - | ⏸ 待后端字段+验收 |

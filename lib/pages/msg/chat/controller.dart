@@ -38,6 +38,20 @@ class ChatController extends GetxController {
   // 消息列表
   final messages = <WKMsg>[].obs;
 
+  // 资质申请状态：reqId -> 'apply'(待处理) / 'agree' / 'reject'
+  final reqStatus = <String, String>{}.obs;
+
+  // 整份资质报告的权限状态（由历史信令推导）：
+  // '' 未申请 / 'pending' 等待同意 / 'agree' 已同意 / 'reject' 已拒绝
+  final permission = ''.obs;
+
+  // 一次性申请整份报告涉及的资质项
+  static const List<String> allItems = [
+    QualificationItem.health,
+    QualificationItem.tax,
+    QualificationItem.credit,
+  ];
+
   // 历史消息分页参数
   int _oldestOrderSeq = 0;
 
@@ -85,6 +99,9 @@ class ChatController extends GetxController {
       userMessage.value = params["userMessage"] ?? UserMessage();
     }
 
+    // 标记当前打开的会话：资质申请在本会话内时交给聊天卡片处理，不再弹全局框
+    MsgService.to.activeChannelId = channelId;
+
     loadData();
 
     WKIM.shared.messageManager.addOnMsgInsertedListener(_onMsgInserted);
@@ -116,6 +133,9 @@ class ChatController extends GetxController {
     scrollController.removeListener(_scrollListener);
     scrollController.dispose();
     refreshController.dispose();
+    if (MsgService.to.activeChannelId == channelId) {
+      MsgService.to.activeChannelId = null;
+    }
     super.onClose();
   }
 
@@ -132,21 +152,133 @@ class ChatController extends GetxController {
         list.where((m) => m.channelID == channelId && !_exists(m)).toList();
     if (incoming.isEmpty) return;
 
+    // 记录资质信令状态（apply/agree/reject）
+    _recordQualification(incoming);
+
     // 消息在聊天页已被看到，立即清未读，避免返回列表时残留红点
     _clearChannelUnread();
+
+    // 只有申请卡片和普通消息进入可见列表；同意/拒绝仅用于更新状态，不单独成条
+    final visible = incoming.where(_isVisibleMsg).toList();
 
     // 自己发的消息，或当前已在底部附近 → 直接滚到底；
     // 否则说明用户正在往上翻历史，不打断，弹出"新消息"提示。
     final hasSelf = incoming.any((m) => m.fromUID == UserService.to.profile.id);
     final nearBottom = _isNearBottom();
 
-    messages.insertAll(0, incoming);
+    if (visible.isNotEmpty) {
+      messages.insertAll(0, visible);
+    }
+
+    if (visible.isEmpty) return;
 
     if (hasSelf || nearBottom) {
       WidgetsBinding.instance.addPostFrameCallback((_) => scrollToBottom());
     } else {
       showNewMsgTip.value = true;
     }
+  }
+
+  /// 是否为资质信令消息
+  bool _isQualification(WKMsg m) => m.contentType == kQualificationContentType;
+
+  /// 是否在消息列表可见：普通消息与"申请"卡片可见；同意/拒绝不单独显示
+  bool _isVisibleMsg(WKMsg m) {
+    if (!_isQualification(m)) return true;
+    final c = m.messageContent;
+    return c is QualificationContent && c.action == QualificationAction.apply;
+  }
+
+  /// 从消息里提取资质信令，更新 reqId -> 状态
+  void _recordQualification(List<WKMsg> list) {
+    var changed = false;
+    for (final m in list) {
+      if (!_isQualification(m)) continue;
+      final c = m.messageContent;
+      if (c is! QualificationContent || c.reqId.isEmpty) continue;
+      if (c.action == QualificationAction.apply) {
+        reqStatus.putIfAbsent(c.reqId, () => QualificationAction.apply);
+      } else {
+        reqStatus[c.reqId] = c.action; // agree / reject
+      }
+      changed = true;
+    }
+    if (changed) {
+      reqStatus.refresh();
+      _recomputePermission();
+    }
+  }
+
+  /// 从所有信令推导整份报告权限状态。
+  /// 优先级：已同意(终态，随时可看) > 待处理 > 已拒绝 > 未申请。
+  void _recomputePermission() {
+    var hasAgree = false, hasPending = false, hasReject = false;
+    for (final st in reqStatus.values) {
+      if (st == QualificationAction.agree) {
+        hasAgree = true;
+      } else if (st == QualificationAction.reject) {
+        hasReject = true;
+      } else {
+        hasPending = true; // 'apply' = 待处理
+      }
+    }
+    if (hasAgree) {
+      permission.value = QualificationAction.agree;
+    } else if (hasPending) {
+      permission.value = 'pending';
+    } else if (hasReject) {
+      permission.value = QualificationAction.reject;
+    } else {
+      permission.value = '';
+    }
+  }
+
+  /// 发起整份资质报告查看申请（只需申请一次）
+  Future<void> applyReport() async {
+    if (channelId.isEmpty) return;
+    switch (permission.value) {
+      case QualificationAction.agree:
+        return; // 已同意，无需再申请
+      case 'pending':
+        Loading.toast('已发送申请，等待对方同意中');
+        return;
+      case QualificationAction.reject:
+        Loading.toast('对方已拒绝');
+        return;
+    }
+    final reqId =
+        '${UserService.to.profile.id}_${DateTime.now().millisecondsSinceEpoch}';
+    permission.value = 'pending';
+    await MsgService.to.sendQualificationSignal(
+      channelId: channelId,
+      action: QualificationAction.apply,
+      reqId: reqId,
+      items: allItems,
+    );
+    Loading.toast('已发送申请，等待对方处理');
+  }
+
+  /// 响应资质申请（同意/拒绝），供聊天卡片按钮调用
+  Future<void> respondQualification(
+    WKMsg msg,
+    QualificationContent content,
+    bool agree,
+  ) async {
+    reqStatus[content.reqId] =
+        agree ? QualificationAction.agree : QualificationAction.reject;
+    reqStatus.refresh();
+    await MsgService.to.respondQualification(msg, content, agree);
+  }
+
+  /// 拉取对方资质报告（同意后，申请方点击查看时调用）
+  Future<SafeReportModel?> fetchPeerReport() async {
+    // 说明：getSafeReport 已支持按任意 id 查询；能否查看应由后端根据授权校验。
+    final response = await UserApi.getSafeReport(id: channelId);
+    if (response.success) {
+      return response.result;
+    }
+    Loading.error(response.message);
+    return null;
   }
 
   /// 是否已滚动到底部附近（底部即最新消息，reverse 布局下为 maxScrollExtent）
@@ -214,7 +346,8 @@ class ChatController extends GetxController {
         if (msg.isEmpty) return;
         _oldestOrderSeq = msg[0].orderSeq;
 
-        messages.addAll(msg.reversed);
+        _recordQualification(msg);
+        messages.addAll(msg.where(_isVisibleMsg).toList().reversed);
 
         isComplete.value = true;
 
