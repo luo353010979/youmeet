@@ -18,8 +18,11 @@ class TypeModel {
   TypeModel({required this.id, required this.title, required this.icon});
 }
 
-class ChatController extends GetxController {
+class ChatController extends GetxController with WidgetsBindingObserver {
   ChatController();
+
+  // 记录上一次底部 inset（键盘高度），用于判断键盘是弹出还是收起
+  double _lastBottomInset = 0;
 
   EasyRefreshController refreshController = EasyRefreshController(controlFinishLoad: true);
   
@@ -112,8 +115,30 @@ class ChatController extends GetxController {
 
     scrollController.addListener(_scrollListener);
 
+    // 监听键盘弹出/收起，弹出时把最新消息顶上来，避免被输入框/键盘遮挡
+    WidgetsBinding.instance.addObserver(this);
+
     // 进入会话即清未读（覆盖非 toChatPage 入口的情况）
     _clearChannelUnread();
+  }
+
+  /// 系统窗口指标变化（含软键盘弹出/收起）
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    final inset =
+        WidgetsBinding.instance.platformDispatcher.views.first.viewInsets.bottom;
+    // 仅在键盘弹出（底部 inset 变大）时，把消息列表滚到底部展示最新消息。
+    // 键盘动画有过程，maxScrollExtent 逐帧变化，故 postFrame + 延迟各滚一次兜底。
+    if (inset > _lastBottomInset) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => scrollToBottom(animate: false),
+      );
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (!isClosed) scrollToBottom(animate: false);
+      });
+    }
+    _lastBottomInset = inset;
   }
 
   /// 清除当前会话未读数（本地红点归零）
@@ -130,6 +155,7 @@ class ChatController extends GetxController {
   void onClose() {
     // 页面关闭时移除本页监听、释放控制器，避免重复插入与内存泄漏
     WKIM.shared.messageManager.removeNewMsgListener("newMsgListener2");
+    WidgetsBinding.instance.removeObserver(this);
     scrollController.removeListener(_scrollListener);
     scrollController.dispose();
     refreshController.dispose();
@@ -315,10 +341,10 @@ class ChatController extends GetxController {
   /// 加载数据
   void loadData() async {
     Future.wait([
-          // 注意：id 为 null 时 `id?.isEmpty == true` 会得到 false 而漏拉，
-          // 这里显式判断 null/空，保证没带用户信息进来时一定去拉对方资料。
-          if (userMessage.value.id == null || userMessage.value.id!.isEmpty)
-            _getUserMessages(channelId),
+          // 只要有 channelId 就主动拉一次对方资料：
+          // 传进来的 userMessage 只作即时占位，首次进入(还没聊过、频道信息未生成)
+          // 时也能拿到头像/昵称，避免"第一次进聊天没头像、发条消息后才有"的问题。
+          if (channelId.isNotEmpty) _getUserMessages(channelId),
       _getSafeReport(),
       _loadHistoryMessages(),
         ])
@@ -374,8 +400,10 @@ class ChatController extends GetxController {
   /// 获取用户消息并更新至频道信息
   Future<void> _getUserMessages(String channelId) async {
     final response = await UserApi.profile(id: channelId);
-    if (response.success) {
-      userMessage.value = response.result ?? UserMessage();
+    // 拉到才覆盖，拉失败保留传进来的占位数据；同时回写 userMap 供会话列表复用
+    if (response.success && response.result != null) {
+      userMessage.value = response.result!;
+      MsgService.to.userMap[channelId] = response.result!;
     }
   }
 

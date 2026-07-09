@@ -7,17 +7,12 @@ class SplashController extends GetxController {
   /// 跳转页面
   _jumpToPage() {
     // 延迟1秒
-    Future.delayed(const Duration(seconds: 1)).then((_) {
-      // // 是否已打开
-      if (ConfigService.to.isAlreadyOpen) {
-        if (UserService.to.hasToken) {
-          Get.offAllNamed(RouteNames.systemMain);
-        } else {
-          Get.offAllNamed(RouteNames.systemLogin);
-        }
+    Future.delayed(const Duration(seconds: 2)).then((_) {
+      // 引导页暂时移除，直接按登录态跳转；后续需要时恢复 isAlreadyOpen 判断跳欢迎页
+      if (UserService.to.hasToken) {
+        Get.offAllNamed(RouteNames.systemMain);
       } else {
-        // 跳转欢迎页
-        Get.offAllNamed(RouteNames.systemWelcome);
+        Get.offAllNamed(RouteNames.systemLogin);
       }
     });
   }

@@ -75,23 +75,41 @@ class UploadService extends GetxService {
 
   static Stream<String> uploadImagesStream(List<String> imagePaths, String token) {
     final streamController = StreamController<String>();
+
+    // 没有图片时立即结束，避免调用方 await for 永久挂起
+    if (imagePaths.isEmpty) {
+      streamController.close();
+      return streamController.stream;
+    }
+
     int finished = 0;
+    void onSettled() {
+      finished++;
+      if (finished == imagePaths.length) {
+        streamController.close();
+      }
+    }
+
     for (final img in imagePaths) {
-      UploadService.to.upload(
-        img,
-        onProgress: (progress) {},
-        onStatus: (state) {
-          logger.d('上传状态: $state');
-        },
-        onDone: (done) {
-          streamController.add(done.key ?? "");
-          logger.d('上传完成: ${done.key}');
-          finished++;
-          if (finished == imagePaths.length) {
-            streamController.close();
-          }
-        },
-      );
+      UploadService.to
+          .upload(
+            img,
+            onProgress: (progress) {},
+            onStatus: (state) {
+              logger.d('上传状态: $state');
+            },
+            onDone: (done) {
+              streamController.add(done.key ?? "");
+              logger.d('上传完成: ${done.key}');
+            },
+          )
+          .then((response) {
+            // 无论成功或失败都要计数，避免有图片上传失败时永久挂起
+            if (response == null) {
+              logger.d('上传失败: $img');
+            }
+            onSettled();
+          });
     }
     return streamController.stream;
   }

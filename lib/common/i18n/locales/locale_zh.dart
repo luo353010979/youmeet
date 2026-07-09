@@ -17,6 +17,8 @@ Map<String, String> localeZh = {
   LocaleKeys.commonEdit: '编辑',
   LocaleKeys.commonEditPlaceholder: '请输入',
   LocaleKeys.selectLanguage: '选择语言',
+  LocaleKeys.selectCountry: '选择国家',
+  LocaleKeys.searchCountry: '搜索国家或区号',
 
   // 登录、注册 - 通用
   LocaleKeys.loginForgotPassword: '忘记密码?',
@@ -71,7 +73,7 @@ Map<String, String> localeZh = {
   LocaleKeys.search: '请输入关键字搜索',
   LocaleKeys.report: '申请报告',
   LocaleKeys.check: '申请查看',
-  LocaleKeys.loveFourTitle1: '恋爱四项',
+  LocaleKeys.loveFourTitle1: '职业认证',
   LocaleKeys.loveFourTitle2: '个人纳税',
   LocaleKeys.loveFourTitle3: '个人信用',
   LocaleKeys.content: '请输入消息内容',
@@ -118,7 +120,7 @@ Map<String, String> localeZh = {
   LocaleKeys.birth: '生日',
   LocaleKeys.height: '身高',
   LocaleKeys.weight: '体重',
-  LocaleKeys.personalityTags: '个性标签',
+  LocaleKeys.personalityTags: '职业技能',
   LocaleKeys.identityVerification: '身份验证',
   LocaleKeys.man: '男',
   LocaleKeys.woman: '女',

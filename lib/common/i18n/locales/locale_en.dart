@@ -11,6 +11,8 @@ Map<String, String> localeEn = {
   LocaleKeys.commonEdit: 'Edit',
   LocaleKeys.commonEditPlaceholder: 'Please enter',
   LocaleKeys.selectLanguage: 'Select Language',
+  LocaleKeys.selectCountry: 'Select Country',
+  LocaleKeys.searchCountry: 'Search country or code',
   // Login & Register - Common
   LocaleKeys.loginForgotPassword: 'Forgot Password?',
   LocaleKeys.loginSignIn: 'Sign In',

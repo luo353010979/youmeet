@@ -10,16 +10,27 @@ class RegisterIndexPage extends GetView<RegisterIndexController> {
 
   // 主视图
   Widget _buildView(BuildContext context) {
-    return <Widget>[
-      8.verticalSpace,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: <Widget>[
+                8.verticalSpace,
 
-      _buildFormWidget(context),
-      _buildAgree(),
+                _buildFormWidget(context),
+                _buildAgree(),
 
-      Spacer(),
+                Spacer(),
 
-      _buildBtn(),
-    ].toColumn();
+                _buildBtn(),
+              ].toColumn(),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   /// 表单输入

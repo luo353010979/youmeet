@@ -78,7 +78,7 @@ class RegisterIndexController extends GetxController {
   void updateButtonState() {
     isRegisterEnabled =
         phoneController.text.isNotEmpty &&
-        verifyCodeController.text.isNotEmpty &&
+        // verifyCodeController.text.isNotEmpty &&
         passwordController.text.isNotEmpty &&
         confirmPasswordController.text.isNotEmpty &&
         passwordController.text == confirmPasswordController.text;
@@ -106,24 +106,36 @@ class RegisterIndexController extends GetxController {
     update(["gender"]);
   }
 
+  /// 语言编码映射（与后端一致）：0=zh 1=en 2=ja 3=ko 4=de
+  static const Map<String, int> _languageMap = {
+    'zh': 0,
+    'en': 1,
+    'ja': 2,
+    'ko': 3,
+    'de': 4,
+  };
+
   // 注册
   void onRegister() async {
+    final langCode = ConfigService.to.locale.languageCode;
     req.account = phoneController.text;
     req.password = passwordController.text;
+    req.language = _languageMap[langCode] ?? 0;
     req.name = nikenameController.text;
     req.birthday = birthController.text;
-    req.country = countryModel.chinese;
+    req.country = langCode == 'zh'
+        ? (countryModel.chinese ?? countryModel.english)
+        : (countryModel.english ?? countryModel.chinese);
     req.phoneAreaCode = countryModel.phone;
     req.shortEn = countryModel.shortEn;
     req.zoneId = countryModel.zoneId;
 
-    if(req.name?.isEmpty == true){
+    if (req.name?.isEmpty == true) {
       Loading.error("请输入昵称");
       return;
     }
 
-
-    if(req.realPic?.isEmpty == true) {
+    if (req.realPic?.isEmpty == true) {
       Loading.error("请上传实名认证照片");
       return;
     }

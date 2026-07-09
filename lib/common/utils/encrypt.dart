@@ -19,4 +19,14 @@ class EncryptUtil {
     final encrypted = encrypter.encrypt(content, iv: iv);
     return encrypted.base64;
   }
+
+  /// aes解密（失败返回空串）
+  String aesDecode(String base64Content) {
+    if (base64Content.isEmpty) return '';
+    try {
+      return encrypter.decrypt64(base64Content, iv: iv);
+    } catch (e) {
+      return '';
+    }
+  }
 }

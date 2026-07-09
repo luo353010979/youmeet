@@ -452,7 +452,17 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
       backgroundColor: Color(0xFFFF64C8),
       borderRadius: 50,
       elevation: 0,
-      onTap: () {},
+      onTap: () {
+        final user = controller.user;
+        if (user == null) return;
+        Get.toNamed(
+          RouteNames.msgChat,
+          arguments: {
+            "channelId": user.id ?? "",
+            "userMessage": user,
+          },
+        );
+      },
     ).sliverToBoxAdapter().sliverPadding(
       top: 12.w,
       bottom: 30.w,

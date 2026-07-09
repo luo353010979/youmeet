@@ -9,47 +9,60 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
 
   // 主视图
   Widget _buildView(BuildContext context) {
-    return <Widget>[
-          32.verticalSpace,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: <Widget>[
+                    32.verticalSpace,
 
-          TextWidget.h3(
-            "${LocaleKeys.welcome.tr}\n${LocaleKeys.welcomeDesc.tr}",
-            weight: FontWeight.bold,
+                    TextWidget.h3(
+                      "${LocaleKeys.welcome.tr}\n${LocaleKeys.welcomeDesc.tr}",
+                      weight: FontWeight.bold,
+                    ),
+
+                    40.verticalSpace,
+
+                    _buildAvatarWidget(),
+
+                    32.verticalSpace,
+
+                    _buildNickNameWidget(),
+
+                    28.verticalSpace,
+
+                    _buildBirthWidget(),
+
+                    28.verticalSpace,
+
+                    _buildGenderWidget(),
+
+                    Spacer(),
+
+                    ButtonWidget.primary(
+                      LocaleKeys.commonNext.tr,
+                      textWeight: FontWeight.bold,
+                      height: 44.h,
+                      elevation: 0,
+                      borderRadius: 50,
+                      onTap: () {
+                        // 跳转到实名认证
+                        Get.toNamed(
+                          RouteNames.systemRegisterRegisterUploadPicture,
+                        );
+                        // controller.onRegister();
+                      },
+                    ).tight(height: 44.h).paddingBottom(30.h),
+                  ]
+                  .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
+                  .paddingSymmetric(horizontal: 16.w),
+            ),
           ),
-
-          40.verticalSpace,
-
-          _buildAvatarWidget(),
-
-          32.verticalSpace,
-
-          _buildNickNameWidget(),
-
-          28.verticalSpace,
-
-          _buildBirthWidget(),
-
-          28.verticalSpace,
-
-          _buildGenderWidget(),
-
-          Spacer(),
-
-          ButtonWidget.primary(
-            LocaleKeys.commonNext.tr,
-            textWeight: FontWeight.bold,
-            height: 44.h,
-            elevation: 0,
-            borderRadius: 50,
-            onTap: () {
-              // 跳转到实名认证
-              Get.toNamed(RouteNames.systemRegisterRegisterUploadPicture);
-              // controller.onRegister();
-            },
-          ).tight(height: 44.h).paddingBottom(30.h),
-        ]
-        .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
-        .paddingSymmetric(horizontal: 16.w);
+        );
+      },
+    );
   }
 
   Widget _buildAvatarWidget() {

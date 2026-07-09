@@ -121,7 +121,7 @@ class RequestInterceptors extends Interceptor {
       options.headers['X-Access-Token'] = UserService.to.token;
     }
 
-    options.headers['channel'] = "youmeet";
+    options.headers['channel'] = "boaura";
 
     return handler.next(options);
     // 如果你想完成请求并返回一些自定义数据，你可以resolve一个Response对象 `handler.resolve(response)`。

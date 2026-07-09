@@ -15,6 +15,8 @@ class Constants {
 
   static const storageToken = 'token'; // 登录成功后 token
   static const storageProfile = 'profile'; // 用户资料缓存
+  static const storageAccount = 'login_account'; // 缓存的登录账号
+  static const storagePassword = 'login_password'; // 缓存的登录密码(AES 加密)
   static const paramUser = 'param_user'; // 用户详情
 
   static const paramFeed = 'param_feed'; // 动态详情

@@ -24,14 +24,24 @@ class SplashPage extends GetView<SplashController> {
           right: 0,
           child: Column(
             children: [
-              ImageWidget.img(AssetsImages.logoPng, width: 100.w, height: 100.w, fit: BoxFit.cover),
+              ImageWidget.img(
+                AssetsImages.logoPng,
+                width: 100.w,
+                height: 100.w,
+                fit: BoxFit.cover,
+              ),
               10.verticalSpaceFromWidth,
-              TextWidget.body("YouMeet",weight: FontWeight.bold,),
+              TextWidget.body("Boaura", weight: FontWeight.bold),
             ],
           ),
         ),
 
-        Positioned(top: 300, left: 0, right: 0, child: Center(child: TextWidget.h3("启动页占位文本"))),
+        Positioned(
+          top: 300,
+          left: 0,
+          right: 0,
+          child: Center(child: TextWidget.h3("启动页占位文本")),
+        ),
       ],
     );
   }

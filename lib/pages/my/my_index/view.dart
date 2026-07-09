@@ -38,9 +38,14 @@ class MyIndexPage extends GetView<MyIndexController> {
         radius: 50,
       ),
       title: <Widget>[
-        TextWidget.h4(UserService.to.profile.name ?? "", weight: FontWeight.bold).paddingRight(12.w),
+        TextWidget.h4(
+          UserService.to.profile.name ?? "",
+          weight: FontWeight.bold,
+        ).paddingRight(12.w),
         IconWidget.svg(
-          UserService.to.profile.sex == 1 ? AssetsSvgs.icMyGenderBoySvg : AssetsSvgs.icMyGirlSvg,
+              UserService.to.profile.sex == 1
+                  ? AssetsSvgs.icMyGenderBoySvg
+                  : AssetsSvgs.icMyGirlSvg,
               text: "${UserService.to.profile.age}",
               // fontColor: Get.theme.colorScheme.primary,
               size: 10.r,
@@ -50,19 +55,26 @@ class MyIndexPage extends GetView<MyIndexController> {
             .alignCenter()
             .tight(width: 49.w, height: 21.h)
             .decorated(
-              color: Color(UserService.to.profile.sex == 1 ? 0x2616C4FF : 0x26F2A3D6),
+              color: Color(
+                UserService.to.profile.sex == 1 ? 0x2616C4FF : 0x26F2A3D6,
+              ),
               borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: Color(UserService.to.profile.sex == 1 ? 0xFF16C4FF : 0xFFFFA2DE)),
+              border: Border.all(
+                color: Color(
+                  UserService.to.profile.sex == 1 ? 0xFF16C4FF : 0xFFFFA2DE,
+                ),
+              ),
             ),
       ].toRow(),
       subtitle: <Widget>[
-        TextWidget.muted("${UserService.to.profile.concernedNum}粉丝").paddingRight(12.w),
+        TextWidget.muted(
+          "${UserService.to.profile.concernedNum}粉丝",
+        ).paddingRight(12.w),
         TextWidget.muted("${UserService.to.profile.concernNum}关注"),
       ].toRow(),
       onTap: () => controller.toProfileView(),
     ).paddingVertical(16.h);
   }
-  
 
   Widget _buildCounter() {
     return <Widget>[
@@ -75,16 +87,16 @@ class MyIndexPage extends GetView<MyIndexController> {
         keyText: TextWidget.h4("${UserService.to.profile.viewNum}"),
         valueText: TextWidget.muted(LocaleKeys.lookedMe.tr, size: 10),
       ),
-      SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
-      ColumTextWidget(
-        keyText: TextWidget.h4("${UserService.to.profile.likeNum}"),
-        valueText: TextWidget.muted(LocaleKeys.likedMe.tr, size: 10),
-      ),
-      SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
-      ColumTextWidget(
-        keyText: TextWidget.h4("${UserService.to.profile.likedNum}"),
-        valueText: TextWidget.muted(LocaleKeys.likeMe.tr, size: 10),
-      ),
+      // SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
+      // ColumTextWidget(
+      //   keyText: TextWidget.h4("${UserService.to.profile.likeNum}"),
+      //   valueText: TextWidget.muted(LocaleKeys.likedMe.tr, size: 10),
+      // ),
+      // SizedBox(width: 1.w, height: 16.h).backgroundColor(Color(0xFFD9D9D9)),
+      // ColumTextWidget(
+      //   keyText: TextWidget.h4("${UserService.to.profile.likedNum}"),
+      //   valueText: TextWidget.muted(LocaleKeys.likeMe.tr, size: 10),
+      // ),
     ].toRow(mainAxisAlignment: MainAxisAlignment.spaceEvenly).paddingBottom(20.h);
   }
 
@@ -173,13 +185,22 @@ class MyIndexPage extends GetView<MyIndexController> {
   }
 
   Widget _buildPostItem(Feed feed) {
-    List<String> images = feed.pic?.split(",") ?? [];
+    List<String> images = (feed.pic ?? "")
+        .split(",")
+        .where((e) => e.isNotEmpty)
+        .toList();
 
     return <Widget>[
       ListTileWidget(
         backgroundColor: Colors.transparent,
         padding: EdgeInsets.zero,
-        leading: ImageWidget.img("http://${feed.portrait}", width: 36.r, height: 36.r, fit: BoxFit.cover, radius: 50),
+        leading: ImageWidget.img(
+          "http://${feed.portrait}",
+          width: 36.r,
+          height: 36.r,
+          fit: BoxFit.cover,
+          radius: 50,
+        ),
         title: TextWidget.body("${feed.name}"),
         subtitle: TextWidget.muted("${feed.createTime}"),
         // trailing: [
@@ -200,26 +221,35 @@ class MyIndexPage extends GetView<MyIndexController> {
         // ],
       ),
 
-      TextWidget.label("${feed.content}", weight: FontWeight.bold).paddingVertical(8.h),
+      TextWidget.label(
+        "${feed.content}",
+        weight: FontWeight.bold,
+      ).paddingVertical(8.h),
 
-      GridView.count(
-        crossAxisCount: 3,
-        mainAxisSpacing: 6.h,
-        crossAxisSpacing: 6.w,
-        childAspectRatio: 1,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        children: List.generate(images.length, (index) {
-          return ImageWidget.img(
-            images[index],
-            width: 110.w,
-            height: 110.h,
-            fit: BoxFit.cover,
-          ).decorated(borderRadius: BorderRadius.circular(8.r), color: Color(0x26F2A3D6)).onTap(() {
-            PhotoPreview.show(images, initialIndex: index);
-          });
-        }),
-      ),
+      if (images.isNotEmpty)
+        GridView.count(
+          crossAxisCount: 3,
+          mainAxisSpacing: 6.h,
+          crossAxisSpacing: 6.w,
+          childAspectRatio: 1,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          children: List.generate(images.length, (index) {
+            return ImageWidget.img(
+                  images[index],
+                  width: 110.w,
+                  height: 110.h,
+                  fit: BoxFit.cover,
+                )
+                .decorated(
+                  borderRadius: BorderRadius.circular(8.r),
+                  color: Color(0x26F2A3D6),
+                )
+                .onTap(() {
+                  PhotoPreview.show(images, initialIndex: index);
+                });
+          }),
+        ),
 
       // <Widget>[
       //   LikeWidget(),

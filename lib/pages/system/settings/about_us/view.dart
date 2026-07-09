@@ -10,16 +10,20 @@ class AboutUsPage extends GetView<AboutUsController> {
 
   // 主视图
   Widget _buildView() {
-    return Obx(() {
-      return ListView.separated(
-        reverse: true,
-        itemCount: controller.list.length,
-        itemBuilder: (context, index) {
-          return ListTileWidget(title: TextWidget.label(controller.list[index])).tight(height: 50);
-        },
-        separatorBuilder: (context, index) => SizedBox(height: 10),
-      );
-    });
+    return SizedBox.expand(
+      child: <Widget>[
+        ImageWidget.img(
+          AssetsImages.logoPng,
+          width: 96.w,
+          height: 96.w,
+          fit: BoxFit.contain,
+        ),
+        SizedBox(height: 16.w),
+        TextWidget.h4("Boaura", weight: FontWeight.bold),
+        SizedBox(height: 8.w),
+        TextWidget.muted("v${controller.version}"),
+      ].toColumn(mainAxisAlignment: MainAxisAlignment.center),
+    );
   }
 
   @override
@@ -34,10 +38,6 @@ class AboutUsPage extends GetView<AboutUsController> {
             title: "关于我们",
             backgroundColor: Colors.white,
             actions: [
-              Padding(
-                padding: EdgeInsets.all(5),
-                child: IconWidget.icon(Icons.add, onTap: controller.add),
-              ),
               PopupMenuButton<String>(
                 icon: IconWidget.svg(
                   AssetsSvgs.icPostsMoreSvg,

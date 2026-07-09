@@ -65,11 +65,17 @@ class HomeItem extends StatelessWidget {
                 TextWidget.muted(data.country ?? "", weight: FontWeight.bold),
               ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
+              // <Widget>[
+              //   if (data.isRealName == 1) _buildChip(LocaleKeys.tag1.tr),
+              //   if (data.isHealth == 1) _buildChip(LocaleKeys.tag2.tr),
+              //   if (data.isPayTaxes == 1) _buildChip(LocaleKeys.tag3.tr),
+              //   if (data.isCredit == 1) _buildChip(LocaleKeys.tag4.tr),
+              // ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
               <Widget>[
-                if (data.isRealName == 1) _buildChip(LocaleKeys.tag1.tr),
-                if (data.isHealth == 1) _buildChip(LocaleKeys.tag2.tr),
-                if (data.isPayTaxes == 1) _buildChip(LocaleKeys.tag3.tr),
-                if (data.isCredit == 1) _buildChip(LocaleKeys.tag4.tr),
+                _buildChip(LocaleKeys.tag1.tr),
+                _buildChip(LocaleKeys.tag2.tr),
+                _buildChip(LocaleKeys.tag3.tr),
+                _buildChip(LocaleKeys.tag4.tr),
               ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
               <Widget>[
@@ -83,18 +89,22 @@ class HomeItem extends StatelessWidget {
                   backgroundColor: Color(0x33FF64C8),
                   onTap: () {},
                 ),
-                ButtonWidget.primary(
-                  LocaleKeys.sayHi.tr,
-                  width: 60.w,
-                  height: 23.h,
-                  fontSize: 11,
-                  onTap: () => Get.toNamed(
-                    RouteNames.msgChat,
-                    arguments: {"channelId": data.id ?? "", "userMessage": data},
-                  ),
-                  textWeight: FontWeight.bold,
-                  backgroundColor: Color(0xFFFF64C8),
-                ),
+                // 打招呼按钮暂时注释，改为在用户详情页发起打招呼进入聊天
+                // ButtonWidget.primary(
+                //   LocaleKeys.sayHi.tr,
+                //   width: 60.w,
+                //   height: 23.h,
+                //   fontSize: 11,
+                //   onTap: () => Get.toNamed(
+                //     RouteNames.msgChat,
+                //     arguments: {
+                //       "channelId": data.id ?? "",
+                //       "userMessage": data,
+                //     },
+                //   ),
+                //   textWeight: FontWeight.bold,
+                //   backgroundColor: Color(0xFFFF64C8),
+                // ),
               ].toRowSpace(space: 8.w),
             ]
             .toColumnSpace(mainAxisAlignment: MainAxisAlignment.center)

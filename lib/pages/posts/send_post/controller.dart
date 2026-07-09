@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youmeet/common/index.dart';
 import 'package:youmeet/common/services/upload.dart';
+import 'package:youmeet/pages/my/my_index/index.dart';
 
 class SendPostController extends GetxController {
   SendPostController();
@@ -40,26 +41,47 @@ class SendPostController extends GetxController {
   /// 发布动态
   void sendFeed() async {
     String content = contentController.text;
+
+    if (content.trim().isEmpty && imagePaths.isEmpty) {
+      Loading.error("请输入内容或选择图片");
+      return;
+    }
+
     List<String> keys = [];
     final token = UserService.to.token;
     String baseUrl = "http://t.pic.mooneyu.com/";
 
-    await UploadService.to.requestQiniuToken();
+    try {
+      Loading.show();
 
-    await for (final key in UploadService.uploadImagesStream(imagePaths, token)) {
-      keys.add("$baseUrl$key");
-    }
+      await UploadService.to.requestQiniuToken();
 
-    Feed feed = Feed(content: content, pic: keys.join(","));
+      await for (final key in UploadService.uploadImagesStream(
+        imagePaths,
+        token,
+      )) {
+        keys.add("$baseUrl$key");
+      }
 
-    final response = await UserApi.sendFeed(feed);
-    if (response.success) {
-      Loading.success("发布成功");
-      Future.delayed(Duration(seconds: 1), () {
-        Get.back();
-      });
-    } else {
-      logger.d('发布动态失败: ${response.message}');
+      Feed feed = Feed(content: content, pic: keys.join(","));
+
+      final response = await UserApi.sendFeed(feed);
+      if (response.success) {
+        Loading.success("发布成功");
+        // 通知"我的"页面刷新动态列表
+        if (Get.isRegistered<MyIndexController>()) {
+          Get.find<MyIndexController>().fetchMyFeedList();
+        }
+        Future.delayed(Duration(seconds: 1), () {
+          Get.back();
+        });
+      } else {
+        logger.d('发布动态失败: ${response.message}');
+        Loading.error("发布失败，请重试");
+      }
+    } catch (e) {
+      logger.d('发布动态异常: $e');
+      Loading.error("发布失败，请重试");
     }
   }
 

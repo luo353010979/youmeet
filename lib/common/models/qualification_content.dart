@@ -20,7 +20,7 @@ class QualificationItem {
   static String label(String key) {
     switch (key) {
       case health:
-        return '恋爱四项';
+        return '职业认证';
       case tax:
         return '个人纳税';
       case credit:

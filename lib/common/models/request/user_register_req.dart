@@ -21,6 +21,7 @@ class UserRegisterReq {
   String? setBedtime;
   int? sex;
   String? shortEn;
+  int? language;
   String? sleepOnsetDuration;
   String? vcr;
   String? zoneId;
@@ -47,6 +48,7 @@ class UserRegisterReq {
     this.setBedtime,
     this.sex,
     this.shortEn,
+    this.language,
     this.sleepOnsetDuration,
     this.vcr,
     this.zoneId,
@@ -75,6 +77,7 @@ class UserRegisterReq {
       setBedtime: json['setBedtime'] as String?,
       sex: json['sex'] as int?,
       shortEn: json['shortEn'] as String?,
+      language: json['language'] as int?,
       sleepOnsetDuration: json['sleepOnsetDuration'] as String?,
       vcr: json['vcr'] as String?,
       zoneId: json['zoneId'] as String?,
@@ -103,6 +106,7 @@ class UserRegisterReq {
     'setBedtime': setBedtime,
     'sex': sex,
     'shortEn': shortEn,
+    'language': language,
     'sleepOnsetDuration': sleepOnsetDuration,
     'vcr': vcr,
     'zoneId': zoneId,

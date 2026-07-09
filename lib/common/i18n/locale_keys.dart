@@ -16,6 +16,8 @@ class LocaleKeys {
   static const commonEditPlaceholder = 'common_edit_placeholder';
 
   static const selectLanguage = 'select_language';
+  static const selectCountry = 'select_country';
+  static const searchCountry = 'search_country';
 
   // 欢迎页
   static const welcomeOneTitle = 'welcome_one_title';

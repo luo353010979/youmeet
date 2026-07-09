@@ -6,15 +6,11 @@ class LoginController extends GetxController {
   LoginController();
 
   // 用户名
-  TextEditingController usernameController = TextEditingController(
-    text: "17345939400",
-  );
+  TextEditingController usernameController = TextEditingController();
   FocusNode usernameFocusNode = FocusNode();
 
   // 密码
-  TextEditingController passwordController = TextEditingController(
-    text: "353010",
-  );
+  TextEditingController passwordController = TextEditingController();
   FocusNode passwordFocusNode = FocusNode();
 
   bool isLoginEnabled = false;
@@ -23,6 +19,27 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _loadCachedCredentials();
+  }
+
+  /// 读取缓存的账号密码并回填
+  void _loadCachedCredentials() {
+    final account = Storage().getString(Constants.storageAccount);
+    final password = EncryptUtil().aesDecode(
+      Storage().getString(Constants.storagePassword),
+    );
+    if (account.isNotEmpty) usernameController.text = account;
+    if (password.isNotEmpty) passwordController.text = password;
+    updateButtonState();
+  }
+
+  /// 保存账号密码（切换账号时自动覆盖旧的）
+  void _saveCredentials() {
+    Storage().setString(Constants.storageAccount, usernameController.text);
+    Storage().setString(
+      Constants.storagePassword,
+      EncryptUtil().aesEncode(passwordController.text),
+    );
   }
 
   void clearUsername() {
@@ -49,6 +66,7 @@ class LoginController extends GetxController {
 
     bool isLogin = await UserService.to.login(loginReq);
     if (isLogin) {
+      _saveCredentials();
       Get.offAllNamed(RouteNames.systemMain);
     }
   }
