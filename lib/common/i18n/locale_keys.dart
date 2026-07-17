@@ -46,9 +46,11 @@ class LocaleKeys {
   static const loginPassword = 'login_password';
   static const confirmPassword = 'confirm_password';
   static const realGestureTip = 'real_gesture_tip';
+  static const realPersonAuth = 'real_person_auth';
+  static const realAuthDesc = 'real_auth_desc';
   static const welcome = 'Welcome';
   static const welcomeDesc = 'welcomeDesc';
-
+  static const birthday = 'birthday';
 
   // 登录 - back login
   static const usernamePlaceholder = 'username_placeholder';

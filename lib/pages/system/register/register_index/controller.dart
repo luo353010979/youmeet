@@ -225,4 +225,10 @@ class RegisterIndexController extends GetxController {
       Get.snackbar('错误', '选择图片失败，请检查权限设置');
     }
   }
+
+  /// 清除已选真人认证照片，便于重新拍照/选择
+  void clearRealPic() {
+    req.realPic = null;
+    update(["register_upload_picture"]);
+  }
 }

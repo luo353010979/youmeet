@@ -46,7 +46,7 @@ class MyIndexPage extends GetView<MyIndexController> {
               UserService.to.profile.sex == 1
                   ? AssetsSvgs.icMyGenderBoySvg
                   : AssetsSvgs.icMyGirlSvg,
-              text: "${UserService.to.profile.age}",
+              text: _displayAge(),
               // fontColor: Get.theme.colorScheme.primary,
               size: 10.r,
               fontSize: 10,
@@ -74,6 +74,25 @@ class MyIndexPage extends GetView<MyIndexController> {
       ].toRow(),
       onTap: () => controller.toProfileView(),
     ).paddingVertical(16.h);
+  }
+
+  String _displayAge() {
+    final profile = UserService.to.profile;
+    final age = profile.age ?? _ageFromBirthday(profile.birthday);
+    return age?.toString() ?? "";
+  }
+
+  int? _ageFromBirthday(String? birthday) {
+    if (birthday == null || birthday.isEmpty) return null;
+    final date = DateTime.tryParse(birthday);
+    if (date == null) return null;
+    final now = DateTime.now();
+    int age = now.year - date.year;
+    if (now.month < date.month ||
+        (now.month == date.month && now.day < date.day)) {
+      age--;
+    }
+    return age < 0 ? null : age;
   }
 
   Widget _buildCounter() {

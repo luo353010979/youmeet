@@ -15,49 +15,50 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: IntrinsicHeight(
-              child: <Widget>[
-                    32.verticalSpace,
+              child:
+                  <Widget>[
+                        32.verticalSpace,
 
-                    TextWidget.h3(
-                      "${LocaleKeys.welcome.tr}\n${LocaleKeys.welcomeDesc.tr}",
-                      weight: FontWeight.bold,
-                    ),
+                        TextWidget.h3(
+                          "${LocaleKeys.welcome.tr}\n${LocaleKeys.welcomeDesc.tr}",
+                          weight: FontWeight.bold,
+                        ),
 
-                    40.verticalSpace,
+                        40.verticalSpace,
 
-                    _buildAvatarWidget(),
+                        _buildAvatarWidget(),
 
-                    32.verticalSpace,
+                        32.verticalSpace,
 
-                    _buildNickNameWidget(),
+                        _buildNickNameWidget(),
 
-                    28.verticalSpace,
+                        28.verticalSpace,
 
-                    _buildBirthWidget(),
+                        _buildBirthWidget(),
 
-                    28.verticalSpace,
+                        28.verticalSpace,
 
-                    _buildGenderWidget(),
+                        _buildGenderWidget(),
 
-                    Spacer(),
+                        Spacer(),
 
-                    ButtonWidget.primary(
-                      LocaleKeys.commonNext.tr,
-                      textWeight: FontWeight.bold,
-                      height: 44.h,
-                      elevation: 0,
-                      borderRadius: 50,
-                      onTap: () {
-                        // 跳转到实名认证
-                        Get.toNamed(
-                          RouteNames.systemRegisterRegisterUploadPicture,
-                        );
-                        // controller.onRegister();
-                      },
-                    ).tight(height: 44.h).paddingBottom(30.h),
-                  ]
-                  .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
-                  .paddingSymmetric(horizontal: 16.w),
+                        ButtonWidget.primary(
+                          LocaleKeys.commonNext.tr,
+                          textWeight: FontWeight.bold,
+                          height: 44.h,
+                          elevation: 0,
+                          borderRadius: 50,
+                          onTap: () {
+                            // 跳转到实名认证
+                            Get.toNamed(
+                              RouteNames.systemRegisterRegisterUploadPicture,
+                            );
+                            // controller.onRegister();
+                          },
+                        ).tight(height: 44.h).paddingBottom(30.h),
+                      ]
+                      .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
+                      .paddingSymmetric(horizontal: 16.w),
             ),
           ),
         );
@@ -149,7 +150,7 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
             final text = controller.birthController.text;
             final hasValue = text.isNotEmpty;
             return Text(
-              hasValue ? text : "1990-01-01",
+              hasValue ? text : LocaleKeys.birthday.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,

@@ -74,14 +74,14 @@ class RegisterUploadPicturePage extends GetView<RegisterIndexController> {
     return Card(
       child:
           <Widget>[
-                TextWidget.body("真人身份验证", weight: FontWeight.bold),
+                TextWidget.body(LocaleKeys.realPersonAuth.tr, weight: FontWeight.bold),
                 24.verticalSpace,
-                TextWidget.muted("请做出与示例图片中相同的手势。同时，确保您的面部和上半身完全露出。"),
+                TextWidget.muted(LocaleKeys.realAuthDesc.tr),
                 103.verticalSpace,
                 ButtonWidget.primary(
                   width: 180.w,
                   height: 32.h,
-                  "拍照",
+                  LocaleKeys.commonTakePhoto.tr,
                   elevation: 0,
                   borderRadius: 50,
                   onTap: () {
@@ -98,12 +98,37 @@ class RegisterUploadPicturePage extends GetView<RegisterIndexController> {
   }
 
   Widget _buildRealPicWidget() {
-    return ImageWidget.img(
-      "http://${controller.req.realPic}",
+    return SizedBox(
       width: 320.w,
       height: 436.h,
-      fit: BoxFit.cover,
-      radius: 8,
+      child: Stack(
+        children: [
+          ImageWidget.img(
+            "http://${controller.req.realPic}",
+            width: 320.w,
+            height: 436.h,
+            fit: BoxFit.cover,
+            radius: 8,
+          ),
+          Positioned(
+            top: 8.w,
+            right: 8.w,
+            child: GestureDetector(
+              onTap: () => controller.clearRealPic(),
+              child: Container(
+                width: 28.w,
+                height: 28.w,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.45),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.close, size: 18.w, color: Colors.white),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -114,14 +139,14 @@ class RegisterUploadPicturePage extends GetView<RegisterIndexController> {
       builder: (_) {
         return Scaffold(
           appBar: AppBarWidget(
-            title: "实名认证",
+            title: LocaleKeys.realPersonAuth.tr,
             backgroundColor: Colors.white,
             actions: [
               Padding(
                 padding: EdgeInsets.only(right: 16.w),
                 child: Center(
                   child: ButtonWidget.primary(
-                    "保存",
+                    LocaleKeys.commonBottomSave.tr,
                     width: 50.w,
                     height: 25.h,
                     onTap: () {

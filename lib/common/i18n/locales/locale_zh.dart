@@ -36,8 +36,11 @@ Map<String, String> localeZh = {
   LocaleKeys.loginPassword: '登录密码',
   LocaleKeys.confirmPassword: '确认密码',
   LocaleKeys.realGestureTip: '请根据示例图做出相同手势',
+  LocaleKeys.realPersonAuth: '真人认证',
+  LocaleKeys.realAuthDesc: '请做出与示例图片中相同的手势。同时，确保您的面部和上半身完全露出。',
   LocaleKeys.welcome: '欢迎您!',
   LocaleKeys.welcomeDesc: '来填写您的资料吧!',
+  LocaleKeys.birthday: '出生日期',
 
   // 登录
   LocaleKeys.usernamePlaceholder: '请输入账号',

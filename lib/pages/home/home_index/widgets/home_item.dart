@@ -33,18 +33,22 @@ class HomeItem extends StatelessWidget {
               <Widget>[
                 TextWidget.body(data.name ?? "", weight: FontWeight.bold),
                 IconWidget.svg(
-                      AssetsSvgs.icWomanSvg,
+                      data.sex == 1
+                          ? AssetsSvgs.icMyGenderBoySvg
+                          : AssetsSvgs.icMyGirlSvg,
                       text: "${data.age ?? ""}",
-                      fontColor: Colors.white,
                       size: 10.r,
                       fontSize: 10,
                       space: 2.w,
                     )
                     .alignCenter()
-                    .tight(width: 35.w, height: 15.h)
+                    .tight(width: 49.w, height: 21.h)
                     .decorated(
-                      color: Get.theme.colorScheme.primary,
-                      borderRadius: BorderRadius.circular(30),
+                      color: Color(data.sex == 1 ? 0x2616C4FF : 0x26F2A3D6),
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(
+                        color: Color(data.sex == 1 ? 0xFF16C4FF : 0xFFFFA2DE),
+                      ),
                     ),
               ].toRowSpace(space: 6.w),
 

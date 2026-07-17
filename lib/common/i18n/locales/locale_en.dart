@@ -36,8 +36,12 @@ Map<String, String> localeEn = {
   LocaleKeys.loginPassword: 'Login password',
   LocaleKeys.confirmPassword: 'Confirm password',
   LocaleKeys.realGestureTip: 'Please make the same gesture as the example',
+  LocaleKeys.realPersonAuth: 'Real person authentication',
+  LocaleKeys.realAuthDesc:
+      'Please make the same gesture as the example, and make sure your face and upper body are fully visible.',
   LocaleKeys.welcome: 'Welcome!',
   LocaleKeys.welcomeDesc: 'Fill Profile',
+  LocaleKeys.birthday: 'Birthday',
 
   // Login
   LocaleKeys.usernamePlaceholder: 'Please enter account',
