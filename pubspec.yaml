@@ -63,8 +63,10 @@ dependencies:
   encrypt: ^5.0.3
   # 七牛云存储
   qiniu_flutter_sdk: ^0.7.5
-  # 图片选择器
-  image_picker: ^1.2.1
+  # 图片/视频选择器（微信风格）
+  wechat_assets_picker: ^10.1.2
+  # 拍照（wechat_assets_picker 的相机扩展）
+  wechat_camera_picker: ^4.5.0
   # 展开折叠
   expandable: ^5.0.1
   # 位置服务

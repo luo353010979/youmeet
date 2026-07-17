@@ -67,6 +67,9 @@ class ChatController extends GetxController with WidgetsBindingObserver {
 
   final ScrollController scrollController = ScrollController();
 
+  // 输入框控制器（发送后清空文本）
+  final TextEditingController inputController = TextEditingController();
+
   String? get displayRealPic => req.healthPic ?? report.value.healthPic ?? "";
 
   String? get displayPayTaxesPic =>
@@ -158,6 +161,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     scrollController.removeListener(_scrollListener);
     scrollController.dispose();
+    inputController.dispose();
     refreshController.dispose();
     if (MsgService.to.activeChannelId == channelId) {
       MsgService.to.activeChannelId = null;
@@ -469,6 +473,9 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     }
     int channelType = WKChannelType.personal; // 频道类型：个人
     WKChannel channel = WKChannel(targetUID, channelType);
+
+    // 发送后清空输入框
+    inputController.clear();
 
     // 发送消息
     try {

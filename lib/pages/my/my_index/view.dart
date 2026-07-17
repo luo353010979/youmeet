@@ -264,7 +264,11 @@ class MyIndexPage extends GetView<MyIndexController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MyIndexController>(
-      init: Get.find<MyIndexController>(),
+      // 复用已注册的实例；若已被销毁(如从动态页发布后返回，其 lazyPut 实例被回收)则新建，
+      // 避免直接 Get.find 抛「MyIndexController not found」
+      init: Get.isRegistered<MyIndexController>()
+          ? Get.find<MyIndexController>()
+          : Get.put(MyIndexController()),
       id: "my_index",
       builder: (_) {
         return ScaffoldWidget(

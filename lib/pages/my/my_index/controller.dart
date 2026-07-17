@@ -1,15 +1,12 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:youmeet/common/index.dart';
-import 'package:youmeet/common/services/upload.dart';
 
 class MyIndexController extends GetxController {
   MyIndexController();
 
   // late UserMessage userMessage;
   String userAvatar = "t.pic.mooneyu.com/FiHJJ2nmON_UOfP5D8cJf3h9pUrU"; // 用户头像
-  final ImagePicker _picker = ImagePicker();
 
   /// 刷新控制器
   final refreshController = EasyRefreshController(
@@ -46,14 +43,14 @@ class MyIndexController extends GetxController {
   // 选择单张图片
   void pickImage() async {
     try {
-      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        logger.d('选中图片: ${pickedFile.path}');
+      final pickedPath = await MediaPicker.pickSingle(requestType: RequestType.image);
+      if (pickedPath != null) {
+        logger.d('选中图片: $pickedPath');
 
         await UploadService.to.requestQiniuToken();
 
         UploadService.to.upload(
-          pickedFile.path,
+          pickedPath,
           onProgress: (progress) {},
           onStatus: (state) {
             logger.d(state);

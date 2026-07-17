@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:qiniu_flutter_sdk/qiniu_flutter_sdk.dart';
 import 'package:youmeet/common/index.dart' hide Storage;
 
@@ -13,8 +12,6 @@ class UploadService extends GetxService {
 
   final storage = Storage();
   final putController = PutController();
-
-  final ImagePicker _picker = ImagePicker();
 
   QiNiuTokenModel? token;
 
@@ -57,13 +54,13 @@ class UploadService extends GetxService {
 
   /// 选择图片并上传，返回图片 URL
   Future<String?> pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery, maxWidth: 100, maxHeight: 100);
-    if (pickedFile == null) {
+    final pickedPath = await MediaPicker.pickSingle(requestType: RequestType.image);
+    if (pickedPath == null) {
       return null;
     }
 
     await requestQiniuToken();
-    final response = await upload(pickedFile.path, onProgress: (progress) {}, onStatus: (state) {}, onDone: (done) {});
+    final response = await upload(pickedPath, onProgress: (progress) {}, onStatus: (state) {}, onDone: (done) {});
 
     final key = response?.key;
     if (key == null || key.isEmpty) {

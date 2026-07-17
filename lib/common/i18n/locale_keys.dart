@@ -14,6 +14,8 @@ class LocaleKeys {
   static const commonNext = 'common_next';
   static const commonEdit = 'common_edit';
   static const commonEditPlaceholder = 'common_edit_placeholder';
+  static const commonTakePhoto = 'common_take_photo';
+  static const commonChooseFromAlbum = 'common_choose_from_album';
 
   static const selectLanguage = 'select_language';
   static const selectCountry = 'select_country';
@@ -43,6 +45,7 @@ class LocaleKeys {
   static const getVerifyCode = 'get_verify_code';
   static const loginPassword = 'login_password';
   static const confirmPassword = 'confirm_password';
+  static const realGestureTip = 'real_gesture_tip';
   static const welcome = 'Welcome';
   static const welcomeDesc = 'welcomeDesc';
 

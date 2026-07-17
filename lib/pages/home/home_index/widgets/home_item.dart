@@ -87,7 +87,13 @@ class HomeItem extends StatelessWidget {
                   textWeight: FontWeight.bold,
                   borderColor: context.colors.scheme.primary,
                   backgroundColor: Color(0x33FF64C8),
-                  onTap: () {},
+                  onTap: () => Get.toNamed(
+                    RouteNames.msgChat,
+                    arguments: {
+                      "channelId": data.id ?? "",
+                      "userMessage": data,
+                    },
+                  ),
                 ),
                 // 打招呼按钮暂时注释，改为在用户详情页发起打招呼进入聊天
                 // ButtonWidget.primary(

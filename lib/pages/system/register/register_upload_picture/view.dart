@@ -9,15 +9,64 @@ class RegisterUploadPicturePage extends GetView<RegisterIndexController> {
 
   // 主视图
   Widget _buildView() {
-    return Center(
-      child: <Widget>[
-        controller.req.realPic != null && controller.req.realPic!.isNotEmpty
-            ? _buildRealPicWidget()
-            : _takePhotoWidget(),
-        // _takePhotoWidget(),
-        15.verticalSpace,
-        _buildImageWidget(),
-      ].toColumn(crossAxisAlignment: CrossAxisAlignment.center),
+    return SingleChildScrollView(
+      child: Center(
+        child: <Widget>[
+          // 上传/拍照区
+          controller.req.realPic != null && controller.req.realPic!.isNotEmpty
+              ? _buildRealPicWidget()
+              : _takePhotoWidget(),
+          15.verticalSpace,
+          // 固定示例图：引导用户做出相同手势（图内已含说明文案），与是否已拍照无关
+          _buildExampleWidget(),
+        ]
+            .toColumn(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+            )
+            .paddingSymmetric(vertical: 16.h),
+      ),
+    );
+  }
+
+  /// 固定示例图（顶部叠加多语言提示文案）
+  Widget _buildExampleWidget() {
+    return SizedBox(
+      width: 320.w,
+      height: 220.h,
+      child: Stack(
+        children: [
+          ImageWidget.img(
+            AssetsImages.imgExamplePng,
+            width: 320.w,
+            height: 220.h,
+            fit: BoxFit.cover,
+            radius: 8,
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 32.h,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.35),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8.r),
+                  topRight: Radius.circular(8.r),
+                ),
+              ),
+              child: TextWidget.label(
+                LocaleKeys.realGestureTip.tr,
+                size: 12,
+                color: Colors.white,
+                weight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -54,11 +103,8 @@ class RegisterUploadPicturePage extends GetView<RegisterIndexController> {
       width: 320.w,
       height: 436.h,
       fit: BoxFit.cover,
+      radius: 8,
     );
-  }
-
-  Widget _buildImageWidget() {
-    return Container(width: 320.w, height: 220.h, color: Colors.grey[300]);
   }
 
   @override

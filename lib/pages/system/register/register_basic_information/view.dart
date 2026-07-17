@@ -143,24 +143,26 @@ class RegisterBasicInformationPage extends GetView<RegisterIndexController> {
           radius: 0,
         ),
 
-        TextField(
-          controller: controller.birthController,
-          focusNode: controller.birthFocusNode,
-          onTapUpOutside: (event) {
-            controller.birthFocusNode.unfocus();
+        GetBuilder<RegisterIndexController>(
+          id: "birth",
+          builder: (_) {
+            final text = controller.birthController.text;
+            final hasValue = text.isNotEmpty;
+            return Text(
+              hasValue ? text : "1990-01-01",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: hasValue
+                    ? null
+                    : Get.theme.colorScheme.onSurface.withValues(alpha: 0.5),
+              ),
+            );
           },
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(
-            alignLabelWithHint: true,
-            hintText: "1990-01-01",
-            hintStyle: TextStyle(
-              fontSize: 14,
-              color: Get.theme.colorScheme.onSurface.withOpacity(0.5),
-            ),
-            border: InputBorder.none,
-          ),
-        ).tight(width: 126.w).paddingHorizontal(10.w),
+        ).tight(width: 126.w).paddingHorizontal(10.w).onTap(() {
+          controller.pickBirthday(Get.context!);
+        }),
 
         ImageWidget.img(
           AssetsImages.imgEditRightPng,

@@ -35,6 +35,8 @@ class AssetsImages {
   static const imgEditLeftPng = 'assets/images/img_edit_left.png';
   static const imgEditRightPng = 'assets/images/img_edit_right.png';
 
+  static const imgExamplePng = 'assets/images/img_example.png';
+
   static const imgHomeAvaterPng = 'assets/images/img_home_avater.png';
   static const imgHomeCardPng = 'assets/images/img_home_card.png';
   static const imgHomeTipsPng = 'assets/images/img_home_tips.png';

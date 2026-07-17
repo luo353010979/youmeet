@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:youmeet/common/index.dart';
-import 'package:youmeet/common/services/upload.dart';
 
 class RegisterIndexController extends GetxController {
   RegisterIndexController();
@@ -23,8 +22,6 @@ class RegisterIndexController extends GetxController {
 
   final birthController = TextEditingController();
   final birthFocusNode = FocusNode();
-
-  final ImagePicker _picker = ImagePicker();
 
   CountryModel countryModel = CountryModel(
     id: "1",
@@ -115,6 +112,37 @@ class RegisterIndexController extends GetxController {
     'de': 4,
   };
 
+  /// 选择生日（第三方日期选择器）
+  void pickBirthday(BuildContext context) {
+    final now = DateTime.now();
+    final en = Translation.supportedLocales[0];
+    final current =
+        DateTime.tryParse(birthController.text) ?? DateTime(1990, 1, 1);
+
+    DatePicker.showDatePicker(
+      context,
+      showTitleActions: true,
+      minTime: DateTime(1950, 1, 1),
+      maxTime: DateTime(now.year, now.month, now.day),
+      currentTime: current,
+      locale: ConfigService.to.locale.toLanguageTag() == en.toLanguageTag()
+          ? LocaleType.en
+          : LocaleType.zh,
+      onConfirm: (date) {
+        birthController.text = _formatBirthday(date);
+        req.birthday = birthController.text;
+        update(["birth"]);
+      },
+    );
+  }
+
+  String _formatBirthday(DateTime date) {
+    final y = date.year.toString();
+    final m = date.month.toString().padLeft(2, '0');
+    final d = date.day.toString().padLeft(2, '0');
+    return '$y-$m-$d';
+  }
+
   // 注册
   void onRegister() async {
     final langCode = ConfigService.to.locale.languageCode;
@@ -168,12 +196,12 @@ class RegisterIndexController extends GetxController {
   // 选择单张图片
   void pickImage(String type) async {
     try {
-      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
+      final pickedPath = await MediaPicker.pickSingle(requestType: RequestType.image);
+      if (pickedPath != null) {
         await UploadService.to.requestQiniuToken();
 
         UploadService.to.upload(
-          pickedFile.path,
+          pickedPath,
           onProgress: (progress) {},
           onStatus: (state) {},
           onDone: (done) {

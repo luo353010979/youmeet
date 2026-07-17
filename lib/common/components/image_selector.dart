@@ -1,14 +1,20 @@
 import 'package:ducafe_ui_core/ducafe_ui_core.dart';
-import 'package:flutter/widgets.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:youmeet/common/index.dart';
 
 class ImageSelectorWidget extends StatefulWidget {
-  const ImageSelectorWidget({super.key, this.maxImages = 1, this.onImagesSelected, this.images});
+  const ImageSelectorWidget({
+    super.key,
+    this.maxImages = 1,
+    this.onImagesSelected,
+    this.images,
+    this.requestType = RequestType.common,
+  });
 
-  final int? maxImages; // 最大图片数量
-  final Function(List<String>)? onImagesSelected; // 图片选择回调
+  final int? maxImages; // 最大数量
+  final Function(List<String>)? onImagesSelected; // 选择回调
   final List<String>? images; // 外部传入图片
+  final RequestType requestType; // 可选类型：默认图片+视频
 
   @override
   State<ImageSelectorWidget> createState() => _ImageSelectorWidgetState();
@@ -30,30 +36,38 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
     return showPlaceholder ? imageCount + 1 : imageCount;
   }
 
-  final ImagePicker _picker = ImagePicker();
+  static const _videoExts = ['.mp4', '.mov', '.avi', '.mkv', '.wmv', '.flv', '.webm', '.m4v', '.3gp'];
 
-  /// 选择图片
+  bool _isVideo(String path) {
+    final lower = path.toLowerCase();
+    return _videoExts.any((ext) => lower.endsWith(ext));
+  }
+
+  Widget _buildVideoPlaceholder() {
+    return IconWidget.icon(Icons.play_circle_fill, size: 32.w, color: const Color(0xFFFFFFFF))
+        .center()
+        .decorated(
+          color: const Color(0xFF000000),
+          borderRadius: BorderRadius.circular(12.r),
+        )
+        .constrained(width: 108.w, height: 108.w);
+  }
+
+  /// 选择图片/视频
   void pickMultipleImages({int? maxImages}) async {
     try {
-      final remain = maxImages ?? (widget.maxImages ?? 1) - imageCount;
-      if (remain <= 1) {
-        // 只剩1张，调用单选
-        final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-        if (pickedFile != null) {
-          setState(() {
-            selectedImages.add(pickedFile.path);
-          });
-          widget.onImagesSelected?.call(allImages);
-        }
-      } else {
-        // 多选
-        final pickedFiles = await _picker.pickMultiImage(limit: remain);
-        if (pickedFiles.isNotEmpty) {
-          setState(() {
-            selectedImages.addAll(pickedFiles.map((e) => e.path));
-          });
-          widget.onImagesSelected?.call(allImages);
-        }
+      final remain = maxImages ?? ((widget.maxImages ?? 1) - imageCount);
+      if (remain <= 0) return;
+
+      final paths = await MediaPicker.pick(
+        maxCount: remain,
+        requestType: widget.requestType,
+      );
+      if (paths.isNotEmpty) {
+        setState(() {
+          selectedImages.addAll(paths);
+        });
+        widget.onImagesSelected?.call(allImages);
       }
     } catch (e) {
       logger.d('选择图片失败: $e');
@@ -74,14 +88,21 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
       itemCount: totalItems,
       itemBuilder: (context, index) {
         if (index < imageCount) {
+          final path = allImages[index];
+          // 视频：无法直接当图片渲染，展示占位 + 播放图标
+          if (_isVideo(path)) {
+            return _buildVideoPlaceholder();
+          }
           // 显示已选择的图片（包括外部传入和内部选择）
-          final isHttpImg = allImages[index].contains("http");
+          final isHttpImg = path.contains("http");
           final imgWidget = isHttpImg
-              ? ImageWidget.img(allImages[index], width: 108.w, height: 108.w, fit: BoxFit.cover, radius: 12)
-              : ImageWidget.file(allImages[index], width: 108.w, height: 108.w, fit: BoxFit.cover, radius: 12);
-          // 点击预览（放大缩小、滑动切换）
+              ? ImageWidget.img(path, width: 108.w, height: 108.w, fit: BoxFit.cover, radius: 12)
+              : ImageWidget.file(path, width: 108.w, height: 108.w, fit: BoxFit.cover, radius: 12);
+          // 点击预览（放大缩小、滑动切换）——仅图片
           return imgWidget.onTap(() {
-            PhotoPreview.show(allImages, initialIndex: index);
+            final images = allImages.where((e) => !_isVideo(e)).toList();
+            final previewIndex = images.indexOf(path);
+            PhotoPreview.show(images, initialIndex: previewIndex < 0 ? 0 : previewIndex);
           });
         } else {
           // 显示上传占位符（只在未满时显示一个）

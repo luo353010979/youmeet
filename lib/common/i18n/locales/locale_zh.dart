@@ -16,6 +16,8 @@ Map<String, String> localeZh = {
   LocaleKeys.commonNext: '下一页',
   LocaleKeys.commonEdit: '编辑',
   LocaleKeys.commonEditPlaceholder: '请输入',
+  LocaleKeys.commonTakePhoto: '拍照',
+  LocaleKeys.commonChooseFromAlbum: '从相册选择',
   LocaleKeys.selectLanguage: '选择语言',
   LocaleKeys.selectCountry: '选择国家',
   LocaleKeys.searchCountry: '搜索国家或区号',
@@ -33,6 +35,7 @@ Map<String, String> localeZh = {
   LocaleKeys.getVerifyCode: '获取验证码',
   LocaleKeys.loginPassword: '登录密码',
   LocaleKeys.confirmPassword: '确认密码',
+  LocaleKeys.realGestureTip: '请根据示例图做出相同手势',
   LocaleKeys.welcome: '欢迎您!',
   LocaleKeys.welcomeDesc: '来填写您的资料吧!',
 
@@ -64,7 +67,7 @@ Map<String, String> localeZh = {
   LocaleKeys.viewApplication: '申请查看报告',
   LocaleKeys.sayHi: '打招呼',
   LocaleKeys.tag1: '实名',
-  LocaleKeys.tag2: '健康',
+  LocaleKeys.tag2: '职业',
   LocaleKeys.tag3: '纳税',
   LocaleKeys.tag4: '信用',
 

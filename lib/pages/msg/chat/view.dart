@@ -12,16 +12,13 @@ class ChatPage extends GetView<ChatController> {
 
   // 主视图
   Widget _buildView(BuildContext context) {
-    return Obx(() {
-      return CustomScrollView(
-        controller: controller.scrollController,
-        slivers: [
-          if (controller.isComplete.value) _buildUserInfoCard(),
-          if (controller.isComplete.value) _buildUploadCard(),
-          _buildMessageList(),
-        ],
-      );
-    });
+    // 用户信息卡 / 报告上传卡不再依赖历史消息(isComplete)：
+    // 首次进入(没聊过、无历史)时也要展示对方信息与报告卡，
+    // 二者内部各自 Obx，随 userMessage / report 加载完成自动刷新。
+    return CustomScrollView(
+      controller: controller.scrollController,
+      slivers: [_buildUserInfoCard(), _buildUploadCard(), _buildMessageList()],
+    );
   }
 
   /// 消息列表
@@ -130,7 +127,8 @@ class ChatPage extends GetView<ChatController> {
                   "拒绝",
                   const Color(0xFFE1E1E1),
                   const Color(0xFF666666),
-                  () => controller.respondQualification(message, content, false),
+                  () =>
+                      controller.respondQualification(message, content, false),
                 ),
                 8.horizontalSpace,
                 _pillButton(
@@ -143,10 +141,11 @@ class ChatPage extends GetView<ChatController> {
     }
 
     return <Widget>[
-      TextWidget.label(title, weight: FontWeight.bold),
-      10.verticalSpace,
-      statusArea,
-    ].toColumn(crossAxisAlignment: CrossAxisAlignment.start)
+          TextWidget.label(title, weight: FontWeight.bold),
+          10.verticalSpace,
+          statusArea,
+        ]
+        .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
         .paddingSymmetric(horizontal: 14.w, vertical: 12.w)
         .decorated(color: Colors.white, borderRadius: BorderRadius.circular(10))
         .constrained(maxWidth: 260.w)
@@ -287,8 +286,10 @@ class ChatPage extends GetView<ChatController> {
           //   icon: ImageWidget.img(AssetsImages.imgMsgMicophonePng, width: 28.r),
           // ),
           InputWidget(
+            controller: controller.inputController,
             placeholder: LocaleKeys.content.tr,
             borderRadius: BorderRadius.circular(8.w),
+            cleanable: false,
             border: Border.all(color: Color(0xFFF1F1F1), width: 1),
             onSubmitted: (value) => controller.sendMessage(value),
           ).tight(width: 300.w, height: 44.w),
@@ -379,49 +380,53 @@ class ChatPage extends GetView<ChatController> {
   }
 
   Widget _buildUploadCard() {
-    final realPic = controller.displayRealPic;
-    final payTaxesPic = controller.displayPayTaxesPic;
-    final creditPic = controller.displayCreditPic;
+    return Obx(() {
+      final realPic = controller.displayRealPic;
+      final payTaxesPic = controller.displayPayTaxesPic;
+      final creditPic = controller.displayCreditPic;
 
-    return Card(
-          elevation: 4,
-          child:
-              <Widget>[
-                    TextWidget.body(
-                      LocaleKeys.uploadReport.tr,
-                      weight: FontWeight.bold,
-                    ),
+      return Card(
+            elevation: 4,
+            child:
+                <Widget>[
+                      TextWidget.body(
+                        LocaleKeys.uploadReport.tr,
+                        weight: FontWeight.bold,
+                      ),
 
-                    <Widget>[
-                      _buildUploadCell(
-                        LocaleKeys.loveFourTitle1.tr,
-                        1,
-                        realPic,
+                      <Widget>[
+                        _buildUploadCell(
+                          LocaleKeys.loveFourTitle1.tr,
+                          1,
+                          realPic,
+                        ),
+                        _buildUploadCell(
+                          LocaleKeys.loveFourTitle2.tr,
+                          2,
+                          payTaxesPic,
+                        ),
+                        _buildUploadCell(
+                          LocaleKeys.loveFourTitle3.tr,
+                          3,
+                          creditPic,
+                        ),
+                      ].toRow(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       ),
-                      _buildUploadCell(
-                        LocaleKeys.loveFourTitle2.tr,
-                        2,
-                        payTaxesPic,
-                      ),
-                      _buildUploadCell(
-                        LocaleKeys.loveFourTitle3.tr,
-                        3,
-                        creditPic,
-                      ),
-                    ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
 
-                    ButtonWidget.primary(
-                      LocaleKeys.complete.tr,
-                      height: 32.w,
-                      onTap: controller.onComplete,
-                    ),
-                  ]
-                  .toColumn(mainAxisAlignment: MainAxisAlignment.spaceBetween)
-                  .paddingSymmetric(horizontal: 14.w, vertical: 10.w),
-        )
-        .tight(width: 343.w, height: 165.w)
-        .paddingHorizontal(14.w)
-        .sliverToBoxAdapter();
+                      ButtonWidget.primary(
+                        LocaleKeys.complete.tr,
+                        height: 32.w,
+                        onTap: controller.onComplete,
+                      ),
+                    ]
+                    .toColumn(mainAxisAlignment: MainAxisAlignment.spaceBetween)
+                    .paddingSymmetric(horizontal: 14.w, vertical: 10.w),
+          )
+          .tight(width: 343.w, height: 165.w)
+          .paddingHorizontal(14.w)
+          .sliverToBoxAdapter();
+    });
   }
 
   Widget _buildUploadCell(String title, int id, String? imageUrl) {
@@ -481,12 +486,7 @@ class ChatPage extends GetView<ChatController> {
             ),
             child: SafeArea(child: _buildInputBar()),
           ),
-          child: Stack(
-            children: [
-              _buildView(context),
-              _buildNewMsgTip(),
-            ],
-          ),
+          child: Stack(children: [_buildView(context), _buildNewMsgTip()]),
         );
       },
     );
