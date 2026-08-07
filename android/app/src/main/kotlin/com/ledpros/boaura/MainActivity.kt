@@ -1,4 +1,4 @@
-package com.example.youmeet
+package com.ledpros.boaura
 
 import io.flutter.embedding.android.FlutterActivity
 

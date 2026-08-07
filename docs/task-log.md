@@ -48,3 +48,6 @@
 | #029 | 2026-07-17 | chat-bugfix | 修复首次进聊天(无历史消息)不显示对方信息卡/报告上传卡：view._buildView 原来两张卡用 if(isComplete) 门控，而 isComplete 仅在有历史消息时才置 true，导致新会话永不显示(发条消息二次进入才有)。去掉门控让卡片始终显示(内部各自 Obx 随 userMessage/report 加载刷新)；_buildUploadCard 补 Obx 使我的报告加载后能回填。注：ym/queryById(getSafeReport 查我自己报告)后端返回 500「操作失败,null」属后端问题，前端已容错(失败保留空报告，卡片照常显示) | - | ⏸ 交用户验收 |
 | #028 | 2026-07-17 | home-entry | 首页用户卡片(HomeItem)「申请查看报告」按钮(viewApplication)原 onTap 为空，接通跳转聊天页：Get.toNamed(RouteNames.msgChat, arguments:{channelId:data.id, userMessage:data})，与详情页打招呼/聊天页读取格式一致 | - | ⏸ 交用户验收 |
 | #027 | 2026-07-17 | replace-picture | 全量替换 image_picker→wechat_assets_picker：新增统一 MediaPicker(弹「拍照/相册」；拍照用 wechat_camera_picker 仅拍照；相册支持图+视频；返回本地路径)；替换 ImageSelectorWidget(默认图+视频,视频占位)/UploadService.pickImage/RegisterIndexController.pickImage/MyIndexController.pickImage；配置 Android(READ_MEDIA_IMAGES/VIDEO+CAMERA)/iOS 权限；加 i18n(拍照/从相册选择)；移除 image_picker 依赖。pub get+analyze 通过 | - | ⏸ 交用户验收 |
+| #036 | 2026-08-07 | bugfix | 修复 iOS 模拟器 pod install 失败：sensors_plus 要求 iOS 13.0+，项目仍为 12.0；提升 Podfile/project/AppFrameworkInfo 最低版本到 13.0 | - | ✅ 模拟器已成功启动 |
+| #037 | 2026-08-07 | rename-package | 包名改为 com.ledpros.boaura，应用显示名改为 boaura（Android/iOS/macOS/Linux/Windows） | - | ✅ 完成 |
+| #038 | 2026-08-07 | rename-package | 应用显示名首字母大写：boaura → Boaura | - | ✅ 完成 |
