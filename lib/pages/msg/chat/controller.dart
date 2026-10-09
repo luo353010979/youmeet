@@ -270,10 +270,10 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       case QualificationAction.agree:
         return; // 已同意，无需再申请
       case 'pending':
-        Loading.toast('已发送申请，等待对方同意中');
+        Loading.toast(LocaleKeys.applyPending.tr);
         return;
       case QualificationAction.reject:
-        Loading.toast('对方已拒绝');
+        Loading.toast(LocaleKeys.peerRejected.tr);
         return;
     }
     final reqId =
@@ -285,7 +285,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       reqId: reqId,
       items: allItems,
     );
-    Loading.toast('已发送申请，等待对方处理');
+    Loading.toast(LocaleKeys.applyPending.tr);
   }
 
   /// 响应资质申请（同意/拒绝），供聊天卡片按钮调用
@@ -419,13 +419,13 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     if (req.creditPic == null &&
         req.healthPic == null &&
         req.payTaxesPic == null) {
-      Loading.error("请上传完整的报告图片");
+      Loading.error(LocaleKeys.uploadFullReport.tr);
       return;
     }
 
     final response = await UserApi.editReport(req);
     if (response.success) {
-      Loading.success('提交成功');
+      Loading.success(LocaleKeys.submitSuccess.tr);
     } else {
       Loading.error(response.message);
     }

@@ -44,7 +44,7 @@ class PostDetalController extends GetxController {
     final commentReq = CommentReq(pid: feed.id, trendsContent: content);
     final response = await PostApi.addComment(commentReq);
     if (response.success) {
-      Loading.success("评论成功");
+      Loading.success(LocaleKeys.commentSuccess.tr);
       // 刷新数据
       feed.commentNum = (feed.commentNum ?? 0) + 1;
       fetchComments(feed.id ?? '');
@@ -60,7 +60,7 @@ class PostDetalController extends GetxController {
     final commentReq = CommentReq(pid: comment.id, trendsContent: content);
     final response = await PostApi.addComment(commentReq);
     if (response.success) {
-      Loading.success("回复成功");
+      Loading.success(LocaleKeys.replySuccess.tr);
       // 刷新数据
       fetchComments(comment.trendsId ?? '');
       update(["post_detal"]);

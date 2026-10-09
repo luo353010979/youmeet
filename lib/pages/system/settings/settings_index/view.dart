@@ -18,7 +18,7 @@ class SettingsIndexPage extends GetView<SettingsIndexController> {
           <Widget>[
                 ListTileWidget(
                   padding: EdgeInsets.zero,
-                  title: TextWidget.label("消息通知", weight: FontWeight.w500),
+                  title: TextWidget.label(LocaleKeys.messageNotification.tr, weight: FontWeight.w500),
                   trailing: [
                     CupertinoSwitch(
                       value: controller.value1,
@@ -30,7 +30,7 @@ class SettingsIndexPage extends GetView<SettingsIndexController> {
 
                 ListTileWidget(
                   padding: EdgeInsets.zero,
-                  title: TextWidget.label("定位", weight: FontWeight.w500),
+                  title: TextWidget.label(LocaleKeys.locationService.tr, weight: FontWeight.w500),
                   trailing: [
                     CupertinoSwitch(
                       value: controller.value2,
@@ -42,7 +42,7 @@ class SettingsIndexPage extends GetView<SettingsIndexController> {
 
                 ListTileWidget(
                   padding: EdgeInsets.zero,
-                  title: TextWidget.label("个性化推荐", weight: FontWeight.w500),
+                  title: TextWidget.label(LocaleKeys.personalizedRecommendation.tr, weight: FontWeight.w500),
                   trailing: [
                     CupertinoSwitch(
                       value: controller.value3,
@@ -54,7 +54,7 @@ class SettingsIndexPage extends GetView<SettingsIndexController> {
 
                 ListTileWidget(
                   padding: EdgeInsets.zero,
-                  title: TextWidget.label("青少年模式", weight: FontWeight.w500),
+                  title: TextWidget.label(LocaleKeys.teenMode.tr, weight: FontWeight.w500),
                   trailing: [
                     CupertinoSwitch(
                       value: controller.value4,
@@ -66,7 +66,7 @@ class SettingsIndexPage extends GetView<SettingsIndexController> {
 
                 ListTileWidget(
                   padding: EdgeInsets.zero,
-                  title: TextWidget.label("用户协议", weight: FontWeight.w500),
+                  title: TextWidget.label(LocaleKeys.userAgreement.tr, weight: FontWeight.w500),
                   trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
                   onTap: () =>
                       Get.toNamed(RouteNames.systemSettingsUserAgreement),
@@ -74,7 +74,7 @@ class SettingsIndexPage extends GetView<SettingsIndexController> {
 
                 ListTileWidget(
                   padding: EdgeInsets.zero,
-                  title: TextWidget.label("隐私协议", weight: FontWeight.w500),
+                  title: TextWidget.label(LocaleKeys.privacyPolicy.tr, weight: FontWeight.w500),
                   trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
                   onTap: () =>
                       Get.toNamed(RouteNames.systemSettingsPrivacyAgreement),
@@ -82,14 +82,14 @@ class SettingsIndexPage extends GetView<SettingsIndexController> {
 
                 ListTileWidget(
                   padding: EdgeInsets.zero,
-                  title: TextWidget.label("关于我们", weight: FontWeight.w500),
+                  title: TextWidget.label(LocaleKeys.aboutUs.tr, weight: FontWeight.w500),
                   trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
                   onTap: () => Get.toNamed(RouteNames.systemSettingsAboutUs),
                 ).tight(height: 44.h),
 
                 ListTileWidget(
                   padding: EdgeInsets.zero,
-                  title: TextWidget.label("退出登录", weight: FontWeight.w500),
+                  title: TextWidget.label(LocaleKeys.logout.tr, weight: FontWeight.w500),
                   trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
                   onTap: UserService.to.logout,
                 ).tight(height: 44.h),
@@ -107,7 +107,7 @@ class SettingsIndexPage extends GetView<SettingsIndexController> {
       builder: (_) {
         return Scaffold(
           backgroundColor: Color(0xFFF7F7F7),
-          appBar: AppBarWidget(title: "设置", backgroundColor: Colors.white),
+          appBar: AppBarWidget(title: LocaleKeys.settings.tr, backgroundColor: Colors.white),
           body: SafeArea(child: _buildView()),
         );
       },

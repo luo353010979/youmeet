@@ -93,7 +93,7 @@ class PostsIndexController extends GetxController {
     final commentReq = CommentReq(id: record.id, trendsContent: content);
     final response = await PostApi.addComment(commentReq);
     if (response.success) {
-      Loading.show("评论成功");
+      Loading.show(LocaleKeys.commentSuccess.tr);
       // 刷新数据
       record.commentNum = (record.commentNum ?? 0) + 1;
       update(["posts_index"]);

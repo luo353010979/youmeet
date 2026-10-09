@@ -28,7 +28,7 @@ class SendPostPage extends GetView<SendPostController> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.zero,
-                    hintText: "这一刻想法",
+                    hintText: LocaleKeys.postHint.tr,
                     hintStyle: TextStyle(fontSize: 14),
                   ),
                 ),
@@ -55,7 +55,7 @@ class SendPostPage extends GetView<SendPostController> {
         return Scaffold(
           backgroundColor: Color(0xFFF7F7F7),
           appBar: AppBarWidget(
-            title: "发布动态",
+            title: LocaleKeys.sendFeed.tr,
             backgroundColor: Colors.white,
             actions: [
               Padding(

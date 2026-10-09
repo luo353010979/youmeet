@@ -74,7 +74,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
       builder: (_) {
         return <Widget>[
               TextWidget.body(
-                "热门话题",
+                LocaleKeys.hotTopic.tr,
                 weight: FontWeight.bold,
               ).paddingOnly(left: AppSpace.page, top: 10.h, bottom: 10.h),
               ExpandableNotifier(
@@ -105,7 +105,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
                       }
                       return ButtonWidget.text(
                         backgroundColor: Colors.transparent,
-                        "展开",
+                        LocaleKeys.expand.tr,
                         textColor: Color(0xFF999999),
                         icon: IconWidget.svg(
                           AssetsSvgs.icArrowDownSvg,
@@ -124,7 +124,7 @@ class PostsIndexPage extends GetView<PostsIndexController> {
                       if (index == controller.items.length) {
                         return ButtonWidget.text(
                           backgroundColor: Colors.transparent,
-                          "收起",
+                          LocaleKeys.collapse.tr,
                           textColor: Color(0xFF999999),
                           icon: IconWidget.svg(
                             AssetsSvgs.icArrowDownSvg,

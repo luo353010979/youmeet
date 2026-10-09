@@ -68,9 +68,9 @@ class MyIndexPage extends GetView<MyIndexController> {
       ].toRow(),
       subtitle: <Widget>[
         TextWidget.muted(
-          "${UserService.to.profile.concernedNum}粉丝",
+          "${UserService.to.profile.concernedNum}${LocaleKeys.fans.tr}",
         ).paddingRight(12.w),
-        TextWidget.muted("${UserService.to.profile.concernNum}关注"),
+        TextWidget.muted("${UserService.to.profile.concernNum}${LocaleKeys.follow.tr}"),
       ].toRow(),
       onTap: () => controller.toProfileView(),
     ).paddingVertical(16.h);
@@ -124,7 +124,7 @@ class MyIndexPage extends GetView<MyIndexController> {
     List<String> images = UserService.to.profile.pic?.split(",") ?? [];
     return Card(
       child: <Widget>[
-        TextWidget.body("我的形象", weight: FontWeight.bold),
+        TextWidget.body(LocaleKeys.myImage.tr, weight: FontWeight.bold),
 
         12.verticalSpace,
 

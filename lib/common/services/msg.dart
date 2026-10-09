@@ -121,10 +121,10 @@ class MsgService extends GetxService {
           _showApplyDialog(m, content);
           break;
         case QualificationAction.agree:
-          Loading.toast('对方已同意查看你的资质');
+          Loading.toast(LocaleKeys.peerAgreedView.tr);
           break;
         case QualificationAction.reject:
-          Loading.toast('对方已拒绝');
+          Loading.toast(LocaleKeys.peerRejected.tr);
           break;
       }
     }
@@ -132,25 +132,32 @@ class MsgService extends GetxService {
 
   /// 弹出资质查看审批框
   void _showApplyDialog(WKMsg msg, QualificationContent content) {
-    final name = content.applicantName.isNotEmpty ? content.applicantName : '对方';
+    final name = content.applicantName.isNotEmpty
+        ? content.applicantName
+        : LocaleKeys.peer.tr;
     Get.dialog(
       AlertDialog(
-        title: const Text('资质查看申请'),
-        content: Text('$name 申请查看您的${QualificationItem.labels(content.items)}，是否同意？'),
+        title: Text(LocaleKeys.qualifyApplyTitle.tr),
+        content: Text(
+          LocaleKeys.qualifyApplyBody.trParams({
+            'name': name,
+            'items': QualificationItem.labels(content.items),
+          }),
+        ),
         actions: [
           TextButton(
             onPressed: () {
               Get.back();
               respondQualification(msg, content, false);
             },
-            child: const Text('拒绝'),
+            child: Text(LocaleKeys.reject.tr),
           ),
           TextButton(
             onPressed: () {
               Get.back();
               respondQualification(msg, content, true);
             },
-            child: const Text('同意'),
+            child: Text(LocaleKeys.agree.tr),
           ),
         ],
       ),

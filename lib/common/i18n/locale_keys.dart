@@ -143,10 +143,86 @@ class LocaleKeys {
   static const woman = 'woman';
 
   // 设置
+  static const settings = 'settings';
   static const messageNotification = 'message_notification';
   static const locationService = 'location_service';
   static const personalizedRecommendation = 'personalized_recommendation';
   static const teenMode = 'teen_mode';
   static const aboutUs = 'about_us';
   static const logout = 'logout';
+  static const deactivate = 'deactivate';
+  static const deactivateSuccess = 'deactivate_success';
+
+  // 通用提示
+  static const error = 'error';
+  static const requestFailed = 'request_failed';
+  static const pickImageFailed = 'pick_image_failed';
+  static const noMore = 'no_more';
+  static const unknown = 'unknown';
+  static const langZh = 'lang_zh';
+  static const verified = 'verified';
+
+  // 匹配详情
+  static const matchingDetail = 'matching_detail';
+  static const reportUser = 'report_user';
+  static const reportSuccess = 'report_success';
+  static const block = 'block';
+  static const blocked = 'blocked';
+  static const online = 'online';
+  static const education = 'education';
+  static const job = 'job';
+  static const income = 'income';
+  static const hometown = 'hometown';
+  static const buyCar = 'buy_car';
+  static const buyHouse = 'buy_house';
+  static const notBought = 'not_bought';
+  static const bought = 'bought';
+  static const lifeView = 'life_view';
+  static const hobbies = 'hobbies';
+  static const emotionalHistory = 'emotional_history';
+
+  // 注册校验
+  static const agreePrivacyFirst = 'agree_privacy_first';
+  static const enterNickname = 'enter_nickname';
+  static const uploadAuthPhoto = 'upload_auth_photo';
+
+  // 发布/评论
+  static const postHint = 'post_hint';
+  static const enterContentOrImage = 'enter_content_or_image';
+  static const postSuccess = 'post_success';
+  static const postFailed = 'post_failed';
+  static const commentSuccess = 'comment_success';
+  static const replySuccess = 'reply_success';
+  static const writeComment = 'write_comment';
+
+  // 资质/聊天
+  static const qualifyInfo = 'qualify_info';
+  static const applyViewPeer = 'apply_view_peer';
+  static const applyViewMine = 'apply_view_mine';
+  static const peerAgreedTap = 'peer_agreed_tap';
+  static const youAgreed = 'you_agreed';
+  static const peerRejected = 'peer_rejected';
+  static const youRejected = 'you_rejected';
+  static const waitingPeer = 'waiting_peer';
+  static const reject = 'reject';
+  static const agree = 'agree_action';
+  static const waitingAgree = 'waiting_agree';
+  static const agreed = 'agreed';
+  static const rejected = 'rejected';
+  static const applyPending = 'apply_pending';
+  static const peerDeniedAccess = 'peer_denied_access';
+  static const applyFirst = 'apply_first';
+  static const peerNoItem = 'peer_no_item';
+  static const peerNoPhotos = 'peer_no_photos';
+  static const newMessages = 'new_messages';
+  static const uploadFullReport = 'upload_full_report';
+  static const submitSuccess = 'submit_success';
+  static const peerAgreedView = 'peer_agreed_view';
+  static const peer = 'peer';
+  static const qualifyApplyTitle = 'qualify_apply_title';
+  static const qualifyApplyBody = 'qualify_apply_body';
+  static const msgQualifyApply = 'msg_qualify_apply';
+  static const msgQualifyAgree = 'msg_qualify_agree';
+  static const msgQualifyReject = 'msg_qualify_reject';
+  static const msgQualify = 'msg_qualify';
 }

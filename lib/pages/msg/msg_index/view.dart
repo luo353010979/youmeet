@@ -49,7 +49,7 @@ class MsgIndexPage extends GetView<MsgIndexController> {
     final channel = conversation.wkChannel;
     final msg = conversation.wkMsg;
 
-    String title = channel?.channelName ?? '未知';
+    String title = channel?.channelName ?? LocaleKeys.unknown.tr;
     String avatar = channel?.avatar.isNotEmpty == true
         ? 'http://${channel?.avatar}'
         : '';

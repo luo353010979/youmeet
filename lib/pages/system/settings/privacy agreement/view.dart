@@ -24,7 +24,7 @@ class PrivacyAgreementPage extends GetView<PrivacyAgreementController> {
       builder: (_) {
         return Scaffold(
           backgroundColor: Color(0xFFF7F7F7),
-          appBar: AppBarWidget(title: "隐私协议", backgroundColor: Colors.white),
+          appBar: AppBarWidget(title: LocaleKeys.privacyPolicy.tr, backgroundColor: Colors.white),
           body: SafeArea(child: _buildView()),
         );
       },

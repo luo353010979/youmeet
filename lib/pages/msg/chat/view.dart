@@ -103,28 +103,30 @@ class ChatPage extends GetView<ChatController> {
     final isSelf = message.fromUID == UserService.to.profile.id;
     final status = reqStatus[content.reqId] ?? QualificationAction.apply;
     final itemText = QualificationItem.labels(content.items);
-    final title = isSelf ? "你申请查看对方的$itemText" : "对方申请查看你的$itemText";
+    final title = isSelf
+        ? LocaleKeys.applyViewPeer.trParams({'item': itemText})
+        : LocaleKeys.applyViewMine.trParams({'item': itemText});
 
     Widget statusArea;
     switch (status) {
       case QualificationAction.agree:
         statusArea = isSelf
             ? TextWidget.label(
-                "对方已同意，点击查看",
+                LocaleKeys.peerAgreedTap.tr,
                 color: const Color(0xFFF2A3D6),
                 weight: FontWeight.bold,
               ).onTap(() => _showPeerReport())
-            : _cardHint("你已同意");
+            : _cardHint(LocaleKeys.youAgreed.tr);
         break;
       case QualificationAction.reject:
-        statusArea = _cardHint(isSelf ? "对方已拒绝" : "你已拒绝");
+        statusArea = _cardHint(isSelf ? LocaleKeys.peerRejected.tr : LocaleKeys.youRejected.tr);
         break;
       default: // 待处理
         statusArea = isSelf
-            ? _cardHint("等待对方处理…")
+            ? _cardHint(LocaleKeys.waitingPeer.tr)
             : <Widget>[
                 _pillButton(
-                  "拒绝",
+                  LocaleKeys.reject.tr,
                   const Color(0xFFE1E1E1),
                   const Color(0xFF666666),
                   () =>
@@ -132,7 +134,7 @@ class ChatPage extends GetView<ChatController> {
                 ),
                 8.horizontalSpace,
                 _pillButton(
-                  "同意",
+                  LocaleKeys.agree.tr,
                   const Color(0xFFF2A3D6),
                   Colors.white,
                   () => controller.respondQualification(message, content, true),
@@ -156,11 +158,11 @@ class ChatPage extends GetView<ChatController> {
   String _reportBtnText(String permission) {
     switch (permission) {
       case 'pending':
-        return "等待同意";
+        return LocaleKeys.waitingAgree.tr;
       case QualificationAction.agree:
-        return "已同意";
+        return LocaleKeys.agreed.tr;
       case QualificationAction.reject:
-        return "已拒绝";
+        return LocaleKeys.rejected.tr;
       default:
         return LocaleKeys.report.tr; // 申请报告
     }
@@ -173,13 +175,13 @@ class ChatPage extends GetView<ChatController> {
         _showPeerReport(item);
         break;
       case 'pending':
-        Loading.toast('已发送申请，等待对方同意中');
+        Loading.toast(LocaleKeys.applyPending.tr);
         break;
       case QualificationAction.reject:
-        Loading.toast('对方拒绝访问');
+        Loading.toast(LocaleKeys.peerDeniedAccess.tr);
         break;
       default:
-        Loading.toast('请先点击"申请报告"申请查看权限');
+        Loading.toast(LocaleKeys.applyFirst.tr);
     }
   }
 
@@ -221,7 +223,7 @@ class ChatPage extends GetView<ChatController> {
 
     // 点击具体某项但对方没传该项
     if (tappedItem != null && (picOf[tappedItem] ?? '').trim().isEmpty) {
-      Loading.toast('对方未上传该项资质');
+      Loading.toast(LocaleKeys.peerNoItem.tr);
       return;
     }
 
@@ -240,7 +242,7 @@ class ChatPage extends GetView<ChatController> {
     }
 
     if (images.isEmpty) {
-      Loading.toast('对方未上传资质照片');
+      Loading.toast(LocaleKeys.peerNoPhotos.tr);
       return;
     }
     PhotoPreview.show(images, initialIndex: index);
@@ -352,7 +354,7 @@ class ChatPage extends GetView<ChatController> {
                       ),
                       4.verticalSpace,
                       ButtonWidget.primary(
-                        "查看",
+                        LocaleKeys.check.tr,
                         width: 64.w,
                         height: 22.w,
                         fontSize: 11,
@@ -510,7 +512,7 @@ class ChatPage extends GetView<ChatController> {
                     ),
                     4.horizontalSpace,
                     TextWidget.label(
-                      "新消息",
+                      LocaleKeys.newMessages.tr,
                       color: const Color(0xFF666666),
                       weight: FontWeight.w500,
                     ),

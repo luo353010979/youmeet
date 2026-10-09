@@ -25,7 +25,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
             id: "matching_appbar",
             builder: (_) {
               return TextWidget.body(
-                "匹配详情",
+                LocaleKeys.matchingDetail.tr,
                 weight: FontWeight.bold,
                 color: controller.isAppBarExpanded
                     ? Colors.transparent
@@ -64,19 +64,19 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
                   ),
                   onSelected: (value) {
                     if (value == 'report') {
-                      Loading.toast("举报成功");
+                      Loading.toast(LocaleKeys.reportSuccess.tr);
                     } else if (value == 'block') {
-                      Loading.toast("已拉黑");
+                      Loading.toast(LocaleKeys.blocked.tr);
                     }
                   },
                   itemBuilder: (context) => [
                     PopupMenuItem(
                       value: 'report',
-                      child: TextWidget.body("举报"),
+                      child: TextWidget.body(LocaleKeys.reportUser.tr),
                     ),
                     PopupMenuItem(
                       value: 'block',
-                      child: TextWidget.body("拉黑"),
+                      child: TextWidget.body(LocaleKeys.block.tr),
                     ),
                   ],
                 );
@@ -161,7 +161,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
         title: <Widget>[
           TextWidget.body(controller.user?.name ?? "", weight: FontWeight.bold),
 
-          TextWidget.label("● 在线", color: Color(0xFF92D21A), size: 10),
+          TextWidget.label("● ${LocaleKeys.online.tr}", color: Color(0xFF92D21A), size: 10),
 
           IconWidget.svg(
                 controller.user?.sex == 1
@@ -234,7 +234,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
         children: [
           ColumTextWidget(
             spacing: 4.w,
-            keyText: TextWidget.muted("身高", size: 10),
+            keyText: TextWidget.muted(LocaleKeys.height.tr, size: 10),
             valueText: TextWidget.label(
               "${controller.user?.weight ?? "- -"}",
               weight: FontWeight.bold,
@@ -242,7 +242,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
           ),
           ColumTextWidget(
             spacing: 4.w,
-            keyText: TextWidget.muted("体重", size: 10),
+            keyText: TextWidget.muted(LocaleKeys.weight.tr, size: 10),
             valueText: TextWidget.label(
               "${controller.user?.weight ?? "- -"}",
               weight: FontWeight.bold,
@@ -250,7 +250,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
           ),
           ColumTextWidget(
             spacing: 4.w,
-            keyText: TextWidget.muted("学历", size: 10),
+            keyText: TextWidget.muted(LocaleKeys.education.tr, size: 10),
             valueText: TextWidget.label(
               controller.user?.education ?? "- -",
               weight: FontWeight.bold,
@@ -258,7 +258,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
           ),
           ColumTextWidget(
             spacing: 4.w,
-            keyText: TextWidget.muted("职业", size: 10),
+            keyText: TextWidget.muted(LocaleKeys.job.tr, size: 10),
             valueText: TextWidget.label(
               controller.user?.job ?? "- -",
               weight: FontWeight.bold,
@@ -267,7 +267,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
 
           ColumTextWidget(
             spacing: 4.w,
-            keyText: TextWidget.muted("收入", size: 10),
+            keyText: TextWidget.muted(LocaleKeys.income.tr, size: 10),
             valueText: TextWidget.label(
               "${controller.user?.income ?? "- -"}",
               weight: FontWeight.bold,
@@ -276,12 +276,12 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
 
           ColumTextWidget(
             spacing: 4.w,
-            keyText: TextWidget.muted("家乡", size: 10),
+            keyText: TextWidget.muted(LocaleKeys.hometown.tr, size: 10),
             valueText: TextWidget.label(controller.user?.country ?? "- -", weight: FontWeight.bold),
           ),
           ColumTextWidget(
             spacing: 4.w,
-            keyText: TextWidget.muted("购车", size: 10),
+            keyText: TextWidget.muted(LocaleKeys.buyCar.tr, size: 10),
             valueText: TextWidget.label(
               parseBuy(controller.user?.buyCar),
               weight: FontWeight.bold,
@@ -289,7 +289,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
           ),
           ColumTextWidget(
             spacing: 4.w,
-            keyText: TextWidget.muted("购房", size: 10),
+            keyText: TextWidget.muted(LocaleKeys.buyHouse.tr, size: 10),
             valueText: TextWidget.label(
               parseBuy(controller.user?.buyHouse),
               weight: FontWeight.bold,
@@ -304,9 +304,9 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
     if (buy == null) return "- -";
     switch (buy) {
       case 0:
-        return "未购";
+        return LocaleKeys.notBought.tr;
       case 1:
-        return "已购";
+        return LocaleKeys.bought.tr;
       default:
         return "- -";
     }
@@ -319,7 +319,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
       clipBehavior: Clip.antiAlias,
       child: <Widget>[
         TextWidget.muted(
-          "人生观念",
+          LocaleKeys.lifeView.tr,
           weight: FontWeight.bold,
         ).paddingOnly(bottom: 8.w),
 
@@ -329,7 +329,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
         ).paddingOnly(bottom: 12.w),
 
         TextWidget.muted(
-          "兴趣爱好",
+          LocaleKeys.hobbies.tr,
           weight: FontWeight.bold,
         ).paddingOnly(bottom: 8.w),
 
@@ -409,7 +409,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
       clipBehavior: Clip.antiAlias,
       child: <Widget>[
         TextWidget.muted(
-          "职业技能",
+          LocaleKeys.personalityTags.tr,
           weight: FontWeight.bold,
         ).paddingOnly(bottom: 8.w),
 
@@ -432,7 +432,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
                   .paddingOnly(bottom: 12.w),
 
         TextWidget.muted(
-          "情感史",
+          LocaleKeys.emotionalHistory.tr,
           weight: FontWeight.bold,
         ).paddingOnly(bottom: 8.w),
 
@@ -446,7 +446,7 @@ class MatchingDetailPage extends GetView<MatchingDetailController> {
 
   Widget _buildButton() {
     return ButtonWidget.primary(
-      "打招呼",
+      LocaleKeys.sayHi.tr,
       icon: IconWidget.svg(AssetsSvgs.icChatSvg, size: 16.w),
       reverse: true,
       backgroundColor: Color(0xFFFF64C8),

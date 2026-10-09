@@ -1,4 +1,6 @@
+import 'package:get/get.dart';
 import 'package:wukongimfluttersdk/model/wk_message_content.dart';
+import 'package:youmeet/common/i18n/locale_keys.dart';
 
 /// 资质查看信令消息类型（自定义类型，避开 SDK 内置的 <=99）
 const int kQualificationContentType = 1001;
@@ -20,19 +22,19 @@ class QualificationItem {
   static String label(String key) {
     switch (key) {
       case health:
-        return '职业认证';
+        return LocaleKeys.loveFourTitle1.tr;
       case tax:
-        return '个人纳税';
+        return LocaleKeys.loveFourTitle2.tr;
       case credit:
-        return '个人信用';
+        return LocaleKeys.loveFourTitle3.tr;
       default:
-        return '资质信息';
+        return LocaleKeys.qualifyInfo.tr;
     }
   }
 
   /// 多个资质项拼接展示
   static String labels(List<String> keys) {
-    if (keys.isEmpty) return '资质信息';
+    if (keys.isEmpty) return LocaleKeys.qualifyInfo.tr;
     return keys.map(label).join('、');
   }
 }
@@ -95,13 +97,13 @@ class QualificationContent extends WKMessageContent {
   String displayText() {
     switch (action) {
       case QualificationAction.apply:
-        return '[资质查看申请]';
+        return LocaleKeys.msgQualifyApply.tr;
       case QualificationAction.agree:
-        return '[已同意资质查看]';
+        return LocaleKeys.msgQualifyAgree.tr;
       case QualificationAction.reject:
-        return '[已拒绝资质查看]';
+        return LocaleKeys.msgQualifyReject.tr;
       default:
-        return '[资质消息]';
+        return LocaleKeys.msgQualify.tr;
     }
   }
 }

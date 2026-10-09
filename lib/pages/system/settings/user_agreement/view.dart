@@ -24,7 +24,7 @@ class UserAgreementPage extends GetView<UserAgreementController> {
       builder: (_) {
         return Scaffold(
           backgroundColor: Color(0xFFF7F7F7),
-          appBar: AppBarWidget(title: "用户协议", backgroundColor: Colors.white),
+          appBar: AppBarWidget(title: LocaleKeys.userAgreement.tr, backgroundColor: Colors.white),
           body: SafeArea(child: _buildView()),
         );
       },

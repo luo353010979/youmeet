@@ -97,7 +97,7 @@ class HomeIndexController extends GetxController
         curve: Curves.easeInOut,
       );
     } else{
-      Loading.toast("没有下一页了");
+      Loading.toast(LocaleKeys.noMore.tr);
     }
   }
 

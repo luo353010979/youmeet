@@ -171,7 +171,7 @@ class RequestInterceptors extends Interceptor {
               ? ErrorMessageModel.fromJson(data)
               : ErrorMessageModel(
                   statusCode: response?.statusCode,
-                  message: '请求失败（${response?.statusCode ?? err.message}）',
+                  message: '${LocaleKeys.requestFailed.tr}（${response?.statusCode ?? err.message}）',
                 );
           switch (errorMessage.statusCode) {
             // 401 未登录

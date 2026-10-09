@@ -10,7 +10,7 @@ class InputCommentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return <Widget>[
       InputWidget(
-        placeholder: "发表评论",
+        placeholder: LocaleKeys.writeComment.tr,
         borderRadius: BorderRadius.circular(8.r),
         autofocus: true,
         cleanable: false,

@@ -65,7 +65,7 @@ class MyIndexController extends GetxController {
       }
     } catch (e) {
       logger.d('选择图片失败: $e');
-      Get.snackbar('错误', '选择图片失败，请检查权限设置');
+      Get.snackbar(LocaleKeys.error.tr, LocaleKeys.pickImageFailed.tr);
     }
   }
 

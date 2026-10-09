@@ -7,7 +7,7 @@ class RegisterIndexController extends GetxController {
   RegisterIndexController();
 
   String get currentLanguage =>
-      ConfigService.to.locale.languageCode == 'zh' ? "中文" : "English";
+      ConfigService.to.locale.languageCode == 'zh' ? LocaleKeys.langZh.tr : 'English';
 
   final phoneController = TextEditingController();
 
@@ -57,7 +57,7 @@ class RegisterIndexController extends GetxController {
   /// 下一步
   void onNextStep() {
     if (isAgreePrivacy == false) {
-      Loading.error("请同意隐私政策");
+      Loading.error(LocaleKeys.agreePrivacyFirst.tr);
       return;
     }
     Get.toNamed(RouteNames.systemRegisterRegisterBasicInformation);
@@ -159,12 +159,12 @@ class RegisterIndexController extends GetxController {
     req.zoneId = countryModel.zoneId;
 
     if (req.name?.isEmpty == true) {
-      Loading.error("请输入昵称");
+      Loading.error(LocaleKeys.enterNickname.tr);
       return;
     }
 
     if (req.realPic?.isEmpty == true) {
-      Loading.error("请上传实名认证照片");
+      Loading.error(LocaleKeys.uploadAuthPhoto.tr);
       return;
     }
 
@@ -222,7 +222,7 @@ class RegisterIndexController extends GetxController {
       }
     } catch (e) {
       logger.d('选择图片失败: $e');
-      Get.snackbar('错误', '选择图片失败，请检查权限设置');
+      Get.snackbar(LocaleKeys.error.tr, LocaleKeys.pickImageFailed.tr);
     }
   }
 

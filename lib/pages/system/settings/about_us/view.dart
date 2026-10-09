@@ -35,7 +35,7 @@ class AboutUsPage extends GetView<AboutUsController> {
         return Scaffold(
           backgroundColor: Color(0xFFF7F7F7),
           appBar: AppBarWidget(
-            title: "关于我们",
+            title: LocaleKeys.aboutUs.tr,
             backgroundColor: Colors.white,
             actions: [
               PopupMenuButton<String>(
@@ -49,13 +49,13 @@ class AboutUsPage extends GetView<AboutUsController> {
                 ),
                 onSelected: (value) {
                   if (value == 'logout') {
-                    Loading.toast("注销成功");
+                    Loading.toast(LocaleKeys.deactivateSuccess.tr);
                   }
                 },
                 itemBuilder: (context) => [
                   PopupMenuItem(
                     value: 'logout',
-                    child: TextWidget.body("注销"),
+                    child: TextWidget.body(LocaleKeys.deactivate.tr),
                   ),
                 ],
               ),

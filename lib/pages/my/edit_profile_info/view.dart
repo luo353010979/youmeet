@@ -155,7 +155,7 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
         leading: TextWidget.label(
           LocaleKeys.identityVerification.tr,
         ).tight(width: 80.w),
-        title: TextWidget.label("已验证", color: Color(0xFF666666)),
+        title: TextWidget.label(LocaleKeys.verified.tr, color: Color(0xFF666666)),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
       ).tight(height: 50.h),
 
@@ -166,7 +166,12 @@ class EditProfileInfoPage extends GetView<MyIndexController> {
         leading: TextWidget.label(
           LocaleKeys.commonLanguage.tr,
         ).tight(width: 80.w),
-        title: TextWidget.label("中文", color: Color(0xFF666666)),
+        title: TextWidget.label(
+          ConfigService.to.locale.languageCode == 'zh'
+              ? LocaleKeys.langZh.tr
+              : 'English',
+          color: Color(0xFF666666),
+        ),
         trailing: [IconWidget.svg(AssetsSvgs.icArrowRight2Svg)],
         onTap: () {
           Get.toNamed(RouteNames.systemRegisterSelectLanguage);

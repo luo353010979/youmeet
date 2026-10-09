@@ -126,7 +126,7 @@ class PostDetalPage extends GetView<PostDetalController> {
               <Widget>[
                 TextWidget.muted(comment.createTime ?? "").paddingRight(16.w),
                 ButtonWidget.text(
-                  "回复",
+                  LocaleKeys.reply.tr,
                   fontSize: 10.sp,
                   onTap: () async {
                     final str = await Get.bottomSheet(
@@ -195,7 +195,7 @@ class PostDetalPage extends GetView<PostDetalController> {
                   <Widget>[
                     TextWidget.muted(reply.createTime ?? "").paddingRight(16.w),
                     ButtonWidget.text(
-                      "回复",
+                      LocaleKeys.reply.tr,
                       fontSize: 10.sp,
                       onTap: () async {
                         final str = await Get.bottomSheet(

@@ -43,7 +43,7 @@ class SendPostController extends GetxController {
     String content = contentController.text;
 
     if (content.trim().isEmpty && imagePaths.isEmpty) {
-      Loading.error("请输入内容或选择图片");
+      Loading.error(LocaleKeys.enterContentOrImage.tr);
       return;
     }
 
@@ -67,7 +67,7 @@ class SendPostController extends GetxController {
 
       final response = await UserApi.sendFeed(feed);
       if (response.success) {
-        Loading.success("发布成功");
+        Loading.success(LocaleKeys.postSuccess.tr);
         // 通知"我的"页面刷新动态列表
         if (Get.isRegistered<MyIndexController>()) {
           Get.find<MyIndexController>().fetchMyFeedList();
@@ -77,11 +77,11 @@ class SendPostController extends GetxController {
         });
       } else {
         logger.d('发布动态失败: ${response.message}');
-        Loading.error("发布失败，请重试");
+        Loading.error(LocaleKeys.postFailed.tr);
       }
     } catch (e) {
       logger.d('发布动态异常: $e');
-      Loading.error("发布失败，请重试");
+      Loading.error(LocaleKeys.postFailed.tr);
     }
   }
 

@@ -51,3 +51,9 @@
 | #036 | 2026-08-07 | bugfix | 修复 iOS 模拟器 pod install 失败：sensors_plus 要求 iOS 13.0+，项目仍为 12.0；提升 Podfile/project/AppFrameworkInfo 最低版本到 13.0 | - | ✅ 模拟器已成功启动 |
 | #037 | 2026-08-07 | rename-package | 包名改为 com.ledpros.boaura，应用显示名改为 boaura（Android/iOS/macOS/Linux/Windows） | - | ✅ 完成 |
 | #038 | 2026-08-07 | rename-package | 应用显示名首字母大写：boaura → Boaura | - | ✅ 完成 |
+| #039 | 2026-09-19 | i18n-en | 缩短会撑破固定宽按钮/标签/表单项的英文文案 | - | ⏸ 交用户验收 |
+| #040 | 2026-09-19 | i18n-settings | 设置页硬编码中文改为 LocaleKeys | - | ⏸ 交用户验收 |
+| #041 | 2026-09-19 | i18n-pages | 全页硬编码中文接到 LocaleKeys | - | ⏸ 交用户验收 |
+| #042 | 2026-09-19 | android-keystore | 生成 release keystore 并接入打包签名 | - | ✅ 完成 |
+| #043 | 2026-09-19 | android-aab | 用正式 keystore 重打 release AAB | - | ✅ 完成 |
+| #044 | 2026-09-19 | ios-ipa | 打 iOS release IPA | - | ✅ 完成 |
